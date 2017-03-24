@@ -15,6 +15,7 @@ public class CorgiBot {
     private MainListener events;
     private static JDA jda;
     private CommandHandler ch = new CommandHandler();
+    public static final String PREFIX = ".";
 
     public static void main(String[] args) throws LoginException, RateLimitedException, InterruptedException {
         System.out.println("Spousteni bota...");
@@ -23,8 +24,9 @@ public class CorgiBot {
                 .setToken("Mjk0OTUyMTIyNTgyMzAyNzIw.C7cnFQ.wxBtcCBR20t0TMU7vH91Mp6O3cQ")
                 .addListener(new MainListener())
                 .buildBlocking();
-    }
 
+        (instance = new CorgiBot()).init();
+    }
 
     public static CorgiBot getInstance(){
         return instance;
@@ -40,5 +42,9 @@ public class CorgiBot {
 
     public CommandHandler getCommandHandler(){
         return ch;
+    }
+
+    private void init() {
+        ch.register();
     }
 }

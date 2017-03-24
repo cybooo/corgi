@@ -1,5 +1,7 @@
 package cz.wake.corgibot.commands;
 
+import cz.wake.corgibot.commands.user.GitCommand;
+
 import java.util.ArrayList;
 import java.util.List;
 import java.util.stream.Collectors;
@@ -23,7 +25,7 @@ public class CommandHandler {
     }
 
     public void register() {
-
+        registerCommand(new GitCommand());
     }
 
 

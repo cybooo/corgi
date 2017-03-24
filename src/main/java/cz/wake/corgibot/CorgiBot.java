@@ -1,4 +1,7 @@
-import listener.MainListener;
+package cz.wake.corgibot;
+
+import cz.wake.corgibot.commands.CommandHandler;
+import cz.wake.corgibot.listener.MainListener;
 import net.dv8tion.jda.core.AccountType;
 import net.dv8tion.jda.core.JDA;
 import net.dv8tion.jda.core.JDABuilder;
@@ -6,11 +9,12 @@ import net.dv8tion.jda.core.exceptions.RateLimitedException;
 
 import javax.security.auth.login.LoginException;
 
-public class Main {
+public class CorgiBot {
 
-    private static Main instance;
+    private static CorgiBot instance;
     private MainListener events;
     private static JDA jda;
+    private CommandHandler ch = new CommandHandler();
 
     public static void main(String[] args) throws LoginException, RateLimitedException, InterruptedException {
         System.out.println("Spousteni bota...");
@@ -22,7 +26,7 @@ public class Main {
     }
 
 
-    public static Main getInstance(){
+    public static CorgiBot getInstance(){
         return instance;
     }
 
@@ -32,5 +36,9 @@ public class Main {
 
     public static JDA getJda(){
         return jda;
+    }
+
+    public CommandHandler getCommandHandler(){
+        return ch;
     }
 }

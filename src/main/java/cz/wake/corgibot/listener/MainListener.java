@@ -1,4 +1,4 @@
-package listener;
+package cz.wake.corgibot.listener;
 
 import net.dv8tion.jda.core.events.ReadyEvent;
 import net.dv8tion.jda.core.hooks.ListenerAdapter;

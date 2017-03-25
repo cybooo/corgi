@@ -3,6 +3,7 @@ package cz.wake.corgibot.listener;
 import cz.wake.corgibot.CorgiBot;
 import cz.wake.corgibot.commands.Command;
 import cz.wake.corgibot.commands.CommandType;
+import cz.wake.corgibot.utils.MessageUtils;
 import net.dv8tion.jda.core.Permission;
 import net.dv8tion.jda.core.entities.Message;
 import net.dv8tion.jda.core.entities.Role;
@@ -36,7 +37,11 @@ public class MainListener extends ListenerAdapter {
                             return;
                         }
                     }
-                    cmd.onCommand(e.getAuthor(), e.getChannel(), e.getMessage(), finalArgs, e.getMember());
+                    try {
+                        cmd.onCommand(e.getAuthor(), e.getChannel(), e.getMessage(), finalArgs, e.getMember());
+                    } catch (Exception ex){
+                        MessageUtils.sendException("Chyba při provádění příkazu", ex, e.getChannel());
+                    }
                     if(cmd.deleteMessage()){
                         delete(e.getMessage());
                     }

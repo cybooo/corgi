@@ -2,11 +2,11 @@ package cz.wake.corgibot.utils;
 
 import com.mashape.unirest.http.Unirest;
 import com.mashape.unirest.http.exceptions.UnirestException;
+import cz.wake.corgibot.CorgiBot;
 import net.dv8tion.jda.core.EmbedBuilder;
 import net.dv8tion.jda.core.MessageBuilder;
 import net.dv8tion.jda.core.entities.Message;
 import net.dv8tion.jda.core.entities.MessageChannel;
-import net.dv8tion.jda.core.entities.MessageEmbed;
 import net.dv8tion.jda.core.entities.User;
 
 import java.awt.*;
@@ -87,6 +87,6 @@ public class MessageUtils {
     }
 
     public static EmbedBuilder getEmbed() {
-        return new EmbedBuilder();
+        return new EmbedBuilder().setFooter("Požadavek odeslal CorgiBot", CorgiBot.getJda().getSelfUser().getAvatarUrl());
     }
 }

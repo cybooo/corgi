@@ -1,6 +1,7 @@
 package cz.wake.corgibot;
 
 import cz.wake.corgibot.commands.CommandHandler;
+import cz.wake.corgibot.commands.admin.GiveawayCommand;
 import cz.wake.corgibot.listener.MainListener;
 import net.dv8tion.jda.core.AccountType;
 import net.dv8tion.jda.core.JDA;
@@ -23,6 +24,7 @@ public class CorgiBot {
         jda = new JDABuilder(AccountType.BOT)
                 .setToken("Mjk0OTUyMTIyNTgyMzAyNzIw.C7cnFQ.wxBtcCBR20t0TMU7vH91Mp6O3cQ")
                 .addListener(new MainListener())
+                .addListener(new GiveawayCommand())
                 .buildBlocking();
 
         (instance = new CorgiBot()).init();

@@ -87,6 +87,6 @@ public class MessageUtils {
     }
 
     public static EmbedBuilder getEmbed() {
-        return new EmbedBuilder().setFooter("Požadavek odeslal CorgiBot", CorgiBot.getJda().getSelfUser().getAvatarUrl());
+        return new EmbedBuilder().setFooter("Chybná zpráva CorgiBot", CorgiBot.getJda().getSelfUser().getAvatarUrl());
     }
 }

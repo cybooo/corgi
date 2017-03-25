@@ -8,6 +8,7 @@ import net.dv8tion.jda.core.events.message.guild.GuildMessageReceivedEvent;
 import net.dv8tion.jda.core.hooks.ListenerAdapter;
 import net.dv8tion.jda.core.utils.PermissionUtil;
 
+import java.awt.*;
 import java.util.LinkedList;
 import java.util.List;
 
@@ -18,11 +19,10 @@ public class GiveawayCommand extends ListenerAdapter {
     @Override
     public void onGuildMessageReceived(GuildMessageReceivedEvent event) {
         if (event.getMessage().getRawContent().equals(".ghelp")) {
-            event.getChannel().sendMessage(":tada: Giveaway nápověda: :tada:\n"
-                    + "`.ghelp` - nápověda\n"
-                    + "`.gstart <vteřin> [item]` - start giveway. Př: `!gstart 180` ke startu Giveaway na 3m\n"
-                    + "`.greroll <messageid>` - vyhodnotí vítěze z zadané zprávy (G)\n\n"
-                    + "Příkazy vyžadují manažera serveru\n").queue();
+            event.getChannel().sendMessage(MessageUtils.getEmbed(event.getAuthor(), Color.ORANGE)
+                    .setDescription("Seznam příkazů na ovládání Giveawaye!\n**.ghelp** - Vyvolání tohoto příkazu" +
+                            "\n**.gstart <vteřin> [vyhra]** - Start Giveawaye. Př. `.gstart 180` ke startu na 3 minuty" +
+                            "\n**.greroll <messageId>** - manuální vyhodnocení, pokuď selžu :(").build()).queue();
         } else if (event.getMessage().getRawContent().startsWith(".gstart")) {
             if (!PermissionUtil.checkPermission(event.getGuild(), event.getMember(), Permission.MANAGE_SERVER)) {
                 event.getChannel().sendMessage("Nemáš oprávnění na používání tohoto příkazu!").queue();
@@ -42,7 +42,7 @@ public class GiveawayCommand extends ListenerAdapter {
             }
         } else if (event.getMessage().getRawContent().startsWith(".greroll")) {
             if (!PermissionUtil.checkPermission(event.getGuild(), event.getMember(), Permission.MANAGE_SERVER)) {
-                MessageUtils.sendErrorMessage("Musíš spravovat tento server!", event.getChannel());
+                MessageUtils.sendErrorMessage("Musíš být správce tohoto serveru!", event.getChannel());
                 return;
             }
             String id = event.getMessage().getRawContent().substring(8).trim();
@@ -52,7 +52,7 @@ public class GiveawayCommand extends ListenerAdapter {
             }
             Message m = event.getChannel().getMessageById(id).complete();
             if (m == null) {
-                event.getChannel().sendMessage("Zpráva nenalezena!").queue();
+                MessageUtils.sendErrorMessage("Zpráva nenalezena!", event.getChannel());
                 return;
             }
             m.getReactions()

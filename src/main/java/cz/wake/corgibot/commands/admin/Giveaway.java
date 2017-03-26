@@ -1,8 +1,11 @@
 package cz.wake.corgibot.commands.admin;
 
+import net.dv8tion.jda.core.EmbedBuilder;
 import net.dv8tion.jda.core.entities.Message;
 import net.dv8tion.jda.core.entities.User;
 
+import java.awt.*;
+import java.time.Instant;
 import java.util.LinkedList;
 import java.util.List;
 
@@ -11,19 +14,21 @@ public class Giveaway {
     int seconds;
     Message message;
     String item;
+    long now;
 
     public Giveaway(int time, Message message, String item) {
         seconds = time;
         this.message = message;
         this.item = item;
+        now = System.currentTimeMillis() + (seconds * 1000);
     }
 
     public void start() {
         new Thread() {
             @Override
             public void run() {
-                while (seconds > 5) {
-                    message.editMessage(":tada:  **GIVEAWAY!**  :tada:\n" + (item != null ? "\u25AB*`" + item + "`*\u25AB\n" : "") + "Klikni na \uD83C\uDF89 ke vstupu!\nZbývající čas: " + secondsToTime(seconds)).queue();
+                while (seconds > 10) {
+                    message.editMessage(new EmbedBuilder().setTitle(":confetti_ball:  **GIVEAWAY!**  :confetti_ball:", null).setDescription((item != null ? "\n**" + item + "**" : "\n") + "\nKlikni na 🎉 ke vstupu!\nZbývající čas: " + secondsToTime(seconds)).setColor(new Color(112, 145, 255)).setFooter("Konec ", null).setTimestamp(Instant.ofEpochMilli(now)).build()).queue();
                     seconds -= 5;
                     try {
                         Thread.sleep(5000);
@@ -31,22 +36,26 @@ public class Giveaway {
                     }
                 }
                 while (seconds > 0) {
-                    message.editMessage(":tada: **G I V E A W A Y!** :tada:\nPOSLEDNÍ ŠANCE!!!\n" + (item != null ? "\u25AB*`" + item + "`*\u25AB\n" : "") + "Klikni na \uD83C\uDF89 ke vstupu!\nZbývající čas: " + secondsToTime(seconds)).queue();
+                    message.editMessage(new EmbedBuilder().setTitle(":confetti_ball:  **GIVEAWAY BRZO KONČÍ!**  :confetti_ball:", null).setDescription((item != null ? "\n**" + item + "**" : "\n") + "\nKlikni na 🎉 ke vstupu!\nZbývající čas: " + secondsToTime(seconds)).setColor(new Color(255, 64, 64)).setFooter("Konec ", null).setTimestamp(Instant.ofEpochMilli(now)).build()).queue();
                     seconds--;
                     try {
                         Thread.sleep(1000);
                     } catch (Exception e) {
                     }
                 }
-                message.getChannel().getMessageById(message.getId()).complete().getReactions()
-                        .stream().filter(mr -> mr.getEmote().getName().equals("\uD83C\uDF89"))
-                        .findAny().ifPresent(mr -> {
-                    List<User> users = new LinkedList<>(mr.getUsers().complete());
-                    users.remove(message.getJDA().getSelfUser());
-                    String id = users.get((int) (Math.random() * users.size())).getId();
-                    message.editMessage(":tada: **GIVEAWAY SKONČIL!** :tada:\n" + (item != null ? "\u25AB*`" + item + "`*\u25AB\n" : "") + "\nVítěz: <@" + id + "> \uD83C\uDF89").queue();
-                    message.getChannel().sendMessage("Gratulujeme <@" + id + ">! Vyhrál jsi" + (item == null ? "" : " " + item) + "!").queue();
-                });
+                try {
+                    message.getChannel().getMessageById(message.getId()).complete().getReactions()
+                            .stream().filter(mr -> mr.getEmote().getName().equals("\uD83C\uDF89"))
+                            .findAny().ifPresent(mr -> {
+                        List<User> users = new LinkedList<>(mr.getUsers().complete());
+                        users.remove(message.getJDA().getSelfUser());
+                        String id = users.get((int) (Math.random() * users.size())).getId();
+                        message.editMessage(new EmbedBuilder().setTitle(":confetti_ball:  **GIVEAWAY SKONČIL!**  :confetti_ball:", null).setDescription((item != null ? "\n**" + item + "**" : "\n") + "\nVítěz: <@" + id + "> \uD83C\uDF89").setColor(new Color(113, 198, 113)).setFooter("Ukončeno ", null).setTimestamp(Instant.ofEpochMilli(System.currentTimeMillis())).build()).queue();
+                        message.getChannel().sendMessage("Gratulujeme <@" + id + ">! Vyhrál jsi" + (item == null ? "" : " " + item) + "!").queue();
+                    });
+                } catch (Exception ex) {
+                    message.editMessage(new EmbedBuilder().setTitle(":fire:  **GIVEAWAY CHYBA!**  :fire:", null).setDescription("Vítěz nemohl být vyhodnocen, jelikož se nikdo nezúčastnil!").setColor(Color.ORANGE).build()).queue();
+                }
             }
         }.start();
     }

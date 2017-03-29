@@ -1,5 +1,6 @@
 package cz.wake.corgibot.commands;
 
+import cz.wake.corgibot.commands.user.EightBallCommand;
 import cz.wake.corgibot.commands.user.GitCommand;
 
 import java.util.ArrayList;
@@ -26,6 +27,7 @@ public class CommandHandler {
 
     public void register() {
         registerCommand(new GitCommand());
+        registerCommand(new EightBallCommand());
     }
 
 

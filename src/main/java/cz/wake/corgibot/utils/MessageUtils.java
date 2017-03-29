@@ -56,6 +56,10 @@ public class MessageUtils {
         return getEmbed(c).setFooter("Požadavek od @" + getTag(user), user.getEffectiveAvatarUrl());
     }
 
+    public static EmbedBuilder getEmbed(User user) {
+        return getEmbed(ColorSelector.getRandomColor()).setFooter("Požadavek od @" + getTag(user), user.getEffectiveAvatarUrl());
+    }
+
     public static EmbedBuilder getEmbed(Color c) {
         return new EmbedBuilder().setColor(c);
     }
@@ -87,6 +91,6 @@ public class MessageUtils {
     }
 
     public static EmbedBuilder getEmbed() {
-        return new EmbedBuilder().setFooter("Chybná zpráva CorgiBot", CorgiBot.getJda().getSelfUser().getAvatarUrl());
+        return new EmbedBuilder().setFooter("Chyba při provádění akce CorgiBot", CorgiBot.getJda().getSelfUser().getAvatarUrl());
     }
 }

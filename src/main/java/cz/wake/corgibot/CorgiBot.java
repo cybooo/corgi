@@ -6,6 +6,7 @@ import cz.wake.corgibot.listener.MainListener;
 import net.dv8tion.jda.core.AccountType;
 import net.dv8tion.jda.core.JDA;
 import net.dv8tion.jda.core.JDABuilder;
+import net.dv8tion.jda.core.entities.Game;
 import net.dv8tion.jda.core.exceptions.RateLimitedException;
 
 import javax.security.auth.login.LoginException;
@@ -25,6 +26,7 @@ public class CorgiBot {
                 .setToken("Mjk0OTUyMTIyNTgyMzAyNzIw.C7cnFQ.wxBtcCBR20t0TMU7vH91Mp6O3cQ")
                 .addListener(new MainListener())
                 .addListener(new GiveawayCommand())
+                .setGame(Game.of(".help"))
                 .buildBlocking();
 
         (instance = new CorgiBot()).init();

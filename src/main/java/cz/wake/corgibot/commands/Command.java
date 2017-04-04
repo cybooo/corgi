@@ -16,7 +16,7 @@ public interface Command {
     CommandType getType();
 
     default boolean deleteMessage() {
-        return true;
+        return false;
     }
 
 }

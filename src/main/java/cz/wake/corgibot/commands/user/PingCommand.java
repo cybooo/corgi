@@ -16,7 +16,7 @@ public class PingCommand implements Command {
     @Override
     public void onCommand(User sender, TextChannel channel, Message message, String[] args, Member member) {
         channel.sendMessage(MessageUtils.getEmbed(Color.GRAY).setDescription("Vypočítávám ping...").build()).queue(m -> {
-            m.editMessage(MessageUtils.getEmbed(new Color(60,179, 90)).setDescription(":ping_pong: Pong! `" + message.getCreationTime().until(m.getCreationTime(), ChronoUnit.MILLIS) + " ms`").build()).queue();
+            m.editMessage(MessageUtils.getEmbed(new Color(60, 179, 90)).setDescription(":ping_pong: Pong! `" + message.getCreationTime().until(m.getCreationTime(), ChronoUnit.MILLIS) + " ms`").build()).queue();
         });
     }
 

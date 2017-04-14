@@ -18,13 +18,13 @@ public class EightBallCommand implements Command {
     @Override
     public void onCommand(User sender, TextChannel channel, Message message, String[] args, Member member) {
         try {
-            if(args.length < 1){
+            if (args.length < 1) {
                 channel.sendMessage(sender.getAsMention() + " Musíš položit otázku, neumím číst myšlenky!").queue();
             } else {
                 //channel.sendMessage(outcomes[ThreadLocalRandom.current().nextInt(0, outcomes.length)]).queue();
-                channel.sendMessage(MessageUtils.getEmbed(sender, new Color(230,100,150)).addField(sender.getName() + " se ptá:", message.getRawContent().replace(".8ball ", ""), false).addField("Corgi odpovídá:", outcomes[ThreadLocalRandom.current().nextInt(0, outcomes.length)], false).build()).queue();
+                channel.sendMessage(MessageUtils.getEmbed(sender, new Color(230, 100, 150)).addField(sender.getName() + " se ptá:", message.getRawContent().replace(".8ball ", ""), false).addField("Corgi odpovídá:", outcomes[ThreadLocalRandom.current().nextInt(0, outcomes.length)], false).build()).queue();
             }
-        } catch (Exception e){
+        } catch (Exception e) {
             MessageUtils.sendErrorMessage("Chyba při provádění příkazu!", channel);
         }
     }

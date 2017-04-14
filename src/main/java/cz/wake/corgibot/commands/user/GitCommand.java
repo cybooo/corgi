@@ -13,8 +13,8 @@ public class GitCommand implements Command {
 
     @Override
     public void onCommand(User sender, TextChannel channel, Message message, String[] args, Member member) {
-        channel.sendMessage(MessageUtils.getEmbed(sender,ColorSelector.getRandomColor())
-                .addField("Zde najdeš moje Source!","https://git.waked.cz/craftmania-cz/bots/corgibot",
+        channel.sendMessage(MessageUtils.getEmbed(sender, ColorSelector.getRandomColor())
+                .addField("Zde najdeš moje Source!", "https://git.waked.cz/craftmania-cz/bots/corgibot",
                         true).build()).queue();
     }
 

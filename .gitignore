@@ -2,3 +2,6 @@
 *.class
 
 CorgiBot\.iml
+dependency-reduced-pom.xml
+
+config\.yml

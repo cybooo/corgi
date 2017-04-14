@@ -16,6 +16,7 @@ public enum CommandType {
     CommandType() {
         this(true);
     }
+
     CommandType(boolean dms) {
         this.dms = dms;
     }

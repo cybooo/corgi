@@ -39,10 +39,10 @@ public class MainListener extends ListenerAdapter {
                     }
                     try {
                         cmd.onCommand(e.getAuthor(), e.getChannel(), e.getMessage(), finalArgs, e.getMember());
-                    } catch (Exception ex){
+                    } catch (Exception ex) {
                         MessageUtils.sendException("Chyba při provádění příkazu", ex, e.getChannel());
                     }
-                    if(cmd.deleteMessage()){
+                    if (cmd.deleteMessage()) {
                         delete(e.getMessage());
                     }
                 }
@@ -67,7 +67,7 @@ public class MainListener extends ListenerAdapter {
 
     private void delete(Message message) {
         if (message.getTextChannel().getGuild().getSelfMember()
-                .getPermissions(message.getTextChannel()).contains(Permission.MESSAGE_MANAGE)){
+                .getPermissions(message.getTextChannel()).contains(Permission.MESSAGE_MANAGE)) {
             message.delete().queue();
         }
     }

@@ -18,7 +18,8 @@ public class HelpCommand implements Command {
         sender.openPrivateChannel().queue(msg -> {
             msg.sendMessage(MessageUtils.getEmbed(sender).setColor(new Color(58, 95, 205))
                     .setTitle("**Nápověda k CorgiBot**", null).setDescription("**.git** - Odkaz na můj source\n" +
-                            "**.8ball** - Zkouška pravdy ANO/NE\n").build()).queue();
+                            "**.8ball [otázka]** - Zkouška pravdy ANO/NE\n" +
+                            "**.ping** - Zkouška pingu").build()).queue();
         });
     }
 

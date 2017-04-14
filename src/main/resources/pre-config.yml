@@ -1,0 +1,16 @@
+# Pri prvnim spusteni je potreba tento soubor prejmenovat na config.yml!
+
+# Napojeni na SQL
+hostname: host
+port: 3306
+database: database
+username: user
+password: password
+
+# Nastaveni SQL
+minimumConnections: 2
+maximumConnections: 5
+timeout: 30000
+
+#Discord Token
+token: token-from-discord-api

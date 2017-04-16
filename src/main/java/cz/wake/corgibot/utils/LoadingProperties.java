@@ -11,7 +11,7 @@ public class LoadingProperties {
 
     public LoadingProperties() {
         try {
-            File configFile = new File("pre-config.yml");
+            File configFile = new File("config.yml");
 
             FileInputStream fileInput = new FileInputStream(configFile);
             Properties properties = new Properties();

@@ -30,8 +30,8 @@ public class CorgiBot {
 
         jda = new JDABuilder(AccountType.BOT)
                 .setToken(config.getBotToken())
-                .addListener(new MainListener())
-                .addListener(new GiveawayCommand())
+                .addEventListener(new MainListener())
+                .addEventListener(new GiveawayCommand())
                 .setGame(Game.of(".help"))
                 .buildBlocking();
 

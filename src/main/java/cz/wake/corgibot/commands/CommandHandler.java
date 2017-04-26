@@ -34,6 +34,7 @@ public class CommandHandler {
         registerCommand(new PingCommand());
         registerCommand(new PlayerStatsCommand());
         registerCommand(new RolesCommand());
+        registerCommand(new UserInfoCommand());
     }
 
 

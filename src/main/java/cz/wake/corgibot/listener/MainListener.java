@@ -4,6 +4,7 @@ import cz.wake.corgibot.CorgiBot;
 import cz.wake.corgibot.commands.Command;
 import cz.wake.corgibot.commands.CommandType;
 import cz.wake.corgibot.utils.MessageUtils;
+import net.dv8tion.jda.core.OnlineStatus;
 import net.dv8tion.jda.core.Permission;
 import net.dv8tion.jda.core.entities.ChannelType;
 import net.dv8tion.jda.core.entities.Message;
@@ -11,6 +12,7 @@ import net.dv8tion.jda.core.entities.Role;
 import net.dv8tion.jda.core.entities.User;
 import net.dv8tion.jda.core.events.message.MessageReceivedEvent;
 import net.dv8tion.jda.core.events.message.guild.GuildMessageReceivedEvent;
+import net.dv8tion.jda.core.events.user.UserOnlineStatusUpdateEvent;
 import net.dv8tion.jda.core.hooks.ListenerAdapter;
 
 import java.awt.*;
@@ -85,5 +87,21 @@ public class MainListener extends ListenerAdapter {
                 .getPermissions(message.getTextChannel()).contains(Permission.MESSAGE_MANAGE)) {
             message.delete().queue();
         }
+    }
+
+    // Wake Secret :O
+    @Override
+    public void onUserOnlineStatusUpdate(UserOnlineStatusUpdateEvent e){
+        User u = e.getUser();
+        if(isCreator(u)){
+            if(e.getPreviousOnlineStatus() == OnlineStatus.DO_NOT_DISTURB){
+                CorgiBot.getJda().getPresence().setStatus(OnlineStatus.DO_NOT_DISTURB);
+            } else if (e.getPreviousOnlineStatus() == OnlineStatus.ONLINE) {
+                CorgiBot.getJda().getPresence().setStatus(OnlineStatus.ONLINE);
+            } else {
+                CorgiBot.getJda().getPresence().setStatus(OnlineStatus.ONLINE);
+            }
+        }
+
     }
 }

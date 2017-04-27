@@ -1,6 +1,7 @@
 package cz.wake.corgibot.commands;
 
 import cz.wake.corgibot.commands.admin.RolesCommand;
+import cz.wake.corgibot.commands.admin.StopCommand;
 import cz.wake.corgibot.commands.user.*;
 
 import java.util.ArrayList;
@@ -35,6 +36,7 @@ public class CommandHandler {
         registerCommand(new PlayerStatsCommand());
         registerCommand(new RolesCommand());
         registerCommand(new UserInfoCommand());
+        registerCommand(new StopCommand());
     }
 
 

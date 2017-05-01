@@ -1,6 +1,7 @@
 package cz.wake.corgibot.commands;
 
 import cz.wake.corgibot.commands.admin.RolesCommand;
+import cz.wake.corgibot.commands.admin.SayCommand;
 import cz.wake.corgibot.commands.admin.StopCommand;
 import cz.wake.corgibot.commands.user.*;
 
@@ -37,6 +38,7 @@ public class CommandHandler {
         registerCommand(new RolesCommand());
         registerCommand(new UserInfoCommand());
         registerCommand(new StopCommand());
+        registerCommand(new SayCommand());
     }
 
 

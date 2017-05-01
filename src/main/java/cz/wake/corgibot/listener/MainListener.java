@@ -75,7 +75,7 @@ public class MainListener extends ListenerAdapter {
         for (Role role : message.getGuild().getRoles()) {
             if (role.getName().equalsIgnoreCase("STAFF") || role.getName().equalsIgnoreCase("ADMIN")
                     || role.getName().equalsIgnoreCase("HELPER") || role.getName().equalsIgnoreCase("MODERATOR")
-                    || role.getName().equalsIgnoreCase("OWNER")) {
+                    || role.getName().equalsIgnoreCase("OWNER") || role.getName().equalsIgnoreCase("EVENTER")) {
                 return true;
             }
         }

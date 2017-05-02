@@ -28,10 +28,11 @@ public class UserInfoCommand implements Command {
             MessageUtils.sendErrorMessage("Nelze najít uživatele!", channel);
             return;
         }
-        channel.sendMessage(MessageUtils.getEmbed(sender, Color.ORANGE).setThumbnail(user.getEffectiveAvatarUrl()).addField("Info o uživateli", "Uživatel: " + user.getName() + "#" + user.getDiscriminator()
+        channel.sendMessage(MessageUtils.getEmbed(sender, channel.getGuild().getMember(user).getColor()).setThumbnail(user.getEffectiveAvatarUrl()).addField("Info o uživateli", "Uživatel: " + user.getName() + "#" + user.getDiscriminator()
                 + "\nID: " + user.getId() + "\n" +
-                "Avatar: " + (user.getEffectiveAvatarUrl() != null ? "[`link`](" + user.getEffectiveAvatarUrl() + ')' : "None") + "\n"
-                + "Default Avatar: [`link`](" + MessageUtils.getDefaultAvatar(sender) + ')', false).addField("Časové data",
+                "Avatar: " + (user.getEffectiveAvatarUrl() != null ? "[`odkaz`](" + user.getEffectiveAvatarUrl() + ')' : "Žádný") + "\n"
+                + "Default Avatar: [`odkaz`](" + MessageUtils.getDefaultAvatar(sender) + ')' + "\n"
+                + "Role: " + String.valueOf(member.getRoles().size()), false).addField("Časové data",
                 "Registrace: " + CorgiBot.getInstance().formatTime(LocalDateTime.from(user.getCreationTime())) + "\n" +
                         "Připojen: " + (channel.getGuild().getMember(user) == null ? "Tento uživatel nebyl na tomto serveru!." : CorgiBot.getInstance().formatTime(LocalDateTime.from(channel.getGuild().getMember(user).getJoinDate()))), false).build()).queue();
 

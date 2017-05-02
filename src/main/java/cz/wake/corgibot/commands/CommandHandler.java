@@ -39,6 +39,7 @@ public class CommandHandler {
         registerCommand(new UserInfoCommand());
         registerCommand(new StopCommand());
         registerCommand(new SayCommand());
+        registerCommand(new FactCommand());
     }
 
 

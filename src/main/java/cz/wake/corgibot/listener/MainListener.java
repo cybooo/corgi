@@ -10,6 +10,7 @@ import net.dv8tion.jda.core.entities.ChannelType;
 import net.dv8tion.jda.core.entities.Message;
 import net.dv8tion.jda.core.entities.Role;
 import net.dv8tion.jda.core.entities.User;
+import net.dv8tion.jda.core.events.ShutdownEvent;
 import net.dv8tion.jda.core.events.message.MessageReceivedEvent;
 import net.dv8tion.jda.core.events.message.guild.GuildMessageReceivedEvent;
 import net.dv8tion.jda.core.events.user.UserOnlineStatusUpdateEvent;
@@ -65,6 +66,11 @@ public class MainListener extends ListenerAdapter {
         } else {
             e.getChannel().sendMessage(MessageUtils.getEmbed(Color.RED).setDescription(":no_entry: | Neumím zatím odpovídat na soukromé zprávy.").build()).queue();
         }
+    }
+
+    @Override
+    public void onShutdown(ShutdownEvent event) {
+        CorgiBot.getInstance().getSql().onDisable();
     }
 
     public boolean isCreator(User user) {

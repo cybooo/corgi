@@ -22,7 +22,8 @@ public class HelpCommand implements Command {
                             "**.8ball [otázka]** - Zkouška pravdy ANO/NE\n" +
                             "**.ping** - Zkouška pingu\n" +
                             "**.fact** - Náhodné fakty\n" +
-                            "**.userinfo [nick]** - Zobrazení informací o uživateli").build()).queue();
+                            "**.userinfo [nick]** - Zobrazení informací o uživateli\n" +
+                            "**.uptime** - Zobrazí čas od spuštění").build()).queue();
         });
     }
 

@@ -20,6 +20,10 @@ public class UserInfoCommand implements Command {
         } else {
             id = args[0].replaceAll("[^0-9]", "");
         }
+        if (id.isEmpty()){
+            MessageUtils.sendErrorMessage("Musíš použít označení s @!", channel);
+            return;
+        }
         User user = CorgiBot.getJda().getUserById(id);
         if (user == null) {
             MessageUtils.sendErrorMessage("Nelze najít uživatele!", channel);

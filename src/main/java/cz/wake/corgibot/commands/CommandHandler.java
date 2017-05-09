@@ -40,6 +40,7 @@ public class CommandHandler {
         registerCommand(new StopCommand());
         registerCommand(new SayCommand());
         registerCommand(new FactCommand());
+        registerCommand(new UptimeCommand());
     }
 
 

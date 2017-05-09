@@ -17,9 +17,12 @@ public class HelpCommand implements Command {
         channel.sendMessage(MessageUtils.getEmbed(new Color(58, 95, 205)).setTitle("Zkontroluj si zprávy", null).setDescription(":mailbox_with_mail: | Odeslal jsem ti do zpráv nápovědu s příkazy!").build()).queue();
         sender.openPrivateChannel().queue(msg -> {
             msg.sendMessage(MessageUtils.getEmbed(sender).setColor(new Color(58, 95, 205))
-                    .setTitle("**Nápověda k CorgiBot**", null).setDescription("**.git** - Odkaz na můj source\n" +
+                    .setTitle("**Nápověda k CorgiBot (ALPHA)**", null).setDescription(
+                            "**.git** - Odkaz na moje source\n" +
                             "**.8ball [otázka]** - Zkouška pravdy ANO/NE\n" +
-                            "**.ping** - Zkouška pingu").build()).queue();
+                            "**.ping** - Zkouška pingu\n" +
+                            "**.fact** - Náhodné fakty\n" +
+                            "**.userinfo [nick]** - Zobrazení informací o uživateli").build()).queue();
         });
     }
 

@@ -4,10 +4,7 @@ import cz.wake.corgibot.CorgiBot;
 import cz.wake.corgibot.commands.Command;
 import cz.wake.corgibot.commands.CommandType;
 import cz.wake.corgibot.utils.MessageUtils;
-import net.dv8tion.jda.core.entities.Member;
-import net.dv8tion.jda.core.entities.Message;
-import net.dv8tion.jda.core.entities.TextChannel;
-import net.dv8tion.jda.core.entities.User;
+import net.dv8tion.jda.core.entities.*;
 
 import java.awt.*;
 import java.time.LocalDateTime;
@@ -28,11 +25,13 @@ public class UserInfoCommand implements Command {
             MessageUtils.sendErrorMessage("Nelze najít uživatele!", channel);
             return;
         }
+        Member m2 = channel.getGuild().getMember(user);
         channel.sendMessage(MessageUtils.getEmbed(sender, channel.getGuild().getMember(user).getColor()).setThumbnail(user.getEffectiveAvatarUrl()).addField("Info o uživateli", "Uživatel: " + user.getName() + "#" + user.getDiscriminator()
                 + "\nID: " + user.getId() + "\n" +
                 "Avatar: " + (user.getEffectiveAvatarUrl() != null ? "[`odkaz`](" + user.getEffectiveAvatarUrl() + ')' : "Žádný") + "\n"
                 + "Default Avatar: [`odkaz`](" + MessageUtils.getDefaultAvatar(sender) + ')' + "\n"
-                + "Role: " + String.valueOf(member.getRoles().size()), false).addField("Časové data",
+                + "Role: " +  getRoles(m2, channel.getGuild()), false)
+                .addField("Časové data",
                 "Registrace: " + CorgiBot.getInstance().formatTime(LocalDateTime.from(user.getCreationTime())) + "\n" +
                         "Připojen: " + (channel.getGuild().getMember(user) == null ? "Tento uživatel nebyl na tomto serveru!." : CorgiBot.getInstance().formatTime(LocalDateTime.from(channel.getGuild().getMember(user).getJoinDate()))), false).build()).queue();
 
@@ -51,5 +50,23 @@ public class UserInfoCommand implements Command {
     @Override
     public CommandType getType() {
         return CommandType.GENERAL;
+    }
+
+    private String getRoles(Member user, Guild guid){
+        String roles = "";
+        for(Role r : guid.getRoles()){
+            if(user.getRoles().contains(r)){
+                String role = r.getName();
+                if(!role.equalsIgnoreCase("@everyone")){
+                    roles += ", " + role;
+                }
+            }
+        }
+        if(roles.equals("")){
+             roles = "Žádné";
+        } else {
+            roles=roles.substring(2);
+        }
+        return roles;
     }
 }

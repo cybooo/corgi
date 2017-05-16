@@ -1,10 +1,10 @@
 package cz.wake.corgibot.commands.admin;
 
+import cz.wake.corgibot.utils.Constants;
 import net.dv8tion.jda.core.EmbedBuilder;
 import net.dv8tion.jda.core.entities.Message;
 import net.dv8tion.jda.core.entities.User;
 
-import java.awt.*;
 import java.time.Instant;
 import java.util.LinkedList;
 import java.util.List;
@@ -28,7 +28,7 @@ public class Giveaway {
             @Override
             public void run() {
                 while (seconds > 10) {
-                    message.editMessage(new EmbedBuilder().setTitle(":confetti_ball:  **GIVEAWAY!**  :confetti_ball:", null).setDescription((item != null ? "\n**" + item + "**" : "\n") + "\nKlikni na 🎉 ke vstupu!\nZbývající čas: " + secondsToTime(seconds)).setColor(new Color(112, 145, 255)).setFooter("Konec ", null).setTimestamp(Instant.ofEpochMilli(now)).build()).queue();
+                    message.editMessage(new EmbedBuilder().setTitle(":confetti_ball:  **GIVEAWAY!**  :confetti_ball:", null).setDescription((item != null ? "\n**" + item + "**" : "\n") + "\nKlikni na 🎉 ke vstupu!\nZbývající čas: " + secondsToTime(seconds)).setColor(Constants.GIVEAWAY_BLUE).setFooter("Konec ", null).setTimestamp(Instant.ofEpochMilli(now)).build()).queue();
                     seconds -= 5;
                     try {
                         Thread.sleep(5000);
@@ -36,7 +36,7 @@ public class Giveaway {
                     }
                 }
                 while (seconds > 0) {
-                    message.editMessage(new EmbedBuilder().setTitle(":confetti_ball:  **GIVEAWAY BRZO KONČÍ!**  :confetti_ball:", null).setDescription((item != null ? "\n**" + item + "**" : "\n") + "\nKlikni na 🎉 ke vstupu!\nZbývající čas: " + secondsToTime(seconds)).setColor(new Color(255, 64, 64)).setFooter("Konec ", null).setTimestamp(Instant.ofEpochMilli(now)).build()).queue();
+                    message.editMessage(new EmbedBuilder().setTitle(":confetti_ball:  **GIVEAWAY BRZO KONČÍ!**  :confetti_ball:", null).setDescription((item != null ? "\n**" + item + "**" : "\n") + "\nKlikni na 🎉 ke vstupu!\nZbývající čas: " + secondsToTime(seconds)).setColor(Constants.RED).setFooter("Konec ", null).setTimestamp(Instant.ofEpochMilli(now)).build()).queue();
                     seconds--;
                     try {
                         Thread.sleep(1000);
@@ -50,11 +50,11 @@ public class Giveaway {
                         List<User> users = new LinkedList<>(mr.getUsers().complete());
                         users.remove(message.getJDA().getSelfUser());
                         String id = users.get((int) (Math.random() * users.size())).getId();
-                        message.editMessage(new EmbedBuilder().setTitle(":confetti_ball:  **GIVEAWAY SKONČIL!**  :confetti_ball:", null).setDescription((item != null ? "\n**" + item + "**" : "\n") + "\nVítěz: <@" + id + "> \uD83C\uDF89").setColor(new Color(113, 198, 113)).setFooter("Ukončeno ", null).setTimestamp(Instant.ofEpochMilli(System.currentTimeMillis())).build()).queue();
+                        message.editMessage(new EmbedBuilder().setTitle(":confetti_ball:  **GIVEAWAY SKONČIL!**  :confetti_ball:", null).setDescription((item != null ? "\n**" + item + "**" : "\n") + "\nVítěz: <@" + id + "> \uD83C\uDF89").setColor(Constants.GREEN).setFooter("Ukončeno ", null).setTimestamp(Instant.ofEpochMilli(System.currentTimeMillis())).build()).queue();
                         message.getChannel().sendMessage("Gratulujeme <@" + id + ">! Vyhrál jsi" + (item == null ? "" : " " + item) + "!").queue();
                     });
                 } catch (Exception ex) {
-                    message.editMessage(new EmbedBuilder().setTitle(":fire:  **GIVEAWAY CHYBA!**  :fire:", null).setDescription("Vítěz nemohl být vyhodnocen, jelikož se nikdo nezúčastnil!").setColor(Color.ORANGE).build()).queue();
+                    message.editMessage(new EmbedBuilder().setTitle(":fire:  **GIVEAWAY CHYBA!**  :fire:", null).setDescription("Vítěz nemohl být vyhodnocen, jelikož se nikdo nezúčastnil!").setColor(Constants.ORANGE).build()).queue();
                 }
             }
         }.start();

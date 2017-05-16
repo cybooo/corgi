@@ -2,17 +2,16 @@ package cz.wake.corgibot.commands.admin;
 
 import cz.wake.corgibot.commands.Command;
 import cz.wake.corgibot.commands.CommandType;
+import cz.wake.corgibot.utils.Constants;
 import cz.wake.corgibot.utils.MessageUtils;
 import net.dv8tion.jda.core.entities.*;
-
-import java.awt.*;
 
 public class EmoteCommand implements Command {
 
     @Override
     public void onCommand(User sender, TextChannel channel, Message message, String[] args, Member member) {
         if (args.length < 1) {
-            channel.sendMessage(MessageUtils.getEmbed(new Color(58, 95, 205)).setTitle("**Použítí příkazu .emote**")
+            channel.sendMessage(MessageUtils.getEmbed(Constants.BLUE).setTitle("**Použítí příkazu .emote**")
                     .setDescription("**.emote** - Zobrazí tuto nápovědu\n" +
                             "**.emote <regex|emote>** - Zobrazí info o Emote\n" +
                             "**.emote list** - Zobrazí seznam všech dostupných Emotes").build()).queue();
@@ -31,13 +30,14 @@ public class EmoteCommand implements Command {
                 String id = str.replaceAll("<:.*:(\\d+)>", "$1");
                 Emote emote = channel.getJDA().getEmoteById(id);
                 if (emote == null) {
-                    channel.sendMessage(MessageUtils.getEmbed(sender, Color.RED).setTitle("**Neznamy Emote**")
+                    channel.sendMessage(MessageUtils.getEmbed(sender, Constants.RED).setTitle("**Neznámý Emote**")
                             .setDescription("**ID:** " + id + "\n" +
                                     "**Guild:** Neznamý\n" +
-                                    "**Odkaz:** https://discordcdn.com/emojis/" + id + ".png").build()).queue();
+                                    "**Odkaz:** https://discordcdn.com/emojis/" + id + ".png")
+                            .setThumbnail("https://discordcdn.com/emojis/" + id + ".png").build()).queue();
                     return;
                 } else {
-                    channel.sendMessage(MessageUtils.getEmbed(sender, Color.GREEN).setTitle("**Info o Emote** (" + emote.getName() + ")")
+                    channel.sendMessage(MessageUtils.getEmbed(sender, Constants.GREEN).setTitle("**Info o Emote** (" + emote.getName() + ")")
                             .setDescription("**ID:** " + emote.getId() + "\n" +
                                     "**Guild:** " + (emote.getGuild() == null ? "Neznámý" : "" + emote.getGuild().getName() + "\n") +
                                     "**Odkaz:** " + emote.getImageUrl()).setThumbnail(emote.getImageUrl()).build()).queue();
@@ -66,7 +66,7 @@ public class EmoteCommand implements Command {
                 }
                 builder.append(String.valueOf(chars)).append("   _").append(Character.getName(code)).append("_");
             });
-            channel.sendMessage(MessageUtils.getEmbed(sender, Color.GREEN).setTitle("**Info o Emote**")
+            channel.sendMessage(MessageUtils.getEmbed(sender, Constants.GREEN).setTitle("**Info o Emote**")
                     .setDescription(builder.toString()).build()).queue();
         }
     }

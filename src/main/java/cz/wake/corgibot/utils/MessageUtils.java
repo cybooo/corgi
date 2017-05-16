@@ -73,11 +73,11 @@ public class MessageUtils {
     }
 
     public static Message sendErrorMessage(EmbedBuilder builder, MessageChannel channel) {
-        return channel.sendMessage(builder.setColor(Color.red).build()).complete();
+        return channel.sendMessage(builder.setColor(Constants.RED).build()).complete();
     }
 
     public static Message sendErrorMessage(String message, MessageChannel channel) {
-        return channel.sendMessage(MessageUtils.getEmbedError().setColor(Color.red).setDescription(message).build())
+        return channel.sendMessage(MessageUtils.getEmbedError().setColor(Constants.RED).setDescription(message).build())
                 .complete();
     }
 

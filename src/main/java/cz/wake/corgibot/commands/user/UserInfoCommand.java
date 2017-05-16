@@ -6,7 +6,6 @@ import cz.wake.corgibot.commands.CommandType;
 import cz.wake.corgibot.utils.MessageUtils;
 import net.dv8tion.jda.core.entities.*;
 
-import java.awt.*;
 import java.time.LocalDateTime;
 
 public class UserInfoCommand implements Command {

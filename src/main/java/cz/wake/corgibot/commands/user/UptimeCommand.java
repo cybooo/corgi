@@ -2,6 +2,7 @@ package cz.wake.corgibot.commands.user;
 
 import cz.wake.corgibot.commands.Command;
 import cz.wake.corgibot.commands.CommandType;
+import cz.wake.corgibot.utils.Constants;
 import cz.wake.corgibot.utils.MessageUtils;
 import net.dv8tion.jda.core.entities.Member;
 import net.dv8tion.jda.core.entities.Message;
@@ -20,7 +21,7 @@ public class UptimeCommand implements Command {
         long minutes = seconds / 60;
         long hours = minutes / 60;
         long days = hours / 24;
-        channel.sendMessage(MessageUtils.getEmbed(new Color(58, 95, 205)).setTitle("Uptime", null).setDescription(":stopwatch: | " + String.format("%d dní, %02d hodin, %02d minut", days, hours % 24, minutes % 60)).build()).queue();
+        channel.sendMessage(MessageUtils.getEmbed(Constants.BLUE).setTitle("Uptime", null).setDescription(":stopwatch: | " + String.format("%d dní, %02d hodin, %02d minut", days, hours % 24, minutes % 60)).build()).queue();
     }
 
     @Override

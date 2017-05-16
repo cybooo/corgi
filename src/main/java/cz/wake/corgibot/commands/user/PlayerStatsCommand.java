@@ -3,13 +3,12 @@ package cz.wake.corgibot.commands.user;
 import cz.wake.corgibot.CorgiBot;
 import cz.wake.corgibot.commands.Command;
 import cz.wake.corgibot.commands.CommandType;
+import cz.wake.corgibot.utils.Constants;
 import cz.wake.corgibot.utils.MessageUtils;
 import net.dv8tion.jda.core.entities.Member;
 import net.dv8tion.jda.core.entities.Message;
 import net.dv8tion.jda.core.entities.TextChannel;
 import net.dv8tion.jda.core.entities.User;
-
-import java.awt.*;
 
 public class PlayerStatsCommand implements Command {
 
@@ -19,8 +18,8 @@ public class PlayerStatsCommand implements Command {
             channel.sendMessage(sender.getAsMention() + " Musíš napsat nick, zatím neumím číst myšlenky!").queue();
         } else {
             String name = args[0];
-            channel.sendMessage(MessageUtils.getEmbed(Color.GRAY).setDescription("Generuji...").build()).queue(m -> {
-                m.editMessage(MessageUtils.getEmbed(new Color(58, 95, 205)).setTitle(name + "\n\n", null).setDescription("**Měna**\n" +
+            channel.sendMessage(MessageUtils.getEmbed(Constants.GRAY).setDescription("Generuji...").build()).queue(m -> {
+                m.editMessage(MessageUtils.getEmbed(Constants.BLUE).setTitle(name + "\n\n", null).setDescription("**Měna**\n" +
                         "CraftCoins: " + String.valueOf(CorgiBot.getInstance().getSql().getPlayerCoins(name) + " CC\n" +
                         "SkyDust: " + String.valueOf(CorgiBot.getInstance().getSql().getPlayerSkyDust(name))))
                         .setThumbnail("https://crafatar.com/renders/body/" + name + "?overlay").build()).queue();

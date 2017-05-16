@@ -22,7 +22,7 @@ public class MessageUtils {
         e.printStackTrace(pw);
         String trace = sw.toString();
         pw.close();
-        return sendErrorMessage(getEmbed().setDescription(s + "\n**Stack trace**: " + hastebin(trace)), channel);
+        return sendErrorMessage(getEmbedError().setDescription(s + "\n**Stack trace**: " + hastebin(trace)), channel);
     }
 
     public static String hastebin(String trace) {
@@ -77,7 +77,7 @@ public class MessageUtils {
     }
 
     public static Message sendErrorMessage(String message, MessageChannel channel) {
-        return channel.sendMessage(MessageUtils.getEmbed().setColor(Color.red).setDescription(message).build())
+        return channel.sendMessage(MessageUtils.getEmbedError().setColor(Color.red).setDescription(message).build())
                 .complete();
     }
 
@@ -90,7 +90,7 @@ public class MessageUtils {
             message.editMessage(new MessageBuilder().append(s).setEmbed(embed.build()).build()).queue();
     }
 
-    public static EmbedBuilder getEmbed() {
+    public static EmbedBuilder getEmbedError() {
         return new EmbedBuilder().setFooter("Chyba při provádění akce CorgiBot", CorgiBot.getJda().getSelfUser().getAvatarUrl());
     }
 }

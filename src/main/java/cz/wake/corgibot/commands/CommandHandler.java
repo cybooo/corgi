@@ -1,5 +1,6 @@
 package cz.wake.corgibot.commands;
 
+import cz.wake.corgibot.commands.admin.EmoteCommand;
 import cz.wake.corgibot.commands.admin.RolesCommand;
 import cz.wake.corgibot.commands.admin.SayCommand;
 import cz.wake.corgibot.commands.admin.StopCommand;
@@ -41,6 +42,7 @@ public class CommandHandler {
         registerCommand(new SayCommand());
         registerCommand(new FactCommand());
         registerCommand(new UptimeCommand());
+        registerCommand(new EmoteCommand());
     }
 
 

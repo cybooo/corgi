@@ -1,9 +1,6 @@
 package cz.wake.corgibot.commands;
 
-import cz.wake.corgibot.commands.admin.EmoteCommand;
-import cz.wake.corgibot.commands.admin.RolesCommand;
-import cz.wake.corgibot.commands.admin.SayCommand;
-import cz.wake.corgibot.commands.admin.StopCommand;
+import cz.wake.corgibot.commands.admin.*;
 import cz.wake.corgibot.commands.user.*;
 
 import java.util.ArrayList;

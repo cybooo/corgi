@@ -3,6 +3,7 @@ package cz.wake.corgibot.commands.user;
 import cz.wake.corgibot.CorgiBot;
 import cz.wake.corgibot.commands.Command;
 import cz.wake.corgibot.commands.CommandType;
+import cz.wake.corgibot.utils.Constants;
 import cz.wake.corgibot.utils.MessageUtils;
 import net.dv8tion.jda.core.entities.*;
 
@@ -29,7 +30,7 @@ public class UserInfoCommand implements Command {
             return;
         }
         Member m2 = channel.getGuild().getMember(user);
-        channel.sendMessage(MessageUtils.getEmbed(sender, channel.getGuild().getMember(user).getColor()).setThumbnail(user.getEffectiveAvatarUrl()).addField("Info o uživateli", "Uživatel: " + user.getName() + "#" + user.getDiscriminator()
+        channel.sendMessage(MessageUtils.getEmbed(sender, channel.getGuild().getMember(user).getColor()).setThumbnail(user.getEffectiveAvatarUrl()).addField("Info o uživateli", "Uživatel: " + user.getName() + "#" + user.getDiscriminator() + " " + getDiscordRank(user)
                 + "\nID: " + user.getId() + "\n" +
                 "Avatar: " + (user.getEffectiveAvatarUrl() != null ? "[`odkaz`](" + user.getEffectiveAvatarUrl() + ')' : "Žádný") + "\n"
                 + "Default Avatar: [`odkaz`](" + MessageUtils.getDefaultAvatar(sender) + ')' + "\n"
@@ -71,5 +72,19 @@ public class UserInfoCommand implements Command {
             roles=roles.substring(2);
         }
         return roles;
+    }
+
+    private String getDiscordRank(User user){
+        if(user.isBot()){
+            return Constants.EMOTE_BOT;
+        } else if (user.getId().equals("177516608778928129")){ //Wake
+            return Constants.EMOTE_PARTNER;
+        } else if (user.getId().equals("151332840577957889")){ //Liturkey
+            return Constants.EMOTE_HYPESQUAD;
+        } else if (user.getId().equals("263736235539955713")){ //_yyySepii
+            return Constants.EMOTE_NITRO;
+        } else {
+            return "";
+        }
     }
 }

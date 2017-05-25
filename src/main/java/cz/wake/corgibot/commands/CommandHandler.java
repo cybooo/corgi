@@ -40,6 +40,7 @@ public class CommandHandler {
         registerCommand(new FactCommand());
         registerCommand(new UptimeCommand());
         registerCommand(new EmoteCommand());
+        registerCommand(new StatusCommand());
     }
 
 

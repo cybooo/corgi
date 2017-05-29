@@ -14,3 +14,6 @@ timeout: 30000
 
 #Discord Token
 token: token-from-discord-api
+
+#Imgflip password
+imgflipToken: password

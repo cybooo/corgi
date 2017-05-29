@@ -30,6 +30,7 @@ public class CorgiBot {
     public static final String PREFIX = ".";
     private SQLManager sql;
     private DateTimeFormatter timeFormat = DateTimeFormatter.ofPattern("MMMM yyyy HH:mm:ss");
+    private static String imgflipToken = "";
 
     public static void main(String[] args) throws LoginException, RateLimitedException, InterruptedException, IOException {
         System.out.println("Spousteni bota...");
@@ -48,6 +49,8 @@ public class CorgiBot {
 
         Timer timer = new Timer();
         timer.scheduleAtFixedRate(new Checker(), 10, 60000);
+
+        imgflipToken = config.getImgFlipToken();
     }
 
     public static CorgiBot getInstance() {
@@ -80,5 +83,9 @@ public class CorgiBot {
 
     public String formatTime(LocalDateTime dateTime) {
         return dateTime.getDayOfMonth() + ". " + dateTime.format(timeFormat);
+    }
+
+    public String getImgflipToken(){
+        return imgflipToken;
     }
 }

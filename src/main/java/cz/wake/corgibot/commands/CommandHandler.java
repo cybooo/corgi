@@ -41,6 +41,7 @@ public class CommandHandler {
         registerCommand(new UptimeCommand());
         registerCommand(new EmoteCommand());
         registerCommand(new StatusCommand());
+        registerCommand(new MemeCommand());
     }
 
 

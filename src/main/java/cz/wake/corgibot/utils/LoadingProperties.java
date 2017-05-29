@@ -6,7 +6,7 @@ import java.util.Properties;
 
 public class LoadingProperties {
 
-    private String botToken;
+    private String botToken, imgFlipToken;
     private String host, port, dbname, dbuser, dbpassword, minConnections, maxConnections, timeout;
 
     public LoadingProperties() {
@@ -27,6 +27,7 @@ public class LoadingProperties {
             minConnections = properties.getProperty("minimumConnections");
             maxConnections = properties.getProperty("maximumConnections");
             timeout = properties.getProperty("timeout");
+            imgFlipToken = properties.getProperty("imgflipToken");
 
         } catch (Exception e) {
             e.printStackTrace();
@@ -67,5 +68,9 @@ public class LoadingProperties {
 
     public long getTimeout() {
         return (long) Integer.valueOf(timeout);
+    }
+
+    public String getImgFlipToken(){
+        return imgFlipToken;
     }
 }

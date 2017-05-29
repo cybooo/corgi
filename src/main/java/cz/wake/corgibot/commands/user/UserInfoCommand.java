@@ -47,6 +47,11 @@ public class UserInfoCommand implements Command {
     }
 
     @Override
+    public String[] getAliases() {
+        return new String[]{"ui"};
+    }
+
+    @Override
     public String getDescription() {
         return "Info o uživateli";
     }

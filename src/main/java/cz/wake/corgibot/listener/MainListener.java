@@ -60,6 +60,29 @@ public class MainListener extends ListenerAdapter {
                         if (cmd.deleteMessage()) {
                             delete(e.getMessage());
                         }
+                    } else {
+                        for (String alias : cmd.getAliases()) {
+                            if (alias.equalsIgnoreCase(command)) {
+                                String[] finalArgs = args;
+                                if (cmd.getType() == CommandType.WAKE) {
+                                    if (!isCreator(e.getMessage().getAuthor())) {
+                                        return;
+                                    }
+                                } else if (cmd.getType() == CommandType.ADMINISTRATIVE) {
+                                    if (!checkAdmin(e.getMessage())) {
+                                        return;
+                                    }
+                                }
+                                try {
+                                    cmd.onCommand(e.getAuthor(), e.getTextChannel(), e.getMessage(), finalArgs, e.getMember());
+                                } catch (Exception ex) {
+                                    MessageUtils.sendException("Chyba při provádění příkazu", ex, e.getChannel());
+                                }
+                                if (cmd.deleteMessage()) {
+                                    delete(e.getMessage());
+                                }
+                            }
+                        }
                     }
                 }
             }

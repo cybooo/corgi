@@ -15,6 +15,10 @@ public interface Command {
 
     CommandType getType();
 
+    default String[] getAliases() {
+        return new String[]{};
+    }
+
     default boolean deleteMessage() {
         return false;
     }

@@ -33,6 +33,11 @@ public class PlayerStatsCommand implements Command {
     }
 
     @Override
+    public String[] getAliases() {
+        return new String[]{"ps"};
+    }
+
+    @Override
     public String getDescription() {
         return "Statistiky ze serveru";
     }

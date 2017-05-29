@@ -13,7 +13,7 @@ import java.util.concurrent.ThreadLocalRandom;
 
 public class EightBallCommand implements Command {
 
-    static String outcomes[] = {"Ano.", "Ne.", "S největší pravděpodobností ANO!", "Archanděl Wakošuk mi sdělil, že ANO!", "Možná.", "Počkej zamyslím se, ANO!", "Pravděpodobně ne!", "Nepravděpodobně...", "Když se nad tím zamyšlíš, je to možné!", "Pokuď budou padat eura ze stromu, tak ano."};
+    static String outcomes[] = {"Ano.", "Ne.", "S největší pravděpodobností ANO!", "Možná.", "Počkej zamyslím se, ANO!", "Pravděpodobně ne!", "Nepravděpodobně...", "Když se nad tím zamyšlíš, je to možné!", "Je to jistý.", "Je to rozhodně tak", "Definitivně ano", "Něco mi říká, že ne"};
 
     @Override
     public void onCommand(User sender, TextChannel channel, Message message, String[] args, Member member) {
@@ -32,6 +32,11 @@ public class EightBallCommand implements Command {
     @Override
     public String getCommand() {
         return "8ball";
+    }
+
+    @Override
+    public String[] getAliases() {
+        return new String[]{"8b"};
     }
 
     @Override

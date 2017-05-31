@@ -22,7 +22,7 @@ public class EightBallCommand implements Command {
                 channel.sendMessage(sender.getAsMention() + " Musíš položit otázku, neumím číst myšlenky!").queue();
             } else {
                 //channel.sendMessage(outcomes[ThreadLocalRandom.current().nextInt(0, outcomes.length)]).queue();
-                channel.sendMessage(MessageUtils.getEmbed(sender, Constants.PINK).addField(sender.getName() + " se ptá:", message.getRawContent().replace(".8ball ", ""), false).addField("Corgi odpovídá:", outcomes[ThreadLocalRandom.current().nextInt(0, outcomes.length)], false).build()).queue();
+                channel.sendMessage(MessageUtils.getEmbed(sender, Constants.PINK).addField(sender.getName() + " se ptá:", message.getRawContent().replace(".8ball ", "").replace(".8b", ""), false).addField("Corgi odpovídá:", outcomes[ThreadLocalRandom.current().nextInt(0, outcomes.length)], false).build()).queue();
             }
         } catch (Exception e) {
             MessageUtils.sendErrorMessage("Chyba při provádění příkazu!", channel);

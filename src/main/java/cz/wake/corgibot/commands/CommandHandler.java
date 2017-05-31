@@ -42,6 +42,7 @@ public class CommandHandler {
         registerCommand(new EmoteCommand());
         registerCommand(new StatusCommand());
         registerCommand(new MemeCommand());
+        registerCommand(new ArchiveCommand());
     }
 
 

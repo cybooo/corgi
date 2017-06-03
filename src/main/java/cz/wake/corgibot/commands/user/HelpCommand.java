@@ -18,15 +18,15 @@ public class HelpCommand implements Command {
             msg.sendMessage(MessageUtils.getEmbed(sender).setColor(Constants.BLUE)
                     .setTitle("**Nápověda k CorgiBot (ALPHA)**", null).setDescription(
                             "**.git** - Odkaz na můj source\n" +
-                            "**.8ball [otázka]** - Zkouška pravdy ANO/NE\n" +
-                            "**.ping** - Zkouška pingu\n" +
-                            "**.fact** - Náhodné fakty\n" +
-                            "**.userinfo [nick]** - Zobrazení informací o uživateli\n" +
-                            "**.uptime** - Zobrazí čas od spuštění\n" +
-                            "**.meme** - Generátor meme obrázků\n" +
-                            "**.emote [emote]** - Informace o emotes\n" +
-                            "**.status** - Mojang Status\n" +
-                            "**.ps [nick]** - Zobrazí statistiky ze serveru Craftmania (ALPHA)").build()).queue();
+                                    "**.8ball [otázka]** - Zkouška pravdy ANO/NE\n" +
+                                    "**.ping** - Zkouška pingu\n" +
+                                    "**.fact** - Náhodné fakty\n" +
+                                    "**.userinfo [nick]** - Zobrazení informací o uživateli\n" +
+                                    "**.uptime** - Zobrazí čas od spuštění\n" +
+                                    "**.meme** - Generátor meme obrázků\n" +
+                                    "**.emote [emote]** - Informace o emotes\n" +
+                                    "**.status** - Mojang Status\n" +
+                                    "**.ps [nick]** - Zobrazí statistiky ze serveru Craftmania (ALPHA)").build()).queue();
         });
     }
 

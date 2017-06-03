@@ -70,7 +70,7 @@ public class LoadingProperties {
         return (long) Integer.valueOf(timeout);
     }
 
-    public String getImgFlipToken(){
+    public String getImgFlipToken() {
         return imgFlipToken;
     }
 }

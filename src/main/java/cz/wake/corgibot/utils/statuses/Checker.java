@@ -25,30 +25,30 @@ public class Checker extends TimerTask {
             BufferedReader br = new BufferedReader(new InputStreamReader(con.getInputStream()));
             JsonArray array = (JsonArray) parser.parse(br.readLine());
 
-            for(JsonElement object : array){
+            for (JsonElement object : array) {
                 JsonObject obj = object.getAsJsonObject();
                 String serviceUrl = obj.entrySet().iterator().next().getKey();
                 MojangService service = MojangService.getService(serviceUrl);
-                if(service != null){
+                if (service != null) {
                     String status = obj.get(serviceUrl).getAsString();
-                    if(status.equalsIgnoreCase("green")) {
+                    if (status.equalsIgnoreCase("green")) {
                         if (serviceStatus.containsKey(service)) {
                             int time = serviceStatus.get(service);
                             serviceStatus.remove(service);
                             //alertChannels(service.getName() + " are back online! It was down for " + time + " minute" + (time == 1 ? "s" : "") + "!", Color.green);
                         }
-                    }else if(status.equalsIgnoreCase("yellow")){
-                        if(!serviceStatus.containsKey(service))
+                    } else if (status.equalsIgnoreCase("yellow")) {
+                        if (!serviceStatus.containsKey(service))
                             serviceStatus.put(service, -1);
-                    }else{
-                        if(serviceStatus.containsKey(service)){
-                            serviceStatus.put(service, serviceStatus.get(service)+1);
-                        }else{
+                    } else {
+                        if (serviceStatus.containsKey(service)) {
+                            serviceStatus.put(service, serviceStatus.get(service) + 1);
+                        } else {
                             serviceStatus.put(service, 0);
                             //alertChannels(service.getName() + " have gone down!", Color.red);
                         }
                     }
-                }else{
+                } else {
                     //MinecraftStatus.LOGGER.error("Unknown service! " + serviceUrl);
                 }
             }
@@ -57,7 +57,7 @@ public class Checker extends TimerTask {
         }
     }
 
-    public static ConcurrentMap<MojangService, Integer> getServiceStatus(){
+    public static ConcurrentMap<MojangService, Integer> getServiceStatus() {
         return serviceStatus;
     }
 

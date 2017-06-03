@@ -15,12 +15,12 @@ public class UserInfoCommand implements Command {
     @Override
     public void onCommand(User sender, TextChannel channel, Message message, String[] args, Member member) {
         String id;
-        if (args.length != 1){
+        if (args.length != 1) {
             id = sender.getId();
         } else {
             id = args[0].replaceAll("[^0-9]", "");
         }
-        if (id.isEmpty()){
+        if (id.isEmpty()) {
             MessageUtils.sendErrorMessage("Musíš použít označení s @!", channel);
             return;
         }
@@ -34,10 +34,10 @@ public class UserInfoCommand implements Command {
                 + "\nID: " + user.getId() + "\n" +
                 "Avatar: " + (user.getEffectiveAvatarUrl() != null ? "[`odkaz`](" + user.getEffectiveAvatarUrl() + ')' : "Žádný") + "\n"
                 + "Default Avatar: [`odkaz`](" + MessageUtils.getDefaultAvatar(sender) + ')' + "\n"
-                + "Role: " +  getRoles(m2, channel.getGuild()), false)
+                + "Role: " + getRoles(m2, channel.getGuild()), false)
                 .addField("Časové data",
-                "Registrace: " + CorgiBot.getInstance().formatTime(LocalDateTime.from(user.getCreationTime())) + "\n" +
-                        "Připojen: " + (channel.getGuild().getMember(user) == null ? "Tento uživatel nebyl na tomto serveru!." : CorgiBot.getInstance().formatTime(LocalDateTime.from(channel.getGuild().getMember(user).getJoinDate()))), false).build()).queue();
+                        "Registrace: " + CorgiBot.getInstance().formatTime(LocalDateTime.from(user.getCreationTime())) + "\n" +
+                                "Připojen: " + (channel.getGuild().getMember(user) == null ? "Tento uživatel nebyl na tomto serveru!." : CorgiBot.getInstance().formatTime(LocalDateTime.from(channel.getGuild().getMember(user).getJoinDate()))), false).build()).queue();
 
     }
 
@@ -61,32 +61,32 @@ public class UserInfoCommand implements Command {
         return CommandType.GENERAL;
     }
 
-    private String getRoles(Member user, Guild guid){
+    private String getRoles(Member user, Guild guid) {
         String roles = "";
-        for(Role r : guid.getRoles()){
-            if(user.getRoles().contains(r)){
+        for (Role r : guid.getRoles()) {
+            if (user.getRoles().contains(r)) {
                 String role = r.getName();
-                if(!role.equalsIgnoreCase("@everyone")){
+                if (!role.equalsIgnoreCase("@everyone")) {
                     roles += ", " + role;
                 }
             }
         }
-        if(roles.equals("")){
-             roles = "Žádné";
+        if (roles.equals("")) {
+            roles = "Žádné";
         } else {
-            roles=roles.substring(2);
+            roles = roles.substring(2);
         }
         return roles;
     }
 
-    private String getDiscordRank(User user){
-        if(user.isBot()){
+    private String getDiscordRank(User user) {
+        if (user.isBot()) {
             return Constants.EMOTE_BOT;
-        } else if (user.getId().equals("177516608778928129")){ //Wake
+        } else if (user.getId().equals("177516608778928129")) { //Wake
             return Constants.EMOTE_PARTNER;
-        } else if (user.getId().equals("151332840577957889")){ //Liturkey
+        } else if (user.getId().equals("151332840577957889")) { //Liturkey
             return Constants.EMOTE_HYPESQUAD;
-        } else if (user.getId().equals("263736235539955713")){ //_yyySepii
+        } else if (user.getId().equals("263736235539955713")) { //_yyySepii
             return Constants.EMOTE_NITRO;
         } else {
             return "";

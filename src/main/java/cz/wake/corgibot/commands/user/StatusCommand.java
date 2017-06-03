@@ -23,18 +23,18 @@ public class StatusCommand implements Command {
     public void onCommand(User sender, TextChannel channel, Message message, String[] args, Member member) {
         int state = 0;
         EmbedBuilder builder = new EmbedBuilder();
-        for(MojangService service : MojangService.values){
+        for (MojangService service : MojangService.values) {
             String status;
-            if(map.containsKey(service)){
+            if (map.containsKey(service)) {
                 int time = (int) map.get(service);
-                if(time == -1){
+                if (time == -1) {
                     status = ":warning: Výpadky spojení";
                     state = 1;
-                }else{
+                } else {
                     status = ":x: Offline (" + time + " minut" + (time < 4 ? "y" : "") + "";
                     state = 2;
                 }
-            }else{
+            } else {
                 status = ":white_check_mark: Online";
             }
             builder.addField(service.toString(), status, false);

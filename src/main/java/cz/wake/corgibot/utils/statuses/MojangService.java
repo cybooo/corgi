@@ -17,27 +17,28 @@ public enum MojangService {
 
     private String name;
     private String url;
-    MojangService(String prettyName, String url){
+
+    MojangService(String prettyName, String url) {
         this.name = prettyName;
         this.url = url;
     }
 
     @Override
-    public String toString(){
+    public String toString() {
         return name + " (" + url + ")";
     }
 
-    public String getName(){
+    public String getName() {
         return this.name;
     }
 
-    public String getUrl(){
+    public String getUrl() {
         return this.url;
     }
 
     public static MojangService getService(String serviceUrl) {
-        for(MojangService service : values){
-            if(service.getUrl().equalsIgnoreCase(serviceUrl)){
+        for (MojangService service : values) {
+            if (service.getUrl().equalsIgnoreCase(serviceUrl)) {
                 return service;
             }
         }
@@ -45,8 +46,8 @@ public enum MojangService {
     }
 
     public static MojangService getServiceByName(String serviceName) {
-        for(MojangService service : values){
-            if(service.getName().equalsIgnoreCase(serviceName))
+        for (MojangService service : values) {
+            if (service.getName().equalsIgnoreCase(serviceName))
                 return service;
         }
         return null;

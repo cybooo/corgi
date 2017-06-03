@@ -9,13 +9,13 @@ import java.util.List;
 import java.util.regex.Pattern;
 import java.util.stream.Collectors;
 
-public class SimpleData implements DataManager<List<String>>{
+public class SimpleData implements DataManager<List<String>> {
 
     public static final Pattern NEWLINE_PATTERN = Pattern.compile("\\r\\n?|\\r?\\n");
     private final List<String> data = new ArrayList<>();
     private final Path path;
 
-    public SimpleData(String file){
+    public SimpleData(String file) {
         this.path = Paths.get(file);
         if (!this.path.toFile().exists()) {
             System.out.println("Could not find config file at " + this.path.toFile().getAbsolutePath() + ", creating a new one...");

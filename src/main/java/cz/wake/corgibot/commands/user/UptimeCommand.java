@@ -9,7 +9,6 @@ import net.dv8tion.jda.core.entities.Message;
 import net.dv8tion.jda.core.entities.TextChannel;
 import net.dv8tion.jda.core.entities.User;
 
-import java.awt.*;
 import java.lang.management.ManagementFactory;
 
 public class UptimeCommand implements Command {

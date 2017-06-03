@@ -11,9 +11,9 @@ import net.dv8tion.jda.core.entities.Member;
 import net.dv8tion.jda.core.entities.Message;
 import net.dv8tion.jda.core.entities.TextChannel;
 import net.dv8tion.jda.core.entities.User;
+import org.apache.commons.lang3.StringUtils;
 import org.json.JSONArray;
 import org.json.JSONObject;
-import org.apache.commons.lang3.StringUtils;
 
 import java.util.Map;
 import java.util.Set;
@@ -42,20 +42,23 @@ public class MemeCommand implements Command {
 
     @Override
     public void onCommand(User sender, TextChannel channel, Message message, String[] args, Member member) {
-        if(args.length < 1){
+        if (args.length < 1) {
             channel.sendMessage(MessageUtils.getEmbed(Constants.BLUE).setTitle("**Použítí příkazu .meme**")
                     .setDescription("**.meme** - Zobrazí tuto nápovědu\n" +
                             "**.meme list [cislo]** - Zobrazí seznam všech dostupných obrázků\n" +
                             "**.meme [nazev] | [horni_radek] | [dolni_rade]** - Vygeneruje meme obrázek").build()).queue();
-        } else if (args[0].equalsIgnoreCase("list")){
+        } else if (args[0].equalsIgnoreCase("list")) {
             int page = 1;
 
             try {
                 if (args[1] != null) {
                     page = Integer.valueOf(args[1]);
-                    if (page <= 0) { page = 1; }
+                    if (page <= 0) {
+                        page = 1;
+                    }
                 }
-            } catch (Exception ignore) {}
+            } catch (Exception ignore) {
+            }
 
             Set<String> names = map.keySet();
 
@@ -81,7 +84,7 @@ public class MemeCommand implements Command {
             }
 
             channel.sendMessage(MessageUtils.getEmbed(Constants.BLUE).setTitle("Meme list")
-                .setDescription(sb.toString()).setFooter("Strana [" + page + "/" + pages + "]", null).build()).queue();
+                    .setDescription(sb.toString()).setFooter("Strana [" + page + "/" + pages + "]", null).build()).queue();
         } else {
             try {
                 String request = StringUtils.join(args, " ");
@@ -114,8 +117,8 @@ public class MemeCommand implements Command {
 
                 channel.sendMessage(MessageUtils.getEmbed(Constants.BLUE).setTitle("Vygenerované meme")
                         .setImage(response.optString("url")).build()).queue();
-            } catch (Exception e){
-                MessageUtils.sendErrorMessage("Nesprávné použití příkazu! Správně **.meme [nazev] | [prvni_radek] | [druhy_radek]**",channel);
+            } catch (Exception e) {
+                MessageUtils.sendErrorMessage("Nesprávné použití příkazu! Správně **.meme [nazev] | [prvni_radek] | [druhy_radek]**", channel);
             }
         }
     }

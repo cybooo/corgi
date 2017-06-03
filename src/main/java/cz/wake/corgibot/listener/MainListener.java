@@ -12,7 +12,6 @@ import net.dv8tion.jda.core.entities.Role;
 import net.dv8tion.jda.core.entities.User;
 import net.dv8tion.jda.core.events.ShutdownEvent;
 import net.dv8tion.jda.core.events.message.MessageReceivedEvent;
-import net.dv8tion.jda.core.events.message.guild.GuildMessageReceivedEvent;
 import net.dv8tion.jda.core.events.user.UserOnlineStatusUpdateEvent;
 import net.dv8tion.jda.core.hooks.ListenerAdapter;
 
@@ -23,13 +22,13 @@ public class MainListener extends ListenerAdapter {
     @Override
     public void onMessageReceived(MessageReceivedEvent e) {
 
-        if(e.getAuthor().isBot()){
+        if (e.getAuthor().isBot()) {
             return;
         }
 
         //TODO: Dodělat, typy příkazů podle channelu
 
-        if(!e.isFromType(ChannelType.PRIVATE)){
+        if (!e.isFromType(ChannelType.PRIVATE)) {
             if (e.getMessage().getRawContent().startsWith(String.valueOf(CorgiBot.PREFIX))
                     && !e.getAuthor().isBot()) {
                 String message = e.getMessage().getRawContent();
@@ -120,10 +119,10 @@ public class MainListener extends ListenerAdapter {
 
     // Wake Secret :O
     @Override
-    public void onUserOnlineStatusUpdate(UserOnlineStatusUpdateEvent e){
+    public void onUserOnlineStatusUpdate(UserOnlineStatusUpdateEvent e) {
         User u = e.getUser();
-        if(isCreator(u)){
-            if(e.getPreviousOnlineStatus() == OnlineStatus.DO_NOT_DISTURB){
+        if (isCreator(u)) {
+            if (e.getPreviousOnlineStatus() == OnlineStatus.DO_NOT_DISTURB) {
                 CorgiBot.getJda().getPresence().setStatus(OnlineStatus.DO_NOT_DISTURB);
             } else if (e.getPreviousOnlineStatus() == OnlineStatus.ONLINE) {
                 CorgiBot.getJda().getPresence().setStatus(OnlineStatus.ONLINE);

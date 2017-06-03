@@ -10,15 +10,12 @@ import net.dv8tion.jda.core.AccountType;
 import net.dv8tion.jda.core.JDA;
 import net.dv8tion.jda.core.JDABuilder;
 import net.dv8tion.jda.core.entities.Game;
-import net.dv8tion.jda.core.entities.User;
 import net.dv8tion.jda.core.exceptions.RateLimitedException;
 
 import javax.security.auth.login.LoginException;
 import java.io.IOException;
 import java.time.LocalDateTime;
 import java.time.format.DateTimeFormatter;
-import java.util.Arrays;
-import java.util.Objects;
 import java.util.Timer;
 
 public class CorgiBot {
@@ -85,7 +82,7 @@ public class CorgiBot {
         return dateTime.getDayOfMonth() + ". " + dateTime.format(timeFormat);
     }
 
-    public String getImgflipToken(){
+    public String getImgflipToken() {
         return imgflipToken;
     }
 }

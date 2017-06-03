@@ -43,6 +43,11 @@ public class AtsCommand implements Command {
         } else {
             String name = args[0];
 
+            if(!CorgiBot.getInstance().getSql().isAT(name)){
+                MessageUtils.sendErrorMessage("Požadovaný člen není v AT nebo nebyl nalezen!", channel);
+                return;
+            }
+
             int survival_chat = CorgiBot.getInstance().getSql().getStalkerStats(name,"surv_chat_body");
             int survival_odehrano = CorgiBot.getInstance().getSql().getStalkerStats(name,"surv_played_time");
             long survival_posledni_aktivita = CorgiBot.getInstance().getSql().getStalkerStatsTime(name, "surv_pos_aktivita");

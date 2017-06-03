@@ -43,6 +43,7 @@ public class CommandHandler {
         registerCommand(new StatusCommand());
         registerCommand(new MemeCommand());
         registerCommand(new ArchiveCommand());
+        registerCommand(new AtsCommand());
     }
 
 

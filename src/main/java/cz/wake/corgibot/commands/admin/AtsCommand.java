@@ -91,7 +91,7 @@ public class AtsCommand implements Command {
                     .addField("MiniGames :video_game:", "**Chat**: " + minigames_chat + "\n" + "**Odehráno**: " + TimeUtils.formatTime("%d dni, %hh %mm", minigames_odehrano, false) + "\n" + "**Poslední aktivita**: " + getDate(minigames_posledni_aktivita), true)
                     .addField("Vanilla Skyblock :jack_o_lantern:", "**Chat**: " + vanillasb_chat + "\n" + "**Odehráno**: " + TimeUtils.formatTime("%d dni, %hh %mm", vanillasb_odehrano, false) + "\n" + "**Poslední aktivita**: " + getDate(vanillasb_posledni_aktivita), true)
                     .addField("Celkem :notepad_spiral:", "**Chat**: " + celkem_chat + "\n" + "**Odehráno**: " + TimeUtils.formatTime("%d dni, %hh %mm", celkem_odehrano, false), false)
-                    .setFooter("Platné pro: " + getDate(System.currentTimeMillis()), null).build()).queue();
+                    .setFooter("Platné pro: " + getDate(System.currentTimeMillis() + opravnyCas), null).build()).queue();
         }
     }
 

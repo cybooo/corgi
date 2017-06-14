@@ -48,33 +48,35 @@ public class AtsCommand implements Command {
                 return;
             }
 
+            long opravnyCas = 7200000; //2h
+
             int survival_chat = CorgiBot.getInstance().getSql().getStalkerStats(name, "surv_chat_body");
             int survival_odehrano = CorgiBot.getInstance().getSql().getStalkerStats(name, "surv_played_time");
-            long survival_posledni_aktivita = CorgiBot.getInstance().getSql().getStalkerStatsTime(name, "surv_pos_aktivita");
+            long survival_posledni_aktivita = CorgiBot.getInstance().getSql().getStalkerStatsTime(name, "surv_pos_aktivita") + opravnyCas;
 
             int skyblock_chat = CorgiBot.getInstance().getSql().getStalkerStats(name, "sky_chat_body");
             int skyblock_odehrano = CorgiBot.getInstance().getSql().getStalkerStats(name, "sky_played_time");
-            long skyblock_posledni_aktivita = CorgiBot.getInstance().getSql().getStalkerStatsTime(name, "sky_pos_aktivita");
+            long skyblock_posledni_aktivita = CorgiBot.getInstance().getSql().getStalkerStatsTime(name, "sky_pos_aktivita")+ opravnyCas;
 
             int creative_chat = CorgiBot.getInstance().getSql().getStalkerStats(name, "crea_chat_body");
             int creative_odehrano = CorgiBot.getInstance().getSql().getStalkerStats(name, "crea_played_time");
-            long creative_posledni_aktivita = CorgiBot.getInstance().getSql().getStalkerStatsTime(name, "crea_pos_aktivita");
+            long creative_posledni_aktivita = CorgiBot.getInstance().getSql().getStalkerStatsTime(name, "crea_pos_aktivita")+ opravnyCas;
 
             int prison_chat = CorgiBot.getInstance().getSql().getStalkerStats(name, "prison_chat_body");
             int prison_odehrano = CorgiBot.getInstance().getSql().getStalkerStats(name, "prison_played_time");
-            long prison_posledni_aktivita = CorgiBot.getInstance().getSql().getStalkerStatsTime(name, "prison_pos_aktivita");
+            long prison_posledni_aktivita = CorgiBot.getInstance().getSql().getStalkerStatsTime(name, "prison_pos_aktivita")+ opravnyCas;
 
             int vanilla_chat = CorgiBot.getInstance().getSql().getStalkerStats(name, "vanilla_chat_body");
             int vanilla_odehrano = CorgiBot.getInstance().getSql().getStalkerStats(name, "vanilla_played_time");
-            long vanilla_posledni_aktivita = CorgiBot.getInstance().getSql().getStalkerStatsTime(name, "vanilla_pos_aktivita");
+            long vanilla_posledni_aktivita = CorgiBot.getInstance().getSql().getStalkerStatsTime(name, "vanilla_pos_aktivita")+ opravnyCas;
 
             int minigames_chat = CorgiBot.getInstance().getSql().getStalkerStats(name, "minigames_chat_body");
             int minigames_odehrano = CorgiBot.getInstance().getSql().getStalkerStats(name, "minigames_played_time");
-            long minigames_posledni_aktivita = CorgiBot.getInstance().getSql().getStalkerStatsTime(name, "minigames_pos_aktivita");
+            long minigames_posledni_aktivita = CorgiBot.getInstance().getSql().getStalkerStatsTime(name, "minigames_pos_aktivita")+ opravnyCas;
 
             int vanillasb_chat = CorgiBot.getInstance().getSql().getStalkerStats(name, "vanillasb_chat_body");
             int vanillasb_odehrano = CorgiBot.getInstance().getSql().getStalkerStats(name, "vanillasb_played_time");
-            long vanillasb_posledni_aktivita = CorgiBot.getInstance().getSql().getStalkerStatsTime(name, "vanillasb_pos_aktivita");
+            long vanillasb_posledni_aktivita = CorgiBot.getInstance().getSql().getStalkerStatsTime(name, "vanillasb_pos_aktivita")+ opravnyCas;
 
             int celkem_chat = survival_chat + skyblock_chat + creative_chat + prison_chat + vanilla_chat + minigames_chat + vanillasb_chat;
             int celkem_odehrano = survival_odehrano + skyblock_odehrano + creative_odehrano + prison_odehrano + vanilla_odehrano + minigames_odehrano + vanillasb_odehrano;

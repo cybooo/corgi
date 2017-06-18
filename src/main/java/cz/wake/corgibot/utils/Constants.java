@@ -33,4 +33,8 @@ public class Constants {
     final public static String EMOTE_UNCHECK = "<:xmark:314901142985244675>";
     final public static String EMOTE_EMPTY = "<:empty:314901142784180225>";
 
+    // Emoji
+    final public static String BACK = "\u25C0";
+    final public static String NEXT = "\u25B6";
+
 }

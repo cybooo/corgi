@@ -44,6 +44,7 @@ public class CommandHandler {
         registerCommand(new MemeCommand());
         registerCommand(new ArchiveCommand());
         registerCommand(new AtsCommand());
+        registerCommand(new PurgeCommand());
     }
 
 

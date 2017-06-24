@@ -48,6 +48,7 @@ public class CommandHandler {
         registerCommand(new ArchiveCommand());
         registerCommand(new AtsCommand());
         registerCommand(new PurgeCommand());
+        registerCommand(new TextToBlock());
     }
 
 

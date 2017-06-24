@@ -1,5 +1,6 @@
 package cz.wake.corgibot.commands.admin;
 
+import cz.wake.corgibot.utils.Constants;
 import cz.wake.corgibot.utils.MessageUtils;
 import net.dv8tion.jda.core.Permission;
 import net.dv8tion.jda.core.entities.Message;
@@ -32,7 +33,7 @@ public class GiveawayCommand extends ListenerAdapter {
             String[] parts = str.split("\\s+", 2);
             try {
                 int sec = Integer.parseInt(parts[0]);
-                event.getChannel().sendMessage(":tada:  **GIVEAWAY!**  :tada:\n" + (parts.length > 1 ? "\u25AB*`" + parts[1] + "`*\u25AB\n" : "") + "Klikni na \uD83C\uDF89 ke vstupu!").queue(m -> {
+                event.getChannel().sendMessage(MessageUtils.getEmbed(Constants.GRAY).setDescription("Generuji...").build()).queue(m -> {
                     m.addReaction("\uD83C\uDF89").queue();
                     new Giveaway(sec, m, parts.length > 1 ? parts[1] : null).start();
                 });

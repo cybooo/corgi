@@ -32,14 +32,14 @@ public class PurgeCommand implements Command {
                 for (CleanType type : CleanType.values())
                     m.addReaction(type.getUnicode()).queue();
                 m.addReaction(CANCEL).queue();
-                w.waitForEvent(MessageReactionAddEvent.class, (MessageReactionAddEvent e ) -> {
+                w.waitForEvent(MessageReactionAddEvent.class, (MessageReactionAddEvent e) -> {
                     return e.getUser().equals(sender) && e.getMessageId().equals(m.getId()) && (e.getReaction().getEmote().getName().equals(CANCEL) || CleanType.of(e.getReaction().getEmote().getName()) != null);
                 }, (MessageReactionAddEvent ev) -> {
                     m.delete().queue();
                     CleanType type = CleanType.of(ev.getReaction().getEmote().getName());
                     if (type != null)
                         executeClean(type.getText(), channel, message, " " + type.getText());
-                }, 25, TimeUnit.SECONDS, () -> m.editMessage( MessageUtils.getEmbed(Constants.RED).setDescription("Čas vypršel!").build()).queue());
+                }, 25, TimeUnit.SECONDS, () -> m.editMessage(MessageUtils.getEmbed(Constants.RED).setDescription("Čas vypršel!").build()).queue());
             });
         } else {
             try {
@@ -75,7 +75,7 @@ public class PurgeCommand implements Command {
                 }
                 channel.sendMessage(MessageUtils.getEmbed(Constants.GREEN).setDescription(Constants.EMOTE_CHECK + " | Smazáno **" + i + "** zpráv.").build()).queue();
 
-            } catch (Exception e){
+            } catch (Exception e) {
                 executeClean(Arrays.toString(args), channel, message, null);
             }
         }
@@ -124,8 +124,8 @@ public class PurgeCommand implements Command {
                 toClean.get(0).delete().queue(v -> channel.sendMessage(MessageUtils.getEmbed(Constants.GREEN).setDescription(Constants.EMOTE_CHECK + " | Smazáno **" + toClean.size() + "** zpráv.").build()).queue());
             else {
                 try {
-                    (( TextChannel)channel).deleteMessages(toClean).queue(v -> channel.sendMessage(MessageUtils.getEmbed(Constants.GREEN).setDescription(Constants.EMOTE_CHECK + "| Smazáno **" + toClean.size() + "** zpráv.").build()).queue());
-                } catch (IllegalArgumentException e){
+                    ((TextChannel) channel).deleteMessages(toClean).queue(v -> channel.sendMessage(MessageUtils.getEmbed(Constants.GREEN).setDescription(Constants.EMOTE_CHECK + "| Smazáno **" + toClean.size() + "** zpráv.").build()).queue());
+                } catch (IllegalArgumentException e) {
                     MessageUtils.sendErrorMessage("Požadovaný výběr zpráv pro smazání je starší než 14 dní!", channel);
                 }
             }
@@ -159,26 +159,22 @@ public class PurgeCommand implements Command {
 
         private final String unicode, text;
 
-        CleanType(String unicode, String text)
-        {
+        CleanType(String unicode, String text) {
             this.unicode = unicode;
             this.text = text;
         }
 
-        public String getUnicode()
-        {
+        public String getUnicode() {
             return unicode;
         }
 
-        public String getText()
-        {
+        public String getText() {
             return text;
         }
 
-        public static CleanType of(String unicode)
-        {
-            for(CleanType type: values())
-                if(type.getUnicode().equals(unicode))
+        public static CleanType of(String unicode) {
+            for (CleanType type : values())
+                if (type.getUnicode().equals(unicode))
                     return type;
             return null;
         }

@@ -6,6 +6,7 @@ import cz.wake.corgibot.listener.MainListener;
 import cz.wake.corgibot.sql.SQLManager;
 import cz.wake.corgibot.utils.LoadingProperties;
 import cz.wake.corgibot.utils.statuses.Checker;
+import me.jagrosh.jdautilities.waiter.EventWaiter;
 import net.dv8tion.jda.core.AccountType;
 import net.dv8tion.jda.core.JDA;
 import net.dv8tion.jda.core.JDABuilder;
@@ -34,10 +35,13 @@ public class CorgiBot {
 
         LoadingProperties config = new LoadingProperties();
 
+        EventWaiter waiter = new EventWaiter();
+
         jda = new JDABuilder(AccountType.BOT)
                 .setToken(config.getBotToken())
-                .addEventListener(new MainListener())
+                .addEventListener(new MainListener(waiter))
                 .addEventListener(new GiveawayCommand())
+                .addEventListener(waiter)
                 .setGame(Game.of(".help"))
                 .buildBlocking();
 

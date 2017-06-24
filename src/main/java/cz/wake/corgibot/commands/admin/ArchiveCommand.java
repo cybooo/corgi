@@ -4,6 +4,7 @@ import cz.wake.corgibot.commands.Command;
 import cz.wake.corgibot.commands.CommandType;
 import cz.wake.corgibot.utils.Constants;
 import cz.wake.corgibot.utils.MessageUtils;
+import me.jagrosh.jdautilities.waiter.EventWaiter;
 import net.dv8tion.jda.core.Permission;
 import net.dv8tion.jda.core.entities.*;
 import net.dv8tion.jda.core.requests.RestAction;
@@ -16,7 +17,7 @@ import java.util.concurrent.TimeUnit;
 public class ArchiveCommand implements Command {
 
     @Override
-    public void onCommand(User sender, TextChannel channel, Message message, String[] args, Member member) {
+    public void onCommand(User sender, TextChannel channel, Message message, String[] args, Member member, EventWaiter w) {
         try {
             long numposts = Long.valueOf(args[0]);
             TextChannel tx = channel.getGuild().getTextChannelById(channel.getId());

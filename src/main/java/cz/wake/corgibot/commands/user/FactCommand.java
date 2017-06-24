@@ -6,6 +6,7 @@ import cz.wake.corgibot.utils.Constants;
 import cz.wake.corgibot.utils.MessageUtils;
 import cz.wake.corgibot.utils.data.DataManager;
 import cz.wake.corgibot.utils.data.SimpleData;
+import me.jagrosh.jdautilities.waiter.EventWaiter;
 import net.dv8tion.jda.core.entities.Member;
 import net.dv8tion.jda.core.entities.Message;
 import net.dv8tion.jda.core.entities.TextChannel;
@@ -19,7 +20,7 @@ public class FactCommand implements Command {
     public static final DataManager<List<String>> facts = new SimpleData("facts.txt");
 
     @Override
-    public void onCommand(User sender, TextChannel channel, Message message, String[] args, Member member) {
+    public void onCommand(User sender, TextChannel channel, Message message, String[] args, Member member, EventWaiter w) {
         channel.sendMessage(MessageUtils.getEmbed(Constants.PINK).setTitle("Náhodný fakt dne :trophy:", null).setDescription(facts.get().get(new Random().nextInt(facts.get().size() - 1))).build()).queue();
     }
 

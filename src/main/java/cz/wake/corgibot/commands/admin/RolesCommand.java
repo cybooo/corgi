@@ -2,12 +2,13 @@ package cz.wake.corgibot.commands.admin;
 
 import cz.wake.corgibot.commands.Command;
 import cz.wake.corgibot.commands.CommandType;
+import me.jagrosh.jdautilities.waiter.EventWaiter;
 import net.dv8tion.jda.core.entities.*;
 
 public class RolesCommand implements Command {
 
     @Override
-    public void onCommand(User sender, TextChannel channel, Message message, String[] args, Member member) {
+    public void onCommand(User sender, TextChannel channel, Message message, String[] args, Member member, EventWaiter w) {
         StringBuilder sb = new StringBuilder();
         sb.append("**Server Roles**\n```\n");
         for (Role role : channel.getGuild().getRoles()) {

@@ -7,7 +7,7 @@ import net.dv8tion.jda.core.entities.User;
 
 public interface Command {
 
-    void onCommand(User sender, TextChannel channel, Message message, String[] args, Member member);
+    void onCommand(User sender, TextChannel channel, Message message, String[] args, Member member, EventWaiter w);
 
     String getCommand();
 

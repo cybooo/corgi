@@ -6,6 +6,7 @@ import cz.wake.corgibot.commands.CommandType;
 import cz.wake.corgibot.utils.Constants;
 import cz.wake.corgibot.utils.MessageUtils;
 import cz.wake.corgibot.utils.TimeUtils;
+import me.jagrosh.jdautilities.waiter.EventWaiter;
 import net.dv8tion.jda.core.entities.Member;
 import net.dv8tion.jda.core.entities.Message;
 import net.dv8tion.jda.core.entities.TextChannel;
@@ -17,7 +18,7 @@ import java.util.Calendar;
 public class AtsCommand implements Command {
 
     @Override
-    public void onCommand(User sender, TextChannel channel, Message message, String[] args, Member member) {
+    public void onCommand(User sender, TextChannel channel, Message message, String[] args, Member member, EventWaiter w) {
         if (args.length < 1) {
             channel.sendMessage(MessageUtils.getEmbed(Constants.BLUE).setTitle("Nápověda pro příkaz .ats")
                     .setDescription("**.ats** - Zobrazí tuto nápovědu\n" +

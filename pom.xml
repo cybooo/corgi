@@ -89,7 +89,12 @@
         <dependency>
             <groupId>net.dv8tion</groupId>
             <artifactId>JDA</artifactId>
-            <version>3.1.1_217</version>
+            <version>LATEST</version>
+        </dependency>
+        <dependency>
+            <groupId>me.jagrosh</groupId>
+            <artifactId>JDA-Utilities</artifactId>
+            <version>LATEST</version>
         </dependency>
         <dependency>
             <groupId>com.mashape.unirest</groupId>

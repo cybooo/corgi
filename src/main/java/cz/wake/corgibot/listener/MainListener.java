@@ -4,6 +4,7 @@ import cz.wake.corgibot.CorgiBot;
 import cz.wake.corgibot.commands.Command;
 import cz.wake.corgibot.commands.CommandType;
 import cz.wake.corgibot.utils.MessageUtils;
+import me.jagrosh.jdautilities.waiter.EventWaiter;
 import net.dv8tion.jda.core.OnlineStatus;
 import net.dv8tion.jda.core.Permission;
 import net.dv8tion.jda.core.entities.ChannelType;
@@ -18,6 +19,12 @@ import net.dv8tion.jda.core.hooks.ListenerAdapter;
 import java.awt.*;
 
 public class MainListener extends ListenerAdapter {
+
+    private EventWaiter w;
+
+    public MainListener(EventWaiter w){
+        this.w = w;
+    }
 
     @Override
     public void onMessageReceived(MessageReceivedEvent e) {
@@ -52,7 +59,7 @@ public class MainListener extends ListenerAdapter {
                             }
                         }
                         try {
-                            cmd.onCommand(e.getAuthor(), e.getTextChannel(), e.getMessage(), finalArgs, e.getMember());
+                            cmd.onCommand(e.getAuthor(), e.getTextChannel(), e.getMessage(), finalArgs, e.getMember(), w);
                         } catch (Exception ex) {
                             MessageUtils.sendException("Chyba při provádění příkazu", ex, e.getChannel());
                         }
@@ -73,7 +80,7 @@ public class MainListener extends ListenerAdapter {
                                     }
                                 }
                                 try {
-                                    cmd.onCommand(e.getAuthor(), e.getTextChannel(), e.getMessage(), finalArgs, e.getMember());
+                                    cmd.onCommand(e.getAuthor(), e.getTextChannel(), e.getMessage(), finalArgs, e.getMember(), w);
                                 } catch (Exception ex) {
                                     MessageUtils.sendException("Chyba při provádění příkazu", ex, e.getChannel());
                                 }

@@ -5,6 +5,7 @@ import cz.wake.corgibot.commands.CommandType;
 import cz.wake.corgibot.utils.Constants;
 import cz.wake.corgibot.utils.statuses.Checker;
 import cz.wake.corgibot.utils.statuses.MojangService;
+import me.jagrosh.jdautilities.waiter.EventWaiter;
 import net.dv8tion.jda.core.EmbedBuilder;
 import net.dv8tion.jda.core.entities.Member;
 import net.dv8tion.jda.core.entities.Message;
@@ -20,7 +21,7 @@ public class StatusCommand implements Command {
     //TODO: Dodělat pro CM
 
     @Override
-    public void onCommand(User sender, TextChannel channel, Message message, String[] args, Member member) {
+    public void onCommand(User sender, TextChannel channel, Message message, String[] args, Member member, EventWaiter w) {
         int state = 0;
         EmbedBuilder builder = new EmbedBuilder();
         for (MojangService service : MojangService.values) {

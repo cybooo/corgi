@@ -5,6 +5,7 @@ import cz.wake.corgibot.commands.Command;
 import cz.wake.corgibot.commands.CommandType;
 import cz.wake.corgibot.utils.Constants;
 import cz.wake.corgibot.utils.MessageUtils;
+import me.jagrosh.jdautilities.waiter.EventWaiter;
 import net.dv8tion.jda.core.entities.*;
 
 import java.time.LocalDateTime;
@@ -13,7 +14,7 @@ public class UserInfoCommand implements Command {
 
 
     @Override
-    public void onCommand(User sender, TextChannel channel, Message message, String[] args, Member member) {
+    public void onCommand(User sender, TextChannel channel, Message message, String[] args, Member member, EventWaiter w) {
         String id;
         if (args.length != 1) {
             id = sender.getId();

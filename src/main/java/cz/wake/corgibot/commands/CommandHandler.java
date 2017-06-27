@@ -49,6 +49,7 @@ public class CommandHandler {
         registerCommand(new AtsCommand());
         registerCommand(new PurgeCommand());
         registerCommand(new TextToBlock());
+        registerCommand(new TrumpCommand());
     }
 
 

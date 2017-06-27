@@ -3,6 +3,7 @@ package cz.wake.corgibot.commands.admin;
 import cz.wake.corgibot.CorgiBot;
 import cz.wake.corgibot.commands.Command;
 import cz.wake.corgibot.commands.CommandType;
+import cz.wake.corgibot.commands.mod.PurgeCommand;
 import cz.wake.corgibot.utils.Constants;
 import cz.wake.corgibot.utils.MessageUtils;
 import cz.wake.corgibot.utils.TimeUtils;
@@ -11,9 +12,11 @@ import net.dv8tion.jda.core.entities.Member;
 import net.dv8tion.jda.core.entities.Message;
 import net.dv8tion.jda.core.entities.TextChannel;
 import net.dv8tion.jda.core.entities.User;
+import net.dv8tion.jda.core.events.message.react.MessageReactionAddEvent;
 
 import java.text.SimpleDateFormat;
 import java.util.Calendar;
+import java.util.concurrent.TimeUnit;
 
 public class AtsCommand implements Command {
 
@@ -92,7 +95,16 @@ public class AtsCommand implements Command {
                     .addField("MiniGames :video_game:", "**Chat**: " + minigames_chat + "\n" + "**Odehráno**: " + TimeUtils.formatTime("%d dni, %hh %mm", minigames_odehrano, false) + "\n" + "**Poslední aktivita**: " + getDate(minigames_posledni_aktivita), true)
                     .addField("Vanilla Skyblock :jack_o_lantern:", "**Chat**: " + vanillasb_chat + "\n" + "**Odehráno**: " + TimeUtils.formatTime("%d dni, %hh %mm", vanillasb_odehrano, false) + "\n" + "**Poslední aktivita**: " + getDate(vanillasb_posledni_aktivita), true)
                     .addField("Celkem :notepad_spiral:", "**Chat**: " + celkem_chat + "\n" + "**Odehráno**: " + TimeUtils.formatTime("%d dni, %hh %mm", celkem_odehrano, false), false)
-                    .setFooter("Platné pro: " + getDate(System.currentTimeMillis() + opravnyCas), null).build()).queue();
+                    .setFooter("Platné pro: " + getDate(System.currentTimeMillis() + opravnyCas), null).build()).queue((Message m) -> {
+
+                m.addReaction("\u274C").queue();
+                w.waitForEvent(MessageReactionAddEvent.class, (MessageReactionAddEvent e) -> {
+                    return e.getUser().equals(sender) && e.getMessageId().equals(m.getId()) && (e.getReaction().getEmote().getName().equals("\u274C"));
+                }, (MessageReactionAddEvent ev) -> {
+                    m.delete().queue();
+                    message.delete().queue();
+                }, 60, TimeUnit.SECONDS, null);
+            });
         }
     }
 

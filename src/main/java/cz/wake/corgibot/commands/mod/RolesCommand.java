@@ -2,16 +2,18 @@ package cz.wake.corgibot.commands.mod;
 
 import cz.wake.corgibot.commands.Command;
 import cz.wake.corgibot.commands.CommandType;
+import cz.wake.corgibot.commands.CommandUse;
+import cz.wake.corgibot.commands.Rank;
 import me.jagrosh.jdautilities.waiter.EventWaiter;
 import net.dv8tion.jda.core.entities.*;
 
 public class RolesCommand implements Command {
 
     @Override
-    public void onCommand(User sender, TextChannel channel, Message message, String[] args, Member member, EventWaiter w) {
+    public void onCommand(User sender, MessageChannel channel, Message message, String[] args, Member member, EventWaiter w) {
         StringBuilder sb = new StringBuilder();
         sb.append("**Server Roles**\n```\n");
-        for (Role role : channel.getGuild().getRoles()) {
+        for (Role role : member.getGuild().getRoles()) {
             sb.append(role.getName()).append(" (").append(role.getId()).append(")\n");
         }
         sb.append("```");
@@ -25,12 +27,22 @@ public class RolesCommand implements Command {
     }
 
     @Override
-    public String getDescription() {
-        return "Seznam rolí";
+    public String getHelp() {
+        return null;
     }
 
     @Override
     public CommandType getType() {
-        return CommandType.WAKE;
+        return CommandType.MODERATION;
+    }
+
+    @Override
+    public CommandUse getUse() {
+        return CommandUse.GUILD;
+    }
+
+    @Override
+    public Rank getRank() {
+        return Rank.MODERATOR;
     }
 }

@@ -3,15 +3,13 @@ package cz.wake.corgibot.commands.admin;
 import cz.wake.corgibot.CorgiBot;
 import cz.wake.corgibot.commands.Command;
 import cz.wake.corgibot.commands.CommandType;
-import cz.wake.corgibot.commands.mod.PurgeCommand;
+import cz.wake.corgibot.commands.CommandUse;
+import cz.wake.corgibot.commands.Rank;
 import cz.wake.corgibot.utils.Constants;
 import cz.wake.corgibot.utils.MessageUtils;
 import cz.wake.corgibot.utils.TimeUtils;
 import me.jagrosh.jdautilities.waiter.EventWaiter;
-import net.dv8tion.jda.core.entities.Member;
-import net.dv8tion.jda.core.entities.Message;
-import net.dv8tion.jda.core.entities.TextChannel;
-import net.dv8tion.jda.core.entities.User;
+import net.dv8tion.jda.core.entities.*;
 import net.dv8tion.jda.core.events.message.react.MessageReactionAddEvent;
 
 import java.text.SimpleDateFormat;
@@ -21,7 +19,7 @@ import java.util.concurrent.TimeUnit;
 public class AtsCommand implements Command {
 
     @Override
-    public void onCommand(User sender, TextChannel channel, Message message, String[] args, Member member, EventWaiter w) {
+    public void onCommand(User sender, MessageChannel channel, Message message, String[] args, Member member, EventWaiter w) {
         if (args.length < 1) {
             channel.sendMessage(MessageUtils.getEmbed(Constants.BLUE).setTitle("Nápověda pro příkaz .ats")
                     .setDescription("**.ats** - Zobrazí tuto nápovědu\n" +
@@ -114,13 +112,28 @@ public class AtsCommand implements Command {
     }
 
     @Override
-    public String getDescription() {
+    public String getHelp() {
         return null;
     }
 
     @Override
     public CommandType getType() {
-        return CommandType.ADMINISTRATIVE;
+        return CommandType.MODERATION;
+    }
+
+    @Override
+    public CommandUse getUse() {
+        return CommandUse.GUILD;
+    }
+
+    @Override
+    public Rank getRank() {
+        return Rank.MODERATOR;
+    }
+
+    @Override
+    public boolean onlyCM() {
+        return true;
     }
 
     private String getDate(long time) {

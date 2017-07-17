@@ -2,6 +2,8 @@ package cz.wake.corgibot.commands.admin;
 
 import cz.wake.corgibot.commands.Command;
 import cz.wake.corgibot.commands.CommandType;
+import cz.wake.corgibot.commands.CommandUse;
+import cz.wake.corgibot.commands.Rank;
 import cz.wake.corgibot.utils.Constants;
 import cz.wake.corgibot.utils.MessageUtils;
 import me.jagrosh.jdautilities.waiter.EventWaiter;
@@ -10,18 +12,18 @@ import net.dv8tion.jda.core.entities.*;
 public class EmoteCommand implements Command {
 
     @Override
-    public void onCommand(User sender, TextChannel channel, Message message, String[] args, Member member, EventWaiter w) {
+    public void onCommand(User sender, MessageChannel channel, Message message, String[] args, Member member, EventWaiter w) {
         if (args.length < 1) {
             channel.sendMessage(MessageUtils.getEmbed(Constants.BLUE).setTitle("**Použítí příkazu .emote**")
                     .setDescription("**.emote** - Zobrazí tuto nápovědu\n" +
                             "**.emote <regex|emote>** - Zobrazí info o Emote\n" +
                             "**.emote list** - Zobrazí seznam všech dostupných Emotes").build()).queue();
         } else if (args[0].equalsIgnoreCase("list")) {
-            if (channel.getGuild().getEmotes().isEmpty()) {
+            if (member.getGuild().getEmotes().isEmpty()) {
                 MessageUtils.sendErrorMessage("Na tomto serveru nejsou žádné Emotes!", channel);
             }
             StringBuilder builder = new StringBuilder("**Přehled Emotes:**\n");
-            for (Emote e : channel.getGuild().getEmotes()) {
+            for (Emote e : member.getGuild().getEmotes()) {
                 builder.append(" ").append(e.getAsMention());
             }
             channel.sendMessage(builder.toString()).queue();
@@ -78,12 +80,22 @@ public class EmoteCommand implements Command {
     }
 
     @Override
-    public String getDescription() {
+    public String getHelp() {
         return null;
     }
 
     @Override
     public CommandType getType() {
-        return CommandType.ADMINISTRATIVE;
+        return CommandType.GENERAL;
+    }
+
+    @Override
+    public CommandUse getUse() {
+        return CommandUse.GUILD;
+    }
+
+    @Override
+    public Rank getRank() {
+        return Rank.USER;
     }
 }

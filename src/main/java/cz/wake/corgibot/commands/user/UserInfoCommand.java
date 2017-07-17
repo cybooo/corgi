@@ -3,18 +3,23 @@ package cz.wake.corgibot.commands.user;
 import cz.wake.corgibot.CorgiBot;
 import cz.wake.corgibot.commands.Command;
 import cz.wake.corgibot.commands.CommandType;
+import cz.wake.corgibot.commands.CommandUse;
+import cz.wake.corgibot.commands.Rank;
 import cz.wake.corgibot.utils.Constants;
 import cz.wake.corgibot.utils.MessageUtils;
 import me.jagrosh.jdautilities.waiter.EventWaiter;
 import net.dv8tion.jda.core.entities.*;
 
 import java.time.LocalDateTime;
+import java.util.ArrayList;
+import java.util.Collections;
+import java.util.List;
 
 public class UserInfoCommand implements Command {
 
 
     @Override
-    public void onCommand(User sender, TextChannel channel, Message message, String[] args, Member member, EventWaiter w) {
+    public void onCommand(User sender, MessageChannel channel, Message message, String[] args, Member member, EventWaiter w) {
         String id;
         if (args.length != 1) {
             id = sender.getId();
@@ -30,15 +35,15 @@ public class UserInfoCommand implements Command {
             MessageUtils.sendErrorMessage("Nelze najít uživatele!", channel);
             return;
         }
-        Member m2 = channel.getGuild().getMember(user);
-        channel.sendMessage(MessageUtils.getEmbed(sender, channel.getGuild().getMember(user).getColor()).setThumbnail(user.getEffectiveAvatarUrl()).addField("Info o uživateli", "Uživatel: " + user.getName() + "#" + user.getDiscriminator() + " " + getDiscordRank(user)
+        Member m2 = member.getGuild().getMember(user);
+        channel.sendMessage(MessageUtils.getEmbed(sender, member.getGuild().getMember(user).getColor()).setThumbnail(user.getEffectiveAvatarUrl()).addField("Info o uživateli", "Uživatel: " + user.getName() + "#" + user.getDiscriminator() + " " + getDiscordRank(user)
                 + "\nID: " + user.getId() + "\n" +
-                "Avatar: " + (user.getEffectiveAvatarUrl() != null ? "[`odkaz`](" + user.getEffectiveAvatarUrl() + ')' : "Žádný") + "\n"
-                + "Default Avatar: [`odkaz`](" + MessageUtils.getDefaultAvatar(sender) + ')' + "\n"
-                + "Role: " + getRoles(m2, channel.getGuild()), false)
+                "Avatar: " + (user.getEffectiveAvatarUrl() != null ? "[odkaz](" + user.getEffectiveAvatarUrl() + ')' : "Žádný") + "\n"
+                + "Default Avatar: [odkaz](" + MessageUtils.getDefaultAvatar(sender) + ')' + "\n"
+                + "Role: " + getRoles(m2, member.getGuild()), false)
                 .addField("Časové data",
                         "Registrace: " + CorgiBot.getInstance().formatTime(LocalDateTime.from(user.getCreationTime())) + "\n" +
-                                "Připojen: " + (channel.getGuild().getMember(user) == null ? "Tento uživatel nebyl na tomto serveru!." : CorgiBot.getInstance().formatTime(LocalDateTime.from(channel.getGuild().getMember(user).getJoinDate()))), false).build()).queue();
+                                "Připojen: " + (member.getGuild().getMember(user) == null ? "Tento uživatel nebyl na tomto serveru!." : CorgiBot.getInstance().formatTime(LocalDateTime.from(member.getGuild().getMember(user).getJoinDate()))), false).build()).queue();
 
     }
 
@@ -48,18 +53,28 @@ public class UserInfoCommand implements Command {
     }
 
     @Override
+    public String getHelp() {
+        return null;
+    }
+
+    @Override
     public String[] getAliases() {
         return new String[]{"ui"};
     }
 
     @Override
-    public String getDescription() {
-        return "Info o uživateli";
+    public CommandType getType() {
+        return CommandType.GENERAL;
     }
 
     @Override
-    public CommandType getType() {
-        return CommandType.GENERAL;
+    public CommandUse getUse() {
+        return CommandUse.GUILD;
+    }
+
+    @Override
+    public Rank getRank() {
+        return Rank.USER;
     }
 
     private String getRoles(Member user, Guild guid) {
@@ -68,7 +83,7 @@ public class UserInfoCommand implements Command {
             if (user.getRoles().contains(r)) {
                 String role = r.getName();
                 if (!role.equalsIgnoreCase("@everyone")) {
-                    roles += ", " + role;
+                    roles += ", `" + role + "`";
                 }
             }
         }

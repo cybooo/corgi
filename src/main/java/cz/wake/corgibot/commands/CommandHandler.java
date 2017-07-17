@@ -2,7 +2,6 @@ package cz.wake.corgibot.commands;
 
 import cz.wake.corgibot.commands.admin.*;
 import cz.wake.corgibot.commands.mod.ArchiveCommand;
-import cz.wake.corgibot.commands.mod.PurgeCommand;
 import cz.wake.corgibot.commands.mod.RolesCommand;
 import cz.wake.corgibot.commands.user.*;
 
@@ -15,7 +14,12 @@ public class CommandHandler {
     public static List<Command> commands = new ArrayList<>();
 
     public void registerCommand(Command c) {
-        commands.add(c);
+        try {
+            commands.add(c);
+            System.out.println("[BOT]: Prikaz ." + c.getCommand() + " byl uspesne zaregistrovan.");
+        } catch (Exception e) {
+            System.out.println("[BOT]: Chyba pri registraci prikazu " + c.getCommand() + ".");
+        }
     }
 
     public void unregisterCommand(Command c) {
@@ -47,9 +51,10 @@ public class CommandHandler {
         registerCommand(new MemeCommand());
         registerCommand(new ArchiveCommand());
         registerCommand(new AtsCommand());
-        registerCommand(new PurgeCommand());
+        //registerCommand(new PurgeCommand());
         registerCommand(new TextToBlock());
         registerCommand(new TrumpCommand());
+        registerCommand(new GiveawayCommand());
     }
 
 

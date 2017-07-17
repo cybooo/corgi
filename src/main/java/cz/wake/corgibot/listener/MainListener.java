@@ -2,7 +2,8 @@ package cz.wake.corgibot.listener;
 
 import cz.wake.corgibot.CorgiBot;
 import cz.wake.corgibot.commands.Command;
-import cz.wake.corgibot.commands.CommandType;
+import cz.wake.corgibot.commands.CommandUse;
+import cz.wake.corgibot.commands.Rank;
 import cz.wake.corgibot.utils.MessageUtils;
 import me.jagrosh.jdautilities.waiter.EventWaiter;
 import net.dv8tion.jda.core.OnlineStatus;
@@ -15,8 +16,6 @@ import net.dv8tion.jda.core.events.ShutdownEvent;
 import net.dv8tion.jda.core.events.message.MessageReceivedEvent;
 import net.dv8tion.jda.core.events.user.UserOnlineStatusUpdateEvent;
 import net.dv8tion.jda.core.hooks.ListenerAdapter;
-
-import java.awt.*;
 
 public class MainListener extends ListenerAdapter {
 
@@ -33,9 +32,100 @@ public class MainListener extends ListenerAdapter {
             return;
         }
 
-        //TODO: Dodělat, typy příkazů podle channelu
+        if (e.getMessage().getRawContent().startsWith(String.valueOf(CorgiBot.PREFIX)) //TODO: MySQL prefix
+                && !e.getAuthor().isBot()) {
+            String message = e.getMessage().getRawContent();
+            String command = message.substring(1);
+            String[] args = new String[0];
+            if (message.contains(" ")) {
+                command = command.substring(0, message.indexOf(" ") - 1);
 
-        if (!e.isFromType(ChannelType.PRIVATE)) {
+                args = message.substring(message.indexOf(" ") + 1).split(" ");
+            }
+            for (Command cmd : CorgiBot.getInstance().getCommandHandler().getCommands()) {
+                if (cmd.getCommand().equalsIgnoreCase(command)) {
+                    String[] finalArgs = args;
+                    if(cmd.getUse() == CommandUse.GUILD && e.isFromType(ChannelType.TEXT)){
+                        //Handle guild chat
+                        if(cmd.onlyCM() && !e.getGuild().getId().equalsIgnoreCase("")){
+                            return;
+                        }
+                        if(cmd.getRank() == Rank.BOT_OWNER){
+                            if (!isCreator(e.getMessage().getAuthor())) {
+                                return;
+                            }
+                        } else if(cmd.getRank() == Rank.GUILD_OWNER){
+                            //TODO: Check guild owner
+                        } else if (cmd.getRank() == Rank.MODERATOR){
+                            //TODO: Check moderator group
+                        } else if (cmd.getRank() == Rank.PREMIUM){
+                            //TODO: Check premium group
+                        }
+                        try {
+                            cmd.onCommand(e.getAuthor(), e.getChannel(), e.getMessage(), finalArgs, e.getMember(), w);
+                            System.out.println("Handle: GUILD handler");
+                        } catch (Exception ex) {
+                            MessageUtils.sendException("Chyba při provádění příkazu", ex, e.getChannel());
+                        }
+                        if (cmd.deleteMessage()) {
+                            delete(e.getMessage());
+                        }
+                    } else if (cmd.getUse() == CommandUse.PRIVATE && e.isFromType(ChannelType.PRIVATE)){
+                        //Handle text channel
+                        if(e.isFromType(ChannelType.TEXT)){
+                            return; //Blokace z ALL
+                        }
+                        if(cmd.getRank() == Rank.BOT_OWNER){
+                            if (!isCreator(e.getMessage().getAuthor())) {
+                                return;
+                            }
+                        } else if(cmd.getRank() == Rank.GUILD_OWNER){
+                            //TODO: Check guild owner
+                        }
+                        try {
+                            cmd.onCommand(e.getAuthor(), e.getChannel(), e.getMessage(), finalArgs, e.getMember(), w);
+                            System.out.println("Handle: PRIVATE handler");
+                        } catch (Exception ex) {
+                            MessageUtils.sendException("Chyba při provádění příkazu", ex, e.getChannel());
+                        }
+                        if (cmd.deleteMessage()) {
+                            delete(e.getMessage());
+                        }
+                    } else if (cmd.getUse() == CommandUse.ALL && (e.isFromType(ChannelType.PRIVATE) || e.isFromType(ChannelType.TEXT))) {
+                        //Handle all others
+                        if(e.isFromType(ChannelType.TEXT)){
+                            if(cmd.onlyCM() && !e.getGuild().getId().equalsIgnoreCase("")){
+                                return;
+                            }
+                        }
+                        if(cmd.getRank() == Rank.BOT_OWNER){
+                            if (!isCreator(e.getMessage().getAuthor())) {
+                                return;
+                            }
+                        } else if(cmd.getRank() == Rank.GUILD_OWNER){
+                            //TODO: Check guild owner
+                        } else if (cmd.getRank() == Rank.MODERATOR){
+                            //TODO: Check moderator group
+                        } else if (cmd.getRank() == Rank.PREMIUM){
+                            //TODO: Check premium group
+                        }
+                        try {
+                            cmd.onCommand(e.getAuthor(), e.getChannel(), e.getMessage(), finalArgs, e.getMember(), w);
+                            System.out.println("Handle: ALL handler");
+                        } catch (Exception ex) {
+                            MessageUtils.sendException("Chyba při provádění příkazu", ex, e.getChannel());
+                        }
+                        if (cmd.deleteMessage()) {
+                            delete(e.getMessage());
+                        }
+                    } else {
+                        return;
+                    }
+                }
+            }
+        }
+
+        /*if (!e.isFromType(ChannelType.PRIVATE)) {
             if (e.getMessage().getRawContent().startsWith(String.valueOf(CorgiBot.PREFIX))
                     && !e.getAuthor().isBot()) {
                 String message = e.getMessage().getRawContent();
@@ -49,7 +139,7 @@ public class MainListener extends ListenerAdapter {
                 for (Command cmd : CorgiBot.getInstance().getCommandHandler().getCommands()) {
                     if (cmd.getCommand().equalsIgnoreCase(command)) {
                         String[] finalArgs = args;
-                        if (cmd.getType() == CommandType.WAKE) {
+                        if (cmd.getType() == CommandType.BOT_OWNER) { //Wake
                             if (!isCreator(e.getMessage().getAuthor())) {
                                 return;
                             }
@@ -94,7 +184,7 @@ public class MainListener extends ListenerAdapter {
             }
         } else {
             e.getChannel().sendMessage(MessageUtils.getEmbed(Color.RED).setDescription(":no_entry: | Neumím zatím odpovídat na soukromé zprávy.").build()).queue();
-        }
+        }*/
     }
 
     @Override
@@ -103,7 +193,7 @@ public class MainListener extends ListenerAdapter {
     }
 
     public boolean isCreator(User user) {
-        return user.getId().equals("177516608778928129");
+        return user.getId().equals("177516608778928129"); //Wake ID
     }
 
     public boolean checkAdmin(Message message) {

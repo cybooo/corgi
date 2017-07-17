@@ -2,6 +2,8 @@ package cz.wake.corgibot.commands.mod;
 
 import cz.wake.corgibot.commands.Command;
 import cz.wake.corgibot.commands.CommandType;
+import cz.wake.corgibot.commands.CommandUse;
+import cz.wake.corgibot.commands.Rank;
 import cz.wake.corgibot.utils.Constants;
 import cz.wake.corgibot.utils.MessageUtils;
 import me.jagrosh.jdautilities.waiter.EventWaiter;
@@ -25,7 +27,7 @@ public class PurgeCommand implements Command {
     private final Pattern QUOTES_PATTERN = Pattern.compile(QUOTES_REGEX);
 
     @Override
-    public void onCommand(User sender, TextChannel channel, Message message, String[] args, Member member, EventWaiter w) {
+    public void onCommand(User sender, MessageChannel channel, Message message, String[] args, Member member, EventWaiter w) {
         if (args.length < 1) {
             channel.sendMessage(MessageUtils.getEmbed(Constants.BLUE).setTitle("Zvol typ zpráv, který má být smazaný\n")
                     .setDescription(CleanType.ROBOT.getUnicode() + " **Boti**\n" + CleanType.EMBEDS.getUnicode() + " **Embeds**\n" + CleanType.LINKS.getUnicode() + " **Odkazy**\n" + CANCEL + " **Zrušení**").build()).queue((Message m) -> {
@@ -62,17 +64,18 @@ public class PurgeCommand implements Command {
                     if (m.getCreationTime().plusWeeks(2).isAfter(OffsetDateTime.now())) {
                         i++;
                         toDelete.add(m);
-                    }
+                    } //TODO: Fix .purge prikaz
+                    /*
                     if (toDelete.size() == 100) {
                         channel.deleteMessages(toDelete).complete();
                         toDelete.clear();
-                    }
-                }
+                    } */
+                } /*
                 if (!toDelete.isEmpty()) {
                     if (toDelete.size() != 1)
                         channel.deleteMessages(toDelete).complete();
                     else toDelete.forEach(mssage -> mssage.delete().complete());
-                }
+                } */
                 channel.sendMessage(MessageUtils.getEmbed(Constants.GREEN).setDescription(Constants.EMOTE_CHECK + " | Smazáno **" + i + "** zpráv.").build()).queue();
 
             } catch (Exception e) {
@@ -81,7 +84,7 @@ public class PurgeCommand implements Command {
         }
     }
 
-    protected void executeClean(String args, TextChannel channel, Message m, String extra) {
+    protected void executeClean(String args, MessageChannel channel, Message m, String extra) {
         List<String> texts = new ArrayList<>();
         Matcher ma = QUOTES_PATTERN.matcher(args);
         while (ma.find())
@@ -138,13 +141,23 @@ public class PurgeCommand implements Command {
     }
 
     @Override
-    public String getDescription() {
+    public String getHelp() {
         return null;
     }
 
     @Override
     public CommandType getType() {
-        return CommandType.ADMINISTRATIVE;
+        return CommandType.MODERATION;
+    }
+
+    @Override
+    public CommandUse getUse() {
+        return CommandUse.GUILD;
+    }
+
+    @Override
+    public Rank getRank() {
+        return Rank.MODERATOR;
     }
 
     @Override

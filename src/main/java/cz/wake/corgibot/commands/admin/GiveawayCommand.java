@@ -1,10 +1,14 @@
 package cz.wake.corgibot.commands.admin;
 
+import cz.wake.corgibot.commands.Command;
+import cz.wake.corgibot.commands.CommandType;
+import cz.wake.corgibot.commands.CommandUse;
+import cz.wake.corgibot.commands.Rank;
 import cz.wake.corgibot.utils.Constants;
 import cz.wake.corgibot.utils.MessageUtils;
+import me.jagrosh.jdautilities.waiter.EventWaiter;
 import net.dv8tion.jda.core.Permission;
-import net.dv8tion.jda.core.entities.Message;
-import net.dv8tion.jda.core.entities.User;
+import net.dv8tion.jda.core.entities.*;
 import net.dv8tion.jda.core.events.message.guild.GuildMessageReceivedEvent;
 import net.dv8tion.jda.core.hooks.ListenerAdapter;
 import net.dv8tion.jda.core.utils.PermissionUtil;
@@ -13,11 +17,11 @@ import java.awt.*;
 import java.util.LinkedList;
 import java.util.List;
 
-public class GiveawayCommand extends ListenerAdapter {
+public class GiveawayCommand implements Command {
 
     //Multicommand
 
-    @Override
+    /*@Override
     public void onGuildMessageReceived(GuildMessageReceivedEvent event) {
         if (event.getMessage().getRawContent().equals(".ghelp")) {
             event.getChannel().sendMessage(MessageUtils.getEmbed(event.getAuthor(), Color.ORANGE)
@@ -41,30 +45,48 @@ public class GiveawayCommand extends ListenerAdapter {
             } catch (NumberFormatException ex) {
                 MessageUtils.sendErrorMessage("Nelze zadat vteřiny v tomto tvaru `" + parts[0] + "`", event.getChannel());
             }
-        } else if (event.getMessage().getRawContent().startsWith(".greroll")) {
-            if (!PermissionUtil.checkPermission(event.getGuild(), event.getMember(), Permission.MANAGE_SERVER)) {
-                MessageUtils.sendErrorMessage("Musíš být správce tohoto serveru!", event.getChannel());
-                return;
-            }
-            String id = event.getMessage().getRawContent().substring(8).trim();
-            if (!id.matches("\\d{17,22}")) {
-                MessageUtils.sendErrorMessage("Neplatná zpráva", event.getChannel());
-                return;
-            }
-            Message m = event.getChannel().getMessageById(id).complete();
-            if (m == null) {
-                MessageUtils.sendErrorMessage("Zpráva nenalezena!", event.getChannel());
-                return;
-            }
-            m.getReactions()
-                    .stream().filter(mr -> mr.getEmote().getName().equals("\uD83C\uDF89"))
-                    .findAny().ifPresent(mr -> {
-                List<User> users = new LinkedList<>(mr.getUsers().complete());
-                users.remove(m.getJDA().getSelfUser());
-                String uid = users.get((int) (Math.random() * users.size())).getId();
-                event.getChannel().sendMessage("Gratulujeme <@" + id + ">! Vyhrál jsi Giveaway!").queue();
-            });
         }
+    }*/
+
+    @Override
+    public void onCommand(User sender, MessageChannel channel, Message message, String[] args, Member member, EventWaiter w) {
+        String str = message.getRawContent().substring(9).trim();
+        String[] parts = str.split("\\s+", 2);
+        try {
+            int sec = Integer.parseInt(parts[0]);
+            channel.sendMessage(MessageUtils.getEmbed(Constants.GRAY).setDescription("Generuji...").build()).queue(m -> {
+                m.addReaction("\uD83C\uDF89").queue();
+                new Giveaway(sec, m, parts.length > 1 ? parts[1] : null).start();
+            });
+            message.delete().queue();
+        } catch (NumberFormatException ex) {
+            MessageUtils.sendErrorMessage("Nelze zadat vteřiny v tomto tvaru `" + parts[0] + "`", channel);
+        }
+    }
+
+    @Override
+    public String getCommand() {
+        return "giveaway";
+    }
+
+    @Override
+    public String getHelp() {
+        return null;
+    }
+
+    @Override
+    public CommandType getType() {
+        return CommandType.MODERATION;
+    }
+
+    @Override
+    public CommandUse getUse() {
+        return CommandUse.GUILD;
+    }
+
+    @Override
+    public Rank getRank() {
+        return Rank.MODERATOR;
     }
 }
 

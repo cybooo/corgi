@@ -1,7 +1,6 @@
 package cz.wake.corgibot;
 
 import cz.wake.corgibot.commands.CommandHandler;
-import cz.wake.corgibot.commands.admin.GiveawayCommand;
 import cz.wake.corgibot.listener.MainListener;
 import cz.wake.corgibot.sql.SQLManager;
 import cz.wake.corgibot.utils.LoadingProperties;
@@ -40,7 +39,6 @@ public class CorgiBot {
         jda = new JDABuilder(AccountType.BOT)
                 .setToken(config.getBotToken())
                 .addEventListener(new MainListener(waiter))
-                .addEventListener(new GiveawayCommand())
                 .addEventListener(waiter)
                 .setGame(Game.of(".help"))
                 .buildBlocking();

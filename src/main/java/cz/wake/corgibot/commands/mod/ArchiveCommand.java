@@ -2,6 +2,8 @@ package cz.wake.corgibot.commands.mod;
 
 import cz.wake.corgibot.commands.Command;
 import cz.wake.corgibot.commands.CommandType;
+import cz.wake.corgibot.commands.CommandUse;
+import cz.wake.corgibot.commands.Rank;
 import cz.wake.corgibot.utils.Constants;
 import cz.wake.corgibot.utils.MessageUtils;
 import me.jagrosh.jdautilities.waiter.EventWaiter;
@@ -17,17 +19,17 @@ import java.util.concurrent.TimeUnit;
 public class ArchiveCommand implements Command {
 
     @Override
-    public void onCommand(User sender, TextChannel channel, Message message, String[] args, Member member, EventWaiter w) {
+    public void onCommand(User sender, MessageChannel channel, Message message, String[] args, Member member, EventWaiter w) {
         try {
             long numposts = Long.valueOf(args[0]);
-            TextChannel tx = channel.getGuild().getTextChannelById(channel.getId());
+            TextChannel tx = member.getGuild().getTextChannelById(channel.getId());
             MessageHistory mh;
 
-            if (!PermissionUtil.checkPermission(channel, member, Permission.MESSAGE_HISTORY) || !PermissionUtil.checkPermission(channel, member, Permission.MESSAGE_READ)) {
+            if (!PermissionUtil.checkPermission(member, Permission.MESSAGE_HISTORY) || !PermissionUtil.checkPermission(member, Permission.MESSAGE_READ)) {
                 MessageUtils.sendErrorMessage("Můžeš archivovat pouze channely do kterých vidíš!", channel);
                 return;
             }
-            if (!PermissionUtil.checkPermission(channel, channel.getGuild().getSelfMember(), Permission.MESSAGE_HISTORY)) {
+            if (!PermissionUtil.checkPermission(member.getGuild().getSelfMember(), Permission.MESSAGE_HISTORY)) {
                 MessageUtils.sendErrorMessage("Nemám dostatečná práva k přečtení zpráv!", channel);
                 return;
             }
@@ -62,17 +64,27 @@ public class ArchiveCommand implements Command {
     }
 
     @Override
+    public String getHelp() {
+        return null;
+    }
+
+    @Override
     public String[] getAliases() {
         return new String[]{"log"};
     }
 
     @Override
-    public String getDescription() {
+    public CommandType getType() {
+        return CommandType.MODERATION;
+    }
+
+    @Override
+    public CommandUse getUse() {
         return null;
     }
 
     @Override
-    public CommandType getType() {
-        return CommandType.ADMINISTRATIVE;
+    public Rank getRank() {
+        return Rank.MODERATOR;
     }
 }

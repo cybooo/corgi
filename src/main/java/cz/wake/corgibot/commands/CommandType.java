@@ -7,18 +7,13 @@ import java.util.List;
 public enum CommandType {
 
     GENERAL,
-    ADMINISTRATIVE(false),
-    MUSIC(false),
-    WAKE;
-
-    private boolean dms;
+    MODERATION,
+    FUN,
+    MUSIC,
+    GUILD_OWNER,
+    BOT_OWNER;
 
     CommandType() {
-        this(true);
-    }
-
-    CommandType(boolean dms) {
-        this.dms = dms;
     }
 
     public String toString() {
@@ -26,7 +21,7 @@ public enum CommandType {
     }
 
     public static CommandType[] getTypes() {
-        return new CommandType[]{GENERAL, ADMINISTRATIVE, MUSIC};
+        return new CommandType[]{GENERAL, MODERATION, MUSIC, FUN, GUILD_OWNER, BOT_OWNER};
     }
 
     public List<Command> getCommands() {
@@ -35,9 +30,5 @@ public enum CommandType {
 
     public String formattedName() {
         return toString();
-    }
-
-    public boolean usableInDMs() {
-        return dms;
     }
 }

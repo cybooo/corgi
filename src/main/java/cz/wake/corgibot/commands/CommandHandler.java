@@ -55,6 +55,7 @@ public class CommandHandler {
         registerCommand(new TextToBlock());
         registerCommand(new TrumpCommand());
         registerCommand(new GiveawayCommand());
+        registerCommand(new BotStatsCommand());
     }
 
 

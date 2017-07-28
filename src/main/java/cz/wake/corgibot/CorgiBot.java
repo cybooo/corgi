@@ -28,6 +28,7 @@ public class CorgiBot {
     private SQLManager sql;
     private DateTimeFormatter timeFormat = DateTimeFormatter.ofPattern("MMMM yyyy HH:mm:ss");
     private static String imgflipToken = "";
+    public static long startUp;
 
     public static void main(String[] args) throws LoginException, RateLimitedException, InterruptedException, IOException {
         System.out.println("Spousteni bota...");
@@ -35,6 +36,8 @@ public class CorgiBot {
         LoadingProperties config = new LoadingProperties();
 
         EventWaiter waiter = new EventWaiter();
+
+        startUp = System.currentTimeMillis();
 
         jda = new JDABuilder(AccountType.BOT)
                 .setToken(config.getBotToken())
@@ -78,6 +81,10 @@ public class CorgiBot {
 
     private void initDatabase() {
         sql = new SQLManager(this);
+    }
+
+    public static long getStartUp(){
+        return startUp;
     }
 
     public String formatTime(LocalDateTime dateTime) {

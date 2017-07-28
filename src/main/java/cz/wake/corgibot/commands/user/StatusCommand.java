@@ -31,7 +31,7 @@ public class StatusCommand implements Command {
                     status = ":warning: Výpadky spojení";
                     state = 1;
                 } else {
-                    status = ":x: Offline (" + time + " minut" + (time < 4 ? "y" : "") + "";
+                    status = ":x: Offline (" + time + " minut" + (time < 4 ? "y" : "") + ")";
                     state = 2;
                 }
             } else {

@@ -29,6 +29,11 @@ public class UptimeCommand implements Command {
     }
 
     @Override
+    public String getDescription() {
+        return "Informace o tom, jak dlouho běží bot.";
+    }
+
+    @Override
     public String getHelp() {
         return null;
     }

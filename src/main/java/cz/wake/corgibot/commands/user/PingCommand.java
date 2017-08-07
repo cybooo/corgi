@@ -27,6 +27,11 @@ public class PingCommand implements Command {
     }
 
     @Override
+    public String getDescription() {
+        return "Zjištění rychlosti odezvy.";
+    }
+
+    @Override
     public String getHelp() {
         return null;
     }

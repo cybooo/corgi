@@ -64,6 +64,11 @@ public class ArchiveCommand implements Command {
     }
 
     @Override
+    public String getDescription() {
+        return "Archivování zpráv na HasteBin.";
+    }
+
+    @Override
     public String getHelp() {
         return null;
     }

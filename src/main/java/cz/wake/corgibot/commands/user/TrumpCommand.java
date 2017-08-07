@@ -113,6 +113,11 @@ public class TrumpCommand implements Command {
     }
 
     @Override
+    public String getDescription() {
+        return "Generování obrázků s Trumpem.";
+    }
+
+    @Override
     public String getHelp() {
         return null;
     }

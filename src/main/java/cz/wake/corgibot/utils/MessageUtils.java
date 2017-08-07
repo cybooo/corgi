@@ -64,6 +64,8 @@ public class MessageUtils {
         return new EmbedBuilder().setColor(c);
     }
 
+    public static EmbedBuilder getEmbed(){ return new EmbedBuilder(); }
+
     public static String getAvatar(User user) {
         return user.getEffectiveAvatarUrl();
     }

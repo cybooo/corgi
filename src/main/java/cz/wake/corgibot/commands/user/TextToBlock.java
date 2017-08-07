@@ -40,6 +40,11 @@ public class TextToBlock implements Command {
     }
 
     @Override
+    public String getDescription() {
+        return "Text psaný v blocích.";
+    }
+
+    @Override
     public String getHelp() {
         return null;
     }

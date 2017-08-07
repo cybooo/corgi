@@ -58,6 +58,11 @@ public class PlayerStatsCommand implements Command {
     }
 
     @Override
+    public String getDescription() {
+        return "Statistiky pro hráče z CraftManie.";
+    }
+
+    @Override
     public String getHelp() {
         return null;
     }

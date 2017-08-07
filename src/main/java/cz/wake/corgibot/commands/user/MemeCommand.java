@@ -129,6 +129,11 @@ public class MemeCommand implements Command {
     }
 
     @Override
+    public String getDescription() {
+        return "Generování MEME obrázků.";
+    }
+
+    @Override
     public String getHelp() {
         return null;
     }

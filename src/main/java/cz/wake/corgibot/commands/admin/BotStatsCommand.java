@@ -46,6 +46,11 @@ public class BotStatsCommand implements Command {
     }
 
     @Override
+    public String getDescription() {
+        return "Globální statistiky Bota a jeho verze.";
+    }
+
+    @Override
     public String getHelp() {
         return null;
     }

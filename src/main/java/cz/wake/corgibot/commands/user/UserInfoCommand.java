@@ -53,6 +53,11 @@ public class UserInfoCommand implements Command {
     }
 
     @Override
+    public String getDescription() {
+        return "Získání základních informací o uživateli.";
+    }
+
+    @Override
     public String getHelp() {
         return null;
     }

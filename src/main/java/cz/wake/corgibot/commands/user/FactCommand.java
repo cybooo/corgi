@@ -29,6 +29,11 @@ public class FactCommand implements Command {
     }
 
     @Override
+    public String getDescription() {
+        return "Fakty na každý den.";
+    }
+
+    @Override
     public String getHelp() {
         return null;
     }

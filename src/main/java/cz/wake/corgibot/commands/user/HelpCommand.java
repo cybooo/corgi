@@ -1,9 +1,6 @@
 package cz.wake.corgibot.commands.user;
 
-import cz.wake.corgibot.commands.Command;
-import cz.wake.corgibot.commands.CommandType;
-import cz.wake.corgibot.commands.CommandUse;
-import cz.wake.corgibot.commands.Rank;
+import cz.wake.corgibot.commands.*;
 import cz.wake.corgibot.utils.Constants;
 import cz.wake.corgibot.utils.MessageUtils;
 import me.jagrosh.jdautilities.waiter.EventWaiter;
@@ -13,38 +10,27 @@ public class HelpCommand implements Command {
 
     @Override
     public void onCommand(User sender, MessageChannel channel, Message message, String[] args, Member member, EventWaiter w) {
-        if(channel.getType().equals(ChannelType.TEXT)){
-            channel.sendMessage(MessageUtils.getEmbed(Constants.BLUE).setTitle("Zkontroluj si zprávy", null).setDescription(":mailbox_with_mail: | Odeslal jsem ti do zpráv nápovědu s příkazy!").build()).queue();
-            sender.openPrivateChannel().queue(msg -> {
-                msg.sendMessage(MessageUtils.getEmbed(sender).setColor(Constants.BLUE)
-                        .setTitle("**Nápověda k CorgiBot (ALPHA)**", null).setDescription(
-                                "**.git** - Odkaz na můj source\n" +
-                                        "**.8ball [otázka]** - Zkouška pravdy ANO/NE\n" +
-                                        "**.ping** - Zkouška pingu\n" +
-                                        "**.fact** - Náhodné fakty\n" +
-                                        "**.userinfo [nick]** - Zobrazení informací o uživateli\n" +
-                                        "**.uptime** - Zobrazí čas od spuštění\n" +
-                                        "**.meme** - Generátor meme obrázků\n" +
-                                        "**.emote [emote]** - Informace o emotes\n" +
-                                        "**.status** - Mojang Status\n" +
-                                        "**.ps [nick]** - Zobrazí statistiky ze serveru Craftmania (ALPHA)").build()).queue();
-            });
-        } else {
-            sender.openPrivateChannel().queue(msg -> {
-                msg.sendMessage(MessageUtils.getEmbed(sender).setColor(Constants.BLUE)
-                        .setTitle("**Nápověda k CorgiBot (ALPHA)**", null).setDescription(
-                                "**.git** - Odkaz na můj source\n" +
-                                        "**.8ball [otázka]** - Zkouška pravdy ANO/NE\n" +
-                                        "**.ping** - Zkouška pingu\n" +
-                                        "**.fact** - Náhodné fakty\n" +
-                                        "**.userinfo [nick]** - Zobrazení informací o uživateli\n" +
-                                        "**.uptime** - Zobrazí čas od spuštění\n" +
-                                        "**.meme** - Generátor meme obrázků\n" +
-                                        "**.emote [emote]** - Informace o emotes\n" +
-                                        "**.status** - Mojang Status\n" +
-                                        "**.ps [nick]** - Zobrazí statistiky ze serveru Craftmania (ALPHA)").build()).queue();
-            });
-        }
+        sender.openPrivateChannel().queue(msg -> {
+            msg.sendMessage(MessageUtils.getEmbed(Constants.BLUE)
+                    .setTitle("**Nápověda k CorgiBot**", null)
+                    .setDescription("Seznam všech registrovaných příkazů.")
+                    .addBlankField(false)
+                    .addField("Hlavní příkazy", "Příkazy na používání pro všechny uživatele\n", false)
+                    .addField("\u200B","[.help]()\n[.uptime]()\n[.userinfo]()\n[.git]()\n[.ping]()", true)
+                    .addField("\u200B","[.status]()\n[.pstats]()\n[.bstats]()", true)
+                    .addBlankField(true)
+                    .addBlankField(false)
+                    .addField("Fun příkazy", "Příkazy, které pobaví a zabaví všechny", false)
+                    .addField("\u200B","[.8ball]()\n[.fact]()\n[.meme]()\n[.ttb]()\n[.trump]()", true)
+                    .addBlankField(true)
+                    .addBlankField(true)
+                    .addBlankField(false)
+                    .addField("Moderátor příkazy", "Příkazy určené na moderování a správu Discord serveru", false)
+                    .addField("\u200B","[.purge]()\n[.roles]()\n[.archive]()\n[.giveaway]()\n[.emote]()", true)
+                    .addField("\u200B", "[.say]()\n[.ats]()", true)
+                    .addBlankField(true)
+                    .build()).queue();
+        });
     }
 
     //TODO: Dodelat jednotne a automaticky
@@ -52,6 +38,11 @@ public class HelpCommand implements Command {
     @Override
     public String getCommand() {
         return "help";
+    }
+
+    @Override
+    public String getDescription() {
+        return "Základní nápověda pro Corgiho.";
     }
 
     @Override
@@ -73,4 +64,5 @@ public class HelpCommand implements Command {
     public Rank getRank() {
         return Rank.USER;
     }
+
 }

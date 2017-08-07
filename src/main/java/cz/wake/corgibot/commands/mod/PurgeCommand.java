@@ -141,6 +141,11 @@ public class PurgeCommand implements Command {
     }
 
     @Override
+    public String getDescription() {
+        return "Mazání zpráv botů, uživatelů a nebo všech.";
+    }
+
+    @Override
     public String getHelp() {
         return null;
     }

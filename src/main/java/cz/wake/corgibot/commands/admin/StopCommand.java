@@ -23,6 +23,11 @@ public class StopCommand implements Command {
     }
 
     @Override
+    public String getDescription() {
+        return "Vypnutí bota.";
+    }
+
+    @Override
     public String getHelp() {
         return null;
     }

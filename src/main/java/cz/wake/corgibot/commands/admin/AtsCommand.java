@@ -112,6 +112,11 @@ public class AtsCommand implements Command {
     }
 
     @Override
+    public String getDescription() {
+        return "Příkaz na zjištění aktivity AT na CM";
+    }
+
+    @Override
     public String getHelp() {
         return null;
     }

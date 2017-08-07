@@ -27,6 +27,11 @@ public class RolesCommand implements Command {
     }
 
     @Override
+    public String getDescription() {
+        return "Seznam rolí na serveru.";
+    }
+
+    @Override
     public String getHelp() {
         return null;
     }

@@ -1,4 +1,4 @@
-package cz.wake.corgibot.commands.admin;
+package cz.wake.corgibot.managers;
 
 import cz.wake.corgibot.utils.Constants;
 import net.dv8tion.jda.core.EmbedBuilder;

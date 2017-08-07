@@ -34,6 +34,11 @@ public class EightBallCommand implements Command {
     }
 
     @Override
+    public String getDescription() {
+        return "Zeptej se zda to je pravda nebo ne!";
+    }
+
+    @Override
     public String getHelp() {
         return null;
     }

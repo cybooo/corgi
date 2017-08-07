@@ -9,6 +9,8 @@ public interface Command {
 
     String getCommand();
 
+    String getDescription();
+
     String getHelp();
 
     CommandType getType();

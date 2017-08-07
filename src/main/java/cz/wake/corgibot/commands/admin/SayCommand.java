@@ -21,6 +21,11 @@ public class SayCommand implements Command {
     }
 
     @Override
+    public String getDescription() {
+        return "Co říká bot?";
+    }
+
+    @Override
     public String getHelp() {
         return null;
     }

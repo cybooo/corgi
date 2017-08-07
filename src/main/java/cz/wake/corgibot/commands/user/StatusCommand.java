@@ -54,6 +54,11 @@ public class StatusCommand implements Command {
     }
 
     @Override
+    public String getDescription(){
+        return "Příkaz na získání základní nápovědy.";
+    }
+
+    @Override
     public CommandType getType() {
         return CommandType.GENERAL;
     }

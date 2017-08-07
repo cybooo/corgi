@@ -35,7 +35,6 @@ public class CommandHandler {
     }
 
     public void register() {
-        registerCommand(new GitCommand());
         registerCommand(new EightBallCommand());
         registerCommand(new HelpCommand());
         registerCommand(new PingCommand());

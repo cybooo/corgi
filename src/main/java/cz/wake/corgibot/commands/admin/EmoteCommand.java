@@ -80,6 +80,11 @@ public class EmoteCommand implements Command {
     }
 
     @Override
+    public String getDescription() {
+        return "Seznam všech emotes.";
+    }
+
+    @Override
     public String getHelp() {
         return null;
     }

@@ -1,6 +1,6 @@
 package cz.wake.corgibot.commands.user;
 
-import cz.wake.corgibot.commands.Command;
+import cz.wake.corgibot.commands.ICommand;
 import cz.wake.corgibot.commands.CommandType;
 import cz.wake.corgibot.commands.CommandUse;
 import cz.wake.corgibot.commands.Rank;
@@ -12,7 +12,7 @@ import net.dv8tion.jda.core.entities.*;
 import java.awt.*;
 import java.time.temporal.ChronoUnit;
 
-public class PingCommand implements Command {
+public class PingCommand implements ICommand {
 
     @Override
     public void onCommand(User sender, MessageChannel channel, Message message, String[] args, Member member, EventWaiter w) {

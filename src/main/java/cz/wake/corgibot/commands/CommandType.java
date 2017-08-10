@@ -24,7 +24,7 @@ public enum CommandType {
         return new CommandType[]{GENERAL, FUN, MODERATION, ADMINISTARTOR, MUSIC, BOT_OWNER};
     }
 
-    public List<Command> getCommands() {
+    public List<ICommand> getCommands() {
         return CorgiBot.getInstance().getCommandHandler().getCommandsByType(this);
     }
 

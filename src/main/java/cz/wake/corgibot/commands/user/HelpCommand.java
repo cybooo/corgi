@@ -6,7 +6,7 @@ import cz.wake.corgibot.utils.MessageUtils;
 import me.jagrosh.jdautilities.waiter.EventWaiter;
 import net.dv8tion.jda.core.entities.*;
 
-public class HelpCommand implements Command {
+public class HelpCommand implements ICommand {
 
     @Override
     public void onCommand(User sender, MessageChannel channel, Message message, String[] args, Member member, EventWaiter w) {
@@ -24,7 +24,7 @@ public class HelpCommand implements Command {
         } else {
             String commandName = args[0];
             CommandHandler ch = new CommandHandler();
-            for(Command c : ch.getCommands()){
+            for(ICommand c : ch.getCommands()){
                 if(c.getCommand().equalsIgnoreCase(commandName)){ //Normal
                     channel.sendMessage(MessageUtils.getEmbed().setTitle("Nápověda k příkazu - " + commandName + " :question:")
                             .setDescription(c.getDescription() + "\n\n**Použití**\n" + c.getHelp()).build()).queue();
@@ -34,7 +34,6 @@ public class HelpCommand implements Command {
     }
 
     //TODO: Dodelat jednotne a automaticky
-    //TODO: Rozlisit server a zpravy (aby se nestalo to co u krocánka)
 
     @Override
     public String getCommand() {
@@ -76,7 +75,7 @@ public class HelpCommand implements Command {
             }
             builder.append("\n\n");
             builder.append("**" + type.formattedName() + "** - " + ch.getCommandsByType(type).size() + "\n");
-            for (Command c : ch.getCommands()){
+            for (ICommand c : ch.getCommands()){
                 if(c.getType().equals(type)){
                     builder.append("`" + c.getCommand() + "` ");
                 }

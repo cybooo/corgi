@@ -1,6 +1,6 @@
 package cz.wake.corgibot.commands.mod;
 
-import cz.wake.corgibot.commands.Command;
+import cz.wake.corgibot.commands.ICommand;
 import cz.wake.corgibot.commands.CommandType;
 import cz.wake.corgibot.commands.CommandUse;
 import cz.wake.corgibot.commands.Rank;
@@ -19,7 +19,7 @@ import java.util.regex.Matcher;
 import java.util.regex.Pattern;
 import java.util.stream.Collectors;
 
-public class PurgeCommand implements Command {
+public class PurgeCommand implements ICommand {
 
     private final String CANCEL = "\u274C";
     private final Pattern LINK_PATTERN = Pattern.compile("https?:\\/\\/.+");

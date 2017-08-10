@@ -1,7 +1,7 @@
 package cz.wake.corgibot.listener;
 
 import cz.wake.corgibot.CorgiBot;
-import cz.wake.corgibot.commands.Command;
+import cz.wake.corgibot.commands.ICommand;
 import cz.wake.corgibot.commands.CommandUse;
 import cz.wake.corgibot.commands.Rank;
 import cz.wake.corgibot.utils.MessageUtils;
@@ -10,7 +10,6 @@ import net.dv8tion.jda.core.OnlineStatus;
 import net.dv8tion.jda.core.Permission;
 import net.dv8tion.jda.core.entities.ChannelType;
 import net.dv8tion.jda.core.entities.Message;
-import net.dv8tion.jda.core.entities.Role;
 import net.dv8tion.jda.core.entities.User;
 import net.dv8tion.jda.core.events.ShutdownEvent;
 import net.dv8tion.jda.core.events.message.MessageReceivedEvent;
@@ -42,7 +41,7 @@ public class MainListener extends ListenerAdapter {
 
                 args = message.substring(message.indexOf(" ") + 1).split(" ");
             }
-            for (Command cmd : CorgiBot.getInstance().getCommandHandler().getCommands()) {
+            for (ICommand cmd : CorgiBot.getInstance().getCommandHandler().getCommands()) {
                 if (cmd.getCommand().equalsIgnoreCase(command)) {
                     String[] finalArgs = args;
                     if(cmd.getUse() == CommandUse.GUILD && e.isFromType(ChannelType.TEXT)){

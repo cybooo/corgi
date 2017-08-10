@@ -11,9 +11,9 @@ import java.util.stream.Collectors;
 
 public class CommandHandler {
 
-    public static List<Command> commands = new ArrayList<>();
+    public static List<ICommand> commands = new ArrayList<>();
 
-    public void registerCommand(Command c) {
+    public void registerCommand(ICommand c) {
         try {
             commands.add(c);
             System.out.println("[BOT]: Prikaz ." + c.getCommand() + " byl uspesne zaregistrovan.");
@@ -22,15 +22,15 @@ public class CommandHandler {
         }
     }
 
-    public void unregisterCommand(Command c) {
+    public void unregisterCommand(ICommand c) {
         commands.remove(c);
     }
 
-    public List<Command> getCommands() {
+    public List<ICommand> getCommands() {
         return commands;
     }
 
-    public List<Command> getCommandsByType(CommandType type) {
+    public List<ICommand> getCommandsByType(CommandType type) {
         return commands.stream().filter(command -> command.getType() == type).collect(Collectors.toList());
     }
 

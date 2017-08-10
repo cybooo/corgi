@@ -1,7 +1,7 @@
 package cz.wake.corgibot.commands.user;
 
 import cz.wake.corgibot.CorgiBot;
-import cz.wake.corgibot.commands.Command;
+import cz.wake.corgibot.commands.ICommand;
 import cz.wake.corgibot.commands.CommandType;
 import cz.wake.corgibot.commands.CommandUse;
 import cz.wake.corgibot.commands.Rank;
@@ -11,11 +11,8 @@ import me.jagrosh.jdautilities.waiter.EventWaiter;
 import net.dv8tion.jda.core.entities.*;
 
 import java.time.LocalDateTime;
-import java.util.ArrayList;
-import java.util.Collections;
-import java.util.List;
 
-public class UserInfoCommand implements Command {
+public class UserInfoCommand implements ICommand {
 
 
     @Override

@@ -2,7 +2,7 @@ package cz.wake.corgibot.commands.user;
 
 import com.mashape.unirest.http.Unirest;
 import com.mashape.unirest.http.exceptions.UnirestException;
-import cz.wake.corgibot.commands.Command;
+import cz.wake.corgibot.commands.ICommand;
 import cz.wake.corgibot.commands.CommandType;
 import cz.wake.corgibot.commands.CommandUse;
 import cz.wake.corgibot.commands.Rank;
@@ -19,7 +19,7 @@ import java.util.Map;
 import java.util.Set;
 import java.util.TreeMap;
 
-public class MemeCommand implements Command {
+public class MemeCommand implements ICommand {
 
     private static final Map<String, String> map = new TreeMap<>();
 

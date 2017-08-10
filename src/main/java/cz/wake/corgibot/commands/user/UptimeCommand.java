@@ -1,6 +1,6 @@
 package cz.wake.corgibot.commands.user;
 
-import cz.wake.corgibot.commands.Command;
+import cz.wake.corgibot.commands.ICommand;
 import cz.wake.corgibot.commands.CommandType;
 import cz.wake.corgibot.commands.CommandUse;
 import cz.wake.corgibot.commands.Rank;
@@ -11,7 +11,7 @@ import net.dv8tion.jda.core.entities.*;
 
 import java.lang.management.ManagementFactory;
 
-public class UptimeCommand implements Command {
+public class UptimeCommand implements ICommand {
 
     @Override
     public void onCommand(User sender, MessageChannel channel, Message message, String[] args, Member member, EventWaiter w) {

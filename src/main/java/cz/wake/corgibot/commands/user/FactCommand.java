@@ -1,6 +1,6 @@
 package cz.wake.corgibot.commands.user;
 
-import cz.wake.corgibot.commands.Command;
+import cz.wake.corgibot.commands.ICommand;
 import cz.wake.corgibot.commands.CommandType;
 import cz.wake.corgibot.commands.CommandUse;
 import cz.wake.corgibot.commands.Rank;
@@ -14,7 +14,7 @@ import net.dv8tion.jda.core.entities.*;
 import java.util.List;
 import java.util.Random;
 
-public class FactCommand implements Command {
+public class FactCommand implements ICommand {
 
     public static final DataManager<List<String>> facts = new SimpleData("facts.txt");
 

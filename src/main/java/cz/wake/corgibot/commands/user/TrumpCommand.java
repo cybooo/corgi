@@ -1,7 +1,7 @@
 package cz.wake.corgibot.commands.user;
 
 import cz.wake.corgibot.CorgiBot;
-import cz.wake.corgibot.commands.Command;
+import cz.wake.corgibot.commands.ICommand;
 import cz.wake.corgibot.commands.CommandType;
 import cz.wake.corgibot.commands.CommandUse;
 import cz.wake.corgibot.commands.Rank;
@@ -25,7 +25,7 @@ import java.text.AttributedCharacterIterator;
 import java.text.AttributedString;
 import java.util.Arrays;
 
-public class TrumpCommand implements Command {
+public class TrumpCommand implements ICommand {
 
 
     @Override

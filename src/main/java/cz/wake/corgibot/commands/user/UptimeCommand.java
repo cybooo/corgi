@@ -35,7 +35,7 @@ public class UptimeCommand implements Command {
 
     @Override
     public String getHelp() {
-        return null;
+        return ".uptime";
     }
 
     @Override

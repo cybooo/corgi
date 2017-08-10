@@ -119,12 +119,12 @@ public class TrumpCommand implements Command {
 
     @Override
     public String getHelp() {
-        return null;
+        return ".trump <text>";
     }
 
     @Override
     public CommandType getType() {
-        return CommandType.GENERAL;
+        return CommandType.FUN;
     }
 
     @Override

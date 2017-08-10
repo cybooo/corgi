@@ -40,12 +40,12 @@ public class EightBallCommand implements Command {
 
     @Override
     public String getHelp() {
-        return null;
+        return ".8ball <otázka>";
     }
 
     @Override
     public CommandType getType() {
-        return CommandType.GENERAL;
+        return CommandType.FUN;
     }
 
     @Override

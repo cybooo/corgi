@@ -33,7 +33,7 @@ public class PingCommand implements Command {
 
     @Override
     public String getHelp() {
-        return null;
+        return  ".ping";
     }
 
     @Override

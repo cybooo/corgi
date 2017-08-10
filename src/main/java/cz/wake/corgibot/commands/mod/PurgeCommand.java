@@ -64,7 +64,7 @@ public class PurgeCommand implements Command {
                     if (m.getCreationTime().plusWeeks(2).isAfter(OffsetDateTime.now())) {
                         i++;
                         toDelete.add(m);
-                    } //TODO: Fix .purge prikaz
+                    }
                     /*
                     if (toDelete.size() == 100) {
                         channel.deleteMessages(toDelete).complete();

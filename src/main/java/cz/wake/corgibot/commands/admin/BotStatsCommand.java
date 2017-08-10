@@ -52,7 +52,7 @@ public class BotStatsCommand implements Command {
 
     @Override
     public String getHelp() {
-        return null;
+        return ".bstats";
     }
 
     @Override

@@ -10,7 +10,7 @@ public enum CommandType {
     MODERATION,
     FUN,
     MUSIC,
-    GUILD_OWNER,
+    ADMINISTARTOR,
     BOT_OWNER;
 
     CommandType() {
@@ -21,7 +21,7 @@ public enum CommandType {
     }
 
     public static CommandType[] getTypes() {
-        return new CommandType[]{GENERAL, MODERATION, MUSIC, FUN, GUILD_OWNER, BOT_OWNER};
+        return new CommandType[]{GENERAL, FUN, MODERATION, ADMINISTARTOR, MUSIC, BOT_OWNER};
     }
 
     public List<Command> getCommands() {

@@ -33,7 +33,7 @@ public class RolesCommand implements Command {
 
     @Override
     public String getHelp() {
-        return null;
+        return ".roles";
     }
 
     @Override

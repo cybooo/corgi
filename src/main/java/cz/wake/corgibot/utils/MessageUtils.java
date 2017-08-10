@@ -22,7 +22,7 @@ public class MessageUtils {
         e.printStackTrace(pw);
         String trace = sw.toString();
         pw.close();
-        return sendErrorMessage(getEmbedError().setDescription(s + "\n**Stack trace**: " + hastebin(trace)), channel);
+        return sendErrorMessage(getEmbed().setDescription(s + "\n**Stack trace**: " + hastebin(trace)), channel);
     }
 
     public static String hastebin(String trace) {
@@ -79,7 +79,7 @@ public class MessageUtils {
     }
 
     public static Message sendErrorMessage(String message, MessageChannel channel) {
-        return channel.sendMessage(MessageUtils.getEmbedError().setColor(Constants.RED).setDescription(message).build())
+        return channel.sendMessage(MessageUtils.getEmbed().setColor(Constants.RED).setDescription(message).build())
                 .complete();
     }
 

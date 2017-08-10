@@ -130,17 +130,18 @@ public class MemeCommand implements Command {
 
     @Override
     public String getDescription() {
-        return "Generování MEME obrázků.";
+        return "Generování víc jak 100 MEME obrázků,\npodle vlastního textu.";
     }
 
     @Override
     public String getHelp() {
-        return null;
+        return ".meme <nazev-predlohy> | <horni-text> | <dolni-text>\n" +
+                ".meme list <strana> - Zobrazeni všech predloh";
     }
 
     @Override
     public CommandType getType() {
-        return CommandType.GENERAL;
+        return CommandType.FUN;
     }
 
     @Override

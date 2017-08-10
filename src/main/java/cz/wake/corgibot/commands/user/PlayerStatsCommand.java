@@ -64,7 +64,7 @@ public class PlayerStatsCommand implements Command {
 
     @Override
     public String getHelp() {
-        return null;
+        return ".pstats <mc-nick>";
     }
 
     @Override

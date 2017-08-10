@@ -45,12 +45,12 @@ public class StatusCommand implements Command {
 
     @Override
     public String getCommand() {
-        return "status";
+        return "mcstatus";
     }
 
     @Override
     public String getHelp() {
-        return null;
+        return ".mcstatus";
     }
 
     @Override

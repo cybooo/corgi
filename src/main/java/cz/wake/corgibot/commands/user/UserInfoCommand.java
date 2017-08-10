@@ -59,7 +59,8 @@ public class UserInfoCommand implements Command {
 
     @Override
     public String getHelp() {
-        return null;
+        return ".userinfo - Informace o sobě\n" +
+                ".userinfo @nick - Informace o jiném uživateli";
     }
 
     @Override

@@ -14,10 +14,8 @@ public class EmoteCommand implements Command {
     @Override
     public void onCommand(User sender, MessageChannel channel, Message message, String[] args, Member member, EventWaiter w) {
         if (args.length < 1) {
-            channel.sendMessage(MessageUtils.getEmbed(Constants.BLUE).setTitle("**Použítí příkazu .emote**")
-                    .setDescription("**.emote** - Zobrazí tuto nápovědu\n" +
-                            "**.emote <regex|emote>** - Zobrazí info o Emote\n" +
-                            "**.emote list** - Zobrazí seznam všech dostupných Emotes").build()).queue();
+            channel.sendMessage(MessageUtils.getEmbed().setTitle("Nápověda k příkazu - emote :question:")
+                    .setDescription(getDescription() + "\n\n**Použití**\n" + getHelp()).build()).queue();
         } else if (args[0].equalsIgnoreCase("list")) {
             if (member.getGuild().getEmotes().isEmpty()) {
                 MessageUtils.sendErrorMessage("Na tomto serveru nejsou žádné Emotes!", channel);
@@ -81,12 +79,13 @@ public class EmoteCommand implements Command {
 
     @Override
     public String getDescription() {
-        return "Seznam všech emotes.";
+        return "Tento příkaz zobrazí speciální ID vybraného Emote,\nnebo všech Emote, kde Corgi je.";
     }
 
     @Override
     public String getHelp() {
-        return null;
+        return ".emote <regex|emote> - Info o Emote\n" +
+                ".emote list - Seznam všech dostupných Emote pro Corgiho";
     }
 
     @Override

@@ -24,12 +24,12 @@ public class StopCommand implements Command {
 
     @Override
     public String getDescription() {
-        return "Vypnutí bota.";
+        return "Tento příkaz vypne bota. (Pouze Wake)";
     }
 
     @Override
     public String getHelp() {
-        return null;
+        return  ".stop";
     }
 
     @Override

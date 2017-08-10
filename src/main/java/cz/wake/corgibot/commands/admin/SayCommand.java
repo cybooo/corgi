@@ -22,17 +22,17 @@ public class SayCommand implements Command {
 
     @Override
     public String getDescription() {
-        return "Co říká bot?";
+        return "Tímto příkazem lze psát jako bot.";
     }
 
     @Override
     public String getHelp() {
-        return null;
+        return  ".say <text>";
     }
 
     @Override
     public CommandType getType() {
-        return CommandType.GUILD_OWNER;
+        return CommandType.ADMINISTARTOR;
     }
 
     @Override
@@ -42,7 +42,7 @@ public class SayCommand implements Command {
 
     @Override
     public Rank getRank() {
-        return Rank.GUILD_OWNER;
+        return Rank.ADMINISTARTOR;
     }
 
     @Override

@@ -35,12 +35,12 @@ public class FactCommand implements Command {
 
     @Override
     public String getHelp() {
-        return null;
+        return ".fact";
     }
 
     @Override
     public CommandType getType() {
-        return CommandType.GENERAL;
+        return CommandType.FUN;
     }
 
     @Override

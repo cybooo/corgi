@@ -70,7 +70,7 @@ public class ArchiveCommand implements Command {
 
     @Override
     public String getHelp() {
-        return null;
+        return ".archive <počet-zpráv>";
     }
 
     @Override

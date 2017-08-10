@@ -35,12 +35,12 @@ public class GiveawayCommand implements Command {
 
     @Override
     public String getDescription() {
-        return "Giveawaye na rozdávání!";
+        return "Chceš pořádat na serveru Giveaway? Tímto příkazem ho vytvoříš snadno!\nStačí pouze zaktivovat a počkat si na výherce!";
     }
 
     @Override
     public String getHelp() {
-        return null;
+        return ".giveaway <čas> [výhra]";
     }
 
     @Override

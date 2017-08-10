@@ -21,10 +21,8 @@ public class AtsCommand implements Command {
     @Override
     public void onCommand(User sender, MessageChannel channel, Message message, String[] args, Member member, EventWaiter w) {
         if (args.length < 1) {
-            channel.sendMessage(MessageUtils.getEmbed(Constants.BLUE).setTitle("Nápověda pro příkaz .ats")
-                    .setDescription("**.ats** - Zobrazí tuto nápovědu\n" +
-                            "**.ats [nick]** - Zobrazí konkrétní statistiky pro nick\n" +
-                            "**.ats reset** - Vyresetuje AT Stalkera (pouze Wake)").build()).queue();
+            channel.sendMessage(MessageUtils.getEmbed().setTitle("Nápověda k příkazu - ats :question:")
+                    .setDescription(getDescription() + "\n\n**Použití**\n" + getHelp()).build()).queue();
         } else if (args[0].equalsIgnoreCase("reset")) {
             if (sender.getId().equals("177516608778928129") && member.isOwner()) {
                 CorgiBot.getInstance().getSql().resetATS("surv_chat_body");
@@ -118,7 +116,8 @@ public class AtsCommand implements Command {
 
     @Override
     public String getHelp() {
-        return null;
+        return ".ats <nick> - Zjištění aktivity pro zadaný nick\n" +
+                ".ats reset - Vyresetování ATS (Wake)";
     }
 
     @Override

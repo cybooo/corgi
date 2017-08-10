@@ -5,8 +5,9 @@ public enum Rank {
     USER(1),
     PREMIUM(2),
     MODERATOR(3),
-    GUILD_OWNER(4),
-    BOT_OWNER(5);
+    ADMINISTARTOR(4),
+    GUILD_OWNER(5),
+    BOT_OWNER(6);
 
     private int rankWeight;
 
@@ -19,7 +20,7 @@ public enum Rank {
     }
 
     public static Rank[] getTypes() {
-        return new Rank[]{USER, PREMIUM, MODERATOR, GUILD_OWNER, BOT_OWNER};
+        return new Rank[]{USER, PREMIUM, MODERATOR, ADMINISTARTOR, GUILD_OWNER, BOT_OWNER};
     }
 
     public String formattedName() {

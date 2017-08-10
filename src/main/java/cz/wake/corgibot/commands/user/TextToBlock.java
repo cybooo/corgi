@@ -46,12 +46,12 @@ public class TextToBlock implements Command {
 
     @Override
     public String getHelp() {
-        return null;
+        return ".ttb <text>";
     }
 
     @Override
     public CommandType getType() {
-        return CommandType.GENERAL;
+        return CommandType.FUN;
     }
 
     @Override

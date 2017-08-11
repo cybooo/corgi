@@ -2,6 +2,8 @@ package cz.wake.corgibot.commands;
 
 import cz.wake.corgibot.commands.admin.*;
 import cz.wake.corgibot.commands.mod.ArchiveCommand;
+import cz.wake.corgibot.commands.mod.AtsCommand;
+import cz.wake.corgibot.commands.mod.GiveawayCommand;
 import cz.wake.corgibot.commands.mod.RolesCommand;
 import cz.wake.corgibot.commands.user.*;
 

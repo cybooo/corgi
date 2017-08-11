@@ -46,27 +46,18 @@ public class MainListener extends ListenerAdapter {
                     String[] finalArgs = args;
                     if(cmd.getUse() == CommandUse.GUILD && e.isFromType(ChannelType.TEXT)){
                         //Handle guild chat
-                        if(cmd.onlyCM() && !e.getGuild().getId().equalsIgnoreCase("")){
+                        if(cmd.onlyCM() && !e.getGuild().getId().equalsIgnoreCase("207412074224025600")){
                             return;
                         }
-                        if(cmd.getRank() == Rank.BOT_OWNER){
-                            if (!isCreator(e.getMessage().getAuthor())) {
-                                return;
+                        if(Rank.getPermLevelForUser(e.getAuthor(),e.getTextChannel()).isAtLeast(cmd.getRank())){
+                            try {
+                                cmd.onCommand(e.getAuthor(), e.getChannel(), e.getMessage(), finalArgs, e.getMember(), w);
+                            } catch (Exception ex) {
+                                MessageUtils.sendException("Chyba při provádění příkazu", ex, e.getChannel());
                             }
-                        } else if(cmd.getRank() == Rank.GUILD_OWNER){
-                            //TODO: Check guild owner
-                        } else if (cmd.getRank() == Rank.MODERATOR){
-                            //TODO: Check moderator group
-                        } else if (cmd.getRank() == Rank.PREMIUM){
-                            //TODO: Check premium group
-                        }
-                        try {
-                            cmd.onCommand(e.getAuthor(), e.getChannel(), e.getMessage(), finalArgs, e.getMember(), w);
-                        } catch (Exception ex) {
-                            MessageUtils.sendException("Chyba při provádění příkazu", ex, e.getChannel());
-                        }
-                        if (cmd.deleteMessage()) {
-                            delete(e.getMessage());
+                            if (cmd.deleteMessage()) {
+                                delete(e.getMessage());
+                            }
                         }
                     } else if (cmd.getUse() == CommandUse.PRIVATE && e.isFromType(ChannelType.PRIVATE)){
                         //Handle text channel
@@ -77,8 +68,6 @@ public class MainListener extends ListenerAdapter {
                             if (!isCreator(e.getMessage().getAuthor())) {
                                 return;
                             }
-                        } else if(cmd.getRank() == Rank.GUILD_OWNER){
-                            //TODO: Check guild owner
                         }
                         try {
                             cmd.onCommand(e.getAuthor(), e.getChannel(), e.getMessage(), finalArgs, e.getMember(), w);
@@ -91,7 +80,7 @@ public class MainListener extends ListenerAdapter {
                     } else if (cmd.getUse() == CommandUse.ALL && (e.isFromType(ChannelType.PRIVATE) || e.isFromType(ChannelType.TEXT))) {
                         //Handle all others
                         if(e.isFromType(ChannelType.TEXT)){
-                            if(cmd.onlyCM() && !e.getGuild().getId().equalsIgnoreCase("")){
+                            if(cmd.onlyCM() && !e.getGuild().getId().equalsIgnoreCase("207412074224025600")){
                                 return;
                             }
                         }
@@ -99,12 +88,6 @@ public class MainListener extends ListenerAdapter {
                             if (!isCreator(e.getMessage().getAuthor())) {
                                 return;
                             }
-                        } else if(cmd.getRank() == Rank.GUILD_OWNER){
-                            //TODO: Check guild owner
-                        } else if (cmd.getRank() == Rank.MODERATOR){
-                            //TODO: Check moderator group
-                        } else if (cmd.getRank() == Rank.PREMIUM){
-                            //TODO: Check premium group
                         }
                         try {
                             cmd.onCommand(e.getAuthor(), e.getChannel(), e.getMessage(), finalArgs, e.getMember(), w);

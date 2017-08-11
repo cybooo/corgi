@@ -57,7 +57,7 @@ public class BotStatsCommand implements ICommand {
 
     @Override
     public CommandType getType() {
-        return CommandType.BOT_OWNER;
+        return CommandType.GENERAL;
     }
 
     @Override
@@ -67,7 +67,7 @@ public class BotStatsCommand implements ICommand {
 
     @Override
     public Rank getRank() {
-        return Rank.BOT_OWNER;
+        return Rank.USER;
     }
 
     private String getUptime(){

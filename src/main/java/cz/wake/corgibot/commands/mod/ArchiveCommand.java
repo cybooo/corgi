@@ -85,7 +85,7 @@ public class ArchiveCommand implements ICommand {
 
     @Override
     public CommandUse getUse() {
-        return null;
+        return CommandUse.GUILD;
     }
 
     @Override

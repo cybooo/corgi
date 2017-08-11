@@ -65,17 +65,22 @@ public class PurgeCommand implements ICommand {
                         i++;
                         toDelete.add(m);
                     }
-                    /*
                     if (toDelete.size() == 100) {
-                        channel.deleteMessages(toDelete).complete();
+                        for(Message mess : toDelete){
+                            channel.deleteMessageById(mess.getId()).queue();
+                        }
                         toDelete.clear();
-                    } */
-                } /*
+                    }
+                }
                 if (!toDelete.isEmpty()) {
-                    if (toDelete.size() != 1)
-                        channel.deleteMessages(toDelete).complete();
-                    else toDelete.forEach(mssage -> mssage.delete().complete());
-                } */
+                    if (toDelete.size() != 1) {
+                        for (Message mess : toDelete) {
+                            channel.deleteMessageById(mess.getId()).queue();
+                        }
+                    } else {
+                        toDelete.forEach(mssage -> mssage.delete().complete());
+                    }
+                }
                 channel.sendMessage(MessageUtils.getEmbed(Constants.GREEN).setDescription(Constants.EMOTE_CHECK + " | Smazáno **" + i + "** zpráv.").build()).queue();
 
             } catch (Exception e) {
@@ -147,7 +152,8 @@ public class PurgeCommand implements ICommand {
 
     @Override
     public String getHelp() {
-        return null;
+        return ".purge\n" +
+                ".purge <čislo> - Maximum je 100 zpráv";
     }
 
     @Override

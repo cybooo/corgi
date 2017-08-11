@@ -1,10 +1,7 @@
 package cz.wake.corgibot.commands;
 
 import cz.wake.corgibot.commands.admin.*;
-import cz.wake.corgibot.commands.mod.ArchiveCommand;
-import cz.wake.corgibot.commands.mod.AtsCommand;
-import cz.wake.corgibot.commands.mod.GiveawayCommand;
-import cz.wake.corgibot.commands.mod.RolesCommand;
+import cz.wake.corgibot.commands.mod.*;
 import cz.wake.corgibot.commands.user.*;
 
 import java.util.ArrayList;
@@ -52,7 +49,7 @@ public class CommandHandler {
         registerCommand(new MemeCommand());
         registerCommand(new ArchiveCommand());
         registerCommand(new AtsCommand());
-        //registerCommand(new PurgeCommand());
+        registerCommand(new PurgeCommand());
         registerCommand(new TextToBlock());
         registerCommand(new TrumpCommand());
         registerCommand(new GiveawayCommand());

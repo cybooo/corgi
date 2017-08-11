@@ -13,7 +13,7 @@ import net.dv8tion.jda.core.entities.*;
 import java.text.SimpleDateFormat;
 import java.util.Calendar;
 
-public class PlayerStatsCommand implements ICommand {
+public class PlayerStats implements ICommand {
 
     @Override
     public void onCommand(User sender, MessageChannel channel, Message message, String[] args, Member member, EventWaiter w) {

@@ -12,7 +12,7 @@ import net.dv8tion.jda.core.entities.*;
 
 import java.time.LocalDateTime;
 
-public class UserInfoCommand implements ICommand {
+public class UserInfo implements ICommand {
 
 
     @Override

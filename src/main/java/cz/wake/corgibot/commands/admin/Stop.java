@@ -4,48 +4,48 @@ import cz.wake.corgibot.commands.ICommand;
 import cz.wake.corgibot.commands.CommandType;
 import cz.wake.corgibot.commands.CommandUse;
 import cz.wake.corgibot.commands.Rank;
+import cz.wake.corgibot.utils.Constants;
+import cz.wake.corgibot.utils.MessageUtils;
 import me.jagrosh.jdautilities.waiter.EventWaiter;
 import net.dv8tion.jda.core.entities.*;
 
-public class SayCommand implements ICommand {
+public class Stop implements ICommand {
 
     @Override
     public void onCommand(User sender, MessageChannel channel, Message message, String[] args, Member member, EventWaiter w) {
-        channel.sendMessage(message.getRawContent().replace(".say", "")).queue();
+        if(sender.getId().equals("177516608778928129")){
+            channel.sendMessage(MessageUtils.getEmbed(Constants.RED).setDescription(":skull_crossbones: | Vyžádáno vypnutí! Vypínám se...").build()).queue();
+            System.exit(0);
+        }
     }
 
     @Override
     public String getCommand() {
-        return "say";
+        return "stop";
     }
 
     @Override
     public String getDescription() {
-        return "Tímto příkazem lze psát jako bot.";
+        return "Tento příkaz vypne bota. (Pouze Wake)";
     }
 
     @Override
     public String getHelp() {
-        return  ".say <text>";
+        return  ".stop";
     }
 
     @Override
     public CommandType getType() {
-        return CommandType.ADMINISTARTOR;
+        return CommandType.BOT_OWNER;
     }
 
     @Override
     public CommandUse getUse() {
-        return CommandUse.GUILD;
+        return CommandUse.ALL;
     }
 
     @Override
     public Rank getRank() {
-        return Rank.ADMINISTARTOR;
-    }
-
-    @Override
-    public boolean deleteMessage() {
-        return true;
+        return Rank.BOT_OWNER;
     }
 }

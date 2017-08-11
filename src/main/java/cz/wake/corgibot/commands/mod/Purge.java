@@ -19,7 +19,7 @@ import java.util.regex.Matcher;
 import java.util.regex.Pattern;
 import java.util.stream.Collectors;
 
-public class PurgeCommand implements ICommand {
+public class Purge implements ICommand {
 
     private final String CANCEL = "\u274C";
     private final Pattern LINK_PATTERN = Pattern.compile("https?:\\/\\/.+");

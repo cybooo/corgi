@@ -12,7 +12,7 @@ import net.dv8tion.jda.core.entities.*;
 import java.awt.*;
 import java.time.temporal.ChronoUnit;
 
-public class PingCommand implements ICommand {
+public class Ping implements ICommand {
 
     @Override
     public void onCommand(User sender, MessageChannel channel, Message message, String[] args, Member member, EventWaiter w) {

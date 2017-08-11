@@ -15,7 +15,7 @@ import net.dv8tion.jda.core.entities.User;
 
 import java.lang.management.ManagementFactory;
 
-public class BotStatsCommand implements ICommand {
+public class BotStats implements ICommand {
 
     @Override
     public void onCommand(User sender, MessageChannel channel, Message message, String[] args, Member member, EventWaiter w) {

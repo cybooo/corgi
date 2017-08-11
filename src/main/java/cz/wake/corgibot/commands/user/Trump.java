@@ -25,7 +25,7 @@ import java.text.AttributedCharacterIterator;
 import java.text.AttributedString;
 import java.util.Arrays;
 
-public class TrumpCommand implements ICommand {
+public class Trump implements ICommand {
 
 
     @Override

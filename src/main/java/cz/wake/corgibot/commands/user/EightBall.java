@@ -11,7 +11,7 @@ import net.dv8tion.jda.core.entities.*;
 
 import java.util.concurrent.ThreadLocalRandom;
 
-public class EightBallCommand implements ICommand {
+public class EightBall implements ICommand {
 
     static String outcomes[] = {"Ano.", "Ne.", "S největší pravděpodobností ANO!", "Možná.", "Počkej zamyslím se, ANO!", "Pravděpodobně ne!", "Nepravděpodobně...", "Když se nad tím zamyšlíš, je to možné!", "Je to jistý.", "Je to rozhodně tak", "Definitivně ano", "Něco mi říká, že ne"};
 

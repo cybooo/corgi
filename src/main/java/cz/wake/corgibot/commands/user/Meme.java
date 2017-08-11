@@ -19,7 +19,7 @@ import java.util.Map;
 import java.util.Set;
 import java.util.TreeMap;
 
-public class MemeCommand implements ICommand {
+public class Meme implements ICommand {
 
     private static final Map<String, String> map = new TreeMap<>();
 

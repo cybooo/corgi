@@ -10,7 +10,7 @@ import cz.wake.corgibot.utils.MessageUtils;
 import me.jagrosh.jdautilities.waiter.EventWaiter;
 import net.dv8tion.jda.core.entities.*;
 
-public class GiveawayCommand implements ICommand {
+public class Giveaway implements ICommand {
 
     @Override
     public void onCommand(User sender, MessageChannel channel, Message message, String[] args, Member member, EventWaiter w) {
@@ -20,7 +20,7 @@ public class GiveawayCommand implements ICommand {
             int sec = Integer.parseInt(parts[0]);
             channel.sendMessage(MessageUtils.getEmbed(Constants.GRAY).setDescription("Generuji...").build()).queue(m -> {
                 m.addReaction("\uD83C\uDF89").queue();
-                new Giveaway(sec, m, parts.length > 1 ? parts[1] : null).start();
+                new cz.wake.corgibot.managers.Giveaway(sec, m, parts.length > 1 ? parts[1] : null).start();
             });
             message.delete().queue();
         } catch (NumberFormatException ex) {

@@ -6,7 +6,7 @@ import cz.wake.corgibot.utils.MessageUtils;
 import me.jagrosh.jdautilities.waiter.EventWaiter;
 import net.dv8tion.jda.core.entities.*;
 
-public class HelpCommand implements ICommand {
+public class Help implements ICommand {
 
     @Override
     public void onCommand(User sender, MessageChannel channel, Message message, String[] args, Member member, EventWaiter w) {

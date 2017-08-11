@@ -6,41 +6,41 @@ import cz.wake.corgibot.commands.CommandUse;
 import cz.wake.corgibot.commands.Rank;
 import cz.wake.corgibot.utils.Constants;
 import cz.wake.corgibot.utils.MessageUtils;
-import cz.wake.corgibot.utils.data.DataManager;
-import cz.wake.corgibot.utils.data.SimpleData;
 import me.jagrosh.jdautilities.waiter.EventWaiter;
 import net.dv8tion.jda.core.entities.*;
 
-import java.util.List;
-import java.util.Random;
+import java.lang.management.ManagementFactory;
 
-public class FactCommand implements ICommand {
-
-    public static final DataManager<List<String>> facts = new SimpleData("facts.txt");
+public class Uptime implements ICommand {
 
     @Override
     public void onCommand(User sender, MessageChannel channel, Message message, String[] args, Member member, EventWaiter w) {
-        channel.sendMessage(MessageUtils.getEmbed(Constants.PINK).setTitle("Náhodný fakt dne :trophy:", null).setDescription(facts.get().get(new Random().nextInt(facts.get().size() - 1))).build()).queue();
+        long millis = ManagementFactory.getRuntimeMXBean().getUptime();
+        long seconds = millis / 1000;
+        long minutes = seconds / 60;
+        long hours = minutes / 60;
+        long days = hours / 24;
+        channel.sendMessage(MessageUtils.getEmbed(Constants.BLUE).setTitle("Uptime", null).setDescription(":stopwatch: | " + String.format("%d dní, %02d hodin, %02d minut", days, hours % 24, minutes % 60)).build()).queue();
     }
 
     @Override
     public String getCommand() {
-        return "fact";
+        return "uptime";
     }
 
     @Override
     public String getDescription() {
-        return "Fakty na každý den.";
+        return "Informace o tom, jak dlouho běží bot.";
     }
 
     @Override
     public String getHelp() {
-        return ".fact";
+        return ".uptime";
     }
 
     @Override
     public CommandType getType() {
-        return CommandType.FUN;
+        return CommandType.GENERAL;
     }
 
     @Override

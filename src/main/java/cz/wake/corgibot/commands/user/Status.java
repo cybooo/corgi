@@ -13,7 +13,7 @@ import net.dv8tion.jda.core.entities.*;
 
 import java.util.concurrent.ConcurrentMap;
 
-public class StatusCommand implements ICommand {
+public class Status implements ICommand {
 
     private ConcurrentMap map = Checker.getServiceStatus();
 

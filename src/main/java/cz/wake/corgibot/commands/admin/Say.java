@@ -1,4 +1,4 @@
-package cz.wake.corgibot.commands.mod;
+package cz.wake.corgibot.commands.admin;
 
 import cz.wake.corgibot.commands.ICommand;
 import cz.wake.corgibot.commands.CommandType;
@@ -7,38 +7,31 @@ import cz.wake.corgibot.commands.Rank;
 import me.jagrosh.jdautilities.waiter.EventWaiter;
 import net.dv8tion.jda.core.entities.*;
 
-public class RolesCommand implements ICommand {
+public class Say implements ICommand {
 
     @Override
     public void onCommand(User sender, MessageChannel channel, Message message, String[] args, Member member, EventWaiter w) {
-        StringBuilder sb = new StringBuilder();
-        sb.append("**Server Roles**\n```\n");
-        for (Role role : member.getGuild().getRoles()) {
-            sb.append(role.getName()).append(" (").append(role.getId()).append(")\n");
-        }
-        sb.append("```");
-
-        channel.sendMessage(sb.toString()).queue();
+        channel.sendMessage(message.getRawContent().replace(".say", "")).queue();
     }
 
     @Override
     public String getCommand() {
-        return "roles";
+        return "say";
     }
 
     @Override
     public String getDescription() {
-        return "Seznam rolí na serveru.";
+        return "Tímto příkazem lze psát jako bot.";
     }
 
     @Override
     public String getHelp() {
-        return ".roles";
+        return  ".say <text>";
     }
 
     @Override
     public CommandType getType() {
-        return CommandType.MODERATION;
+        return CommandType.ADMINISTARTOR;
     }
 
     @Override
@@ -48,6 +41,11 @@ public class RolesCommand implements ICommand {
 
     @Override
     public Rank getRank() {
-        return Rank.MODERATOR;
+        return Rank.ADMINISTARTOR;
+    }
+
+    @Override
+    public boolean deleteMessage() {
+        return true;
     }
 }

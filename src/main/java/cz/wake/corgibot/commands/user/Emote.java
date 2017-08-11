@@ -9,7 +9,7 @@ import cz.wake.corgibot.utils.MessageUtils;
 import me.jagrosh.jdautilities.waiter.EventWaiter;
 import net.dv8tion.jda.core.entities.*;
 
-public class EmoteCommand implements ICommand {
+public class Emote implements ICommand {
 
     @Override
     public void onCommand(User sender, MessageChannel channel, Message message, String[] args, Member member, EventWaiter w) {
@@ -21,7 +21,7 @@ public class EmoteCommand implements ICommand {
                 MessageUtils.sendErrorMessage("Na tomto serveru nejsou žádné Emotes!", channel);
             }
             StringBuilder builder = new StringBuilder("**Přehled Emotes:**\n");
-            for (Emote e : member.getGuild().getEmotes()) {
+            for (net.dv8tion.jda.core.entities.Emote e : member.getGuild().getEmotes()) {
                 builder.append(" ").append(e.getAsMention());
             }
             channel.sendMessage(builder.toString()).queue();
@@ -29,7 +29,7 @@ public class EmoteCommand implements ICommand {
             String str = (String) args[0];
             if (str.matches("<:.*:\\d+>")) { //Server Emotes
                 String id = str.replaceAll("<:.*:(\\d+)>", "$1");
-                Emote emote = channel.getJDA().getEmoteById(id);
+                net.dv8tion.jda.core.entities.Emote emote = channel.getJDA().getEmoteById(id);
                 if (emote == null) {
                     channel.sendMessage(MessageUtils.getEmbed(sender, Constants.RED).setTitle("**Neznámý Emote**")
                             .setDescription("**ID:** " + id + "\n" +

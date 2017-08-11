@@ -34,26 +34,26 @@ public class CommandHandler {
     }
 
     public void register() {
-        registerCommand(new EightBallCommand());
-        registerCommand(new HelpCommand());
-        registerCommand(new PingCommand());
-        registerCommand(new PlayerStatsCommand());
-        registerCommand(new RolesCommand());
-        registerCommand(new UserInfoCommand());
-        registerCommand(new StopCommand());
-        registerCommand(new SayCommand());
-        registerCommand(new FactCommand());
-        registerCommand(new UptimeCommand());
-        registerCommand(new EmoteCommand());
-        registerCommand(new StatusCommand());
-        registerCommand(new MemeCommand());
-        registerCommand(new ArchiveCommand());
-        registerCommand(new AtsCommand());
-        registerCommand(new PurgeCommand());
+        registerCommand(new EightBall());
+        registerCommand(new Help());
+        registerCommand(new Ping());
+        registerCommand(new PlayerStats());
+        registerCommand(new Roles());
+        registerCommand(new UserInfo());
+        registerCommand(new Stop());
+        registerCommand(new Say());
+        registerCommand(new Fact());
+        registerCommand(new Uptime());
+        registerCommand(new Emote());
+        registerCommand(new Status());
+        registerCommand(new Meme());
+        registerCommand(new Archive());
+        registerCommand(new Ats());
+        registerCommand(new Purge());
         registerCommand(new TextToBlock());
-        registerCommand(new TrumpCommand());
-        registerCommand(new GiveawayCommand());
-        registerCommand(new BotStatsCommand());
+        registerCommand(new Trump());
+        registerCommand(new Giveaway());
+        registerCommand(new BotStats());
     }
 
 

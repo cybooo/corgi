@@ -4,7 +4,6 @@ import cz.wake.corgibot.commands.ICommand;
 import cz.wake.corgibot.commands.CommandType;
 import cz.wake.corgibot.commands.CommandUse;
 import cz.wake.corgibot.commands.Rank;
-import cz.wake.corgibot.managers.Giveaway;
 import cz.wake.corgibot.utils.Constants;
 import cz.wake.corgibot.utils.MessageUtils;
 import me.jagrosh.jdautilities.waiter.EventWaiter;

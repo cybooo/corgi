@@ -34,7 +34,8 @@ public class Trump implements ICommand {
             channel.sendMessage(MessageUtils.getEmbed(Constants.BLUE).setTitle("**Použítí příkazu .trump**")
                     .setDescription("**.trump [text]** - Vygenerování vlastního Trump příkazu").build()).queue();
         } else {
-            try (InputStream is = CorgiBot.class.getClassLoader().getResourceAsStream("trump.jpg")) {
+            try {
+                InputStream is = CorgiBot.class.getClassLoader().getResourceAsStream("trump.jpg");
                 BufferedImage image = ImageIO.read(is);
 
                 Graphics2D g2 = image.createGraphics();
@@ -49,7 +50,7 @@ public class Trump implements ICommand {
 
 
                 if (query.isEmpty()) {
-                    query = "Try putting in some text into the arguments, ie. \"_trump Pepe\"";
+                    query = ":D";
                 }
 
                 double fontSize = 65.0 / (0.05 * query.length() + 1.0) + 20;
@@ -90,7 +91,8 @@ public class Trump implements ICommand {
                     drawPosX -= 1;
                 }
 
-                File file = new File("saved.png");
+                File file = new File("trump.jpg");
+                //file.deleteOnExit();
 
                 ImageIO.write(image, "jpg", file);
 

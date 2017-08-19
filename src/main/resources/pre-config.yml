@@ -17,3 +17,6 @@ token: token-from-discord-api
 
 #Imgflip password
 imgflipToken: password
+
+#MashapeKey
+mashapeGameKey: key

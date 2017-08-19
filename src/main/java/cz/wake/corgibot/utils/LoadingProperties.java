@@ -7,7 +7,7 @@ import java.util.Properties;
 public class LoadingProperties {
 
     private String botToken, imgFlipToken;
-    private String host, port, dbname, dbuser, dbpassword, minConnections, maxConnections, timeout;
+    private String host, port, dbname, dbuser, dbpassword, minConnections, maxConnections, timeout, mashapeGameKey;
 
     public LoadingProperties() {
         try {
@@ -28,6 +28,7 @@ public class LoadingProperties {
             maxConnections = properties.getProperty("maximumConnections");
             timeout = properties.getProperty("timeout");
             imgFlipToken = properties.getProperty("imgflipToken");
+            mashapeGameKey = properties.getProperty("mashapeGameKey");
 
         } catch (Exception e) {
             e.printStackTrace();
@@ -72,5 +73,9 @@ public class LoadingProperties {
 
     public String getImgFlipToken() {
         return imgFlipToken;
+    }
+
+    public String getMashapeGameKey() {
+        return mashapeGameKey;
     }
 }

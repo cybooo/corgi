@@ -51,7 +51,6 @@ public class CommandHandler {
         registerCommand(new Ats());
         registerCommand(new Purge());
         registerCommand(new TextToBlock());
-        registerCommand(new Trump());
         registerCommand(new Giveaway());
         registerCommand(new BotStats());
         registerCommand(new Perms());

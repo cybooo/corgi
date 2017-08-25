@@ -56,6 +56,7 @@ public class CommandHandler {
         registerCommand(new Perms());
         registerCommand(new About());
         registerCommand(new Game());
+        registerCommand(new FullWidth());
     }
 
 

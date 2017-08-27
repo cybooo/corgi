@@ -35,6 +35,7 @@ public class BotStats implements ICommand {
             embed.addField("Počet odpovědí", String.valueOf(channel.getJDA().getResponseTotal()), true);
             embed.addField("JDA verze", JDAInfo.VERSION, true);
             embed.addField("Majitel", channel.getJDA().getUserById("177516608778928129").getAsMention(), true);
+            embed.addField("Corgi verze", "1.1.x", true);
             channel.sendMessage(embed.build()).queue();
         }
 

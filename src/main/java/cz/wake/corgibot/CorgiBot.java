@@ -2,6 +2,7 @@ package cz.wake.corgibot;
 
 import cz.wake.corgibot.commands.CommandHandler;
 import cz.wake.corgibot.listener.MainListener;
+import cz.wake.corgibot.runnable.StatusChanger;
 import cz.wake.corgibot.sql.SQLManager;
 import cz.wake.corgibot.utils.LoadingProperties;
 import cz.wake.corgibot.utils.statuses.Checker;
@@ -43,7 +44,7 @@ public class CorgiBot {
                 .setToken(config.getBotToken())
                 .addEventListener(new MainListener(waiter))
                 .addEventListener(waiter)
-                .setGame(Game.of(".help"))
+                .setGame(Game.of("Loading..."))
                 .buildBlocking();
 
         (instance = new CorgiBot()).init();
@@ -51,6 +52,7 @@ public class CorgiBot {
 
         Timer timer = new Timer();
         timer.scheduleAtFixedRate(new Checker(), 10, 60000);
+        timer.scheduleAtFixedRate(new StatusChanger(), 10, 60000);
 
         imgflipToken = config.getImgFlipToken();
     }

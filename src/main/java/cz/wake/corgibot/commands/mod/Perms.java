@@ -40,6 +40,8 @@ public class Perms implements ICommand {
         }
     }
 
+    //TODO: Opravit Bot_owner atd.
+
     @Override
     public String getCommand() {
         return "perms";

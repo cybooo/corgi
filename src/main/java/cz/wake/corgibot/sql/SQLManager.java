@@ -170,5 +170,60 @@ public class SQLManager {
         }
     }
 
+    public final List<Integer> getChangelogRow() {
+        List<Integer> names = new ArrayList<>();
+        Connection conn = null;
+        PreparedStatement ps = null;
+        try {
+            conn = pool.getConnection();
+            ps = conn.prepareStatement("SELECT id FROM corgi_changelog ORDER BY id DESC LIMIT 10;");
+            ps.executeQuery();
+            while (ps.getResultSet().next()) {
+                names.add(ps.getResultSet().getInt(1));
+            }
+        } catch (Exception e) {
+            e.printStackTrace();
+        } finally {
+            pool.close(conn, ps, null);
+        }
+        return names;
+    }
+
+    public final List<String> getChangelogText() {
+        List<String> names = new ArrayList<>();
+        Connection conn = null;
+        PreparedStatement ps = null;
+        try {
+            conn = pool.getConnection();
+            ps = conn.prepareStatement("SELECT text FROM corgi_changelog ORDER BY id DESC LIMIT 10;");
+            ps.executeQuery();
+            while (ps.getResultSet().next()) {
+                names.add(ps.getResultSet().getString(1));
+            }
+        } catch (Exception e) {
+            e.printStackTrace();
+        } finally {
+            pool.close(conn, ps, null);
+        }
+        return names;
+    }
+
+    public final void insertChnge(final String change) {
+        Connection conn = null;
+        PreparedStatement ps = null;
+        try {
+            conn = pool.getConnection();
+            ps = conn.prepareStatement("INSERT INTO corgi_changelog (text) VALUES (?);");
+            ps.setString(1, change);
+            ps.executeUpdate();
+        } catch (Exception e) {
+            e.printStackTrace();
+        } finally {
+            pool.close(conn, ps, null);
+        }
+    }
+
+
+
 
 }

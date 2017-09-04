@@ -74,6 +74,7 @@ public class MessageUtils {
         return user.getDefaultAvatarUrl();
     }
 
+    //TODO: Dodelat try
     public static Message sendErrorMessage(EmbedBuilder builder, MessageChannel channel) {
         return channel.sendMessage(builder.setColor(Constants.RED).build()).complete();
     }

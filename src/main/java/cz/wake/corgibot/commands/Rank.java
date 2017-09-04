@@ -10,7 +10,7 @@ public enum Rank {
     USER(1),
     PREMIUM(2),
     MODERATOR(3),
-    ADMINISTARTOR(4),
+    ADMINISTRATOR(4),
     BOT_OWNER(5);
 
     private int rankWeight;
@@ -24,7 +24,7 @@ public enum Rank {
     }
 
     public static Rank[] getTypes() {
-        return new Rank[]{USER, PREMIUM, MODERATOR, ADMINISTARTOR, BOT_OWNER};
+        return new Rank[]{USER, PREMIUM, MODERATOR, ADMINISTRATOR, BOT_OWNER};
     }
 
     public String formattedName() {
@@ -40,7 +40,7 @@ public enum Rank {
             return BOT_OWNER;
         }
         if (PermissionUtil.checkPermission(ch, ch.getGuild().getMember(user), Permission.ADMINISTRATOR)) {
-            return ADMINISTARTOR;
+            return ADMINISTRATOR;
         }
         if (PermissionUtil.checkPermission(ch, ch.getGuild().getMember(user), Permission.BAN_MEMBERS)) {
             return MODERATOR;

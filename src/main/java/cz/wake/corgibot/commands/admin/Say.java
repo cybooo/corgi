@@ -41,7 +41,7 @@ public class Say implements ICommand {
 
     @Override
     public Rank getRank() {
-        return Rank.ADMINISTARTOR;
+        return Rank.ADMINISTRATOR;
     }
 
     @Override

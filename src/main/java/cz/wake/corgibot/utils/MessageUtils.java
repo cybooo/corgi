@@ -3,6 +3,7 @@ package cz.wake.corgibot.utils;
 import com.mashape.unirest.http.Unirest;
 import com.mashape.unirest.http.exceptions.UnirestException;
 import cz.wake.corgibot.CorgiBot;
+import cz.wake.corgibot.scheluder.CorgiTask;
 import net.dv8tion.jda.core.EmbedBuilder;
 import net.dv8tion.jda.core.MessageBuilder;
 import net.dv8tion.jda.core.entities.Message;
@@ -13,6 +14,7 @@ import java.awt.*;
 import java.io.ByteArrayInputStream;
 import java.io.PrintWriter;
 import java.io.StringWriter;
+import java.util.Timer;
 
 public class MessageUtils {
 
@@ -84,6 +86,10 @@ public class MessageUtils {
                 .complete();
     }
 
+    public static void sendAutoDeletedMessage(String message, long delay, MessageChannel channel) {
+        sendAutoDeletedMessage(new MessageBuilder().setEmbed(MessageUtils.getEmbed().setColor(Constants.RED).setDescription(message).build()).build(), delay, channel);
+    }
+
     public static void editMessage(EmbedBuilder embed, Message message) {
         editMessage(message.getRawContent(), embed, message);
     }
@@ -95,5 +101,15 @@ public class MessageUtils {
 
     public static EmbedBuilder getEmbedError() {
         return new EmbedBuilder().setFooter("Chyba při provádění akce CorgiBot", CorgiBot.getJda().getSelfUser().getAvatarUrl());
+    }
+
+    private static void sendAutoDeletedMessage(Message message, long delay, MessageChannel channel) {
+        Message msg = channel.sendMessage(message).complete();
+        new CorgiTask("AutoDeleteTask") {
+            @Override
+            public void run() {
+                msg.delete().queue();
+            }
+        }.delay(delay);
     }
 }

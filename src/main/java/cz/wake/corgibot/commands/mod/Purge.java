@@ -125,16 +125,16 @@ public class Purge implements ICommand {
             }
             toClean.remove(m);
             if (toClean.isEmpty()) {
-                MessageUtils.sendErrorMessage("Nebyly nalezeny žádné zprávy!", channel);
+                MessageUtils.sendAutoDeletedMessage("Nebyly nalezeny žádné zprávy!", 10000, channel);
                 return;
             }
             if (toClean.size() == 1)
-                toClean.get(0).delete().queue(v -> channel.sendMessage(MessageUtils.getEmbed(Constants.GREEN).setDescription(Constants.EMOTE_CHECK + " | Smazáno **" + toClean.size() + "** zpráv.").build()).queue());
+                toClean.get(0).delete().queue(v -> channel.sendMessage(MessageUtils.getEmbed(Constants.GREEN).setDescription(":greenTick: | Smazáno **" + toClean.size() + "** zpráv.").build()).queue());
             else {
                 try {
-                    ((TextChannel) channel).deleteMessages(toClean).queue(v -> channel.sendMessage(MessageUtils.getEmbed(Constants.GREEN).setDescription(Constants.EMOTE_CHECK + "| Smazáno **" + toClean.size() + "** zpráv.").build()).queue());
+                    ((TextChannel) channel).deleteMessages(toClean).queue(v -> channel.sendMessage(MessageUtils.getEmbed(Constants.GREEN).setDescription(":greenTick: | Smazáno **" + toClean.size() + "** zpráv.").build()).queue());
                 } catch (IllegalArgumentException e) {
-                    MessageUtils.sendErrorMessage("Požadovaný výběr zpráv pro smazání je starší než 14 dní!", channel);
+                    MessageUtils.sendAutoDeletedMessage("Požadovaný výběr zpráv pro smazání je starší než 14 dní!" , 10000, channel);
                 }
             }
         });
@@ -153,7 +153,7 @@ public class Purge implements ICommand {
     @Override
     public String getHelp() {
         return ".purge\n" +
-                ".purge <čislo> - Maximum je 100 zpráv";
+                ".purge <číslo> - Maximum je 100 zpráv";
     }
 
     @Override

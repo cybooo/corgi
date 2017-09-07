@@ -18,7 +18,7 @@ public class Emote implements ICommand {
                     .setDescription(getDescription() + "\n\n**Použití**\n" + getHelp()).build()).queue();
         } else if (args[0].equalsIgnoreCase("list")) {
             if (member.getGuild().getEmotes().isEmpty()) {
-                MessageUtils.sendErrorMessage("Na tomto serveru nejsou žádné Emotes!", channel);
+                MessageUtils.sendAutoDeletedMessage("Na tomto serveru nejsou žádné Emotes!", 15000, channel);
             }
             StringBuilder builder = new StringBuilder("**Přehled Emotes:**\n");
             for (net.dv8tion.jda.core.entities.Emote e : member.getGuild().getEmotes()) {
@@ -46,7 +46,7 @@ public class Emote implements ICommand {
                 }
             }
             if (str.codePoints().count() > 10) {
-                MessageUtils.sendErrorMessage("Neplatný emote nebo ID je moc dlouhý!", channel);
+                MessageUtils.sendAutoDeletedMessage("Neplatný emote nebo ID je moc dlouhý!", 15000, channel);
                 return;
             }
             StringBuilder builder = new StringBuilder(""); //Normalni emotes

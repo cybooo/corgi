@@ -80,7 +80,6 @@ public class Help implements ICommand {
                     builder.append("`" + c.getCommand() + "` ");
                 }
             }
-            //TODO: Pridat changelog na SQL
         }
         return builder;
     }

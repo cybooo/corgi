@@ -24,12 +24,12 @@ public class UserInfo implements ICommand {
             id = args[0].replaceAll("[^0-9]", "");
         }
         if (id.isEmpty()) {
-            MessageUtils.sendErrorMessage("Musíš použít označení s @!", channel);
+            MessageUtils.sendAutoDeletedMessage("Musíš použít označení s @!", 10000, channel);
             return;
         }
         User user = CorgiBot.getJda().getUserById(id);
         if (user == null) {
-            MessageUtils.sendErrorMessage("Nelze najít uživatele!", channel);
+            MessageUtils.sendAutoDeletedMessage("Nelze najít uživatele!", 10000, channel);
             return;
         }
         Member m2 = member.getGuild().getMember(user);

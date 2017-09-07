@@ -53,7 +53,8 @@ public class MainListener extends ListenerAdapter {
                             try {
                                 cmd.onCommand(e.getAuthor(), e.getChannel(), e.getMessage(), finalArgs, e.getMember(), w);
                             } catch (Exception ex) {
-                                MessageUtils.sendException("Chyba při provádění příkazu", ex, e.getChannel());
+                                //TODO: Do privatniho discordu
+                                //MessageUtils.sendException("Chyba při provádění příkazu", ex, e.getChannel());
                             }
                             if (cmd.deleteMessage()) {
                                 delete(e.getMessage());
@@ -72,7 +73,8 @@ public class MainListener extends ListenerAdapter {
                         try {
                             cmd.onCommand(e.getAuthor(), e.getChannel(), e.getMessage(), finalArgs, e.getMember(), w);
                         } catch (Exception ex) {
-                            MessageUtils.sendException("Chyba při provádění příkazu", ex, e.getChannel());
+                            //TODO: Do privatniho discordu
+                            //MessageUtils.sendException("Chyba při provádění příkazu", ex, e.getChannel());
                         }
                         if (cmd.deleteMessage()) {
                             delete(e.getMessage());
@@ -92,7 +94,8 @@ public class MainListener extends ListenerAdapter {
                         try {
                             cmd.onCommand(e.getAuthor(), e.getChannel(), e.getMessage(), finalArgs, e.getMember(), w);
                         } catch (Exception ex) {
-                            MessageUtils.sendException("Chyba při provádění příkazu", ex, e.getChannel());
+                            //TODO: Do privatniho discordu
+                            //MessageUtils.sendException("Chyba při provádění příkazu", ex, e.getChannel());
                         }
                         if (cmd.deleteMessage()) {
                             delete(e.getMessage());

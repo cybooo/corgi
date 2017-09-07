@@ -23,7 +23,7 @@ public class Giveaway implements ICommand {
             });
             message.delete().queue();
         } catch (NumberFormatException ex) {
-            MessageUtils.sendErrorMessage("Nelze zadat vteřiny v tomto tvaru `" + parts[0] + "`", channel);
+            MessageUtils.sendAutoDeletedMessage("Nelze zadat vteřiny v tomto tvaru `" + parts[0] + "`", 15000, channel);
         }
     }
 

@@ -24,7 +24,7 @@ public class EightBall implements ICommand {
                 channel.sendMessage(MessageUtils.getEmbed(sender, Constants.PINK).addField(sender.getName() + " se ptá:", message.getRawContent().replace(".8ball ", "").replace(".8b", ""), false).addField("Corgi odpovídá:", outcomes[ThreadLocalRandom.current().nextInt(0, outcomes.length)], false).build()).queue();
             }
         } catch (Exception e) {
-            MessageUtils.sendErrorMessage("Chyba při provádění příkazu!", channel);
+            MessageUtils.sendAutoDeletedMessage("Chyba při provádění příkazu!", 10000, channel);
         }
     }
 

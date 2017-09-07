@@ -18,7 +18,7 @@ public class About implements ICommand {
     public void onCommand(User sender, MessageChannel channel, Message message, String[] args, Member member, EventWaiter w) {
         channel.sendMessage(MessageUtils.getEmbed(ColorSelector.getRandomColor()).setTitle("Představení Corgiho")
             .setDescription("Ahoj já jsem Corgi, jsem bot pro Discord servery.\nAktuálně moc funkcí nemám, ale časem se to určitě změní!\n\n" +
-                    "**Git**: [Odkaz](https://git.waked.cz/craftmania-cz/bots/corgibot)\n" +
+                    "**Source**: Neuveřejňujeme source, poskytujeme pouze na žádost!\n" +
                     "**Invite**: [Odkaz](https://discordapp.com/oauth2/authorize?client_id=294952122582302720&scope=bot&permissions=104197334)\n" +
                     "**Majitel**: " + channel.getJDA().getUserById("177516608778928129")
                     .getAsMention()).setThumbnail(channel.getJDA().getSelfUser().getAvatarUrl()).build()).queue();

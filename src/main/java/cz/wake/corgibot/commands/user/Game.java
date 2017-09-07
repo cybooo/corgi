@@ -34,7 +34,7 @@ public class Game implements ICommand {
             String mashapeKey = properties.getMashapeGameKey();
 
             if (mashapeKey == null) {
-                MessageUtils.sendErrorMessage("MashapeKey je prázdný!", channel);
+                MessageUtils.sendAutoDeletedMessage("MashapeKey je prázdný!", 20000, channel);
                 return;
             }
 
@@ -58,7 +58,7 @@ public class Game implements ICommand {
                     @Override
                     public void onFailure(@NotNull Call call, @NotNull IOException e) {
                         call.cancel();
-                        MessageUtils.sendErrorMessage("Chyba v API! Opakuj akci později.", channel);
+                        MessageUtils.sendAutoDeletedMessage("Chyba v API! Opakuj akci později.", 15000, channel);
                     }
 
                     @Override

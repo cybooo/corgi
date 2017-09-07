@@ -21,20 +21,19 @@ public class Archive implements ICommand {
     @Override
     public void onCommand(User sender, MessageChannel channel, Message message, String[] args, Member member, EventWaiter w) {
         try {
-            long numposts = Long.valueOf(args[0]);
-            TextChannel tx = member.getGuild().getTextChannelById(channel.getId());
-            MessageHistory mh;
-
             if (!PermissionUtil.checkPermission(member, Permission.MESSAGE_HISTORY) || !PermissionUtil.checkPermission(member, Permission.MESSAGE_READ)) {
-                MessageUtils.sendErrorMessage("Můžeš archivovat pouze channely do kterých vidíš!", channel);
+                MessageUtils.sendAutoDeletedMessage("Můžeš archivovat pouze channely do kterých vidíš!", 10000, channel);
                 return;
             }
             if (!PermissionUtil.checkPermission(member.getGuild().getSelfMember(), Permission.MESSAGE_HISTORY)) {
-                MessageUtils.sendErrorMessage("Nemám dostatečná práva k přečtení zpráv!", channel);
+                MessageUtils.sendAutoDeletedMessage("Nemám dostatečná práva k přečtení zpráv! Právo: `MESSAGE_HISTORY`", 20000, channel);
                 return;
             }
 
-            channel.sendTyping().submitAfter(5L, TimeUnit.SECONDS);
+            long numposts = Long.valueOf(args[0]);
+
+            TextChannel tx = member.getGuild().getTextChannelById(channel.getId());
+            MessageHistory mh;
 
             mh = new MessageHistory(channel);
 
@@ -51,9 +50,9 @@ public class Archive implements ICommand {
                     "**Odkaz**: " + MessageUtils.hastebin(builder.toString())).build();
             channel.sendMessage(mess).queue();
         } catch (ArrayIndexOutOfBoundsException ax) {
-            MessageUtils.sendErrorMessage("Musíš zadat počet řádků!", channel);
+            MessageUtils.sendAutoDeletedMessage("Musíš zadat počet řádků! Př. `.archive 10`", 20000, channel);
         } catch (Exception e) {
-            //
+            //TODO: Chyba do private channelu
         }
 
     }

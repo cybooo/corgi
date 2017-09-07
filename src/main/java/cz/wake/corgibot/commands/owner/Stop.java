@@ -1,4 +1,4 @@
-package cz.wake.corgibot.commands.admin;
+package cz.wake.corgibot.commands.owner;
 
 import cz.wake.corgibot.commands.ICommand;
 import cz.wake.corgibot.commands.CommandType;

@@ -2,6 +2,7 @@ package cz.wake.corgibot.commands;
 
 import cz.wake.corgibot.commands.admin.*;
 import cz.wake.corgibot.commands.mod.*;
+import cz.wake.corgibot.commands.owner.Stop;
 import cz.wake.corgibot.commands.user.*;
 
 import java.util.ArrayList;

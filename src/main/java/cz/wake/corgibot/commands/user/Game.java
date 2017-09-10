@@ -1,5 +1,6 @@
 package cz.wake.corgibot.commands.user;
 
+import cz.wake.corgibot.CorgiBot;
 import cz.wake.corgibot.commands.CommandType;
 import cz.wake.corgibot.commands.CommandUse;
 import cz.wake.corgibot.commands.ICommand;
@@ -89,7 +90,7 @@ public class Game implements ICommand {
 
 
             } catch (Exception e) {
-                e.printStackTrace();
+                CorgiBot.LOGGER.error("Chyba při provádění příkazu .game!", e);
             }
         }
     }

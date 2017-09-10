@@ -46,7 +46,7 @@ public class Changelog implements ICommand {
                         CorgiBot.getInstance().getSql().insertChnge(messageEdited);
                         channel.sendMessage(MessageUtils.getEmbed(Constants.GREEN).setDescription("Do changelogu přidána položka: **" + messageEdited + "**").build()).queue();
                     } catch (Exception e){
-                        //
+                        CorgiBot.LOGGER.error("Chyba při provádění příkazu .changelog add!", e);
                     }
                 }
             }

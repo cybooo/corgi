@@ -11,10 +11,13 @@ import net.dv8tion.jda.core.Permission;
 import net.dv8tion.jda.core.entities.ChannelType;
 import net.dv8tion.jda.core.entities.Message;
 import net.dv8tion.jda.core.entities.User;
+import net.dv8tion.jda.core.events.DisconnectEvent;
 import net.dv8tion.jda.core.events.ShutdownEvent;
 import net.dv8tion.jda.core.events.message.MessageReceivedEvent;
 import net.dv8tion.jda.core.events.user.UserOnlineStatusUpdateEvent;
 import net.dv8tion.jda.core.hooks.ListenerAdapter;
+
+import java.util.Arrays;
 
 public class MainListener extends ListenerAdapter {
 
@@ -44,6 +47,9 @@ public class MainListener extends ListenerAdapter {
             for (ICommand cmd : CorgiBot.getInstance().getCommandHandler().getCommands()) {
                 if (cmd.getCommand().equalsIgnoreCase(command)) {
                     String[] finalArgs = args;
+                    CorgiBot.LOGGER.info("Provádění příkazu '" + cmd.getCommand() + "' " + Arrays
+                            .toString(args) + " v G:" + e.getGuild().getName() + " (" + (e.getChannel().getName()) + ")! Odeslal: " +
+                            e.getAuthor() + '#' + e.getAuthor().getDiscriminator());
                     if(cmd.getUse() == CommandUse.GUILD && e.isFromType(ChannelType.TEXT)){
                         //Handle guild chat
                         if(cmd.onlyCM() && !e.getGuild().getId().equalsIgnoreCase("207412074224025600")){
@@ -54,7 +60,10 @@ public class MainListener extends ListenerAdapter {
                                 cmd.onCommand(e.getAuthor(), e.getChannel(), e.getMessage(), finalArgs, e.getMember(), w);
                             } catch (Exception ex) {
                                 //TODO: Do privatniho discordu
-                                //MessageUtils.sendException("Chyba při provádění příkazu", ex, e.getChannel());
+                                MessageUtils.sendAutoDeletedMessage("Interní chyba při provádění příkazu!", 10000, e.getChannel());
+                                CorgiBot.LOGGER.error("Chyba při provádění příkazu '" + cmd.getCommand() + "' " + Arrays
+                                        .toString(args) + " v G:" + e.getGuild().getName() + " (" + (e.getChannel().getName()) + ")! Odeslal: " +
+                                        e.getAuthor() + '#' + e.getAuthor().getDiscriminator(), ex);
                             }
                             if (cmd.deleteMessage()) {
                                 delete(e.getMessage());
@@ -74,7 +83,10 @@ public class MainListener extends ListenerAdapter {
                             cmd.onCommand(e.getAuthor(), e.getChannel(), e.getMessage(), finalArgs, e.getMember(), w);
                         } catch (Exception ex) {
                             //TODO: Do privatniho discordu
-                            //MessageUtils.sendException("Chyba při provádění příkazu", ex, e.getChannel());
+                            MessageUtils.sendAutoDeletedMessage("Interní chyba při provádění příkazu!", 10000, e.getChannel());
+                            CorgiBot.LOGGER.error("Chyba při provádění příkazu '" + cmd.getCommand() + "' " + Arrays
+                                    .toString(args) + " v G:" + e.getGuild().getName() + " (" + (e.getChannel().getName()) + ")! Odeslal: " +
+                                    e.getAuthor() + '#' + e.getAuthor().getDiscriminator(), ex);
                         }
                         if (cmd.deleteMessage()) {
                             delete(e.getMessage());
@@ -95,7 +107,10 @@ public class MainListener extends ListenerAdapter {
                             cmd.onCommand(e.getAuthor(), e.getChannel(), e.getMessage(), finalArgs, e.getMember(), w);
                         } catch (Exception ex) {
                             //TODO: Do privatniho discordu
-                            //MessageUtils.sendException("Chyba při provádění příkazu", ex, e.getChannel());
+                            MessageUtils.sendAutoDeletedMessage("Interní chyba při provádění příkazu!", 10000, e.getChannel());
+                            CorgiBot.LOGGER.error("Chyba při provádění příkazu '" + cmd.getCommand() + "' " + Arrays
+                                    .toString(args) + " v G:" + e.getGuild().getName() + " (" + (e.getChannel().getName()) + ")! Odeslal: " +
+                                    e.getAuthor() + '#' + e.getAuthor().getDiscriminator(), ex);
                         }
                         if (cmd.deleteMessage()) {
                             delete(e.getMessage());
@@ -111,6 +126,18 @@ public class MainListener extends ListenerAdapter {
     @Override
     public void onShutdown(ShutdownEvent event) {
         CorgiBot.getInstance().getSql().onDisable();
+    }
+
+    @Override
+    public void onDisconnect(DisconnectEvent event) {
+        if (event.isClosedByServer())
+            CorgiBot.LOGGER.error(String.format("---- DISCONNECT [SERVER] CODE: [%d] %s%n", event.getServiceCloseFrame()
+                    .getCloseCode(), event
+                    .getCloseCode()));
+        else
+            CorgiBot.LOGGER.error(String.format("---- DISCONNECT [CLIENT] CODE: [%d] %s%n", event.getClientCloseFrame()
+                    .getCloseCode(), event
+                    .getClientCloseFrame().getCloseReason()));
     }
 
     public boolean isCreator(User user) {

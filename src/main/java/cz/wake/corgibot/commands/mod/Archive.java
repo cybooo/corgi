@@ -1,5 +1,6 @@
 package cz.wake.corgibot.commands.mod;
 
+import cz.wake.corgibot.CorgiBot;
 import cz.wake.corgibot.commands.ICommand;
 import cz.wake.corgibot.commands.CommandType;
 import cz.wake.corgibot.commands.CommandUse;
@@ -52,7 +53,7 @@ public class Archive implements ICommand {
         } catch (ArrayIndexOutOfBoundsException ax) {
             MessageUtils.sendAutoDeletedMessage("Musíš zadat počet řádků! Př. `.archive 10`", 20000, channel);
         } catch (Exception e) {
-            //TODO: Chyba do private channelu
+            CorgiBot.LOGGER.error("Chyba při provádení příkazu .archive !", e);
         }
 
     }

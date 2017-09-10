@@ -1,5 +1,6 @@
 package cz.wake.corgibot.commands.user;
 
+import cz.wake.corgibot.CorgiBot;
 import cz.wake.corgibot.commands.ICommand;
 import cz.wake.corgibot.commands.CommandType;
 import cz.wake.corgibot.commands.CommandUse;
@@ -25,6 +26,7 @@ public class EightBall implements ICommand {
             }
         } catch (Exception e) {
             MessageUtils.sendAutoDeletedMessage("Chyba při provádění příkazu!", 10000, channel);
+            CorgiBot.LOGGER.error("Chyba při provádění příkazu .8ball!", e);
         }
     }
 

@@ -2,6 +2,7 @@ package cz.wake.corgibot.commands.user;
 
 import com.mashape.unirest.http.Unirest;
 import com.mashape.unirest.http.exceptions.UnirestException;
+import cz.wake.corgibot.CorgiBot;
 import cz.wake.corgibot.commands.ICommand;
 import cz.wake.corgibot.commands.CommandType;
 import cz.wake.corgibot.commands.CommandUse;
@@ -36,7 +37,7 @@ public class Meme implements ICommand {
                 map.put(jso.getString("name"), jso.getString("id"));
             }
         } catch (UnirestException e) {
-            e.printStackTrace();
+            CorgiBot.LOGGER.error("Chyba při provádění příkazu .emote!", e);
         }
     }
 

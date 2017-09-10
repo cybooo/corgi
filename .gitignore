@@ -6,3 +6,5 @@ dependency-reduced-pom.xml
 
 config\.yml
 target/*
+
+latest\.log

@@ -1,5 +1,7 @@
 package cz.wake.corgibot.scheluder;
 
+import cz.wake.corgibot.CorgiBot;
+
 import java.util.HashMap;
 import java.util.Iterator;
 import java.util.Map;
@@ -26,7 +28,7 @@ public class Scheduler {
                     try {
                         task.run();
                     } catch (Exception e) {
-                        //ERROR
+                        CorgiBot.LOGGER.error("Chyba při provádění akce " + taskName, e);
                     }
                 }, delay, interval, TimeUnit.MILLISECONDS));
         return true;

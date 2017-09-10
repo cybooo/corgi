@@ -1,5 +1,6 @@
 package cz.wake.corgibot.commands.mod;
 
+import cz.wake.corgibot.CorgiBot;
 import cz.wake.corgibot.commands.ICommand;
 import cz.wake.corgibot.commands.CommandType;
 import cz.wake.corgibot.commands.CommandUse;
@@ -24,6 +25,8 @@ public class Giveaway implements ICommand {
             message.delete().queue();
         } catch (NumberFormatException ex) {
             MessageUtils.sendAutoDeletedMessage("Nelze zadat vteřiny v tomto tvaru `" + parts[0] + "`", 15000, channel);
+        } catch (Exception em){
+            CorgiBot.LOGGER.error("Chyba při provádení příkazu .giveaway!", em);
         }
     }
 

@@ -37,6 +37,7 @@ public class MessageUtils {
                     .getBody()
                     .getObject().getString("key");
         } catch (UnirestException e) {
+            CorgiBot.LOGGER.error("Chyba při posílání na HasteBin", e);
             return null;
         }
     }

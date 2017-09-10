@@ -14,10 +14,17 @@ import net.dv8tion.jda.core.entities.Game;
 import net.dv8tion.jda.core.exceptions.RateLimitedException;
 
 import javax.security.auth.login.LoginException;
+import java.io.File;
 import java.io.IOException;
 import java.time.LocalDateTime;
 import java.time.format.DateTimeFormatter;
+import java.util.Map;
 import java.util.Timer;
+import java.util.concurrent.ConcurrentHashMap;
+
+import net.dv8tion.jda.core.utils.SimpleLog;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 
 public class CorgiBot {
 
@@ -30,9 +37,51 @@ public class CorgiBot {
     private DateTimeFormatter timeFormat = DateTimeFormatter.ofPattern("MMMM yyyy HH:mm:ss");
     private static String imgflipToken = "";
     public static long startUp;
+    private static final Map<String, Logger> LOGGERS;
+    public static final Logger LOGGER;
+
+    static {
+        new File("latest.log").delete();
+        LOGGERS = new ConcurrentHashMap<>();
+        LOGGER = getLog(CorgiBot.class);
+    }
 
     public static void main(String[] args) throws LoginException, RateLimitedException, InterruptedException, IOException {
+
+        SimpleLog.LEVEL = SimpleLog.Level.OFF;
+        SimpleLog.addListener(new SimpleLog.LogListener() {
+            @Override
+            public void onLog(SimpleLog log, SimpleLog.Level logLevel, Object message) {
+                switch (logLevel) {
+                    case ALL:
+                    case INFO:
+                        getLog(log.name).info(String.valueOf(message));
+                        break;
+                    case FATAL:
+                        getLog(log.name).error(String.valueOf(message));
+                        break;
+                    case WARNING:
+                        getLog(log.name).warn(String.valueOf(message));
+                        break;
+                    case DEBUG:
+                        getLog(log.name).debug(String.valueOf(message));
+                        break;
+                    case TRACE:
+                        getLog(log.name).trace(String.valueOf(message));
+                        break;
+                    case OFF:
+                        break;
+                }
+            }
+
+            @Override
+            public void onError(SimpleLog log, Throwable err) {
+
+            }
+        });
+
         System.out.println("Spousteni bota...");
+        LOGGER.info("Spusteni bota...");
 
         LoadingProperties config = new LoadingProperties();
 
@@ -95,5 +144,13 @@ public class CorgiBot {
 
     public String getImgflipToken() {
         return imgflipToken;
+    }
+
+    private static Logger getLog(String name) {
+        return LOGGERS.computeIfAbsent(name, LoggerFactory::getLogger);
+    }
+
+    public static Logger getLog(Class<?> clazz) {
+        return getLog(clazz.getName());
     }
 }

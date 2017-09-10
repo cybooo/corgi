@@ -1,8 +1,10 @@
 package cz.wake.corgibot.commands;
 
+import cz.wake.corgibot.CorgiBot;
 import cz.wake.corgibot.commands.admin.*;
 import cz.wake.corgibot.commands.mod.*;
 import cz.wake.corgibot.commands.owner.GuildList;
+import cz.wake.corgibot.commands.owner.Log;
 import cz.wake.corgibot.commands.owner.Stop;
 import cz.wake.corgibot.commands.user.*;
 
@@ -17,9 +19,9 @@ public class CommandHandler {
     public void registerCommand(ICommand c) {
         try {
             commands.add(c);
-            System.out.println("[BOT]: Prikaz ." + c.getCommand() + " byl uspesne zaregistrovan.");
+            CorgiBot.LOGGER.info("Příkaz ." + c.getCommand() + " byl úspěšně zaregistrován!");
         } catch (Exception e) {
-            System.out.println("[BOT]: Chyba pri registraci prikazu " + c.getCommand() + ".");
+            CorgiBot.LOGGER.info("Chyba při registraci příkazu ." + c.getCommand());
         }
     }
 
@@ -62,6 +64,7 @@ public class CommandHandler {
         registerCommand(new Invite());
         registerCommand(new Changelog());
         registerCommand(new GuildList());
+        registerCommand(new Log());
     }
 
 

@@ -18,6 +18,11 @@ public class Giveaway implements ICommand {
         String[] parts = str.split("\\s+", 2);
         try {
             int sec = Integer.parseInt(parts[0]);
+            if(sec < 30){
+                message.delete().queue();
+                MessageUtils.sendAutoDeletedMessage("Čas giveawaye je příliš krátký, nejkratší možný čas je 30s", 20000, channel);
+                return;
+            }
             channel.sendMessage(MessageUtils.getEmbed(Constants.GRAY).setDescription("Generuji...").build()).queue(m -> {
                 m.addReaction("\uD83C\uDF89").queue();
                 new cz.wake.corgibot.managers.Giveaway(sec, m, parts.length > 1 ? parts[1] : null).start();

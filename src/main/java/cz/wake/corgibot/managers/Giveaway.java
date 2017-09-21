@@ -1,5 +1,6 @@
 package cz.wake.corgibot.managers;
 
+import cz.wake.corgibot.CorgiBot;
 import cz.wake.corgibot.utils.Constants;
 import net.dv8tion.jda.core.EmbedBuilder;
 import net.dv8tion.jda.core.entities.Message;
@@ -28,20 +29,31 @@ public class Giveaway {
             @Override
             public void run() {
                 while (seconds > 10) {
-                    message.editMessage(new EmbedBuilder().setTitle(":confetti_ball:  **GIVEAWAY!**  :confetti_ball:", null).setDescription((item != null ? "\n**" + item + "**" : "\n") + "\nKlikni na 🎉 ke vstupu!\nZbývající čas: " + secondsToTime(seconds)).setColor(Constants.GIVEAWAY_BLUE).setFooter("Konec ", null).setTimestamp(Instant.ofEpochMilli(now)).build()).queue();
-                    seconds -= 5;
                     try {
+                        message.editMessage(new EmbedBuilder().setTitle(":confetti_ball:  **GIVEAWAY!**  :confetti_ball:", null).setDescription((item != null ? "\n**" + item + "**" : "\n") + "\nKlikni na 🎉 ke vstupu!\nZbývající čas: " + secondsToTime(seconds)).setColor(Constants.GIVEAWAY_BLUE).setFooter("Konec ", null).setTimestamp(Instant.ofEpochMilli(now)).build()).queue();
+                        seconds -= 5;
+                        if(!message.getReactions().equals("\uD83C\uDF89")){
+                            message.addReaction("\uD83C\uDF89").queue();
+                        }
                         Thread.sleep(5000);
-                    } catch (Exception e) {
+                    } catch (Exception ex){
+                        CorgiBot.LOGGER.error("Giveaway", ex);
+                        seconds = 0; //Force nastaveni aby bot nepocital tydny neco, co neexistuje.
                     }
+
                 }
                 while (seconds > 0) {
-                    message.editMessage(new EmbedBuilder().setTitle(":confetti_ball:  **GIVEAWAY BRZO KONČÍ!**  :confetti_ball:", null).setDescription((item != null ? "\n**" + item + "**" : "\n") + "\nKlikni na 🎉 ke vstupu!\nZbývající čas: " + secondsToTime(seconds)).setColor(Constants.RED).setFooter("Konec ", null).setTimestamp(Instant.ofEpochMilli(now)).build()).queue();
-                    seconds--;
                     try {
+                        message.editMessage(new EmbedBuilder().setTitle(":confetti_ball:  **GIVEAWAY BRZO KONČÍ!**  :confetti_ball:", null).setDescription((item != null ? "\n**" + item + "**" : "\n") + "\nKlikni na 🎉 ke vstupu!\nZbývající čas: " + secondsToTime(seconds)).setColor(Constants.RED).setFooter("Konec ", null).setTimestamp(Instant.ofEpochMilli(now)).build()).queue();
+                        seconds--;
+                        if(!message.getReactions().equals("\uD83C\uDF89")){
+                            message.addReaction("\uD83C\uDF89").queue();
+                        }
                         Thread.sleep(1000);
-                    } catch (Exception e) {
+                    } catch (Exception ex){
+                        CorgiBot.LOGGER.error("Giveaway", ex);
                     }
+
                 }
                 try {
                     message.getChannel().getMessageById(message.getId()).complete().getReactions()
@@ -55,6 +67,7 @@ public class Giveaway {
                     });
                 } catch (Exception ex) {
                     message.editMessage(new EmbedBuilder().setTitle(":fire:  **GIVEAWAY CHYBA!**  :fire:", null).setDescription("Vítěz nemohl být vyhodnocen, jelikož se nikdo nezúčastnil!").setColor(Constants.ORANGE).build()).queue();
+                    message.clearReactions().queue();
                 }
             }
         }.start();

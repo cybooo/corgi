@@ -21,36 +21,7 @@ public class Changelog implements ICommand {
 
     @Override
     public void onCommand(User sender, MessageChannel channel, Message message, String[] args, Member member, EventWaiter w) {
-        if(args.length < 1){
-            List<Integer> ids = CorgiBot.getInstance().getSql().getChangelogRow();
-            List<String> changes = CorgiBot.getInstance().getSql().getChangelogText();
-            EmbedBuilder builder = MessageUtils.getEmbed(Constants.GRAY).setTitle("Seznam posledních změn :pencil:");
-            for(int i = 0; i < changes.size(); i++){
-
-                String request = StringUtils.join(changes.get(i), " ");
-                String[] arguments = request.split("\\|");
-
-                StringBuilder b = new StringBuilder();
-                for(String s : arguments){
-                    b.append(s.trim() + "\n");
-                }
-
-                builder.addField("1.1." + ids.get(i), b.toString(), false);
-            }
-            channel.sendMessage(builder.build()).queue();
-        } else {
-            if(args[0].equalsIgnoreCase("add")){
-                if(sender.getId().equals("177516608778928129") && member.isOwner()){
-                    try {
-                        String messageEdited = message.getContent().replace(".changelog add ", "");
-                        CorgiBot.getInstance().getSql().insertChnge(messageEdited);
-                        channel.sendMessage(MessageUtils.getEmbed(Constants.GREEN).setDescription("Do changelogu přidána položka: **" + messageEdited + "**").build()).queue();
-                    } catch (Exception e){
-                        CorgiBot.LOGGER.error("Chyba při provádění příkazu .changelog add!", e);
-                    }
-                }
-            }
-        }
+        channel.sendMessage(MessageUtils.getEmbed(Constants.GREEN).setTitle("Changelog :page_facing_up: ").setDescription("Seznam změn nalezneš [**ZDE**](https://changelog.corgibot.xyz/)").build()).queue();
     }
 
     @Override

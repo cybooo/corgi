@@ -48,9 +48,14 @@ public class MainListener extends ListenerAdapter {
             for (ICommand cmd : CorgiBot.getInstance().getCommandHandler().getCommands()) {
                 if (cmd.getCommand().equalsIgnoreCase(command)) {
                     String[] finalArgs = args;
-                    CorgiBot.LOGGER.info("Provádění příkazu '" + cmd.getCommand() + "' " + Arrays
-                            .toString(args) + " v G:" + e.getGuild().getName() + " (" + (e.getChannel().getName()) + ")! Odeslal: " +
-                            e.getAuthor() + '#' + e.getAuthor().getDiscriminator());
+                    try {
+                        CorgiBot.LOGGER.info("Provádění příkazu '" + cmd.getCommand() + "' " + Arrays
+                                .toString(args) + " v G:" + e.getGuild().getName() + " (" + (e.getChannel().getName()) + ")! Odeslal: " +
+                                e.getAuthor() + '#' + e.getAuthor().getDiscriminator());
+                    } catch (Exception ex){
+                        CorgiBot.LOGGER.info("Provádění příkazu '" + cmd.getCommand() + "' " + Arrays
+                                .toString(args) + " Odeslal: " + e.getAuthor() + '#' + e.getAuthor().getDiscriminator());
+                    }
                     if(cmd.getUse() == CommandUse.GUILD && e.isFromType(ChannelType.TEXT)){
 
                         //TODO: Do CMD
@@ -102,11 +107,13 @@ public class MainListener extends ListenerAdapter {
                         }
                     } else if (cmd.getUse() == CommandUse.ALL && (e.isFromType(ChannelType.PRIVATE) || e.isFromType(ChannelType.TEXT))) {
 
-                        //TODO: Do CMD
-                        List<Permission> perms = e.getGuild().getSelfMember().getPermissions(e.getTextChannel());
-                        if(!perms.contains(Permission.MESSAGE_EMBED_LINKS)){
-                            e.getChannel().sendMessage(":warning: | Nemám dostatečná práva na používání EMBED odkazů! Přiděl mi právo: `Vkládání odkazů` nebo `Embed Links`.").queue();
-                            return;
+                        if(e.isFromType(ChannelType.TEXT)){
+                            //TODO: Do CMD
+                            List<Permission> perms = e.getGuild().getSelfMember().getPermissions(e.getTextChannel());
+                            if(!perms.contains(Permission.MESSAGE_EMBED_LINKS)){
+                                e.getChannel().sendMessage(":warning: | Nemám dostatečná práva na používání EMBED odkazů! Přiděl mi právo: `Vkládání odkazů` nebo `Embed Links`.").queue();
+                                return;
+                            }
                         }
 
                         //Handle all others

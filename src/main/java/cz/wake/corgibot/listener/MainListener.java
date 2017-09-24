@@ -4,8 +4,10 @@ import cz.wake.corgibot.CorgiBot;
 import cz.wake.corgibot.commands.ICommand;
 import cz.wake.corgibot.commands.CommandUse;
 import cz.wake.corgibot.commands.Rank;
+import cz.wake.corgibot.utils.Constants;
 import cz.wake.corgibot.utils.MessageUtils;
 import me.jagrosh.jdautilities.waiter.EventWaiter;
+import net.dv8tion.jda.core.JDA;
 import net.dv8tion.jda.core.OnlineStatus;
 import net.dv8tion.jda.core.Permission;
 import net.dv8tion.jda.core.entities.ChannelType;
@@ -13,10 +15,13 @@ import net.dv8tion.jda.core.entities.Message;
 import net.dv8tion.jda.core.entities.User;
 import net.dv8tion.jda.core.events.DisconnectEvent;
 import net.dv8tion.jda.core.events.ShutdownEvent;
+import net.dv8tion.jda.core.events.guild.GuildJoinEvent;
+import net.dv8tion.jda.core.events.guild.GuildLeaveEvent;
 import net.dv8tion.jda.core.events.message.MessageReceivedEvent;
 import net.dv8tion.jda.core.events.user.UserOnlineStatusUpdateEvent;
 import net.dv8tion.jda.core.hooks.ListenerAdapter;
 
+import java.time.OffsetDateTime;
 import java.util.Arrays;
 
 public class MainListener extends ListenerAdapter {
@@ -164,6 +169,34 @@ public class MainListener extends ListenerAdapter {
                 CorgiBot.getJda().getPresence().setStatus(OnlineStatus.ONLINE);
             }
         }
+    }
 
+    @Override
+    public void onGuildJoin(GuildJoinEvent event) {
+        if (event.getJDA().getStatus() == JDA.Status.CONNECTED &&
+                event.getGuild().getSelfMember().getJoinDate().plusMinutes(2).isAfter(OffsetDateTime.now())){
+            CorgiBot.getInstance().getGuildLogChannel().sendMessage(MessageUtils.getEmbed(Constants.GREEN)
+                    .setThumbnail(event.getGuild().getIconUrl())
+                    .setFooter(event.getGuild().getId(), event.getGuild().getIconUrl())
+                    .setTitle("Corgi se připojil do nové guildy")
+                    .setAuthor(event.getGuild().getName(), null, event.getGuild().getIconUrl()).setTimestamp(event.getGuild().getSelfMember().getJoinDate())
+                    .setDescription("Název guildy: `" + event.getGuild().getName() + "` :smile: :heart:\n" +
+                            "Majitel: " + event.getGuild().getOwner().getUser().getName() + "\nPočet členů: " +
+                            event.getGuild().getMembers().size()).build()).queue();
+        }
+    }
+
+    @Override
+    public void onGuildLeave(GuildLeaveEvent event) {
+        CorgiBot.getInstance().getGuildLogChannel().sendMessage(MessageUtils.getEmbed(Constants.RED)
+                .setThumbnail(event.getGuild().getIconUrl())
+                .setFooter(event.getGuild().getId(), event.getGuild().getIconUrl())
+                .setTimestamp(OffsetDateTime.now())
+                .setTitle("Corgi byl vyhozen z guildy")
+                .setAuthor(event.getGuild().getName(), null, event.getGuild().getIconUrl())
+                .setDescription("Nazev guildy: `" + event.getGuild().getName() + "` :broken_heart:\n" +
+                        "Majitel: " + (event.getGuild().getOwner() != null ?
+                        event.getGuild().getOwner().getUser().getName()
+                        : "Neexistuje, nebo nelze zjistit!")).build()).queue();
     }
 }

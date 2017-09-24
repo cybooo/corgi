@@ -10,11 +10,6 @@ public class GuildWrapperBuilder {
         this.wrapper = new GuildWrapper(guildId);
     }
 
-    public GuildWrapperBuilder setPrefix(String prefix){
-        this.wrapper.setGuildPrefix(prefix);
-        return this;
-    }
-
     public GuildWrapperBuilder setBlocked(boolean blocked){
         this.wrapper.setBlocked(blocked);
         return this;

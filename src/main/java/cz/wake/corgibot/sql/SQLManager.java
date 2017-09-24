@@ -5,6 +5,7 @@ import cz.wake.corgibot.CorgiBot;
 
 import java.sql.Connection;
 import java.sql.PreparedStatement;
+import java.sql.ResultSet;
 import java.util.ArrayList;
 import java.util.List;
 
@@ -221,6 +222,24 @@ public class SQLManager {
         } finally {
             pool.close(conn, ps, null);
         }
+    }
+
+    public final ResultSet getPrefixData() {
+        Connection conn = null;
+        PreparedStatement ps = null;
+        try {
+            conn = pool.getConnection();
+            ps = conn.prepareStatement("SELECT * FROM corgibot.prefixes;");
+            ps.executeQuery();
+            if (ps.getResultSet().next()) {
+                return ps.getResultSet();
+            }
+        } catch (Exception e) {
+            e.printStackTrace();
+        } finally {
+            pool.close(conn, ps, null);
+        }
+        return null;
     }
 
 

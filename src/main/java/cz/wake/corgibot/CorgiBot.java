@@ -1,6 +1,7 @@
 package cz.wake.corgibot;
 
 import cz.wake.corgibot.commands.CommandHandler;
+import cz.wake.corgibot.commands.Prefixes;
 import cz.wake.corgibot.listener.MainListener;
 import cz.wake.corgibot.runnable.StatusChanger;
 import cz.wake.corgibot.sql.SQLManager;
@@ -20,7 +21,6 @@ import java.time.LocalDateTime;
 import java.time.format.DateTimeFormatter;
 import java.util.*;
 import java.util.concurrent.ConcurrentHashMap;
-import java.util.stream.Collectors;
 
 import net.dv8tion.jda.core.utils.SimpleLog;
 import org.slf4j.Logger;
@@ -32,13 +32,14 @@ public class CorgiBot {
     private MainListener events;
     private static JDA jda;
     private CommandHandler ch = new CommandHandler();
-    public static final String PREFIX = ".";
+    public static final char PREFIX = '.';
     private SQLManager sql;
     private DateTimeFormatter timeFormat = DateTimeFormatter.ofPattern("MMMM yyyy HH:mm:ss");
     private static String imgflipToken = "";
     public static long startUp;
     private static final Map<String, Logger> LOGGERS;
     public static final Logger LOGGER;
+    private static Prefixes prefixes;
 
     static {
         new File("latest.log").delete();
@@ -152,5 +153,13 @@ public class CorgiBot {
 
     public static Logger getLog(Class<?> clazz) {
         return getLog(clazz.getName());
+    }
+
+    public static Prefixes getPrefixes() {
+        return prefixes;
+    }
+
+    public TextChannel getGuildLogChannel() {
+        return getJda().getGuildById("255045073887166475").getTextChannelById("361636711585021953");
     }
 }

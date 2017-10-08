@@ -52,7 +52,6 @@ public class CommandHandler {
         registerCommand(new Status());
         registerCommand(new Meme());
         registerCommand(new Archive());
-        registerCommand(new Ats());
         registerCommand(new Purge());
         registerCommand(new TextToBlock());
         registerCommand(new Giveaway());

@@ -33,8 +33,6 @@ public class Help implements ICommand {
         }
     }
 
-    //TODO: Dodelat jednotne a automaticky
-
     @Override
     public String getCommand() {
         return "help";

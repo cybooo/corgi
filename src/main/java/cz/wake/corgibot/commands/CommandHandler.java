@@ -41,7 +41,6 @@ public class CommandHandler {
         registerCommand(new EightBall());
         registerCommand(new Help());
         registerCommand(new Ping());
-        registerCommand(new PlayerStats());
         registerCommand(new Roles());
         registerCommand(new UserInfo());
         registerCommand(new Stop());

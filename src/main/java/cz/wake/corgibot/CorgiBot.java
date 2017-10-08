@@ -22,7 +22,6 @@ import java.util.Map;
 import java.util.Timer;
 import java.util.concurrent.ConcurrentHashMap;
 
-import net.dv8tion.jda.core.utils.SimpleLog;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
@@ -47,38 +46,6 @@ public class CorgiBot {
     }
 
     public static void main(String[] args) throws LoginException, RateLimitedException, InterruptedException, IOException {
-
-        SimpleLog.LEVEL = SimpleLog.Level.OFF;
-        SimpleLog.addListener(new SimpleLog.LogListener() {
-            @Override
-            public void onLog(SimpleLog log, SimpleLog.Level logLevel, Object message) {
-                switch (logLevel) {
-                    case ALL:
-                    case INFO:
-                        getLog(log.name).info(String.valueOf(message));
-                        break;
-                    case FATAL:
-                        getLog(log.name).error(String.valueOf(message));
-                        break;
-                    case WARNING:
-                        getLog(log.name).warn(String.valueOf(message));
-                        break;
-                    case DEBUG:
-                        getLog(log.name).debug(String.valueOf(message));
-                        break;
-                    case TRACE:
-                        getLog(log.name).trace(String.valueOf(message));
-                        break;
-                    case OFF:
-                        break;
-                }
-            }
-
-            @Override
-            public void onError(SimpleLog log, Throwable err) {
-
-            }
-        });
 
         System.out.println("Spousteni bota...");
         LOGGER.info("Spusteni bota...");

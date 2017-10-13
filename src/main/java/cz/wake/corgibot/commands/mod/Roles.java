@@ -2,7 +2,6 @@ package cz.wake.corgibot.commands.mod;
 
 import cz.wake.corgibot.commands.ICommand;
 import cz.wake.corgibot.commands.CommandType;
-import cz.wake.corgibot.commands.CommandUse;
 import cz.wake.corgibot.commands.Rank;
 import me.jagrosh.jdautilities.waiter.EventWaiter;
 import net.dv8tion.jda.core.entities.*;
@@ -39,11 +38,6 @@ public class Roles implements ICommand {
     @Override
     public CommandType getType() {
         return CommandType.MODERATION;
-    }
-
-    @Override
-    public CommandUse getUse() {
-        return CommandUse.GUILD;
     }
 
     @Override

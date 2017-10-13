@@ -54,11 +54,6 @@ public class Help implements ICommand {
     }
 
     @Override
-    public CommandUse getUse() {
-        return CommandUse.ALL;
-    }
-
-    @Override
     public Rank getRank() {
         return Rank.USER;
     }

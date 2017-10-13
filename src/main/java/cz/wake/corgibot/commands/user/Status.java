@@ -2,7 +2,6 @@ package cz.wake.corgibot.commands.user;
 
 import cz.wake.corgibot.commands.ICommand;
 import cz.wake.corgibot.commands.CommandType;
-import cz.wake.corgibot.commands.CommandUse;
 import cz.wake.corgibot.commands.Rank;
 import cz.wake.corgibot.utils.Constants;
 import cz.wake.corgibot.utils.statuses.Checker;
@@ -61,11 +60,6 @@ public class Status implements ICommand {
     @Override
     public CommandType getType() {
         return CommandType.GENERAL;
-    }
-
-    @Override
-    public CommandUse getUse() {
-        return CommandUse.ALL;
     }
 
     @Override

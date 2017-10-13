@@ -2,7 +2,6 @@ package cz.wake.corgibot.listener;
 
 import cz.wake.corgibot.CorgiBot;
 import cz.wake.corgibot.commands.ICommand;
-import cz.wake.corgibot.commands.CommandUse;
 import cz.wake.corgibot.commands.Rank;
 import cz.wake.corgibot.utils.Constants;
 import cz.wake.corgibot.utils.MessageUtils;
@@ -10,19 +9,17 @@ import me.jagrosh.jdautilities.waiter.EventWaiter;
 import net.dv8tion.jda.core.JDA;
 import net.dv8tion.jda.core.OnlineStatus;
 import net.dv8tion.jda.core.Permission;
-import net.dv8tion.jda.core.entities.ChannelType;
 import net.dv8tion.jda.core.entities.Message;
 import net.dv8tion.jda.core.entities.User;
 import net.dv8tion.jda.core.events.DisconnectEvent;
 import net.dv8tion.jda.core.events.ShutdownEvent;
 import net.dv8tion.jda.core.events.guild.GuildJoinEvent;
 import net.dv8tion.jda.core.events.guild.GuildLeaveEvent;
-import net.dv8tion.jda.core.events.message.MessageReceivedEvent;
+import net.dv8tion.jda.core.events.message.guild.GuildMessageReceivedEvent;
 import net.dv8tion.jda.core.events.user.UserOnlineStatusUpdateEvent;
 import net.dv8tion.jda.core.hooks.ListenerAdapter;
 
 import java.time.OffsetDateTime;
-import java.util.Arrays;
 import java.util.List;
 
 public class MainListener extends ListenerAdapter {
@@ -34,119 +31,39 @@ public class MainListener extends ListenerAdapter {
     }
 
     @Override
-    public void onMessageReceived(MessageReceivedEvent e) {
+    public void onGuildMessageReceived(GuildMessageReceivedEvent e) {
 
         if (e.getAuthor().isBot()) {
             return;
         }
 
-        if (e.getMessage().getRawContent().startsWith(String.valueOf(CorgiBot.PREFIX)) //TODO: MySQL prefix
-                && !e.getAuthor().isBot()) {
+        if (e.getMessage().getRawContent().startsWith(String.valueOf(CorgiBot.PREFIX)) && !e.getAuthor().isBot()) {
             String message = e.getMessage().getRawContent();
             String command = message.substring(1);
             String[] args = new String[0];
             if (message.contains(" ")) {
                 command = command.substring(0, message.indexOf(" ") - 1);
-
                 args = message.substring(message.indexOf(" ") + 1).split(" ");
             }
             for (ICommand cmd : CorgiBot.getInstance().getCommandHandler().getCommands()) {
                 if (cmd.getCommand().equalsIgnoreCase(command)) {
                     String[] finalArgs = args;
-                    try {
-                        CorgiBot.LOGGER.info("Provádění příkazu '" + cmd.getCommand() + "' " + Arrays
-                                .toString(args) + " v G:" + e.getGuild().getName() + " (" + (e.getChannel().getName()) + ")! Odeslal: " +
-                                e.getAuthor() + '#' + e.getAuthor().getDiscriminator());
-                    } catch (Exception ex){
-                        CorgiBot.LOGGER.info("Provádění příkazu '" + cmd.getCommand() + "' " + Arrays
-                                .toString(args) + " Odeslal: " + e.getAuthor() + '#' + e.getAuthor().getDiscriminator());
-                    }
-                    if(cmd.getUse() == CommandUse.GUILD && e.isFromType(ChannelType.TEXT)){
-
-                        //TODO: Do CMD
-                        List<Permission> perms = e.getGuild().getSelfMember().getPermissions(e.getTextChannel());
-                        if(!perms.contains(Permission.MESSAGE_EMBED_LINKS)){
-                            e.getChannel().sendMessage(":warning: | Nemám dostatečná práva na používání EMBED odkazů! Přiděl mi právo: `Vkládání odkazů` nebo `Embed Links`.").queue();
-                            return;
-                        }
-
-                        //Handle guild chat
-                        if(cmd.onlyCM() && !e.getGuild().getId().equalsIgnoreCase("207412074224025600")){
-                            return;
-                        }
-                        if(Rank.getPermLevelForUser(e.getAuthor(),e.getTextChannel()).isAtLeast(cmd.getRank())){
-                            try {
-                                cmd.onCommand(e.getAuthor(), e.getChannel(), e.getMessage(), finalArgs, e.getMember(), w);
-                            } catch (Exception ex) {
-                                //TODO: Do privatniho discordu
-                                MessageUtils.sendAutoDeletedMessage("Interní chyba při provádění příkazu!", 10000, e.getChannel());
-                                CorgiBot.LOGGER.error("Chyba při provádění příkazu '" + cmd.getCommand() + "' " + Arrays
-                                        .toString(args) + " v G:" + e.getGuild().getName() + " (" + (e.getChannel().getName()) + ")! Odeslal: " +
-                                        e.getAuthor() + '#' + e.getAuthor().getDiscriminator(), ex);
-                            }
-                            if (cmd.deleteMessage()) {
-                                delete(e.getMessage());
-                            }
-                        }
-                    } else if (cmd.getUse() == CommandUse.PRIVATE && e.isFromType(ChannelType.PRIVATE)){
-                        //Handle text channel
-                        if(e.isFromType(ChannelType.TEXT)){
-                            return; //Blokace z ALL
-                        }
-                        if(cmd.getRank() == Rank.BOT_OWNER){
-                            if (!isCreator(e.getMessage().getAuthor())) {
-                                return;
-                            }
-                        }
-                        try {
-                            cmd.onCommand(e.getAuthor(), e.getChannel(), e.getMessage(), finalArgs, e.getMember(), w);
-                        } catch (Exception ex) {
-                            //TODO: Do privatniho discordu
-                            MessageUtils.sendAutoDeletedMessage("Interní chyba při provádění příkazu!", 10000, e.getChannel());
-                            CorgiBot.LOGGER.error("Chyba při provádění příkazu '" + cmd.getCommand() + "' " + Arrays
-                                    .toString(args) + " v G:" + e.getGuild().getName() + " (" + (e.getChannel().getName()) + ")! Odeslal: " +
-                                    e.getAuthor() + '#' + e.getAuthor().getDiscriminator(), ex);
-                        }
-                        if (cmd.deleteMessage()) {
-                            delete(e.getMessage());
-                        }
-                    } else if (cmd.getUse() == CommandUse.ALL && (e.isFromType(ChannelType.PRIVATE) || e.isFromType(ChannelType.TEXT))) {
-
-                        if(e.isFromType(ChannelType.TEXT)){
-                            //TODO: Do CMD
-                            List<Permission> perms = e.getGuild().getSelfMember().getPermissions(e.getTextChannel());
-                            if(!perms.contains(Permission.MESSAGE_EMBED_LINKS)){
-                                e.getChannel().sendMessage(":warning: | Nemám dostatečná práva na používání EMBED odkazů! Přiděl mi právo: `Vkládání odkazů` nebo `Embed Links`.").queue();
-                                return;
-                            }
-                        }
-
-                        //Handle all others
-                        if(e.isFromType(ChannelType.TEXT)){
-                            if(cmd.onlyCM() && !e.getGuild().getId().equalsIgnoreCase("207412074224025600")){
-                                return;
-                            }
-                        }
-                        if(cmd.getRank() == Rank.BOT_OWNER){
-                            if (!isCreator(e.getMessage().getAuthor())) {
-                                return;
-                            }
-                        }
-                        try {
-                            cmd.onCommand(e.getAuthor(), e.getChannel(), e.getMessage(), finalArgs, e.getMember(), w);
-                        } catch (Exception ex) {
-                            //TODO: Do privatniho discordu
-                            MessageUtils.sendAutoDeletedMessage("Interní chyba při provádění příkazu!", 10000, e.getChannel());
-                            CorgiBot.LOGGER.error("Chyba při provádění příkazu '" + cmd.getCommand() + "' " + Arrays
-                                    .toString(args) + " v G:" + e.getGuild().getName() + " (" + (e.getChannel().getName()) + ")! Odeslal: " +
-                                    e.getAuthor() + '#' + e.getAuthor().getDiscriminator(), ex);
-                        }
-                        if (cmd.deleteMessage()) {
-                            delete(e.getMessage());
-                        }
-                    } else {
+                    List<Permission> perms = e.getGuild().getSelfMember().getPermissions(e.getChannel());
+                    if (!perms.contains(Permission.MESSAGE_EMBED_LINKS)) {
+                        e.getChannel().sendMessage(":warning: | Nemám dostatečná práva na používání EMBED odkazů! Přiděl mi právo: `Vkládání odkazů` nebo `Embed Links`.").queue();
                         return;
                     }
+                    if (Rank.getPermLevelForUser(e.getAuthor(), e.getChannel()).isAtLeast(cmd.getRank())) {
+                        try {
+                            cmd.onCommand(e.getAuthor(), e.getChannel(), e.getMessage(), finalArgs, e.getMember(), w);
+                        } catch (Exception ex) {
+                            //
+                        }
+                        if (cmd.deleteMessage()) {
+                            delete(e.getMessage());
+                        }
+                    }
+
                 }
             }
         }

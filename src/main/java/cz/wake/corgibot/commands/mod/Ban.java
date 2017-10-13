@@ -1,7 +1,6 @@
 package cz.wake.corgibot.commands.mod;
 
 import cz.wake.corgibot.commands.CommandType;
-import cz.wake.corgibot.commands.CommandUse;
 import cz.wake.corgibot.commands.ICommand;
 import cz.wake.corgibot.commands.Rank;
 import cz.wake.corgibot.utils.FormatUtil;
@@ -99,11 +98,6 @@ public class Ban implements ICommand {
     @Override
     public CommandType getType() {
         return CommandType.MODERATION;
-    }
-
-    @Override
-    public CommandUse getUse() {
-        return CommandUse.GUILD;
     }
 
     @Override

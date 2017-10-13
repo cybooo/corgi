@@ -3,7 +3,6 @@ package cz.wake.corgibot.commands.mod;
 import cz.wake.corgibot.CorgiBot;
 import cz.wake.corgibot.commands.ICommand;
 import cz.wake.corgibot.commands.CommandType;
-import cz.wake.corgibot.commands.CommandUse;
 import cz.wake.corgibot.commands.Rank;
 import cz.wake.corgibot.utils.Constants;
 import cz.wake.corgibot.utils.MessageUtils;
@@ -15,7 +14,6 @@ import net.dv8tion.jda.core.utils.PermissionUtil;
 
 import java.time.format.DateTimeFormatter;
 import java.util.List;
-import java.util.concurrent.TimeUnit;
 
 public class Archive implements ICommand {
 
@@ -81,11 +79,6 @@ public class Archive implements ICommand {
     @Override
     public CommandType getType() {
         return CommandType.MODERATION;
-    }
-
-    @Override
-    public CommandUse getUse() {
-        return CommandUse.GUILD;
     }
 
     @Override

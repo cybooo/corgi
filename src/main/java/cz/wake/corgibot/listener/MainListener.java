@@ -22,6 +22,7 @@ import net.dv8tion.jda.core.events.user.UserOnlineStatusUpdateEvent;
 import net.dv8tion.jda.core.hooks.ListenerAdapter;
 
 import java.time.OffsetDateTime;
+import java.util.Arrays;
 import java.util.List;
 
 public class MainListener extends ListenerAdapter {
@@ -52,6 +53,9 @@ public class MainListener extends ListenerAdapter {
             for (ICommand cmd : CorgiBot.getInstance().getCommandHandler().getCommands()) {
                 if (cmd.getCommand().equalsIgnoreCase(command)) {
                     String[] finalArgs = args;
+                    CorgiBot.LOGGER.info("Provádění příkazu '" + cmd.getCommand() + "' " + Arrays
+                            .toString(args) + " v G:" + e.getGuild().getName() + " (" + (e.getChannel().getName()) + ")! Odeslal: " +
+                            e.getAuthor() + '#' + e.getAuthor().getDiscriminator());
                     List<Permission> perms = e.getGuild().getSelfMember().getPermissions(e.getChannel());
                     if (!perms.contains(Permission.MESSAGE_EMBED_LINKS)) {
                         e.getChannel().sendMessage(":warning: | Nemám dostatečná práva na používání EMBED odkazů! Přiděl mi právo: `Vkládání odkazů` nebo `Embed Links`.").queue();
@@ -61,7 +65,10 @@ public class MainListener extends ListenerAdapter {
                         try {
                             cmd.onCommand(e.getAuthor(), e.getChannel(), e.getMessage(), finalArgs, e.getMember(), w);
                         } catch (Exception ex) {
-                            //
+                            MessageUtils.sendAutoDeletedMessage("Interní chyba při provádění příkazu!", 10000, e.getChannel());
+                            CorgiBot.LOGGER.error("Chyba při provádění příkazu '" + cmd.getCommand() + "' " + Arrays
+                                    .toString(args) + " v G:" + e.getGuild().getName() + " (" + (e.getChannel().getName()) + ")! Odeslal: " +
+                                    e.getAuthor() + '#' + e.getAuthor().getDiscriminator(), ex);
                         }
                         if (cmd.deleteMessage()) {
                             delete(e.getMessage());

@@ -63,6 +63,7 @@ public class CommandHandler {
         registerCommand(new Changelog());
         registerCommand(new GuildList());
         registerCommand(new Log());
+        registerCommand(new Kick());
     }
 
 

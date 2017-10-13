@@ -65,6 +65,7 @@ public class CommandHandler {
         registerCommand(new Log());
         registerCommand(new Kick());
         registerCommand(new Ban());
+        registerCommand(new SetPrefix());
     }
 
 

@@ -2,6 +2,7 @@ package cz.wake.corgibot.listener;
 
 import cz.wake.corgibot.CorgiBot;
 import cz.wake.corgibot.commands.ICommand;
+import cz.wake.corgibot.commands.Prefixes;
 import cz.wake.corgibot.commands.Rank;
 import cz.wake.corgibot.utils.Constants;
 import cz.wake.corgibot.utils.MessageUtils;
@@ -15,6 +16,7 @@ import net.dv8tion.jda.core.events.DisconnectEvent;
 import net.dv8tion.jda.core.events.ShutdownEvent;
 import net.dv8tion.jda.core.events.guild.GuildJoinEvent;
 import net.dv8tion.jda.core.events.guild.GuildLeaveEvent;
+import net.dv8tion.jda.core.events.message.guild.GenericGuildMessageEvent;
 import net.dv8tion.jda.core.events.message.guild.GuildMessageReceivedEvent;
 import net.dv8tion.jda.core.events.user.UserOnlineStatusUpdateEvent;
 import net.dv8tion.jda.core.hooks.ListenerAdapter;
@@ -37,7 +39,9 @@ public class MainListener extends ListenerAdapter {
             return;
         }
 
-        if (e.getMessage().getRawContent().startsWith(String.valueOf(CorgiBot.PREFIX)) && !e.getAuthor().isBot()) {
+        if (CorgiBot.getPrefixes() == null) return;
+
+        if (e.getMessage().getRawContent().startsWith(String.valueOf(CorgiBot.getPrefixes().get(getGuildId(e))))) {
             String message = e.getMessage().getRawContent();
             String command = message.substring(1);
             String[] args = new String[0];
@@ -139,5 +143,9 @@ public class MainListener extends ListenerAdapter {
                         "Majitel: " + (event.getGuild().getOwner() != null ?
                         event.getGuild().getOwner().getUser().getName()
                         : "Neexistuje, nebo nelze zjistit!")).build()).queue();
+    }
+
+    private String getGuildId(GenericGuildMessageEvent e) {
+        return e.getChannel().getGuild() != null ? e.getChannel().getGuild().getId() : null;
     }
 }

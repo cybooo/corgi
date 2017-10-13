@@ -129,4 +129,8 @@ public class CorgiBot {
     public TextChannel getGuildLogChannel() {
         return getJda().getGuildById("255045073887166475").getTextChannelById("361636711585021953");
     }
+
+    public static char getPrefix(String id) {
+        return getPrefixes().get(id);
+    }
 }

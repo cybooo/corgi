@@ -3,6 +3,7 @@ package cz.wake.corgibot.commands;
 import cz.wake.corgibot.CorgiBot;
 import cz.wake.corgibot.commands.admin.*;
 import cz.wake.corgibot.commands.mod.*;
+import cz.wake.corgibot.commands.owner.Avatar;
 import cz.wake.corgibot.commands.owner.GuildList;
 import cz.wake.corgibot.commands.owner.Log;
 import cz.wake.corgibot.commands.owner.Stop;
@@ -67,6 +68,7 @@ public class CommandHandler {
         registerCommand(new Ban());
         registerCommand(new SetPrefix());
         registerCommand(new RoleInfo());
+        registerCommand(new Avatar());
     }
 
 

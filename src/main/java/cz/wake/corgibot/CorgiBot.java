@@ -67,6 +67,8 @@ public class CorgiBot {
         (instance = new CorgiBot()).init();
         (instance = new CorgiBot()).initDatabase();
 
+        prefixes = new Prefixes();
+
         Timer timer = new Timer();
         timer.scheduleAtFixedRate(new Checker(), 10, 60000);
         timer.scheduleAtFixedRate(new StatusChanger(), 10, 60000);

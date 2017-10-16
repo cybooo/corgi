@@ -41,7 +41,7 @@ public class SQLManager {
         } catch (Exception e) {
             e.printStackTrace();
         } finally {
-            pool.close(conn, ps, null);
+            //pool.close(conn, ps, null);
         }
         return null;
     }
@@ -51,7 +51,7 @@ public class SQLManager {
         PreparedStatement ps = null;
         try {
             conn = pool.getConnection();
-            ps = conn.prepareStatement("DELETE FROM prefixes WHERE guildid = ?");
+            ps = conn.prepareStatement("DELETE FROM corgibot.prefixes WHERE guild_id = ?");
             ps.setString(1, guildId);
             ps.executeUpdate();
         } catch (Exception e) {
@@ -66,7 +66,7 @@ public class SQLManager {
         PreparedStatement ps = null;
         try {
             conn = pool.getConnection();
-            ps = conn.prepareStatement("INSERT INTO prefixes (guildid, prefix) VALUES (?, ?) ON DUPLICATE KEY UPDATE prefix = ?;");
+            ps = conn.prepareStatement("INSERT INTO corgibot.prefixes (guild_id, prefix) VALUES (?, ?) ON DUPLICATE KEY UPDATE prefix = ?;");
             ps.setString(1, guildId);
             ps.setString(2, prefix);
             ps.setString(3, prefix);

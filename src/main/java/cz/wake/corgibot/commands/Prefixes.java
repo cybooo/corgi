@@ -12,10 +12,12 @@ public class Prefixes {
 
     public Prefixes() {
         try {
-            ResultSet set = CorgiBot.getInstance().getSql().getPrefixData();
+            ResultSet set = CorgiBot.getInstance().getSql().getPool().getConnection().createStatement().executeQuery("SELECT * FROM corgibot.prefixes;");
             while(set.next()){
-                prefixes.put(set.getString("guildid"), set.getString("prefix").charAt(0));
+                prefixes.put(set.getString("guild_id"), set.getString("prefix").charAt(0));
+                CorgiBot.LOGGER.info("Načten prefix: " + set.getString("prefix") + " pro Guild(" + set.getString("guild_id") + ")");
             }
+            set.close();
         } catch (Exception e){
             CorgiBot.LOGGER.error("Nelze načíst prefixy!", e);
         }

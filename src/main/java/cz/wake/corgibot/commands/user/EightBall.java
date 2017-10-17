@@ -3,7 +3,6 @@ package cz.wake.corgibot.commands.user;
 import cz.wake.corgibot.CorgiBot;
 import cz.wake.corgibot.commands.ICommand;
 import cz.wake.corgibot.commands.CommandType;
-import cz.wake.corgibot.commands.CommandUse;
 import cz.wake.corgibot.commands.Rank;
 import cz.wake.corgibot.utils.Constants;
 import cz.wake.corgibot.utils.MessageUtils;
@@ -42,17 +41,12 @@ public class EightBall implements ICommand {
 
     @Override
     public String getHelp() {
-        return ".8ball <otázka>";
+        return "%8ball <otázka>";
     }
 
     @Override
     public CommandType getType() {
         return CommandType.FUN;
-    }
-
-    @Override
-    public CommandUse getUse() {
-        return CommandUse.GUILD;
     }
 
     @Override

@@ -1,7 +1,6 @@
 package cz.wake.corgibot.commands.user;
 
 import cz.wake.corgibot.commands.CommandType;
-import cz.wake.corgibot.commands.CommandUse;
 import cz.wake.corgibot.commands.ICommand;
 import cz.wake.corgibot.commands.Rank;
 import cz.wake.corgibot.utils.Constants;
@@ -32,17 +31,12 @@ public class Invite implements ICommand {
 
     @Override
     public String getHelp() {
-        return ".invite";
+        return "%invite";
     }
 
     @Override
     public CommandType getType() {
         return CommandType.GENERAL;
-    }
-
-    @Override
-    public CommandUse getUse() {
-        return CommandUse.ALL;
     }
 
     @Override

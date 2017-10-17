@@ -1,7 +1,6 @@
 package cz.wake.corgibot.commands.user;
 
 import cz.wake.corgibot.commands.CommandType;
-import cz.wake.corgibot.commands.CommandUse;
 import cz.wake.corgibot.commands.ICommand;
 import cz.wake.corgibot.commands.Rank;
 import me.jagrosh.jdautilities.waiter.EventWaiter;
@@ -37,17 +36,12 @@ public class FullWidth implements ICommand {
 
     @Override
     public String getHelp() {
-        return ".fullwidth <text>";
+        return "%fullwidth <text>";
     }
 
     @Override
     public CommandType getType() {
         return CommandType.FUN;
-    }
-
-    @Override
-    public CommandUse getUse() {
-        return CommandUse.ALL;
     }
 
     @Override

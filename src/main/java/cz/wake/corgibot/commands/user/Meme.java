@@ -5,7 +5,6 @@ import com.mashape.unirest.http.exceptions.UnirestException;
 import cz.wake.corgibot.CorgiBot;
 import cz.wake.corgibot.commands.ICommand;
 import cz.wake.corgibot.commands.CommandType;
-import cz.wake.corgibot.commands.CommandUse;
 import cz.wake.corgibot.commands.Rank;
 import cz.wake.corgibot.utils.Constants;
 import cz.wake.corgibot.utils.LoadingProperties;
@@ -136,18 +135,13 @@ public class Meme implements ICommand {
 
     @Override
     public String getHelp() {
-        return ".meme <nazev-predlohy> | <horni-text> | <dolni-text>\n" +
-                ".meme list <strana> - Zobrazeni všech predloh";
+        return "%meme <nazev-predlohy> | <horni-text> | <dolni-text>\n" +
+                "%meme list <strana> - Zobrazeni všech predloh";
     }
 
     @Override
     public CommandType getType() {
         return CommandType.FUN;
-    }
-
-    @Override
-    public CommandUse getUse() {
-        return CommandUse.GUILD;
     }
 
     @Override

@@ -2,7 +2,6 @@ package cz.wake.corgibot.commands.mod;
 
 import cz.wake.corgibot.commands.ICommand;
 import cz.wake.corgibot.commands.CommandType;
-import cz.wake.corgibot.commands.CommandUse;
 import cz.wake.corgibot.commands.Rank;
 import cz.wake.corgibot.utils.Constants;
 import cz.wake.corgibot.utils.MessageUtils;
@@ -152,18 +151,13 @@ public class Purge implements ICommand {
 
     @Override
     public String getHelp() {
-        return ".purge\n" +
-                ".purge <číslo> - Maximum je 100 zpráv";
+        return "%purge\n" +
+                "%purge <číslo> - Maximum je 100 zpráv";
     }
 
     @Override
     public CommandType getType() {
         return CommandType.MODERATION;
-    }
-
-    @Override
-    public CommandUse getUse() {
-        return CommandUse.GUILD;
     }
 
     @Override

@@ -46,7 +46,7 @@ public class Giveaway implements ICommand {
 
     @Override
     public String getHelp() {
-        return ".giveaway <čas> [výhra]";
+        return "%giveaway <čas> [výhra]";
     }
 
     @Override

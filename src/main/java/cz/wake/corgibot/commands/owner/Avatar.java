@@ -52,7 +52,7 @@ public class Avatar implements ICommand {
 
     @Override
     public String getHelp() {
-        return ".avatar";
+        return "%avatar";
     }
 
     @Override

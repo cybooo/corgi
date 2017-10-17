@@ -61,7 +61,7 @@ public class RoleInfo implements ICommand {
 
     @Override
     public String getHelp() {
-        return ".roleinfo nazev/ID";
+        return "%roleinfo nazev/ID";
     }
 
     @Override

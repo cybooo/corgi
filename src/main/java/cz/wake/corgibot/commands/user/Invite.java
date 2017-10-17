@@ -31,7 +31,7 @@ public class Invite implements ICommand {
 
     @Override
     public String getHelp() {
-        return ".invite";
+        return "%invite";
     }
 
     @Override

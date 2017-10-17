@@ -34,7 +34,7 @@ public class About implements ICommand {
 
     @Override
     public String getHelp() {
-        return ".about";
+        return "%about";
     }
 
     @Override

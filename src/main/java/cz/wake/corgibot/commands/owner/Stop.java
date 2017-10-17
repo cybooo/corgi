@@ -30,7 +30,7 @@ public class Stop implements ICommand {
 
     @Override
     public String getHelp() {
-        return  ".stop";
+        return  "%stop";
     }
 
     @Override

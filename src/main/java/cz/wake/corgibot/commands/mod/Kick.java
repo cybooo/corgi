@@ -92,7 +92,7 @@ public class Kick implements ICommand {
 
     @Override
     public String getHelp() {
-        return ".kick @user [@user]";
+        return "%kick @user [@user]";
     }
 
     @Override

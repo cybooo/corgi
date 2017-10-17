@@ -151,8 +151,8 @@ public class Purge implements ICommand {
 
     @Override
     public String getHelp() {
-        return ".purge\n" +
-                ".purge <číslo> - Maximum je 100 zpráv";
+        return "%purge\n" +
+                "%purge <číslo> - Maximum je 100 zpráv";
     }
 
     @Override

@@ -36,7 +36,7 @@ public class FullWidth implements ICommand {
 
     @Override
     public String getHelp() {
-        return ".fullwidth <text>";
+        return "%fullwidth <text>";
     }
 
     @Override

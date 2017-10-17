@@ -45,7 +45,7 @@ public class TextToBlock implements ICommand {
 
     @Override
     public String getHelp() {
-        return ".ttb <text>";
+        return "%ttb <text>";
     }
 
     @Override

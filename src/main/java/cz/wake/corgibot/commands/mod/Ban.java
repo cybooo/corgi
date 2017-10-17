@@ -92,7 +92,7 @@ public class Ban implements ICommand {
 
     @Override
     public String getHelp() {
-        return ".ban @user [@user]";
+        return "%ban @user [@user]";
     }
 
     @Override

@@ -106,7 +106,7 @@ public class Game implements ICommand {
 
     @Override
     public String getHelp() {
-        return ".game <nazev>";
+        return "%game <nazev>";
     }
 
     @Override

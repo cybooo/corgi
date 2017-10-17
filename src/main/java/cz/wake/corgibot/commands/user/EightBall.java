@@ -41,7 +41,7 @@ public class EightBall implements ICommand {
 
     @Override
     public String getHelp() {
-        return ".8ball <otázka>";
+        return "%8ball <otázka>";
     }
 
     @Override

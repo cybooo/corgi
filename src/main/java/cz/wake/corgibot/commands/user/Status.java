@@ -49,7 +49,7 @@ public class Status implements ICommand {
 
     @Override
     public String getHelp() {
-        return ".mcstatus";
+        return "%mcstatus";
     }
 
     @Override

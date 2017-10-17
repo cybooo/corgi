@@ -25,7 +25,7 @@ public class Say implements ICommand {
 
     @Override
     public String getHelp() {
-        return  ".say <text>";
+        return  "%say <text>";
     }
 
     @Override

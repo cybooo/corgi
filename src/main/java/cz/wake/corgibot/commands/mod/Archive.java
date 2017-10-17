@@ -68,7 +68,7 @@ public class Archive implements ICommand {
 
     @Override
     public String getHelp() {
-        return ".archive <počet-zpráv>";
+        return "%archive <počet-zpráv>";
     }
 
     @Override

@@ -32,7 +32,7 @@ public class Roles implements ICommand {
 
     @Override
     public String getHelp() {
-        return ".roles";
+        return "%roles";
     }
 
     @Override

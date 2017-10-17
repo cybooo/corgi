@@ -32,7 +32,7 @@ public class Ping implements ICommand {
 
     @Override
     public String getHelp() {
-        return  ".ping";
+        return  "%ping";
     }
 
     @Override

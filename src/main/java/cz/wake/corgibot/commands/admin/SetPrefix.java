@@ -44,7 +44,7 @@ public class SetPrefix implements ICommand {
 
     @Override
     public String getHelp() {
-        return ".prefix reset/[prefix]";
+        return "%prefix reset/[prefix]";
     }
 
     @Override

@@ -34,7 +34,7 @@ public class Uptime implements ICommand {
 
     @Override
     public String getHelp() {
-        return ".uptime";
+        return "%uptime";
     }
 
     @Override

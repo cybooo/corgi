@@ -55,8 +55,8 @@ public class UserInfo implements ICommand {
 
     @Override
     public String getHelp() {
-        return ".userinfo - Informace o sobě\n" +
-                ".userinfo @nick - Informace o jiném uživateli";
+        return "%userinfo - Informace o sobě\n" +
+                "%userinfo @nick - Informace o jiném uživateli";
     }
 
     @Override

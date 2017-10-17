@@ -135,8 +135,8 @@ public class Meme implements ICommand {
 
     @Override
     public String getHelp() {
-        return ".meme <nazev-predlohy> | <horni-text> | <dolni-text>\n" +
-                ".meme list <strana> - Zobrazeni všech predloh";
+        return "%meme <nazev-predlohy> | <horni-text> | <dolni-text>\n" +
+                "%meme list <strana> - Zobrazeni všech predloh";
     }
 
     @Override

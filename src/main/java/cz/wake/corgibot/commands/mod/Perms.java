@@ -53,8 +53,8 @@ public class Perms implements ICommand {
 
     @Override
     public String getHelp() {
-        return ".perms - Jak na práva\n" +
-                ".perms @nick - Zjištění aktuální skupiny";
+        return "%perms - Jak na práva\n" +
+                "%perms @nick - Zjištění aktuální skupiny";
     }
 
     @Override

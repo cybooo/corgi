@@ -30,7 +30,7 @@ public class Changelog implements ICommand {
 
     @Override
     public String getHelp() {
-        return ".changelog";
+        return "%changelog";
     }
 
     @Override

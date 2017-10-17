@@ -69,7 +69,7 @@ public class GuildList implements ICommand {
 
     @Override
     public String getHelp() {
-        return ".guildlist <strana>";
+        return "%guildlist <strana>";
     }
 
     @Override

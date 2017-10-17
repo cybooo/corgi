@@ -83,8 +83,8 @@ public class Emote implements ICommand {
 
     @Override
     public String getHelp() {
-        return ".emote <regex|emote> - Info o Emote\n" +
-                ".emote list - Seznam všech dostupných Emote pro Corgiho";
+        return "%emote <regex|emote> - Info o Emote\n" +
+                "%emote list - Seznam všech dostupných Emote pro Corgiho";
     }
 
     @Override

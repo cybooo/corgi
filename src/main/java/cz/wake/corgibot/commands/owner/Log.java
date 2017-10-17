@@ -40,7 +40,7 @@ public class Log implements ICommand {
 
     @Override
     public String getHelp() {
-        return ".log";
+        return "%log";
     }
 
     @Override

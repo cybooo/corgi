@@ -2,7 +2,6 @@ package cz.wake.corgibot.commands.user;
 
 import cz.wake.corgibot.commands.ICommand;
 import cz.wake.corgibot.commands.CommandType;
-import cz.wake.corgibot.commands.CommandUse;
 import cz.wake.corgibot.commands.Rank;
 import cz.wake.corgibot.utils.Constants;
 import cz.wake.corgibot.utils.MessageUtils;
@@ -84,18 +83,13 @@ public class Emote implements ICommand {
 
     @Override
     public String getHelp() {
-        return ".emote <regex|emote> - Info o Emote\n" +
-                ".emote list - Seznam všech dostupných Emote pro Corgiho";
+        return "%emote <regex|emote> - Info o Emote\n" +
+                "%emote list - Seznam všech dostupných Emote pro Corgiho";
     }
 
     @Override
     public CommandType getType() {
         return CommandType.GENERAL;
-    }
-
-    @Override
-    public CommandUse getUse() {
-        return CommandUse.GUILD;
     }
 
     @Override

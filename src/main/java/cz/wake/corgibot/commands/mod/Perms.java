@@ -2,7 +2,6 @@ package cz.wake.corgibot.commands.mod;
 
 import cz.wake.corgibot.CorgiBot;
 import cz.wake.corgibot.commands.CommandType;
-import cz.wake.corgibot.commands.CommandUse;
 import cz.wake.corgibot.commands.ICommand;
 import cz.wake.corgibot.commands.Rank;
 import cz.wake.corgibot.utils.Constants;
@@ -54,18 +53,13 @@ public class Perms implements ICommand {
 
     @Override
     public String getHelp() {
-        return ".perms - Jak na práva\n" +
-                ".perms @nick - Zjištění aktuální skupiny";
+        return "%perms - Jak na práva\n" +
+                "%perms @nick - Zjištění aktuální skupiny";
     }
 
     @Override
     public CommandType getType() {
         return CommandType.MODERATION;
-    }
-
-    @Override
-    public CommandUse getUse() {
-        return CommandUse.GUILD;
     }
 
     @Override

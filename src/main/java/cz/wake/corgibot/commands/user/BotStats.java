@@ -2,7 +2,6 @@ package cz.wake.corgibot.commands.user;
 
 import cz.wake.corgibot.commands.ICommand;
 import cz.wake.corgibot.commands.CommandType;
-import cz.wake.corgibot.commands.CommandUse;
 import cz.wake.corgibot.commands.Rank;
 import cz.wake.corgibot.utils.CPUDaemon;
 import me.jagrosh.jdautilities.waiter.EventWaiter;
@@ -35,7 +34,7 @@ public class BotStats implements ICommand {
             embed.addField("Počet odpovědí", String.valueOf(channel.getJDA().getResponseTotal()), true);
             embed.addField("JDA verze", JDAInfo.VERSION, true);
             embed.addField("Majitel", channel.getJDA().getUserById("177516608778928129").getAsMention(), true);
-            embed.addField("Corgi verze", "1.1.x", true);
+            embed.addField("Corgi verze", "1.2.x", true);
             channel.sendMessage(embed.build()).queue();
         }
 
@@ -53,17 +52,12 @@ public class BotStats implements ICommand {
 
     @Override
     public String getHelp() {
-        return ".bstats";
+        return "%bstats";
     }
 
     @Override
     public CommandType getType() {
         return CommandType.GENERAL;
-    }
-
-    @Override
-    public CommandUse getUse() {
-        return CommandUse.ALL;
     }
 
     @Override

@@ -1,0 +1,12 @@
+language: java
+sudo: false # faster builds
+
+script:
+  - mvn package -Dmaven.javadoc.skip=true -V -B
+
+jdk:
+  - oraclejdk8
+
+cache:
+  directories:
+    - $HOME/.m2/repository

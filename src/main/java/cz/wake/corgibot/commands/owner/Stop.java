@@ -2,7 +2,6 @@ package cz.wake.corgibot.commands.owner;
 
 import cz.wake.corgibot.commands.ICommand;
 import cz.wake.corgibot.commands.CommandType;
-import cz.wake.corgibot.commands.CommandUse;
 import cz.wake.corgibot.commands.Rank;
 import cz.wake.corgibot.utils.Constants;
 import cz.wake.corgibot.utils.MessageUtils;
@@ -31,17 +30,12 @@ public class Stop implements ICommand {
 
     @Override
     public String getHelp() {
-        return  ".stop";
+        return  "%stop";
     }
 
     @Override
     public CommandType getType() {
         return CommandType.BOT_OWNER;
-    }
-
-    @Override
-    public CommandUse getUse() {
-        return CommandUse.ALL;
     }
 
     @Override

@@ -15,8 +15,6 @@ public interface ICommand {
 
     CommandType getType();
 
-    CommandUse getUse();
-
     Rank getRank();
 
     default String[] getAliases() {
@@ -26,9 +24,4 @@ public interface ICommand {
     default boolean deleteMessage() {
         return false;
     }
-
-    default boolean onlyCM(){
-        return false;
-    }
-
 }

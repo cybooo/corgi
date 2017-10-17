@@ -71,7 +71,7 @@ public class CorgiBot {
 
         Timer timer = new Timer();
         timer.scheduleAtFixedRate(new Checker(), 10, 60000);
-        timer.scheduleAtFixedRate(new StatusChanger(), 10, 60000);
+        timer.scheduleAtFixedRate(new StatusChanger(), 10, 120000);
 
         imgflipToken = config.getImgFlipToken();
     }

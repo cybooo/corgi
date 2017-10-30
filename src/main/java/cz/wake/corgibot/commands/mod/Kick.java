@@ -38,18 +38,18 @@ public class Kick implements ICommand {
             Member m = message.getGuild().getMember(u);
             if (m == null) {
                 builder.append("\n")
-                        .append(":warning:")
+                        .append("\u26A0")
                         .append(" | ")
                         .append(u.getAsMention())
                         .append(" nemůže být vyhozen, jelikož není evidován na serveru!");
             }  else if (!PermissionUtil.canInteract(message.getMember(), m)) {
                 builder.append("\n")
-                        .append(":error:")
+                        .append("\u26D4")
                         .append(" | Nemáš dostatečná práva na vyhození ")
                         .append(FormatUtil.formatUser(u));
             } else if (!PermissionUtil.canInteract(message.getGuild().getSelfMember(), m)) {
                 builder.append("\n")
-                        .append(":error:")
+                        .append("\u26D4")
                         .append(" | Nemáš dostatečná práva na vyhození ")
                         .append(FormatUtil.formatUser(u));
             } else
@@ -63,14 +63,14 @@ public class Kick implements ICommand {
                 boolean last = i + 1 == members.size();
                 message.getGuild().getController().kick(m).queue((v) -> {
                     builder.append("\n")
-                            .append(":success:")
+                            .append("\u2705")
                             .append(" | Uspěšně vykopnut ")
                             .append(m.getAsMention());
                     if (last)
                         MessageUtils.sendErrorMessage(builder.toString(), channel);
                 }, (t) -> {
                     builder.append("\n")
-                            .append(":error:")
+                            .append("\u26D4")
                             .append(" | Nepodařilo se vyhodit ")
                             .append(FormatUtil.formatUser(m.getUser()));
                     if (last)

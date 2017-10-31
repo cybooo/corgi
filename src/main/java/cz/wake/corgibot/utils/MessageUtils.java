@@ -91,6 +91,10 @@ public class MessageUtils {
         sendAutoDeletedMessage(new MessageBuilder().setEmbed(MessageUtils.getEmbed().setColor(Constants.RED).setDescription(message).build()).build(), delay, channel);
     }
 
+    public static void sendAutoDeletedMessage(String message, long delay, MessageChannel channel, Color c) {
+        sendAutoDeletedMessage(new MessageBuilder().setEmbed(MessageUtils.getEmbed().setColor(c).setDescription(message).build()).build(), delay, channel);
+    }
+
     public static void editMessage(EmbedBuilder embed, Message message) {
         editMessage(message.getRawContent(), embed, message);
     }

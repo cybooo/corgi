@@ -69,6 +69,7 @@ public class CommandHandler {
         registerCommand(new SetPrefix());
         registerCommand(new RoleInfo());
         registerCommand(new Avatar());
+        registerCommand(new LeaveGuild());
     }
 
 

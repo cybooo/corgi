@@ -4,6 +4,7 @@ import cz.wake.corgibot.CorgiBot;
 import cz.wake.corgibot.commands.ICommand;
 import cz.wake.corgibot.commands.Prefixes;
 import cz.wake.corgibot.commands.Rank;
+import cz.wake.corgibot.utils.ColorSelector;
 import cz.wake.corgibot.utils.Constants;
 import cz.wake.corgibot.utils.MessageUtils;
 import me.jagrosh.jdautilities.waiter.EventWaiter;
@@ -125,6 +126,12 @@ public class MainListener extends ListenerAdapter {
 
     @Override
     public void onGuildJoin(GuildJoinEvent event) {
+
+        MessageUtils.sendAutoDeletedMessage(MessageUtils.getEmbed(ColorSelector.getRandomColor()).setTitle("Corgi je připojen! :heart_eyes: ")
+                .setDescription("Corgi byl správně připojen na Váš server. Pokud chceš změnit prefix, použij příkaz `.prefix`\n" +
+                        "Seznam všech příkazů zobrazíš pomocí `.help` nebo také na [**WEBU**](http://corgibot.xyz)")
+                .setThumbnail(CorgiBot.getJda().getSelfUser().getAvatarUrl()).setFooter("Tato zpráva se smaže sama do 30 vteřin!", null).build(), 40000L, event.getGuild().getDefaultChannel());
+
         if (event.getJDA().getStatus() == JDA.Status.CONNECTED &&
                 event.getGuild().getSelfMember().getJoinDate().plusMinutes(2).isAfter(OffsetDateTime.now())){
             CorgiBot.getInstance().getGuildLogChannel().sendMessage(MessageUtils.getEmbed(Constants.GREEN)

@@ -3,6 +3,7 @@ package cz.wake.corgibot;
 import cz.wake.corgibot.commands.CommandHandler;
 import cz.wake.corgibot.commands.Prefixes;
 import cz.wake.corgibot.listener.MainListener;
+import cz.wake.corgibot.managers.IgnoredChannels;
 import cz.wake.corgibot.runnable.StatusChanger;
 import cz.wake.corgibot.sql.SQLManager;
 import cz.wake.corgibot.utils.LoadingProperties;
@@ -39,6 +40,7 @@ public class CorgiBot {
     private static final Map<String, Logger> LOGGERS;
     public static final Logger LOGGER;
     private static Prefixes prefixes;
+    private static IgnoredChannels ignoredChannels;
 
     static {
         new File("latest.log").delete();
@@ -68,6 +70,7 @@ public class CorgiBot {
         (instance = new CorgiBot()).initDatabase();
 
         prefixes = new Prefixes();
+        ignoredChannels = new IgnoredChannels();
 
         Timer timer = new Timer();
         timer.scheduleAtFixedRate(new Checker(), 10, 60000);
@@ -134,5 +137,9 @@ public class CorgiBot {
 
     public static char getPrefix(String id) {
         return getPrefixes().get(id);
+    }
+
+    public static IgnoredChannels getIgnoredChannels(){
+        return ignoredChannels;
     }
 }

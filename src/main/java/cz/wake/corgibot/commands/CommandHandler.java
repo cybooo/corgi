@@ -70,6 +70,7 @@ public class CommandHandler {
         registerCommand(new RoleInfo());
         registerCommand(new Avatar());
         registerCommand(new LeaveGuild());
+        registerCommand(new Ignore());
     }
 
 

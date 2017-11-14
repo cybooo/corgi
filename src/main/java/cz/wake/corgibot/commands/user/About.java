@@ -14,7 +14,7 @@ import net.dv8tion.jda.core.entities.User;
 public class About implements ICommand {
 
     @Override
-    public void onCommand(User sender, MessageChannel channel, Message message, String[] args, Member member, EventWaiter w) {
+    public void onCommand(User sender, MessageChannel channel, Message message, String[] args, Member member, EventWaiter w, String guildPrefix) {
         channel.sendMessage(MessageUtils.getEmbed(ColorSelector.getRandomColor()).setTitle("Představení Corgiho")
             .setDescription("Ahoj já jsem Corgi, jsem bot pro Discord servery.\nAktuálně moc funkcí nemám, ale časem se to určitě změní!\n\n" +
                     "**Web**: [http://corgibot.xyz](http://corgibot.xyz)\n" +

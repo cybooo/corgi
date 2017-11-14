@@ -13,9 +13,9 @@ import org.apache.commons.lang3.StringUtils;
 public class FullWidth implements ICommand {
 
     @Override
-    public void onCommand(User sender, MessageChannel channel, Message message, String[] args, Member member, EventWaiter w) {
+    public void onCommand(User sender, MessageChannel channel, Message message, String[] args, Member member, EventWaiter w, String guildPrefix) {
         if(args.length > 1){
-            String rawSplit[] = message.getContent().split(" ", 2); //TODO: !
+            String rawSplit[] = message.getContent().split(" ", 2);
             if (rawSplit.length < 2) {
                 channel.sendMessage("Ｍｕｓｉ　ｔｏ　ｂｙｔ　ｄｅｌｓｉ　ｏｍｇ！").queue();
             } else {

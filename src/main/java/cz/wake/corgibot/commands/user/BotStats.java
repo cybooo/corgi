@@ -17,7 +17,7 @@ import java.lang.management.ManagementFactory;
 public class BotStats implements ICommand {
 
     @Override
-    public void onCommand(User sender, MessageChannel channel, Message message, String[] args, Member member, EventWaiter w) {
+    public void onCommand(User sender, MessageChannel channel, Message message, String[] args, Member member, EventWaiter w, String guildPrefix) {
         if (args.length < 1) {
             long totalMb = Runtime.getRuntime().totalMemory() / (1024 * 1024);
             long usedMb = (Runtime.getRuntime().totalMemory() - Runtime.getRuntime().freeMemory()) / (1024 * 1024);
@@ -34,7 +34,6 @@ public class BotStats implements ICommand {
             embed.addField("Počet odpovědí", String.valueOf(channel.getJDA().getResponseTotal()), true);
             embed.addField("JDA verze", JDAInfo.VERSION, true);
             embed.addField("Majitel", channel.getJDA().getUserById("177516608778928129").getAsMention(), true);
-            embed.addField("Corgi verze", "1.2.x", true);
             channel.sendMessage(embed.build()).queue();
         }
 

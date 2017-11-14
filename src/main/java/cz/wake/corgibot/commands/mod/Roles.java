@@ -9,7 +9,7 @@ import net.dv8tion.jda.core.entities.*;
 public class Roles implements ICommand {
 
     @Override
-    public void onCommand(User sender, MessageChannel channel, Message message, String[] args, Member member, EventWaiter w) {
+    public void onCommand(User sender, MessageChannel channel, Message message, String[] args, Member member, EventWaiter w, String guildPrefix) {
         StringBuilder sb = new StringBuilder();
         sb.append("**Server Roles**\n```\n");
         for (Role role : member.getGuild().getRoles()) {

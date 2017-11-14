@@ -12,7 +12,7 @@ import net.dv8tion.jda.core.entities.*;
 public class Giveaway implements ICommand {
 
     @Override
-    public void onCommand(User sender, MessageChannel channel, Message message, String[] args, Member member, EventWaiter w) {
+    public void onCommand(User sender, MessageChannel channel, Message message, String[] args, Member member, EventWaiter w, String guildPrefix) {
         String str = message.getRawContent().substring(9).trim();
         String[] parts = str.split("\\s+", 2);
         try {
@@ -30,7 +30,7 @@ public class Giveaway implements ICommand {
         } catch (NumberFormatException ex) {
             MessageUtils.sendAutoDeletedMessage("Nelze zadat vteřiny v tomto tvaru `" + parts[0] + "`", 15000, channel);
         } catch (Exception em){
-            CorgiBot.LOGGER.error("Chyba při provádení příkazu .giveaway!", em);
+            CorgiBot.LOGGER.error("Chyba při provádení příkazu " + guildPrefix + "giveaway!", em);
         }
     }
 

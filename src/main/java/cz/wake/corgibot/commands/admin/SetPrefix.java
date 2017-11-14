@@ -15,7 +15,7 @@ import net.dv8tion.jda.core.entities.User;
 public class SetPrefix implements ICommand {
 
     @Override
-    public void onCommand(User sender, MessageChannel channel, Message message, String[] args, Member member, EventWaiter w) {
+    public void onCommand(User sender, MessageChannel channel, Message message, String[] args, Member member, EventWaiter w, String guildPrefix) {
         if (args.length == 1) {
             if (args[0].equalsIgnoreCase("reset")) {
                 CorgiBot.getPrefixes().set(message.getGuild().getId(), '.');

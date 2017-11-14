@@ -5,7 +5,7 @@ import net.dv8tion.jda.core.entities.*;
 
 public interface ICommand {
 
-    void onCommand(User sender, MessageChannel channel, Message message, String[] args, Member member, EventWaiter w);
+    void onCommand(User sender, MessageChannel channel, Message message, String[] args, Member member, EventWaiter w, String guildPrefix);
 
     String getCommand();
 

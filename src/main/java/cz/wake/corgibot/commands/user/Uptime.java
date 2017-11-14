@@ -13,7 +13,7 @@ import java.lang.management.ManagementFactory;
 public class Uptime implements ICommand {
 
     @Override
-    public void onCommand(User sender, MessageChannel channel, Message message, String[] args, Member member, EventWaiter w) {
+    public void onCommand(User sender, MessageChannel channel, Message message, String[] args, Member member, EventWaiter w, String guildPrefix) {
         long millis = ManagementFactory.getRuntimeMXBean().getUptime();
         long seconds = millis / 1000;
         long minutes = seconds / 60;

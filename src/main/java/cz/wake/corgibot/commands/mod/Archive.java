@@ -18,7 +18,7 @@ import java.util.List;
 public class Archive implements ICommand {
 
     @Override
-    public void onCommand(User sender, MessageChannel channel, Message message, String[] args, Member member, EventWaiter w) {
+    public void onCommand(User sender, MessageChannel channel, Message message, String[] args, Member member, EventWaiter w, String guildPrefix) {
         try {
             if (!PermissionUtil.checkPermission(member, Permission.MESSAGE_HISTORY) || !PermissionUtil.checkPermission(member, Permission.MESSAGE_READ)) {
                 MessageUtils.sendAutoDeletedMessage("Můžeš archivovat pouze channely do kterých vidíš!", 10000, channel);
@@ -49,7 +49,7 @@ public class Archive implements ICommand {
                     "**Odkaz**: " + MessageUtils.hastebin(builder.toString())).build();
             channel.sendMessage(mess).queue();
         } catch (ArrayIndexOutOfBoundsException ax) {
-            MessageUtils.sendAutoDeletedMessage("Musíš zadat počet řádků! Př. `.archive 10`", 20000, channel);
+            MessageUtils.sendAutoDeletedMessage("Musíš zadat počet řádků! Př. `" + guildPrefix + "archive 10`", 20000, channel);
         } catch (Exception e) {
             CorgiBot.LOGGER.error("Chyba při provádení příkazu .archive !", e);
         }

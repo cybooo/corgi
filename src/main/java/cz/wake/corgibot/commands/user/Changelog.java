@@ -14,7 +14,7 @@ import net.dv8tion.jda.core.entities.User;
 public class Changelog implements ICommand {
 
     @Override
-    public void onCommand(User sender, MessageChannel channel, Message message, String[] args, Member member, EventWaiter w) {
+    public void onCommand(User sender, MessageChannel channel, Message message, String[] args, Member member, EventWaiter w, String guildPrefix) {
         channel.sendMessage(MessageUtils.getEmbed(Constants.GREEN).setTitle("Changelog :page_facing_up: ").setDescription("Seznam změn nalezneš [**ZDE**](https://changelog.corgibot.xyz/)").build()).queue();
     }
 

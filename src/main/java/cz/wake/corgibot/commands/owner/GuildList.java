@@ -18,7 +18,7 @@ public class GuildList implements ICommand {
     private PaginatorBuilder pBuilder;
 
     @Override
-    public void onCommand(User sender, MessageChannel channel, Message message, String[] args, Member member, EventWaiter w) {
+    public void onCommand(User sender, MessageChannel channel, Message message, String[] args, Member member, EventWaiter w, String guildPrefix) {
 
         pBuilder = new PaginatorBuilder().setColumns(1)
                 .setItemsPerPage(10)

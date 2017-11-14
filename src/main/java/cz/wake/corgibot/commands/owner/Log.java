@@ -16,7 +16,7 @@ import java.io.File;
 public class Log implements ICommand {
 
     @Override
-    public void onCommand(User sender, MessageChannel channel, Message message, String[] args, Member member, EventWaiter w) {
+    public void onCommand(User sender, MessageChannel channel, Message message, String[] args, Member member, EventWaiter w, String guildPrefix) {
         if(args.length < 1){
             try {
                 channel.sendMessage(MessageUtils.getEmbed(Constants.GREEN).setDescription("Vygenerovaný log (latest.log) by vyžádán!").build()).queue();

@@ -9,8 +9,8 @@ import net.dv8tion.jda.core.entities.*;
 public class Say implements ICommand {
 
     @Override
-    public void onCommand(User sender, MessageChannel channel, Message message, String[] args, Member member, EventWaiter w) {
-        channel.sendMessage(message.getRawContent().replace(".say", "")).queue();
+    public void onCommand(User sender, MessageChannel channel, Message message, String[] args, Member member, EventWaiter w, String guildPrefix) {
+        channel.sendMessage(message.getRawContent().replace(guildPrefix + "say", "")).queue();
     }
 
     @Override

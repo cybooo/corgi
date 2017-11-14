@@ -26,7 +26,7 @@ import java.io.IOException;
 public class Game implements ICommand {
 
     @Override
-    public void onCommand(User sender, MessageChannel channel, Message message, String[] args, Member member, EventWaiter w) {
+    public void onCommand(User sender, MessageChannel channel, Message message, String[] args, Member member, EventWaiter w, String guildPrefix) {
         if(args.length < 1){
 
         } else {

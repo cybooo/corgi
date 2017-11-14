@@ -26,7 +26,7 @@ public class Purge implements ICommand {
     private final Pattern QUOTES_PATTERN = Pattern.compile(QUOTES_REGEX);
 
     @Override
-    public void onCommand(User sender, MessageChannel channel, Message message, String[] args, Member member, EventWaiter w) {
+    public void onCommand(User sender, MessageChannel channel, Message message, String[] args, Member member, EventWaiter w, String guildPrefix) {
         if (args.length < 1) {
             channel.sendMessage(MessageUtils.getEmbed(Constants.BLUE).setTitle("Zvol typ zpráv, který má být smazaný\n")
                     .setDescription(CleanType.ROBOT.getUnicode() + " **Boti**\n" + CleanType.EMBEDS.getUnicode() + " **Embeds**\n" + CleanType.LINKS.getUnicode() + " **Odkazy**\n" + CANCEL + " **Zrušení**").build()).queue((Message m) -> {
@@ -39,7 +39,7 @@ public class Purge implements ICommand {
                     m.delete().queue();
                     CleanType type = CleanType.of(ev.getReaction().getEmote().getName());
                     if (type != null)
-                        executeClean(type.getText(), channel, message, " " + type.getText());
+                        executeClean(type.getText(), channel, message, " " + type.getText(), guildPrefix);
                 }, 25, TimeUnit.SECONDS, () -> m.editMessage(MessageUtils.getEmbed(Constants.RED).setDescription("Čas vypršel!").build()).queue());
             });
         } else {
@@ -83,12 +83,12 @@ public class Purge implements ICommand {
                 channel.sendMessage(MessageUtils.getEmbed(Constants.GREEN).setDescription(Constants.EMOTE_CHECK + " | Smazáno **" + i + "** zpráv.").build()).queue();
 
             } catch (Exception e) {
-                executeClean(Arrays.toString(args), channel, message, null);
+                executeClean(Arrays.toString(args), channel, message, null, guildPrefix);
             }
         }
     }
 
-    protected void executeClean(String args, MessageChannel channel, Message m, String extra) {
+    protected void executeClean(String args, MessageChannel channel, Message m, String extra, String prefix) {
         List<String> texts = new ArrayList<>();
         Matcher ma = QUOTES_PATTERN.matcher(args);
         while (ma.find())
@@ -100,7 +100,7 @@ public class Purge implements ICommand {
         boolean links = newArgs.contains("odkazy");
 
         if (!all && !bots && !embeds && !links && texts.isEmpty() && m.getMentionedUsers().isEmpty()) {
-            MessageUtils.sendErrorMessage("**Neplatný argumenty!**\nSprávné použití: .purge @uživatel | počet zpráv | `text` | bots | embeds | odkazy | vše\nVšechny typy mazání mohou smazat až 100 zpráv!", channel);
+            MessageUtils.sendErrorMessage("**Neplatný argumenty!**\nSprávné použití: " + prefix + "purge @uživatel | počet zpráv | `text` | bots | embeds | odkazy | vše\nVšechny typy mazání mohou smazat až 100 zpráv!", channel);
             return;
         }
 

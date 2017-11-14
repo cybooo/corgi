@@ -8,6 +8,7 @@ import net.dv8tion.jda.core.EmbedBuilder;
 import net.dv8tion.jda.core.MessageBuilder;
 import net.dv8tion.jda.core.entities.Message;
 import net.dv8tion.jda.core.entities.MessageChannel;
+import net.dv8tion.jda.core.entities.MessageEmbed;
 import net.dv8tion.jda.core.entities.User;
 
 import java.awt.*;
@@ -89,6 +90,14 @@ public class MessageUtils {
 
     public static void sendAutoDeletedMessage(String message, long delay, MessageChannel channel) {
         sendAutoDeletedMessage(new MessageBuilder().setEmbed(MessageUtils.getEmbed().setColor(Constants.RED).setDescription(message).build()).build(), delay, channel);
+    }
+
+    public static void sendAutoDeletedMessage(String message, long delay, MessageChannel channel, Color c) {
+        sendAutoDeletedMessage(new MessageBuilder().setEmbed(MessageUtils.getEmbed().setColor(c).setDescription(message).build()).build(), delay, channel);
+    }
+
+    public static void sendAutoDeletedMessage(MessageEmbed embed, long delay, MessageChannel channel) {
+        sendAutoDeletedMessage(new MessageBuilder().setEmbed(embed).build(), delay, channel);
     }
 
     public static void editMessage(EmbedBuilder embed, Message message) {

@@ -11,7 +11,7 @@ import net.dv8tion.jda.core.entities.*;
 public class Emote implements ICommand {
 
     @Override
-    public void onCommand(User sender, MessageChannel channel, Message message, String[] args, Member member, EventWaiter w) {
+    public void onCommand(User sender, MessageChannel channel, Message message, String[] args, Member member, EventWaiter w, String guildPrefix) {
         if (args.length < 1) {
             channel.sendMessage(MessageUtils.getEmbed().setTitle("Nápověda k příkazu - emote :question:")
                     .setDescription(getDescription() + "\n\n**Použití**\n" + getHelp()).build()).queue();

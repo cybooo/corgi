@@ -10,7 +10,7 @@ import net.dv8tion.jda.core.entities.*;
 public class Help implements ICommand {
 
     @Override
-    public void onCommand(User sender, MessageChannel channel, Message message, String[] args, Member member, EventWaiter w) {
+    public void onCommand(User sender, MessageChannel channel, Message message, String[] args, Member member, EventWaiter w, String guildPrefix) {
         if(args.length < 1){
             if(channel.getType() == ChannelType.TEXT){
                 channel.sendMessage(MessageUtils.getEmbed(Constants.BLUE).setTitle("Zkontroluj si zprávy")

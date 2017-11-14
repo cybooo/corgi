@@ -4,6 +4,7 @@ import cz.wake.corgibot.CorgiBot;
 import cz.wake.corgibot.commands.ICommand;
 import cz.wake.corgibot.commands.Prefixes;
 import cz.wake.corgibot.commands.Rank;
+import cz.wake.corgibot.utils.ColorSelector;
 import cz.wake.corgibot.utils.Constants;
 import cz.wake.corgibot.utils.MessageUtils;
 import me.jagrosh.jdautilities.waiter.EventWaiter;
@@ -42,7 +43,10 @@ public class MainListener extends ListenerAdapter {
 
         if (CorgiBot.getPrefixes() == null) return;
 
-        if (e.getMessage().getRawContent().startsWith(String.valueOf(CorgiBot.getPrefixes().get(getGuildId(e))))) {
+        // Custom Guild prefix
+        String prefix = String.valueOf(CorgiBot.getPrefixes().get(getGuildId(e)));
+
+        if (e.getMessage().getRawContent().startsWith(prefix)) {
             String message = e.getMessage().getRawContent();
             String command = message.substring(1);
             String[] args = new String[0];
@@ -52,6 +56,9 @@ public class MainListener extends ListenerAdapter {
             }
             for (ICommand cmd : CorgiBot.getInstance().getCommandHandler().getCommands()) {
                 if (cmd.getCommand().equalsIgnoreCase(command)) {
+                    if(CorgiBot.getIgnoredChannels().isBlocked(e.getChannel()) && !cmd.getCommand().equalsIgnoreCase("ignore")){
+                        return;
+                    }
                     String[] finalArgs = args;
                     CorgiBot.LOGGER.info("Provádění příkazu '" + cmd.getCommand() + "' " + Arrays
                             .toString(args) + " v G:" + e.getGuild().getName() + " (" + (e.getChannel().getName()) + ")! Odeslal: " +
@@ -63,7 +70,7 @@ public class MainListener extends ListenerAdapter {
                     }
                     if (Rank.getPermLevelForUser(e.getAuthor(), e.getChannel()).isAtLeast(cmd.getRank())) {
                         try {
-                            cmd.onCommand(e.getAuthor(), e.getChannel(), e.getMessage(), finalArgs, e.getMember(), w);
+                            cmd.onCommand(e.getAuthor(), e.getChannel(), e.getMessage(), finalArgs, e.getMember(), w, prefix);
                         } catch (Exception ex) {
                             MessageUtils.sendAutoDeletedMessage("Interní chyba při provádění příkazu!", 10000, e.getChannel());
                             CorgiBot.LOGGER.error("Chyba při provádění příkazu '" + cmd.getCommand() + "' " + Arrays
@@ -125,6 +132,12 @@ public class MainListener extends ListenerAdapter {
 
     @Override
     public void onGuildJoin(GuildJoinEvent event) {
+
+        MessageUtils.sendAutoDeletedMessage(MessageUtils.getEmbed(ColorSelector.getRandomColor()).setTitle("Corgi je připojen! :heart_eyes: ")
+                .setDescription("Corgi byl správně připojen na Váš server. Pokud chceš změnit prefix, použij příkaz `.prefix`\n" +
+                        "Seznam všech příkazů zobrazíš pomocí `.help` nebo také na [**WEBU**](http://corgibot.xyz)")
+                .setThumbnail(CorgiBot.getJda().getSelfUser().getAvatarUrl()).setFooter("Tato zpráva se smaže sama do 30 vteřin!", null).build(), 40000L, event.getGuild().getDefaultChannel());
+
         if (event.getJDA().getStatus() == JDA.Status.CONNECTED &&
                 event.getGuild().getSelfMember().getJoinDate().plusMinutes(2).isAfter(OffsetDateTime.now())){
             CorgiBot.getInstance().getGuildLogChannel().sendMessage(MessageUtils.getEmbed(Constants.GREEN)

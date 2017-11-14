@@ -36,17 +36,17 @@ public class Meme implements ICommand {
                 map.put(jso.getString("name"), jso.getString("id"));
             }
         } catch (UnirestException e) {
-            CorgiBot.LOGGER.error("Chyba při provádění příkazu .emote!", e);
+            CorgiBot.LOGGER.error("Chyba při provádění příkazu emote!", e);
         }
     }
 
     @Override
-    public void onCommand(User sender, MessageChannel channel, Message message, String[] args, Member member, EventWaiter w) {
+    public void onCommand(User sender, MessageChannel channel, Message message, String[] args, Member member, EventWaiter w, String guildPrefix) {
         if (args.length < 1) {
-            channel.sendMessage(MessageUtils.getEmbed(Constants.BLUE).setTitle("**Použítí příkazu .meme**")
+            channel.sendMessage(MessageUtils.getEmbed(Constants.BLUE).setTitle("**Použítí příkazu " + guildPrefix +"meme**")
                     .setDescription("**.meme** - Zobrazí tuto nápovědu\n" +
-                            "**.meme list [cislo]** - Zobrazí seznam všech dostupných obrázků\n" +
-                            "**.meme [nazev] | [horni_radek] | [dolni_rade]** - Vygeneruje meme obrázek").build()).queue();
+                            "**" + guildPrefix +"meme list [cislo]** - Zobrazí seznam všech dostupných obrázků\n" +
+                            "**" + guildPrefix +"meme [nazev] | [horni_radek] | [dolni_rade]** - Vygeneruje meme obrázek").build()).queue();
         } else if (args[0].equalsIgnoreCase("list")) {
             int page = 1;
 
@@ -118,7 +118,7 @@ public class Meme implements ICommand {
                 channel.sendMessage(MessageUtils.getEmbed(Constants.BLUE).setTitle("Vygenerované meme")
                         .setImage(response.optString("url")).build()).queue();
             } catch (Exception e) {
-                MessageUtils.sendErrorMessage("Nesprávné použití příkazu! Správně **.meme [nazev] | [prvni_radek] | [druhy_radek]**", channel);
+                MessageUtils.sendErrorMessage("Nesprávné použití příkazu! Správně **" + guildPrefix + "meme [nazev] | [prvni_radek] | [druhy_radek]**", channel);
             }
         }
     }

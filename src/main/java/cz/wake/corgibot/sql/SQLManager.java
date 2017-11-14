@@ -28,24 +28,6 @@ public class SQLManager {
         return pool;
     }
 
-    public final ResultSet getPrefixData() {
-        Connection conn = null;
-        PreparedStatement ps = null;
-        try {
-            conn = pool.getConnection();
-            ps = conn.prepareStatement("SELECT * FROM corgibot.prefixes;");
-            ps.executeQuery();
-            if (ps.getResultSet().next()) {
-                return ps.getResultSet();
-            }
-        } catch (Exception e) {
-            e.printStackTrace();
-        } finally {
-            //pool.close(conn, ps, null);
-        }
-        return null;
-    }
-
     public final void deletePrefix(final String guildId) {
         Connection conn = null;
         PreparedStatement ps = null;
@@ -70,6 +52,37 @@ public class SQLManager {
             ps.setString(1, guildId);
             ps.setString(2, prefix);
             ps.setString(3, prefix);
+            ps.executeUpdate();
+        } catch (Exception e) {
+            e.printStackTrace();
+        } finally {
+            pool.close(conn, ps, null);
+        }
+    }
+
+    public final void deleteIgnoredChannel(final String channelId) {
+        Connection conn = null;
+        PreparedStatement ps = null;
+        try {
+            conn = pool.getConnection();
+            ps = conn.prepareStatement("DELETE FROM corgibot.ignored_channels WHERE channel_id = ?");
+            ps.setString(1, channelId);
+            ps.executeUpdate();
+        } catch (Exception e) {
+            e.printStackTrace();
+        } finally {
+            pool.close(conn, ps, null);
+        }
+    }
+
+    public final void addIgnoredChannel(final String guildId, final String channelId) {
+        Connection conn = null;
+        PreparedStatement ps = null;
+        try {
+            conn = pool.getConnection();
+            ps = conn.prepareStatement("INSERT INTO corgibot.ignored_channels (guild_id, channel_id) VALUES (?, ?);");
+            ps.setString(1, guildId);
+            ps.setString(2, channelId);
             ps.executeUpdate();
         } catch (Exception e) {
             e.printStackTrace();

@@ -13,7 +13,7 @@ import java.net.URL;
 public class Avatar implements ICommand {
 
     @Override
-    public void onCommand(User sender, MessageChannel channel, Message message, String[] args, Member member, EventWaiter w) {
+    public void onCommand(User sender, MessageChannel channel, Message message, String[] args, Member member, EventWaiter w, String guildPrefix) {
         if (args.length == 0) {
             if (!message.getAttachments().isEmpty()) {
                 Message.Attachment attachment = message.getAttachments().get(0);

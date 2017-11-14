@@ -19,7 +19,7 @@ public class Status implements ICommand {
     //TODO: Dodělat pro CM
 
     @Override
-    public void onCommand(User sender, MessageChannel channel, Message message, String[] args, Member member, EventWaiter w) {
+    public void onCommand(User sender, MessageChannel channel, Message message, String[] args, Member member, EventWaiter w, String guildPrefix) {
         int state = 0;
         EmbedBuilder builder = new EmbedBuilder();
         for (MojangService service : MojangService.values) {

@@ -104,7 +104,12 @@ public class Ignore implements ICommand {
     }
 
     private void shopIgnoredChannels(MessageChannel channel, Member member, EventWaiter w){
-        List<MessageChannel> channels = CorgiBot.getIgnoredChannels().getIgnoredGuildChannels(member);
+        List<TextChannel> channels = CorgiBot.getIgnoredChannels().getIgnoredGuildChannels(member);
+
+        if(channels.isEmpty()){
+            MessageUtils.sendErrorMessage("Nemáš nastavený žádný ignorovaný channel!", channel);
+            return;
+        }
 
         pBuilder = new PaginatorBuilder().setColumns(1)
                 .setItemsPerPage(10)
@@ -121,7 +126,10 @@ public class Ignore implements ICommand {
                 .setEventWaiter(w)
                 .setTimeout(1, TimeUnit.MINUTES);
 
-        channels.stream().map(channel1 -> "**" + channel.getName() + "**").forEach(s -> pBuilder.addItems(s));
+        for(MessageChannel m : channels){
+            pBuilder.addItems(m.getName());
+        }
+
         Paginator p = pBuilder.setColor(Constants.BLUE).setText("Seznam ignorovaných channelů:").build();
         p.paginate(channel,1);
 

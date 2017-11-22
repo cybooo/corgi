@@ -18,7 +18,7 @@ public class IgnoredChannels {
             ResultSet set = CorgiBot.getInstance().getSql().getPool().getConnection().createStatement().executeQuery("SELECT * FROM corgibot.ignored_channels;");
             while (set.next()) {
                 channels.put(CorgiBot.getJda().getGuildById(set.getString("guild_id")), CorgiBot.getJda().getTextChannelById(set.getString("channel_id")));
-                System.out.println("Přidán: " + set.getString("guild_id") + " - " + set.getString("channel_id"));
+                System.out.println("Přidán ignorovaný channel: " + set.getString("guild_id") + " - " + set.getString("channel_id"));
             }
             set.close();
         } catch (Exception e) {

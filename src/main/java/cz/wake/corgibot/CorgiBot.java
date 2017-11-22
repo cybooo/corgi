@@ -50,8 +50,7 @@ public class CorgiBot {
 
     public static void main(String[] args) throws LoginException, RateLimitedException, InterruptedException, IOException {
 
-        System.out.println("Spousteni bota...");
-        LOGGER.info("Spusteni bota...");
+        bootLogo();
 
         LoadingProperties config = new LoadingProperties();
 
@@ -141,5 +140,18 @@ public class CorgiBot {
 
     public static IgnoredChannels getIgnoredChannels(){
         return ignoredChannels;
+    }
+
+
+    private static void bootLogo(){
+        LOGGER.info("Spousteni bota...");
+        LOGGER.info("");
+        LOGGER.info("   ______                 _ ");
+        LOGGER.info("  / ____/___  _________ _(_)");
+        LOGGER.info(" / /   / __ \\/ ___/ __ `/ / ");
+        LOGGER.info("/ /___/ /_/ / /  / /_/ / /  ");
+        LOGGER.info("\\____/\\____/_/   \\__, /_/   ");
+        LOGGER.info("                /____/      ");
+        LOGGER.info("");
     }
 }

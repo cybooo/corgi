@@ -30,11 +30,5 @@ public class Constants {
     final public static String EMOTE_PARTNER = "<:partner:314901143362732032>";
     final public static String EMOTE_DISCORD_STAFF = "<:discordstaff:314901143023124482>";
     final public static String EMOTE_CHECK = "<:check:314901143060742145>";
-    final public static String EMOTE_UNCHECK = "<:xmark:314901142985244675>";
-    final public static String EMOTE_EMPTY = "<:empty:314901142784180225>";
-
-    // Emoji
-    final public static String BACK = "\u25C0";
-    final public static String NEXT = "\u25B6";
 
 }

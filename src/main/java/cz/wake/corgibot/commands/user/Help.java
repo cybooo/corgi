@@ -3,6 +3,7 @@ package cz.wake.corgibot.commands.user;
 import cz.wake.corgibot.CorgiBot;
 import cz.wake.corgibot.commands.*;
 import cz.wake.corgibot.utils.Constants;
+import cz.wake.corgibot.utils.EmoteList;
 import cz.wake.corgibot.utils.MessageUtils;
 import me.jagrosh.jdautilities.waiter.EventWaiter;
 import net.dv8tion.jda.core.entities.*;
@@ -14,7 +15,7 @@ public class Help implements ICommand {
         if(args.length < 1){
             if(channel.getType() == ChannelType.TEXT){
                 channel.sendMessage(MessageUtils.getEmbed(Constants.BLUE).setTitle("Zkontroluj si zprávy")
-                    .setDescription(":mailbox_with_mail: | Odeslal jsem ti do zpráv nápovědu s příkazy!").build()).queue();
+                    .setDescription(EmoteList.MAILBOX + " | Odeslal jsem ti do zpráv nápovědu s příkazy!").build()).queue();
             }
             sender.openPrivateChannel().queue(msg -> {
                 msg.sendMessage(MessageUtils.getEmbed(Constants.BLUE)

@@ -5,6 +5,7 @@ import cz.wake.corgibot.commands.CommandType;
 import cz.wake.corgibot.commands.ICommand;
 import cz.wake.corgibot.commands.Rank;
 import cz.wake.corgibot.utils.Constants;
+import cz.wake.corgibot.utils.EmoteList;
 import cz.wake.corgibot.utils.MessageUtils;
 import me.jagrosh.jdautilities.menu.pagination.Paginator;
 import me.jagrosh.jdautilities.menu.pagination.PaginatorBuilder;
@@ -26,18 +27,18 @@ public class Ignore implements ICommand {
             channel.sendMessage(MessageUtils.getEmbed(Constants.GREEN).setTitle("Ignorování channelu: " + channel.getName())
                     .setDescription("Zakáže používání Corgiho příkazů v tomto channelu.\nPokuď budeš chtít ignorování zrušit, stačí napsat opět příkaz `" + guildPrefix + "ignore` a ignorování zrušit.\n\n" +
                             ":one: | " + formatTruth(channel) + " ignorování tohoto channelu!\n:two: | Pro zobrazení seznamu všech ignorovaných channelů").setFooter("Pokud chceš akci odvolat nereaguj na ní, do 30 vteřin se zruší!", null).build()).queue((Message m) -> {
-                m.addReaction("\u0031\u20E3").queue();
-                m.addReaction("\u0032\u20E3").queue();
+                m.addReaction(EmoteList.ONE).queue();
+                m.addReaction(EmoteList.TWO).queue();
 
                 w.waitForEvent(MessageReactionAddEvent.class, (MessageReactionAddEvent e) -> { // 1
-                    return e.getUser().equals(sender) && e.getMessageId().equals(m.getId()) && (e.getReaction().getEmote().getName().equals("\u0031\u20E3"));
+                    return e.getUser().equals(sender) && e.getMessageId().equals(m.getId()) && (e.getReaction().getEmote().getName().equals(EmoteList.ONE));
                 }, (MessageReactionAddEvent ev) -> {
                     m.delete().queue();
                     ignoreChannel(channel, member, guildPrefix);
                 }, 60, TimeUnit.SECONDS, () -> m.editMessage(MessageUtils.getEmbed(Constants.RED).setDescription("Čas vypršel!").build()));
 
                 w.waitForEvent(MessageReactionAddEvent.class, (MessageReactionAddEvent e) -> { // 2
-                    return e.getUser().equals(sender) && e.getMessageId().equals(m.getId()) && (e.getReaction().getEmote().getName().equals("\u0032\u20E3"));
+                    return e.getUser().equals(sender) && e.getMessageId().equals(m.getId()) && (e.getReaction().getEmote().getName().equals(EmoteList.TWO));
                 }, (MessageReactionAddEvent ev) -> {
                     m.delete().queue();
                     shopIgnoredChannels(channel,member,w);

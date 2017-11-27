@@ -4,6 +4,7 @@ import cz.wake.corgibot.commands.CommandType;
 import cz.wake.corgibot.commands.ICommand;
 import cz.wake.corgibot.commands.Rank;
 import cz.wake.corgibot.utils.Constants;
+import cz.wake.corgibot.utils.EmoteList;
 import cz.wake.corgibot.utils.FormatUtil;
 import cz.wake.corgibot.utils.MessageUtils;
 import me.jagrosh.jdautilities.waiter.EventWaiter;
@@ -39,18 +40,18 @@ public class Ban implements ICommand {
             Member m = message.getGuild().getMember(u);
             if (m == null) {
                 builder.append("\n")
-                        .append("\u26A0")
+                        .append(EmoteList.WARNING)
                         .append(" | ")
                         .append(u.getAsMention())
                         .append(" nemůže být zabanován, jelikož není evidován na serveru!");
             }  else if (!PermissionUtil.canInteract(message.getMember(), m)) {
                 builder.append("\n")
-                        .append("\u26D4")
+                        .append(EmoteList.RED_DENY)
                         .append(" | Nemáš dostatečná práva na zabanování ")
                         .append(FormatUtil.formatUser(u));
             } else if (!PermissionUtil.canInteract(message.getGuild().getSelfMember(), m)) {
                 builder.append("\n")
-                        .append("\u26D4")
+                        .append(EmoteList.RED_DENY)
                         .append(" | Nemáš dostatečná práva na zabanování ")
                         .append(FormatUtil.formatUser(u));
             } else
@@ -64,14 +65,14 @@ public class Ban implements ICommand {
                 boolean last = i + 1 == members.size();
                 message.getGuild().getController().ban(m, 1).queue((v) -> {
                     builder.append("\n")
-                            .append("\u2705")
+                            .append(EmoteList.GREEN_OK)
                             .append(" | Uspěšně zabanován ")
                             .append(m.getAsMention());
                     if (last)
                         MessageUtils.sendErrorMessage(builder.toString(), channel);
                 }, (t) -> {
                     builder.append("\n")
-                            .append("\u26D4")
+                            .append(EmoteList.RED_DENY)
                             .append(" | Nepodařilo se zabanovat ")
                             .append(FormatUtil.formatUser(m.getUser()));
                     if (last)

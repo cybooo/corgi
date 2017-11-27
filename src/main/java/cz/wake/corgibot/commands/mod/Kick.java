@@ -3,6 +3,7 @@ package cz.wake.corgibot.commands.mod;
 import cz.wake.corgibot.commands.CommandType;
 import cz.wake.corgibot.commands.ICommand;
 import cz.wake.corgibot.commands.Rank;
+import cz.wake.corgibot.utils.EmoteList;
 import cz.wake.corgibot.utils.FormatUtil;
 import cz.wake.corgibot.utils.MessageUtils;
 import me.jagrosh.jdautilities.waiter.EventWaiter;
@@ -38,18 +39,18 @@ public class Kick implements ICommand {
             Member m = message.getGuild().getMember(u);
             if (m == null) {
                 builder.append("\n")
-                        .append("\u26A0")
+                        .append(EmoteList.WARNING)
                         .append(" | ")
                         .append(u.getAsMention())
                         .append(" nemůže být vyhozen, jelikož není evidován na serveru!");
             }  else if (!PermissionUtil.canInteract(message.getMember(), m)) {
                 builder.append("\n")
-                        .append("\u26D4")
+                        .append(EmoteList.RED_DENY)
                         .append(" | Nemáš dostatečná práva na vyhození ")
                         .append(FormatUtil.formatUser(u));
             } else if (!PermissionUtil.canInteract(message.getGuild().getSelfMember(), m)) {
                 builder.append("\n")
-                        .append("\u26D4")
+                        .append(EmoteList.RED_DENY)
                         .append(" | Nemáš dostatečná práva na vyhození ")
                         .append(FormatUtil.formatUser(u));
             } else
@@ -63,14 +64,14 @@ public class Kick implements ICommand {
                 boolean last = i + 1 == members.size();
                 message.getGuild().getController().kick(m).queue((v) -> {
                     builder.append("\n")
-                            .append("\u2705")
+                            .append(EmoteList.GREEN_OK)
                             .append(" | Uspěšně vykopnut ")
                             .append(m.getAsMention());
                     if (last)
                         MessageUtils.sendErrorMessage(builder.toString(), channel);
                 }, (t) -> {
                     builder.append("\n")
-                            .append("\u26D4")
+                            .append(EmoteList.RED_DENY)
                             .append(" | Nepodařilo se vyhodit ")
                             .append(FormatUtil.formatUser(m.getUser()));
                     if (last)

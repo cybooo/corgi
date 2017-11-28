@@ -1,10 +1,7 @@
 package cz.wake.corgibot.managers;
 
 import cz.wake.corgibot.CorgiBot;
-import net.dv8tion.jda.core.entities.Guild;
-import net.dv8tion.jda.core.entities.Member;
-import net.dv8tion.jda.core.entities.MessageChannel;
-import net.dv8tion.jda.core.entities.TextChannel;
+import net.dv8tion.jda.core.entities.*;
 
 import java.sql.ResultSet;
 import java.util.ArrayList;
@@ -21,7 +18,7 @@ public class IgnoredChannels {
             ResultSet set = CorgiBot.getInstance().getSql().getPool().getConnection().createStatement().executeQuery("SELECT * FROM corgibot.ignored_channels;");
             while (set.next()) {
                 channels.put(CorgiBot.getJda().getGuildById(set.getString("guild_id")), CorgiBot.getJda().getTextChannelById(set.getString("channel_id")));
-                System.out.println("Přidán: " + set.getString("guild_id") + " - " + set.getString("channel_id"));
+                System.out.println("Přidán ignorovaný channel: " + set.getString("guild_id") + " - " + set.getString("channel_id"));
             }
             set.close();
         } catch (Exception e) {
@@ -55,14 +52,13 @@ public class IgnoredChannels {
         return this.channels;
     }
 
-    public List<MessageChannel> getIgnoredGuildChannels(Member member){
-        ArrayList<MessageChannel> ignoredChannels = new ArrayList<>();
-        for(int i = 0; i < this.channels.size(); i++){
-            if(this.channels.containsKey(member.getGuild())){
-                ignoredChannels.add(member.getGuild().getTextChannelById(this.channels.toString().indexOf(i)));
+    public List<TextChannel> getIgnoredGuildChannels(Member member){
+        ArrayList<TextChannel> ignoredChannels = new ArrayList<>();
+        for(TextChannel tc : channels.values()){
+            if(member.getGuild().getTextChannels().contains(tc)){
+                ignoredChannels.add(tc);
             }
         }
-        System.out.println(ignoredChannels.toString());
         return ignoredChannels;
     }
 }

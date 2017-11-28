@@ -33,7 +33,6 @@ public class BotStats implements ICommand {
             embed.addField("Threads", String.valueOf(Thread.getAllStackTraces().size()), true);
             embed.addField("Počet odpovědí", String.valueOf(channel.getJDA().getResponseTotal()), true);
             embed.addField("JDA verze", JDAInfo.VERSION, true);
-            embed.addField("Majitel", channel.getJDA().getUserById("177516608778928129").getAsMention(), true);
             channel.sendMessage(embed.build()).queue();
         }
 

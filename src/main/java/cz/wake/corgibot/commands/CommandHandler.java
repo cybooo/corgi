@@ -71,6 +71,9 @@ public class CommandHandler {
         registerCommand(new Avatar());
         registerCommand(new LeaveGuild());
         registerCommand(new Ignore());
+        registerCommand(new Cat());
+        registerCommand(new Dog());
+        registerCommand(new GuildInfo());
     }
 
 

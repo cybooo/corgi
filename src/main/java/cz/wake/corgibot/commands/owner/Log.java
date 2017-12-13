@@ -21,7 +21,7 @@ public class Log implements ICommand {
             try {
                 channel.sendMessage(MessageUtils.getEmbed(Constants.GREEN).setDescription("Vygenerovaný log (latest.log) by vyžádán!").build()).queue();
                 File log = new File("latest.log");
-                channel.sendFile(log,null).queue();
+                channel.sendFile(log,"latest.log").queue();
             } catch (Exception e){
                 //
             }

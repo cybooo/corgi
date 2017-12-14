@@ -37,7 +37,7 @@ public class MainListener extends ListenerAdapter {
     @Override
     public void onGuildMessageReceived(GuildMessageReceivedEvent e) {
 
-        if (e.getAuthor().isBot()) {
+        if (e.getAuthor().isBot() || e.getAuthor().isFake() || e.getAuthor() == null) {
             return;
         }
 

@@ -1,12 +1,12 @@
 package cz.wake.corgibot.commands.owner;
 
+import com.jagrosh.jdautilities.menu.pagination.Paginator;
+import com.jagrosh.jdautilities.menu.pagination.PaginatorBuilder;
+import com.jagrosh.jdautilities.waiter.EventWaiter;
 import cz.wake.corgibot.commands.CommandType;
 import cz.wake.corgibot.commands.ICommand;
 import cz.wake.corgibot.commands.Rank;
 import cz.wake.corgibot.utils.MessageUtils;
-import me.jagrosh.jdautilities.menu.pagination.Paginator;
-import me.jagrosh.jdautilities.menu.pagination.PaginatorBuilder;
-import me.jagrosh.jdautilities.waiter.EventWaiter;
 import net.dv8tion.jda.core.entities.*;
 import net.dv8tion.jda.core.exceptions.PermissionException;
 
@@ -49,7 +49,7 @@ public class GuildList implements ICommand {
                 .map(g -> "**" + g.getName() + "** (ID:" + g.getId() + ") ~ " + g.getMembers().size() + " členů")
                 .forEach(s -> pBuilder.addItems(s));
         Paginator p = pBuilder.setColor(message.isFromType(ChannelType.TEXT) ? member.getGuild().getSelfMember().getColor() : Color.BLACK)
-                .setText(":chart_with_upwards_trend: | Seznam Guild na kterých je **" + member.getGuild().getJDA().getSelfUser().getName() + "** připojen:"
+                .setText(":chart_with_upwards_trend: | Seznam Guild na kterých je **" + member.getGuild().getJDA().getSelfUser().getName() + "** připojen"
                         + (channel.getJDA().getShardInfo() == null ? ":" : "(Shard ID " + channel.getJDA().getShardInfo().getShardId() + "):"))
                 .setUsers(message.getAuthor())
                 .build();

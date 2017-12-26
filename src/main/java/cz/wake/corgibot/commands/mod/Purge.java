@@ -1,11 +1,12 @@
 package cz.wake.corgibot.commands.mod;
 
+import com.jagrosh.jdautilities.waiter.EventWaiter;
 import cz.wake.corgibot.commands.ICommand;
 import cz.wake.corgibot.commands.CommandType;
 import cz.wake.corgibot.commands.Rank;
 import cz.wake.corgibot.utils.Constants;
+import cz.wake.corgibot.utils.EmoteList;
 import cz.wake.corgibot.utils.MessageUtils;
-import me.jagrosh.jdautilities.waiter.EventWaiter;
 import net.dv8tion.jda.core.entities.*;
 import net.dv8tion.jda.core.events.message.react.MessageReactionAddEvent;
 
@@ -80,7 +81,7 @@ public class Purge implements ICommand {
                         toDelete.forEach(mssage -> mssage.delete().complete());
                     }
                 }
-                channel.sendMessage(MessageUtils.getEmbed(Constants.GREEN).setDescription(Constants.EMOTE_CHECK + " | Smazáno **" + i + "** zpráv.").build()).queue();
+                channel.sendMessage(MessageUtils.getEmbed(Constants.GREEN).setDescription(EmoteList.WARNING + " | Smazáno **" + i + "** zpráv.").build()).queue();
 
             } catch (Exception e) {
                 executeClean(Arrays.toString(args), channel, message, null, guildPrefix);

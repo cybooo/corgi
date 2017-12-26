@@ -1,13 +1,12 @@
 package cz.wake.corgibot.listener;
 
+import com.jagrosh.jdautilities.waiter.EventWaiter;
 import cz.wake.corgibot.CorgiBot;
 import cz.wake.corgibot.commands.ICommand;
-import cz.wake.corgibot.commands.Prefixes;
 import cz.wake.corgibot.commands.Rank;
 import cz.wake.corgibot.utils.ColorSelector;
 import cz.wake.corgibot.utils.Constants;
 import cz.wake.corgibot.utils.MessageUtils;
-import me.jagrosh.jdautilities.waiter.EventWaiter;
 import net.dv8tion.jda.core.JDA;
 import net.dv8tion.jda.core.OnlineStatus;
 import net.dv8tion.jda.core.Permission;
@@ -30,7 +29,7 @@ public class MainListener extends ListenerAdapter {
 
     private EventWaiter w;
 
-    public MainListener(EventWaiter w){
+    public MainListener(EventWaiter w) {
         this.w = w;
     }
 
@@ -56,7 +55,7 @@ public class MainListener extends ListenerAdapter {
             }
             for (ICommand cmd : CorgiBot.getInstance().getCommandHandler().getCommands()) {
                 if (cmd.getCommand().equalsIgnoreCase(command)) {
-                    if(CorgiBot.getIgnoredChannels().isBlocked(e.getChannel()) && !cmd.getCommand().equalsIgnoreCase("ignore")){
+                    if (CorgiBot.getIgnoredChannels().isBlocked(e.getChannel()) && !cmd.getCommand().equalsIgnoreCase("ignore")) {
                         return;
                     }
                     String[] finalArgs = args;

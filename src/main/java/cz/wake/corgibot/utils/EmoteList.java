@@ -25,4 +25,10 @@ public class EmoteList {
     final public static String GREEN_OK = "\u2705";
     final public static String RED_DENY = "\u26D4";
     final public static String WARNING = "\u26A0";
+
+    //HELP
+    final public static String VIDEO_GAME = "\uD83C\uDFAE";
+    final public static String CLIPBOARD = "\uD83D\uDCCB";
+    final public static String MODERATION = "<:moderation:398295395408805909>";
+    final public static String PLAYING_CARD = "\uD83C\uDFB4";
 }

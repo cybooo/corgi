@@ -27,7 +27,7 @@ public class IgnoredChannels {
             }
             set.close();
         } catch (Exception e) {
-            CorgiBot.LOGGER.error("Nelze načíst ignorované channely!", e);
+            CorgiBot.LOGGER.error("Nelze načíst ignorované channely!");
         }
     }
 

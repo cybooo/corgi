@@ -2,6 +2,8 @@ package cz.wake.corgibot.sql;
 
 import com.zaxxer.hikari.HikariDataSource;
 import cz.wake.corgibot.CorgiBot;
+import cz.wake.corgibot.managers.CorgiUser;
+import net.dv8tion.jda.core.entities.User;
 
 import java.sql.Connection;
 import java.sql.PreparedStatement;
@@ -86,6 +88,37 @@ public class SQLManager {
             ps.executeUpdate();
         } catch (Exception e) {
             e.printStackTrace();
+        } finally {
+            pool.close(conn, ps, null);
+        }
+    }
+
+    public final void registerUser(final User user) {
+        Connection conn = null;
+        PreparedStatement ps = null;
+        try {
+            conn = pool.getConnection();
+            ps = conn.prepareStatement("INSERT INTO corgibot.user_data (discord_id) VALUES (?);");
+            ps.setString(1, user.getId());
+            ps.executeUpdate();
+        } catch (Exception e) {
+            e.printStackTrace();
+        } finally {
+            pool.close(conn, ps, null);
+        }
+    }
+
+    public final boolean hasData(final User u) {
+        Connection conn = null;
+        PreparedStatement ps = null;
+        try {
+            conn = pool.getConnection();
+            ps = conn.prepareStatement("SELECT * FROM corgibot.user_data WHERE discord_id = '" + u.getId() + "';");
+            ps.executeQuery();
+            return ps.getResultSet().next();
+        } catch (Exception e) {
+            e.printStackTrace();
+            return false;
         } finally {
             pool.close(conn, ps, null);
         }

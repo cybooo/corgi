@@ -1,19 +1,26 @@
 package cz.wake.corgibot.commands;
 
 import cz.wake.corgibot.CorgiBot;
+import cz.wake.corgibot.utils.EmoteList;
 
 import java.util.List;
 
 public enum CommandType {
 
-    GENERAL,
-    MODERATION,
-    FUN,
+    GENERAL(EmoteList.CLIPBOARD),
+    MODERATION(EmoteList.MODERATION),
+    FUN(EmoteList.VIDEO_GAME),
     MUSIC,
-    ADMINISTARTOR,
+    ADMINISTARTOR(EmoteList.PLAYING_CARD),
     BOT_OWNER;
 
+    private String emote;
+
     CommandType() {
+    }
+
+    CommandType(String e){
+        this.emote = e;
     }
 
     public String toString() {
@@ -30,5 +37,9 @@ public enum CommandType {
 
     public String formattedName() {
         return toString();
+    }
+
+    public String getEmote() {
+        return emote;
     }
 }

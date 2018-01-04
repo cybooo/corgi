@@ -3,10 +3,7 @@ package cz.wake.corgibot.commands;
 import cz.wake.corgibot.CorgiBot;
 import cz.wake.corgibot.commands.admin.*;
 import cz.wake.corgibot.commands.mod.*;
-import cz.wake.corgibot.commands.owner.Avatar;
-import cz.wake.corgibot.commands.owner.GuildList;
-import cz.wake.corgibot.commands.owner.Log;
-import cz.wake.corgibot.commands.owner.Stop;
+import cz.wake.corgibot.commands.owner.*;
 import cz.wake.corgibot.commands.user.*;
 
 import java.util.ArrayList;
@@ -74,6 +71,7 @@ public class CommandHandler {
         registerCommand(new Cat());
         registerCommand(new Dog());
         registerCommand(new GuildInfo());
+        registerCommand(new Eval());
     }
 
 

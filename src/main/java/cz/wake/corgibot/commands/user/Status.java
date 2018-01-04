@@ -4,9 +4,10 @@ import cz.wake.corgibot.commands.ICommand;
 import cz.wake.corgibot.commands.CommandType;
 import cz.wake.corgibot.commands.Rank;
 import cz.wake.corgibot.utils.Constants;
+import cz.wake.corgibot.utils.EmoteList;
 import cz.wake.corgibot.utils.statuses.Checker;
 import cz.wake.corgibot.utils.statuses.MojangService;
-import me.jagrosh.jdautilities.waiter.EventWaiter;
+import com.jagrosh.jdautilities.waiter.EventWaiter;
 import net.dv8tion.jda.core.EmbedBuilder;
 import net.dv8tion.jda.core.entities.*;
 
@@ -15,8 +16,6 @@ import java.util.concurrent.ConcurrentMap;
 public class Status implements ICommand {
 
     private ConcurrentMap map = Checker.getServiceStatus();
-
-    //TODO: Dodělat pro CM
 
     @Override
     public void onCommand(User sender, MessageChannel channel, Message message, String[] args, Member member, EventWaiter w, String guildPrefix) {
@@ -27,7 +26,7 @@ public class Status implements ICommand {
             if (map.containsKey(service)) {
                 int time = (int) map.get(service);
                 if (time == -1) {
-                    status = ":warning: Výpadky spojení";
+                    status = EmoteList.WARNING + " Výpadky spojení";
                     state = 1;
                 } else {
                     status = ":x: Offline (" + time + " minut" + (time < 4 ? "y" : "") + ")";

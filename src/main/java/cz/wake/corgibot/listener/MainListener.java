@@ -1,13 +1,14 @@
 package cz.wake.corgibot.listener;
 
+import com.jagrosh.jdautilities.waiter.EventWaiter;
 import cz.wake.corgibot.CorgiBot;
 import cz.wake.corgibot.commands.ICommand;
-import cz.wake.corgibot.commands.Prefixes;
 import cz.wake.corgibot.commands.Rank;
+import cz.wake.corgibot.managers.CorgiUser;
+import cz.wake.corgibot.managers.UserManagement;
 import cz.wake.corgibot.utils.ColorSelector;
 import cz.wake.corgibot.utils.Constants;
 import cz.wake.corgibot.utils.MessageUtils;
-import me.jagrosh.jdautilities.waiter.EventWaiter;
 import net.dv8tion.jda.core.JDA;
 import net.dv8tion.jda.core.OnlineStatus;
 import net.dv8tion.jda.core.Permission;
@@ -22,6 +23,7 @@ import net.dv8tion.jda.core.events.message.guild.GuildMessageReceivedEvent;
 import net.dv8tion.jda.core.events.user.UserOnlineStatusUpdateEvent;
 import net.dv8tion.jda.core.hooks.ListenerAdapter;
 
+import java.sql.ResultSet;
 import java.time.OffsetDateTime;
 import java.util.Arrays;
 import java.util.List;
@@ -29,15 +31,16 @@ import java.util.List;
 public class MainListener extends ListenerAdapter {
 
     private EventWaiter w;
+    private UserManagement um = new UserManagement();
 
-    public MainListener(EventWaiter w){
+    public MainListener(EventWaiter w) {
         this.w = w;
     }
 
     @Override
     public void onGuildMessageReceived(GuildMessageReceivedEvent e) {
 
-        if (e.getAuthor().isBot()) {
+        if (e.getAuthor().isBot() || e.getAuthor().isFake() || e.getAuthor() == null) {
             return;
         }
 
@@ -46,7 +49,27 @@ public class MainListener extends ListenerAdapter {
         // Custom Guild prefix
         String prefix = String.valueOf(CorgiBot.getPrefixes().get(getGuildId(e)));
 
-        if (e.getMessage().getRawContent().startsWith(prefix)) {
+        if (!um.getList().containsKey(e.getAuthor())) { // Kdyz neni v cache
+            System.out.println("DUCK");
+            if (!CorgiBot.getInstance().getSql().hasData(e.getAuthor())) { // Kdyz nema data v DB
+                // Nova registrace
+                System.out.println("ID:" + e.getAuthor().getId());
+                CorgiBot.getInstance().getSql().registerUser(e.getAuthor());
+                CorgiUser corgiUser = new CorgiUser(e.getAuthor().getId(), 0, 0, 0, 0);
+                um.addToList(e.getAuthor(), corgiUser);
+            } else {
+                try {
+                    // Nacteni do cache
+                    ResultSet rs = CorgiBot.getInstance().getSql().getPool().getConnection().createStatement().executeQuery("SELECT * FROM corgibot.user_data WHERE discord_id = '" + e.getAuthor().getId() + "' ;");
+                    CorgiUser corgiUser = new CorgiUser(e.getAuthor().getId(), rs.getInt("level"), rs.getInt("exp_nextlvl"), rs.getInt("total_exp"), rs.getInt("pizza"));
+                    um.addToList(e.getAuthor(), corgiUser);
+                } catch (Exception ex) {
+                    ex.printStackTrace();
+                }
+            }
+        }
+
+        if (e.getMessage().getContentRaw().startsWith(prefix)) {
             String message = e.getMessage().getRawContent();
             String command = message.substring(1);
             String[] args = new String[0];
@@ -56,7 +79,7 @@ public class MainListener extends ListenerAdapter {
             }
             for (ICommand cmd : CorgiBot.getInstance().getCommandHandler().getCommands()) {
                 if (cmd.getCommand().equalsIgnoreCase(command)) {
-                    if(CorgiBot.getIgnoredChannels().isBlocked(e.getChannel()) && !cmd.getCommand().equalsIgnoreCase("ignore")){
+                    if (CorgiBot.getIgnoredChannels().isBlocked(e.getChannel()) && !cmd.getCommand().equalsIgnoreCase("ignore")) {
                         return;
                     }
                     String[] finalArgs = args;
@@ -139,7 +162,7 @@ public class MainListener extends ListenerAdapter {
                 .setThumbnail(CorgiBot.getJda().getSelfUser().getAvatarUrl()).setFooter("Tato zpráva se smaže sama do 30 vteřin!", null).build(), 40000L, event.getGuild().getDefaultChannel());
 
         if (event.getJDA().getStatus() == JDA.Status.CONNECTED &&
-                event.getGuild().getSelfMember().getJoinDate().plusMinutes(2).isAfter(OffsetDateTime.now())){
+                event.getGuild().getSelfMember().getJoinDate().plusMinutes(2).isAfter(OffsetDateTime.now())) {
             CorgiBot.getInstance().getGuildLogChannel().sendMessage(MessageUtils.getEmbed(Constants.GREEN)
                     .setThumbnail(event.getGuild().getIconUrl())
                     .setFooter(event.getGuild().getId(), event.getGuild().getIconUrl())

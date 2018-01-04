@@ -1,5 +1,8 @@
 package cz.wake.corgibot.commands.admin;
 
+import com.jagrosh.jdautilities.menu.pagination.Paginator;
+import com.jagrosh.jdautilities.menu.pagination.PaginatorBuilder;
+import com.jagrosh.jdautilities.waiter.EventWaiter;
 import cz.wake.corgibot.CorgiBot;
 import cz.wake.corgibot.commands.CommandType;
 import cz.wake.corgibot.commands.ICommand;
@@ -7,9 +10,6 @@ import cz.wake.corgibot.commands.Rank;
 import cz.wake.corgibot.utils.Constants;
 import cz.wake.corgibot.utils.EmoteList;
 import cz.wake.corgibot.utils.MessageUtils;
-import me.jagrosh.jdautilities.menu.pagination.Paginator;
-import me.jagrosh.jdautilities.menu.pagination.PaginatorBuilder;
-import me.jagrosh.jdautilities.waiter.EventWaiter;
 import net.dv8tion.jda.core.entities.*;
 import net.dv8tion.jda.core.events.message.react.MessageReactionAddEvent;
 import net.dv8tion.jda.core.exceptions.PermissionException;
@@ -54,12 +54,12 @@ public class Ignore implements ICommand {
 
     @Override
     public String getDescription() {
-        return "prd";
+        return "Příkaz k nastavení ignorování veškerých příkazů v požadovaném channelu.";
     }
 
     @Override
     public String getHelp() {
-        return "prd";
+        return "%ignore - Nastavení ignorování";
     }
 
     @Override

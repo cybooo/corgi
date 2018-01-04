@@ -29,7 +29,7 @@ public class Help implements ICommand {
             for(ICommand c : ch.getCommands()){
                 if(c.getCommand().equalsIgnoreCase(commandName)){ //Normal
                     channel.sendMessage(MessageUtils.getEmbed().setTitle("Nápověda k příkazu - " + commandName + " :question:")
-                            .setDescription(c.getDescription() + "\n\n**Použití**\n" + c.getHelp().replace('%', CorgiBot.getPrefix(member.getGuild().getId()))).build()).queue();
+                            .setDescription(c.getDescription() + "\n\n**Použití**\n" + c.getHelp().replace("%", CorgiBot.getPrefix(member.getGuild().getId()))).build()).queue();
                 }
             }
         }

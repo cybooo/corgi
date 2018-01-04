@@ -32,7 +32,7 @@ public class CorgiBot {
     private MainListener events;
     private static JDA jda;
     private CommandHandler ch = new CommandHandler();
-    public static final char PREFIX = '.';
+    public static final String PREFIX = ".";
     private SQLManager sql;
     private DateTimeFormatter timeFormat = DateTimeFormatter.ofPattern("MMMM yyyy HH:mm:ss");
     private static String imgflipToken = "";
@@ -41,6 +41,7 @@ public class CorgiBot {
     public static final Logger LOGGER;
     private static Prefixes prefixes;
     private static IgnoredChannels ignoredChannels;
+    private static boolean isBeta;
 
     static {
         new File("latest.log").delete();
@@ -134,12 +135,16 @@ public class CorgiBot {
         return getJda().getGuildById("255045073887166475").getTextChannelById("361636711585021953");
     }
 
-    public static char getPrefix(String id) {
+    public static String getPrefix(String id) {
         return getPrefixes().get(id);
     }
 
     public static IgnoredChannels getIgnoredChannels(){
         return ignoredChannels;
+    }
+
+    public static Guild getDefaultGuild(){
+        return getJda().getGuildById("255045073887166475");
     }
 
 
@@ -153,5 +158,9 @@ public class CorgiBot {
         LOGGER.info("\\____/\\____/_/   \\__, /_/   ");
         LOGGER.info("                /____/      ");
         LOGGER.info("");
+    }
+
+    public boolean isBeta() {
+        return isBeta;
     }
 }

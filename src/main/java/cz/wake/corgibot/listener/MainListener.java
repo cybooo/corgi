@@ -69,7 +69,7 @@ public class MainListener extends ListenerAdapter {
             }
         }
 
-        if (e.getMessage().getRawContent().startsWith(prefix)) {
+        if (e.getMessage().getContentRaw().startsWith(prefix)) {
             String message = e.getMessage().getRawContent();
             String command = message.substring(1);
             String[] args = new String[0];

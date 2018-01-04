@@ -8,6 +8,7 @@ public class LoadingProperties {
 
     private String botToken, imgFlipToken;
     private String host, port, dbname, dbuser, dbpassword, minConnections, maxConnections, timeout, mashapeGameKey;
+    private String beta;
 
     public LoadingProperties() {
         try {
@@ -29,6 +30,7 @@ public class LoadingProperties {
             timeout = properties.getProperty("timeout");
             imgFlipToken = properties.getProperty("imgflipToken");
             mashapeGameKey = properties.getProperty("mashapeGameKey");
+            beta = properties.getProperty("beta");
 
         } catch (Exception e) {
             e.printStackTrace();
@@ -77,5 +79,9 @@ public class LoadingProperties {
 
     public String getMashapeGameKey() {
         return mashapeGameKey;
+    }
+
+    public boolean isBeta() {
+        return beta.equalsIgnoreCase("true");
     }
 }

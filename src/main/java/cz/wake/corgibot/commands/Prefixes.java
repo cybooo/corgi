@@ -8,13 +8,13 @@ import java.util.concurrent.ConcurrentHashMap;
 
 public class Prefixes {
 
-    private Map<String, Character> prefixes = new ConcurrentHashMap<>();
+    private Map<String, String> prefixes = new ConcurrentHashMap<>();
 
     public Prefixes() {
         try {
             ResultSet set = CorgiBot.getInstance().getSql().getPool().getConnection().createStatement().executeQuery("SELECT * FROM corgibot.prefixes;");
             while(set.next()){
-                prefixes.put(set.getString("guild_id"), set.getString("prefix").charAt(0));
+                prefixes.put(set.getString("guild_id"), set.getString("prefix"));
                 CorgiBot.LOGGER.info("Načten prefix: " + set.getString("prefix") + " pro Guild(" + set.getString("guild_id") + ")");
             }
             set.close();
@@ -23,14 +23,14 @@ public class Prefixes {
         }
     }
 
-    public char get(String guildId) {
+    public String get(String guildId) {
         if (guildId == null){
             return CorgiBot.PREFIX;
         }
         return prefixes.getOrDefault(guildId, CorgiBot.PREFIX);
     }
 
-    public void set(String guildId, char character) {
+    public void set(String guildId, String character) {
         if (character == CorgiBot.PREFIX) {
             prefixes.remove(guildId);
             try {
@@ -48,7 +48,7 @@ public class Prefixes {
         }
     }
 
-    public Map<String, Character> getPrefixes() {
+    public Map<String, String> getPrefixes() {
         return this.prefixes;
     }
 }

@@ -93,7 +93,7 @@
         <dependency>
             <groupId>net.dv8tion</groupId>
             <artifactId>JDA</artifactId>
-            <version>3.4.0_318</version>
+            <version>3.4.0_322</version>
         </dependency>
         <dependency>
             <groupId>com.jagrosh</groupId>

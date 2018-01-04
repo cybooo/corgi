@@ -77,6 +77,10 @@ public class CorgiBot {
         timer.scheduleAtFixedRate(new StatusChanger(), 10, 120000);
 
         imgflipToken = config.getImgFlipToken();
+
+        /* NASTAVENI NOVY PROFILOVKY
+        jda.getSelfUser().getManager().setAvatar(Icon.from(
+                new URL("https://i.imgur.com/N9wftHn.jpg").openStream())).complete();*/
     }
 
     public static CorgiBot getInstance() {

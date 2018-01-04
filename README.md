@@ -1,4 +1,4 @@
-<img align="right" src="https://i.imgur.com/mbGhM0Q.jpg" height="250" width="250">
+<img align="right" src="https://i.imgur.com/N9wftHn.jpg" height="250" width="250">
 
 # CorgiBot [![License](https://img.shields.io/github/license/mashape/apistatus.svg?style=flat-square)](LICENSE) [![Maintenance](https://img.shields.io/maintenance/yes/2017.svg?style=flat-square)]() [![Chat](https://img.shields.io/badge/chat-discord-yellow.svg?style=flat-square)](https://discord.gg/rfsEqme)
 **Corgi** is an open-source Discord bot written in Java, using JDA 3.

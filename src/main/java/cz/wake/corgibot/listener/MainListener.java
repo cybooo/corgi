@@ -4,7 +4,6 @@ import com.jagrosh.jdautilities.waiter.EventWaiter;
 import cz.wake.corgibot.CorgiBot;
 import cz.wake.corgibot.commands.ICommand;
 import cz.wake.corgibot.commands.Rank;
-import cz.wake.corgibot.managers.UserManagement;
 import cz.wake.corgibot.utils.ColorSelector;
 import cz.wake.corgibot.utils.Constants;
 import cz.wake.corgibot.utils.MessageUtils;
@@ -29,7 +28,6 @@ import java.util.List;
 public class MainListener extends ListenerAdapter {
 
     private EventWaiter w;
-    private UserManagement um = new UserManagement();
 
     public MainListener(EventWaiter w) {
         this.w = w;
@@ -164,6 +162,7 @@ public class MainListener extends ListenerAdapter {
                         "Majitel: " + (event.getGuild().getOwner() != null ?
                         event.getGuild().getOwner().getUser().getName()
                         : "Neexistuje, nebo nelze zjistit!")).build()).queue();
+        // Smazani vsech ignored IDs
         CorgiBot.getInstance().getSql().deleteIgnoredChannel(event.getGuild().getId());
     }
 

@@ -2,6 +2,7 @@ package cz.wake.corgibot.commands.owner;
 
 import com.jagrosh.jdautilities.waiter.EventWaiter;
 import cz.wake.corgibot.CorgiBot;
+import cz.wake.corgibot.annotations.SinceCorgi;
 import cz.wake.corgibot.commands.CommandType;
 import cz.wake.corgibot.commands.ICommand;
 import cz.wake.corgibot.commands.Rank;
@@ -19,6 +20,7 @@ import java.util.concurrent.ExecutorService;
 import java.util.concurrent.Executors;
 import java.util.stream.Collectors;
 
+@SinceCorgi(version = "1.2.2")
 public class Eval implements ICommand {
 
     private ScriptEngineManager manager = new ScriptEngineManager();

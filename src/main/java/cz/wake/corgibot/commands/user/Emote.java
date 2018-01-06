@@ -1,5 +1,6 @@
 package cz.wake.corgibot.commands.user;
 
+import cz.wake.corgibot.annotations.SinceCorgi;
 import cz.wake.corgibot.commands.ICommand;
 import cz.wake.corgibot.commands.CommandType;
 import cz.wake.corgibot.commands.Rank;
@@ -8,6 +9,7 @@ import cz.wake.corgibot.utils.MessageUtils;
 import com.jagrosh.jdautilities.waiter.EventWaiter;
 import net.dv8tion.jda.core.entities.*;
 
+@SinceCorgi(version = "0.8.1")
 public class Emote implements ICommand {
 
     @Override

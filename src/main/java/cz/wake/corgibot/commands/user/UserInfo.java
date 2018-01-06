@@ -1,6 +1,7 @@
 package cz.wake.corgibot.commands.user;
 
 import cz.wake.corgibot.CorgiBot;
+import cz.wake.corgibot.annotations.SinceCorgi;
 import cz.wake.corgibot.commands.ICommand;
 import cz.wake.corgibot.commands.CommandType;
 import cz.wake.corgibot.commands.Rank;
@@ -16,8 +17,8 @@ import java.util.Comparator;
 import java.util.List;
 import java.util.stream.Collectors;
 
+@SinceCorgi(version = "1.2.3.2")
 public class UserInfo implements ICommand {
-
 
     @Override
     public void onCommand(User sender, MessageChannel channel, Message message, String[] args, Member member, EventWaiter w, String guildPrefix) {

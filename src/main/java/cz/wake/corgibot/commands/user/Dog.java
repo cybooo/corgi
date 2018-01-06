@@ -1,5 +1,6 @@
 package cz.wake.corgibot.commands.user;
 
+import cz.wake.corgibot.annotations.SinceCorgi;
 import cz.wake.corgibot.commands.CommandType;
 import cz.wake.corgibot.commands.ICommand;
 import cz.wake.corgibot.commands.Rank;
@@ -16,6 +17,7 @@ import okhttp3.Response;
 import org.json.JSONArray;
 import org.json.JSONObject;
 
+@SinceCorgi(version = "1.2.1")
 public class Dog implements ICommand {
 
     @Override

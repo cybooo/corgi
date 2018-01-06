@@ -1,6 +1,7 @@
 package cz.wake.corgibot.commands.mod;
 
 import com.jagrosh.jdautilities.waiter.EventWaiter;
+import cz.wake.corgibot.annotations.SinceCorgi;
 import cz.wake.corgibot.commands.ICommand;
 import cz.wake.corgibot.commands.CommandType;
 import cz.wake.corgibot.commands.Rank;
@@ -19,6 +20,7 @@ import java.util.regex.Matcher;
 import java.util.regex.Pattern;
 import java.util.stream.Collectors;
 
+@SinceCorgi(version = "1.0")
 public class Purge implements ICommand {
 
     private final String CANCEL = "\u274C";

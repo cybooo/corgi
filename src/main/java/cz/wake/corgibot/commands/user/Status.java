@@ -1,5 +1,6 @@
 package cz.wake.corgibot.commands.user;
 
+import cz.wake.corgibot.annotations.SinceCorgi;
 import cz.wake.corgibot.commands.ICommand;
 import cz.wake.corgibot.commands.CommandType;
 import cz.wake.corgibot.commands.Rank;
@@ -13,6 +14,7 @@ import net.dv8tion.jda.core.entities.*;
 
 import java.util.concurrent.ConcurrentMap;
 
+@SinceCorgi(version = "0.4")
 public class Status implements ICommand {
 
     private ConcurrentMap map = Checker.getServiceStatus();

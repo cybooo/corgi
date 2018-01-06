@@ -1,6 +1,7 @@
 package cz.wake.corgibot.commands.user;
 
 import cz.wake.corgibot.CorgiBot;
+import cz.wake.corgibot.annotations.SinceCorgi;
 import cz.wake.corgibot.commands.*;
 import cz.wake.corgibot.utils.Constants;
 import cz.wake.corgibot.utils.EmoteList;
@@ -8,6 +9,7 @@ import cz.wake.corgibot.utils.MessageUtils;
 import com.jagrosh.jdautilities.waiter.EventWaiter;
 import net.dv8tion.jda.core.entities.*;
 
+@SinceCorgi(version = "0.1")
 public class Help implements ICommand {
 
     @Override

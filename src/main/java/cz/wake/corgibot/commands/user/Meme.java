@@ -3,6 +3,7 @@ package cz.wake.corgibot.commands.user;
 import com.mashape.unirest.http.Unirest;
 import com.mashape.unirest.http.exceptions.UnirestException;
 import cz.wake.corgibot.CorgiBot;
+import cz.wake.corgibot.annotations.SinceCorgi;
 import cz.wake.corgibot.commands.ICommand;
 import cz.wake.corgibot.commands.CommandType;
 import cz.wake.corgibot.commands.Rank;
@@ -19,6 +20,7 @@ import java.util.Map;
 import java.util.Set;
 import java.util.TreeMap;
 
+@SinceCorgi(version = "0.9")
 public class Meme implements ICommand {
 
     private static final Map<String, String> map = new TreeMap<>();

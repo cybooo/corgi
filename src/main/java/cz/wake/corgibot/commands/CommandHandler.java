@@ -55,7 +55,6 @@ public class CommandHandler {
         registerCommand(new BotStats());
         registerCommand(new Perms());
         registerCommand(new About());
-        registerCommand(new Game());
         registerCommand(new FullWidth());
         registerCommand(new Invite());
         registerCommand(new Changelog());

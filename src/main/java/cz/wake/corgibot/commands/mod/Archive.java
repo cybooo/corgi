@@ -2,6 +2,7 @@ package cz.wake.corgibot.commands.mod;
 
 import com.jagrosh.jdautilities.waiter.EventWaiter;
 import cz.wake.corgibot.CorgiBot;
+import cz.wake.corgibot.annotations.SinceCorgi;
 import cz.wake.corgibot.commands.ICommand;
 import cz.wake.corgibot.commands.CommandType;
 import cz.wake.corgibot.commands.Rank;
@@ -15,6 +16,7 @@ import net.dv8tion.jda.core.utils.PermissionUtil;
 import java.time.format.DateTimeFormatter;
 import java.util.List;
 
+@SinceCorgi(version = "1.0")
 public class Archive implements ICommand {
 
     @Override

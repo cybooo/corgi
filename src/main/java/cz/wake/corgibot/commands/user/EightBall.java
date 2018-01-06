@@ -1,6 +1,7 @@
 package cz.wake.corgibot.commands.user;
 
 import cz.wake.corgibot.CorgiBot;
+import cz.wake.corgibot.annotations.SinceCorgi;
 import cz.wake.corgibot.commands.ICommand;
 import cz.wake.corgibot.commands.CommandType;
 import cz.wake.corgibot.commands.Rank;
@@ -11,6 +12,7 @@ import net.dv8tion.jda.core.entities.*;
 
 import java.util.concurrent.ThreadLocalRandom;
 
+@SinceCorgi(version = "0.3")
 public class EightBall implements ICommand {
 
     static String outcomes[] = {"Ano.", "Ne.", "S největší pravděpodobností ANO!", "Možná.", "Počkej zamyslím se, ANO!", "Pravděpodobně ne!", "Nepravděpodobně...", "Když se nad tím zamyšlíš, je to možné!", "Je to jistý.", "Je to rozhodně tak", "Definitivně ano", "Něco mi říká, že ne"};

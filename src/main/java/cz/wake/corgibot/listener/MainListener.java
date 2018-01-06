@@ -4,7 +4,6 @@ import com.jagrosh.jdautilities.waiter.EventWaiter;
 import cz.wake.corgibot.CorgiBot;
 import cz.wake.corgibot.commands.ICommand;
 import cz.wake.corgibot.commands.Rank;
-import cz.wake.corgibot.managers.CorgiUser;
 import cz.wake.corgibot.managers.UserManagement;
 import cz.wake.corgibot.utils.ColorSelector;
 import cz.wake.corgibot.utils.Constants;
@@ -23,7 +22,6 @@ import net.dv8tion.jda.core.events.message.guild.GuildMessageReceivedEvent;
 import net.dv8tion.jda.core.events.user.UserOnlineStatusUpdateEvent;
 import net.dv8tion.jda.core.hooks.ListenerAdapter;
 
-import java.sql.ResultSet;
 import java.time.OffsetDateTime;
 import java.util.Arrays;
 import java.util.List;
@@ -48,26 +46,6 @@ public class MainListener extends ListenerAdapter {
 
         // Custom Guild prefix
         String prefix = String.valueOf(CorgiBot.getPrefixes().get(getGuildId(e)));
-
-        if (!um.getList().containsKey(e.getAuthor())) { // Kdyz neni v cache
-            System.out.println("DUCK");
-            if (!CorgiBot.getInstance().getSql().hasData(e.getAuthor())) { // Kdyz nema data v DB
-                // Nova registrace
-                System.out.println("ID:" + e.getAuthor().getId());
-                CorgiBot.getInstance().getSql().registerUser(e.getAuthor());
-                CorgiUser corgiUser = new CorgiUser(e.getAuthor().getId(), 0, 0, 0, 0);
-                um.addToList(e.getAuthor(), corgiUser);
-            } else {
-                try {
-                    // Nacteni do cache
-                    ResultSet rs = CorgiBot.getInstance().getSql().getPool().getConnection().createStatement().executeQuery("SELECT * FROM corgibot.user_data WHERE discord_id = '" + e.getAuthor().getId() + "' ;");
-                    CorgiUser corgiUser = new CorgiUser(e.getAuthor().getId(), rs.getInt("level"), rs.getInt("exp_nextlvl"), rs.getInt("total_exp"), rs.getInt("pizza"));
-                    um.addToList(e.getAuthor(), corgiUser);
-                } catch (Exception ex) {
-                    ex.printStackTrace();
-                }
-            }
-        }
 
         if (e.getMessage().getContentRaw().startsWith(prefix)) {
             String message = e.getMessage().getRawContent();
@@ -186,6 +164,7 @@ public class MainListener extends ListenerAdapter {
                         "Majitel: " + (event.getGuild().getOwner() != null ?
                         event.getGuild().getOwner().getUser().getName()
                         : "Neexistuje, nebo nelze zjistit!")).build()).queue();
+        CorgiBot.getInstance().getSql().deleteIgnoredChannel(event.getGuild().getId());
     }
 
     private String getGuildId(GenericGuildMessageEvent e) {

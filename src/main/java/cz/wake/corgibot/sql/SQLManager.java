@@ -2,14 +2,10 @@ package cz.wake.corgibot.sql;
 
 import com.zaxxer.hikari.HikariDataSource;
 import cz.wake.corgibot.CorgiBot;
-import cz.wake.corgibot.managers.CorgiUser;
 import net.dv8tion.jda.core.entities.User;
 
 import java.sql.Connection;
 import java.sql.PreparedStatement;
-import java.sql.ResultSet;
-import java.util.ArrayList;
-import java.util.List;
 
 public class SQLManager {
 

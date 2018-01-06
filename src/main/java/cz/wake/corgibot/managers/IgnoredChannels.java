@@ -22,7 +22,6 @@ public class IgnoredChannels {
                     System.out.println("Přidán ignorovaný channel: " + set.getString("guild_id") + " - " + set.getString("channel_id"));
                 } catch (NullPointerException e){
                     //e.printStackTrace();
-                    CorgiBot.getInstance().getSql().deleteIgnoredChannel(set.getString("channel_id"));
                 }
             }
             set.close();

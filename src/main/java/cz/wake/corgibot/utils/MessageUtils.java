@@ -21,6 +21,13 @@ import java.util.stream.Collectors;
 
 public class MessageUtils {
 
+    /**
+        Sends Exception to selected {@link MessageChannel}
+
+        @param s Initial message
+        @param e Throwable message {@link Throwable}
+        @param channel Selected {@link MessageChannel} where Corgi will send Exception message
+     */
     public static Message sendException(String s, Throwable e, MessageChannel channel) {
         StringWriter sw = new StringWriter();
         PrintWriter pw = new PrintWriter(sw);

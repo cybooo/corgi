@@ -11,16 +11,16 @@ public class StatusChanger extends TimerTask {
 
     @Override
     public void run() {
-        if(sInt == 0){
+        if (sInt == 0) {
             CorgiBot.getJda().getPresence().setGame(Game.of(".invite"));
             sInt++;
-        } else if (sInt == 1){
+        } else if (sInt == 1) {
             CorgiBot.getJda().getPresence().setGame(Game.of(".help"));
             sInt++;
-        } else if (sInt == 2){
+        } else if (sInt == 2) {
             CorgiBot.getJda().getPresence().setGame(Game.of(CorgiBot.getJda().getUsers().size() + " users"));
             sInt++;
-        } else if (sInt == 3){
+        } else if (sInt == 3) {
             CorgiBot.getJda().getPresence().setGame(Game.of(CorgiBot.getJda().getGuilds().size() + " guilds"));
             sInt = 0;
         }

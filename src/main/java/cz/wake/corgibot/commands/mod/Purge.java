@@ -2,8 +2,8 @@ package cz.wake.corgibot.commands.mod;
 
 import com.jagrosh.jdautilities.waiter.EventWaiter;
 import cz.wake.corgibot.annotations.SinceCorgi;
-import cz.wake.corgibot.commands.ICommand;
 import cz.wake.corgibot.commands.CommandType;
+import cz.wake.corgibot.commands.ICommand;
 import cz.wake.corgibot.commands.Rank;
 import cz.wake.corgibot.utils.Constants;
 import cz.wake.corgibot.utils.EmoteList;
@@ -68,7 +68,7 @@ public class Purge implements ICommand {
                         toDelete.add(m);
                     }
                     if (toDelete.size() == 100) {
-                        for(Message mess : toDelete){
+                        for (Message mess : toDelete) {
                             channel.deleteMessageById(mess.getId()).queue();
                         }
                         toDelete.clear();
@@ -136,7 +136,7 @@ public class Purge implements ICommand {
                 try {
                     ((TextChannel) channel).deleteMessages(toClean).queue(v -> channel.sendMessage(MessageUtils.getEmbed(Constants.GREEN).setDescription(":greenTick: | Smazáno **" + toClean.size() + "** zpráv.").build()).queue());
                 } catch (IllegalArgumentException e) {
-                    MessageUtils.sendAutoDeletedMessage("Požadovaný výběr zpráv pro smazání je starší než 14 dní!" , 10000, channel);
+                    MessageUtils.sendAutoDeletedMessage("Požadovaný výběr zpráv pro smazání je starší než 14 dní!", 10000, channel);
                 }
             }
         });

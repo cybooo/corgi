@@ -27,7 +27,6 @@ public class SetPrefix implements ICommand {
                 channel.sendMessage(MessageUtils.getEmbed(Constants.GREEN).setDescription(String.format("Prefix byl nastaven na `%s`", args[0])).build()).queue();
             } else {
                 MessageUtils.sendErrorMessage("Nelze nastavit prefix, který má víc než tři znaky!", channel);
-                return;
             }
         } else {
             channel.sendMessage(MessageUtils.getEmbed(Constants.BLUE).setDescription(String.format("Aktuální prefix pro server je `%s`", CorgiBot.getPrefix(message.getGuild().getId()))).build()).queue();

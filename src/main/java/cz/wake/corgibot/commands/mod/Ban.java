@@ -22,7 +22,7 @@ public class Ban implements ICommand {
 
     @Override
     public void onCommand(User sender, MessageChannel channel, Message message, String[] args, Member member, EventWaiter w, String guildPrefix) {
-        if (!PermissionUtil.checkPermission(message.getGuild().getSelfMember(), Permission.BAN_MEMBERS)){
+        if (!PermissionUtil.checkPermission(message.getGuild().getSelfMember(), Permission.BAN_MEMBERS)) {
             MessageUtils.sendErrorMessage("Nemám dostatečná práva na vyhazování uživatelů! Přidej mi právo na `BAN_MEMBERS` nebo `ADMINISTRATOR`", channel);
             return;
         }
@@ -45,7 +45,7 @@ public class Ban implements ICommand {
                         .append(" | ")
                         .append(u.getAsMention())
                         .append(" nemůže být zabanován, jelikož není evidován na serveru!");
-            }  else if (!PermissionUtil.canInteract(message.getMember(), m)) {
+            } else if (!PermissionUtil.canInteract(message.getMember(), m)) {
                 builder.append("\n")
                         .append(EmoteList.RED_DENY)
                         .append(" | Nemáš dostatečná práva na zabanování ")

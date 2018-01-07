@@ -19,7 +19,7 @@ public enum CommandType {
     CommandType() {
     }
 
-    CommandType(String e){
+    CommandType(String e) {
         this.emote = e;
     }
 

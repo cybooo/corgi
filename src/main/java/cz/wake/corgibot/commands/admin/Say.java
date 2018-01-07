@@ -2,18 +2,21 @@ package cz.wake.corgibot.commands.admin;
 
 import com.jagrosh.jdautilities.waiter.EventWaiter;
 import cz.wake.corgibot.annotations.SinceCorgi;
-import cz.wake.corgibot.commands.ICommand;
 import cz.wake.corgibot.commands.CommandType;
+import cz.wake.corgibot.commands.ICommand;
 import cz.wake.corgibot.commands.Rank;
 import cz.wake.corgibot.utils.MessageUtils;
-import net.dv8tion.jda.core.entities.*;
+import net.dv8tion.jda.core.entities.Member;
+import net.dv8tion.jda.core.entities.Message;
+import net.dv8tion.jda.core.entities.MessageChannel;
+import net.dv8tion.jda.core.entities.User;
 
 @SinceCorgi(version = "0.8")
 public class Say implements ICommand {
 
     @Override
     public void onCommand(User sender, MessageChannel channel, Message message, String[] args, Member member, EventWaiter w, String guildPrefix) {
-        if(args.length < 1){
+        if (args.length < 1) {
             MessageUtils.sendErrorMessage("Nelze poslat zprávu, která nemá text!", channel);
             return;
         }
@@ -32,7 +35,7 @@ public class Say implements ICommand {
 
     @Override
     public String getHelp() {
-        return  "%say <text>";
+        return "%say <text>";
     }
 
     @Override

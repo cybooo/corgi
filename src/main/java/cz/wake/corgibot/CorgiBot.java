@@ -1,5 +1,6 @@
 package cz.wake.corgibot;
 
+import com.jagrosh.jdautilities.waiter.EventWaiter;
 import cz.wake.corgibot.commands.CommandHandler;
 import cz.wake.corgibot.commands.Prefixes;
 import cz.wake.corgibot.listener.MainListener;
@@ -8,23 +9,24 @@ import cz.wake.corgibot.runnable.StatusChanger;
 import cz.wake.corgibot.sql.SQLManager;
 import cz.wake.corgibot.utils.LoadingProperties;
 import cz.wake.corgibot.utils.statuses.Checker;
-import com.jagrosh.jdautilities.waiter.EventWaiter;
 import net.dv8tion.jda.core.AccountType;
 import net.dv8tion.jda.core.JDA;
 import net.dv8tion.jda.core.JDABuilder;
-import net.dv8tion.jda.core.entities.*;
+import net.dv8tion.jda.core.entities.Game;
+import net.dv8tion.jda.core.entities.Guild;
+import net.dv8tion.jda.core.entities.TextChannel;
 import net.dv8tion.jda.core.exceptions.RateLimitedException;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 
 import javax.security.auth.login.LoginException;
 import java.io.File;
 import java.io.IOException;
 import java.time.LocalDateTime;
 import java.time.format.DateTimeFormatter;
-import java.util.*;
+import java.util.Map;
+import java.util.Timer;
 import java.util.concurrent.ConcurrentHashMap;
-
-import org.slf4j.Logger;
-import org.slf4j.LoggerFactory;
 
 public class CorgiBot {
 
@@ -111,7 +113,7 @@ public class CorgiBot {
         sql = new SQLManager(this);
     }
 
-    public static long getStartUp(){
+    public static long getStartUp() {
         return startUp;
     }
 
@@ -143,16 +145,16 @@ public class CorgiBot {
         return getPrefixes().get(id);
     }
 
-    public static IgnoredChannels getIgnoredChannels(){
+    public static IgnoredChannels getIgnoredChannels() {
         return ignoredChannels;
     }
 
-    public static Guild getDefaultGuild(){
+    public static Guild getDefaultGuild() {
         return getJda().getGuildById("255045073887166475");
     }
 
 
-    private static void bootLogo(){
+    private static void bootLogo() {
         LOGGER.info("Spousteni bota...");
         LOGGER.info("");
         LOGGER.info("   ______                 _ ");

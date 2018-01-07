@@ -1,17 +1,20 @@
 package cz.wake.corgibot.commands.user;
 
+import com.jagrosh.jdautilities.waiter.EventWaiter;
 import com.mashape.unirest.http.Unirest;
 import com.mashape.unirest.http.exceptions.UnirestException;
 import cz.wake.corgibot.CorgiBot;
 import cz.wake.corgibot.annotations.SinceCorgi;
-import cz.wake.corgibot.commands.ICommand;
 import cz.wake.corgibot.commands.CommandType;
+import cz.wake.corgibot.commands.ICommand;
 import cz.wake.corgibot.commands.Rank;
 import cz.wake.corgibot.utils.Constants;
 import cz.wake.corgibot.utils.LoadingProperties;
 import cz.wake.corgibot.utils.MessageUtils;
-import com.jagrosh.jdautilities.waiter.EventWaiter;
-import net.dv8tion.jda.core.entities.*;
+import net.dv8tion.jda.core.entities.Member;
+import net.dv8tion.jda.core.entities.Message;
+import net.dv8tion.jda.core.entities.MessageChannel;
+import net.dv8tion.jda.core.entities.User;
 import org.apache.commons.lang3.StringUtils;
 import org.json.JSONArray;
 import org.json.JSONObject;
@@ -45,10 +48,10 @@ public class Meme implements ICommand {
     @Override
     public void onCommand(User sender, MessageChannel channel, Message message, String[] args, Member member, EventWaiter w, String guildPrefix) {
         if (args.length < 1) {
-            channel.sendMessage(MessageUtils.getEmbed(Constants.BLUE).setTitle("**Použítí příkazu " + guildPrefix +"meme**")
+            channel.sendMessage(MessageUtils.getEmbed(Constants.BLUE).setTitle("**Použítí příkazu " + guildPrefix + "meme**")
                     .setDescription("**.meme** - Zobrazí tuto nápovědu\n" +
-                            "**" + guildPrefix +"meme list [cislo]** - Zobrazí seznam všech dostupných obrázků\n" +
-                            "**" + guildPrefix +"meme [nazev] | [horni_radek] | [dolni_rade]** - Vygeneruje meme obrázek").build()).queue();
+                            "**" + guildPrefix + "meme list [cislo]** - Zobrazí seznam všech dostupných obrázků\n" +
+                            "**" + guildPrefix + "meme [nazev] | [horni_radek] | [dolni_rade]** - Vygeneruje meme obrázek").build()).queue();
         } else if (args[0].equalsIgnoreCase("list")) {
             int page = 1;
 

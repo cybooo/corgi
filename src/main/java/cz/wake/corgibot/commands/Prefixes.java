@@ -13,18 +13,18 @@ public class Prefixes {
     public Prefixes() {
         try {
             ResultSet set = CorgiBot.getInstance().getSql().getPool().getConnection().createStatement().executeQuery("SELECT * FROM corgibot.prefixes;");
-            while(set.next()){
+            while (set.next()) {
                 prefixes.put(set.getString("guild_id"), set.getString("prefix"));
                 CorgiBot.LOGGER.info("Načten prefix: " + set.getString("prefix") + " pro Guild(" + set.getString("guild_id") + ")");
             }
             set.close();
-        } catch (Exception e){
+        } catch (Exception e) {
             CorgiBot.LOGGER.error("Nelze načíst prefixy!", e);
         }
     }
 
     public String get(String guildId) {
-        if (guildId == null){
+        if (guildId == null) {
             return CorgiBot.PREFIX;
         }
         return prefixes.getOrDefault(guildId, CorgiBot.PREFIX);
@@ -35,7 +35,7 @@ public class Prefixes {
             prefixes.remove(guildId);
             try {
                 CorgiBot.getInstance().getSql().deletePrefix(guildId);
-            } catch (Exception e){
+            } catch (Exception e) {
                 CorgiBot.LOGGER.error("Chyba při mazání prefixu!", e);
             }
             return;
@@ -43,7 +43,7 @@ public class Prefixes {
         prefixes.put(guildId, character);
         try {
             CorgiBot.getInstance().getSql().updatePrefix(guildId, String.valueOf(character));
-        } catch (Exception e){
+        } catch (Exception e) {
             CorgiBot.LOGGER.error("Chyba při přidávání prefixu!", e);
         }
     }

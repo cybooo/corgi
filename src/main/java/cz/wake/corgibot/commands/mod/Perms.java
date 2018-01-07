@@ -18,13 +18,13 @@ public class Perms implements ICommand {
 
     @Override
     public void onCommand(User sender, MessageChannel channel, Message message, String[] args, Member member, EventWaiter w, String guildPrefix) {
-        if(args.length < 1){
+        if (args.length < 1) {
             channel.sendMessage(MessageUtils.getEmbed(Constants.GREEN).setTitle("Nastavení práv pro Corgiho")
-                .setDescription("Ke správné funkčnosti práv na Discord serveru,\nje zapotřebí, aby práva byly nastaveny následovně.\n\n" +
-                        ":white_medium_small_square: **Administrator** - Práva Administratora Discord serveru\n" +
-                        ":white_medium_small_square: **Moderator** - Právo na `BAN_PLAYERS`\n" +
-                        ":white_medium_small_square: **Uživatel** - Všichni ostatní\n\n" +
-                        "Zjištění aktuálních práv pro Corgiho - " + guildPrefix +"perms @nick").build()).queue();
+                    .setDescription("Ke správné funkčnosti práv na Discord serveru,\nje zapotřebí, aby práva byly nastaveny následovně.\n\n" +
+                            ":white_medium_small_square: **Administrator** - Práva Administratora Discord serveru\n" +
+                            ":white_medium_small_square: **Moderator** - Právo na `BAN_PLAYERS`\n" +
+                            ":white_medium_small_square: **Uživatel** - Všichni ostatní\n\n" +
+                            "Zjištění aktuálních práv pro Corgiho - " + guildPrefix + "perms @nick").build()).queue();
         } else {
             String id = args[0].replaceAll("[^0-9]", "");
             if (id.isEmpty()) {

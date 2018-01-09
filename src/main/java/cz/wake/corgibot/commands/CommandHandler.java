@@ -77,6 +77,7 @@ public class CommandHandler {
         registerCommand(new Dog());
         registerCommand(new GuildInfo());
         registerCommand(new Eval());
+        registerCommand(new Choose());
     }
 
 

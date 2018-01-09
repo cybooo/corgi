@@ -42,4 +42,12 @@ public class EmoteList {
     final public static String EMOTE_PARTNER = "<:partner:314901143362732032>";
     final public static String EMOTE_NITRO = "<:nitro:270673544990425102>";
     final public static String EMOTE_BOT = "<:bot:314899056335781891>";
+
+    /*
+        Random Thinking Emote
+     */
+    final public static String THINKING_1 = "<:ThinkKing:400376336276783104>";
+    final public static String THINKING_2 = "<:ThinkingPlant:306503645040607234>";
+    final public static String THINKING_3 = "<:ThinkingPear:314437723219951617>";
+
 }

@@ -103,29 +103,10 @@ public class MainListener extends ListenerAdapter {
                     .getClientCloseFrame().getCloseReason()));
     }
 
-    public boolean isCreator(User user) {
-        return user.getId().equals("177516608778928129"); //Wake ID
-    }
-
     private void delete(Message message) {
         if (message.getTextChannel().getGuild().getSelfMember()
                 .getPermissions(message.getTextChannel()).contains(Permission.MESSAGE_MANAGE)) {
             message.delete().queue();
-        }
-    }
-
-    // Wake Secret :O
-    @Override
-    public void onUserOnlineStatusUpdate(UserOnlineStatusUpdateEvent e) {
-        User u = e.getUser();
-        if (isCreator(u)) {
-            if (e.getPreviousOnlineStatus() == OnlineStatus.DO_NOT_DISTURB) {
-                CorgiBot.getJda().getPresence().setStatus(OnlineStatus.DO_NOT_DISTURB);
-            } else if (e.getPreviousOnlineStatus() == OnlineStatus.ONLINE) {
-                CorgiBot.getJda().getPresence().setStatus(OnlineStatus.ONLINE);
-            } else {
-                CorgiBot.getJda().getPresence().setStatus(OnlineStatus.ONLINE);
-            }
         }
     }
 

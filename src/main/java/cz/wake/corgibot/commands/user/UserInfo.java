@@ -7,6 +7,7 @@ import cz.wake.corgibot.commands.CommandType;
 import cz.wake.corgibot.commands.ICommand;
 import cz.wake.corgibot.commands.Rank;
 import cz.wake.corgibot.utils.Constants;
+import cz.wake.corgibot.utils.EmoteList;
 import cz.wake.corgibot.utils.MessageUtils;
 import net.dv8tion.jda.core.OnlineStatus;
 import net.dv8tion.jda.core.entities.*;
@@ -127,19 +128,19 @@ public class UserInfo implements ICommand {
 
     private String getDiscordRank(User user) {
         if (user.isBot()) {
-            return Constants.EMOTE_BOT;
+            return EmoteList.EMOTE_BOT;
         } else if (user.getId().equals("177516608778928129")) { //Wake
-            return Constants.EMOTE_PARTNER;
+            return EmoteList.EMOTE_PARTNER;
         } else if (user.getId().equals("151332840577957889")) { //Liturkey
-            return Constants.EMOTE_HYPESQUAD;
+            return EmoteList.EMOTE_HYPESQUAD;
         } else if (user.getId().equals("263736235539955713")) { //_yyySepii
-            return Constants.EMOTE_NITRO;
+            return EmoteList.EMOTE_NITRO;
         } else {
             return "";
         }
     }
 
-    public static String convertStatus(OnlineStatus status) {
+    private static String convertStatus(OnlineStatus status) {
         switch (status) {
             case ONLINE:
                 return "<:online:314899088510418945>";
@@ -153,7 +154,7 @@ public class UserInfo implements ICommand {
         }
     }
 
-    public static String gameToString(Game g) {
+    private static String gameToString(Game g) {
         if (g == null) return "no game";
 
         String gameType = "Playing";

@@ -1,6 +1,7 @@
 package cz.wake.corgibot.runnable;
 
 import cz.wake.corgibot.CorgiBot;
+import net.dv8tion.jda.core.OnlineStatus;
 import net.dv8tion.jda.core.entities.Game;
 
 import java.util.TimerTask;
@@ -13,6 +14,7 @@ public class StatusChanger extends TimerTask {
     public void run() {
         if (sInt == 0) {
             CorgiBot.getJda().getPresence().setGame(Game.of(".invite"));
+            CorgiBot.getJda().getPresence().setStatus(OnlineStatus.ONLINE);
             sInt++;
         } else if (sInt == 1) {
             CorgiBot.getJda().getPresence().setGame(Game.of(".help"));

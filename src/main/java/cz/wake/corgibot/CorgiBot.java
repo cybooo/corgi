@@ -12,6 +12,7 @@ import cz.wake.corgibot.utils.statuses.Checker;
 import net.dv8tion.jda.core.AccountType;
 import net.dv8tion.jda.core.JDA;
 import net.dv8tion.jda.core.JDABuilder;
+import net.dv8tion.jda.core.OnlineStatus;
 import net.dv8tion.jda.core.entities.Game;
 import net.dv8tion.jda.core.entities.Guild;
 import net.dv8tion.jda.core.entities.TextChannel;
@@ -66,6 +67,7 @@ public class CorgiBot {
                 .addEventListener(new MainListener(waiter))
                 .addEventListener(waiter)
                 .setGame(Game.of("Loading..."))
+                .setStatus(OnlineStatus.IDLE)
                 .buildBlocking();
 
         (instance = new CorgiBot()).init();

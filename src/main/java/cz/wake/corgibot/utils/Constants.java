@@ -5,6 +5,11 @@ import java.awt.*;
 public class Constants {
 
     /*
+        Main bot prefix
+     */
+    public static final String PREFIX = ".";
+
+    /*
         Basic colors for Embeds
      */
     final public static Color BLUE = new Color(58, 95, 205);

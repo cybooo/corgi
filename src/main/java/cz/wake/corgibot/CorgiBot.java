@@ -35,7 +35,6 @@ public class CorgiBot {
     private MainListener events;
     private static JDA jda;
     private CommandHandler ch = new CommandHandler();
-    public static final String PREFIX = ".";
     private SQLManager sql;
     private DateTimeFormatter timeFormat = DateTimeFormatter.ofPattern("MMMM yyyy HH:mm:ss");
     private static String imgflipToken = "";

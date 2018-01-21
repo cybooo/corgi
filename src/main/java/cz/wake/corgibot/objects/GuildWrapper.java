@@ -213,47 +213,126 @@ public class GuildWrapper {
         return this;
     }
 
+    /**
+     * Sets ignored channels for this guild
+     *
+     * @param ignoredChannels Ignored channels
+     * @return {@link GuildWrapper}
+     */
     public GuildWrapper setIgnoredChannels(Set<String> ignoredChannels) {
         this.ignoredChannels = ignoredChannels;
+        return this;
     }
 
+    /**
+     * Sets blocked commands for this guild
+     *
+     * @param blockedCmds Blocked cmds
+     * @return {@link GuildWrapper}
+     */
     public GuildWrapper setBlockedCmds(Set<String> blockedCmds) {
         this.blockedCmds = blockedCmds;
+        return this;
     }
 
+    /**
+     * Sets map of custom tags in the guild
+     *
+     * @param tags Map of tags
+     * @return {@link GuildWrapper}
+     */
     public GuildWrapper setTags(Map<String, String> tags) {
         this.tags = tags;
+        return this;
     }
 
+    /**
+     * Sets state of Swear filter in the guild.
+     * Swear filter will delete swears in all channels.
+     *
+     * @param enableSwearFilter Boolean value
+     * @return {@link GuildWrapper}
+     */
     public GuildWrapper setEnableSwearFilter(boolean enableSwearFilter) {
         this.enableSwearFilter = enableSwearFilter;
+        return this;
     }
 
+    /**
+     * Sets custom welcome message for the guild.
+     *
+     * @param enableWelcomeMessage String of texts
+     * @return {@link GuildWrapper}
+     */
     public GuildWrapper setEnableWelcomeMessage(boolean enableWelcomeMessage) {
         this.enableWelcomeMessage = enableWelcomeMessage;
+        return this;
     }
 
+    /**
+     * Sets the guild to blocked state
+     *
+     * @param blocked Boolean value
+     * @return {@link GuildWrapper}
+     */
     public GuildWrapper setBlocked(boolean blocked) {
         isBlocked = blocked;
+        return this;
     }
 
+    /**
+     * Time for unblocking this guild
+     *
+     * @param unBlockTime Long value of time
+     * @return {@link GuildWrapper}
+     */
     public GuildWrapper setUnBlockTime(long unBlockTime) {
         this.unBlockTime = unBlockTime;
+        return this;
     }
 
+    /**
+     * Sets reason, why is this guild blocked in Corgi.
+     *
+     * @param blockReason Reason for blocking
+     * @return {@link GuildWrapper}
+     */
     public GuildWrapper setBlockReason(String blockReason) {
         this.blockReason = blockReason;
+        return this;
     }
 
+    /**
+     * Sets Id for muted role
+     * Muted role is role that can not write into all channels.
+     *
+     * @param mutedRoleID Id of role
+     * @return {@link GuildWrapper}
+     */
     public GuildWrapper setMutedRoleID(String mutedRoleID) {
         this.mutedRoleID = mutedRoleID;
+        return this;
     }
 
+    /**
+     * Sets custom color for all embeds in the guild
+     *
+     * @param customColor {@link Color} of embeds
+     * @return {@link GuildWrapper}
+     */
     public GuildWrapper setCustomColor(Color customColor) {
         this.customColor = customColor;
+        return this;
     }
 
+    /**
+     * If is the guild has access to beta commands
+     *
+     * @param beta Boolean of this fact :D
+     * @return {@link GuildWrapper}
+     */
     public GuildWrapper setBeta(boolean beta) {
         isBeta = beta;
+        return this;
     }
 }

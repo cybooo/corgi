@@ -1,6 +1,7 @@
 package cz.wake.corgibot.commands;
 
 import cz.wake.corgibot.CorgiBot;
+import cz.wake.corgibot.utils.Constants;
 
 import java.sql.ResultSet;
 import java.util.Map;
@@ -25,13 +26,13 @@ public class Prefixes {
 
     public String get(String guildId) {
         if (guildId == null) {
-            return CorgiBot.PREFIX;
+            return Constants.PREFIX;
         }
-        return prefixes.getOrDefault(guildId, CorgiBot.PREFIX);
+        return prefixes.getOrDefault(guildId, Constants.PREFIX);
     }
 
     public void set(String guildId, String character) {
-        if (character == CorgiBot.PREFIX) {
+        if (character == Constants.PREFIX) {
             prefixes.remove(guildId);
             try {
                 CorgiBot.getInstance().getSql().deletePrefix(guildId);

@@ -7,6 +7,8 @@ import cz.wake.corgibot.commands.CommandHandler;
 import cz.wake.corgibot.commands.CommandType;
 import cz.wake.corgibot.commands.ICommand;
 import cz.wake.corgibot.commands.Rank;
+import cz.wake.corgibot.managers.BotManager;
+import cz.wake.corgibot.objects.GuildWrapper;
 import cz.wake.corgibot.utils.Constants;
 import cz.wake.corgibot.utils.EmoteList;
 import cz.wake.corgibot.utils.MessageUtils;
@@ -16,7 +18,7 @@ import net.dv8tion.jda.core.entities.*;
 public class Help implements ICommand {
 
     @Override
-    public void onCommand(User sender, MessageChannel channel, Message message, String[] args, Member member, EventWaiter w, String guildPrefix) {
+    public void onCommand(User sender, MessageChannel channel, Message message, String[] args, Member member, EventWaiter w, GuildWrapper gw) {
         if (args.length < 1) {
             if (channel.getType() == ChannelType.TEXT) {
                 channel.sendMessage(MessageUtils.getEmbed(Constants.BLUE).setTitle("Zkontroluj si zprávy")
@@ -34,7 +36,7 @@ public class Help implements ICommand {
             for (ICommand c : ch.getCommands()) {
                 if (c.getCommand().equalsIgnoreCase(commandName)) { //Normal
                     channel.sendMessage(MessageUtils.getEmbed().setTitle("Nápověda k příkazu - " + commandName + " :question:")
-                            .setDescription(c.getDescription() + "\n\n**Použití**\n" + c.getHelp().replace("%", CorgiBot.getPrefix(member.getGuild().getId()))).build()).queue();
+                            .setDescription(c.getDescription() + "\n\n**Použití**\n" + c.getHelp().replace("%", gw.getPrefix())).build()).queue();
                 }
             }
         }
@@ -68,7 +70,7 @@ public class Help implements ICommand {
     private StringBuilder getContext(Member member) {
         StringBuilder builder = new StringBuilder();
         CommandHandler ch = new CommandHandler();
-        builder.append("Prefix pro příkazy na tvém serveru je `" + CorgiBot.getPrefix(member.getGuild().getId()) + "`\nDodatečné informace o příkazu `" + CorgiBot.getPrefix(member.getGuild().getId()) + "help <příkaz>`");
+        builder.append("Prefix pro příkazy na tvém serveru je `" + BotManager.getCustomGuild(member.getGuild().getId()).getPrefix() + "`\nDodatečné informace o příkazu `" + BotManager.getCustomGuild(member.getGuild().getId()).getPrefix() + "help <příkaz>`");
         for (CommandType type : CommandType.getTypes()) {
             if (type == CommandType.MUSIC || type == CommandType.BOT_OWNER) { // Neexistujici kategorie (zatim)
                 return builder.append("");

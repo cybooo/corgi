@@ -8,6 +8,7 @@ import cz.wake.corgibot.annotations.SinceCorgi;
 import cz.wake.corgibot.commands.CommandType;
 import cz.wake.corgibot.commands.ICommand;
 import cz.wake.corgibot.commands.Rank;
+import cz.wake.corgibot.objects.GuildWrapper;
 import cz.wake.corgibot.utils.Constants;
 import cz.wake.corgibot.utils.EmoteList;
 import cz.wake.corgibot.utils.MessageUtils;
@@ -22,10 +23,10 @@ import java.util.concurrent.TimeUnit;
 public class Ignore implements ICommand {
 
     @Override
-    public void onCommand(User sender, MessageChannel channel, Message message, String[] args, Member member, EventWaiter w, String guildPrefix) {
+    public void onCommand(User sender, MessageChannel channel, Message message, String[] args, Member member, EventWaiter w, GuildWrapper gw) {
         if (args.length < 1) {
             channel.sendMessage(MessageUtils.getEmbed(Constants.GREEN).setTitle("Ignorování channelu: " + channel.getName())
-                    .setDescription("Zakáže používání Corgiho příkazů v tomto channelu.\nPokuď budeš chtít ignorování zrušit, stačí napsat opět příkaz `" + guildPrefix + "ignore` a ignorování zrušit.\n\n" +
+                    .setDescription("Zakáže používání Corgiho příkazů v tomto channelu.\nPokuď budeš chtít ignorování zrušit, stačí napsat opět příkaz `" + gw.getPrefix() + "ignore` a ignorování zrušit.\n\n" +
                             ":one: | " + formatTruth(channel) + " ignorování tohoto channelu!\n:two: | Pro zobrazení seznamu všech ignorovaných channelů").setFooter("Pokud chceš akci odvolat nereaguj na ní, do 30 vteřin se zruší!", null).build()).queue((Message m) -> {
                 m.addReaction(EmoteList.ONE).queue();
                 m.addReaction(EmoteList.TWO).queue();
@@ -34,7 +35,7 @@ public class Ignore implements ICommand {
                     return e.getUser().equals(sender) && e.getMessageId().equals(m.getId()) && (e.getReaction().getEmote().getName().equals(EmoteList.ONE));
                 }, (MessageReactionAddEvent ev) -> {
                     m.delete().queue();
-                    ignoreChannel(channel, member, guildPrefix);
+                    ignoreChannel(channel, member, gw.getPrefix());
                 }, 60, TimeUnit.SECONDS, () -> m.editMessage(MessageUtils.getEmbed(Constants.RED).setDescription("Čas vypršel!").build()));
 
                 w.waitForEvent(MessageReactionAddEvent.class, (MessageReactionAddEvent e) -> { // 2

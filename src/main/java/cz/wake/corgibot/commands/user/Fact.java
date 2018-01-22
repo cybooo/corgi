@@ -5,6 +5,7 @@ import cz.wake.corgibot.annotations.SinceCorgi;
 import cz.wake.corgibot.commands.CommandType;
 import cz.wake.corgibot.commands.ICommand;
 import cz.wake.corgibot.commands.Rank;
+import cz.wake.corgibot.objects.GuildWrapper;
 import cz.wake.corgibot.utils.Constants;
 import cz.wake.corgibot.utils.MessageUtils;
 import cz.wake.corgibot.utils.data.DataManager;
@@ -23,7 +24,7 @@ public class Fact implements ICommand {
     public static final DataManager<List<String>> facts = new SimpleData("facts.txt");
 
     @Override
-    public void onCommand(User sender, MessageChannel channel, Message message, String[] args, Member member, EventWaiter w, String guildPrefix) {
+    public void onCommand(User sender, MessageChannel channel, Message message, String[] args, Member member, EventWaiter w, GuildWrapper gw) {
         channel.sendMessage(MessageUtils.getEmbed(Constants.PINK).setTitle("Náhodný fakt dne :trophy:", null).setDescription(facts.get().get(new Random().nextInt(facts.get().size() - 1))).build()).queue();
     }
 

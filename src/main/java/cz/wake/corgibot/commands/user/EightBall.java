@@ -6,6 +6,7 @@ import cz.wake.corgibot.annotations.SinceCorgi;
 import cz.wake.corgibot.commands.CommandType;
 import cz.wake.corgibot.commands.ICommand;
 import cz.wake.corgibot.commands.Rank;
+import cz.wake.corgibot.objects.GuildWrapper;
 import cz.wake.corgibot.utils.Constants;
 import cz.wake.corgibot.utils.MessageUtils;
 import net.dv8tion.jda.core.entities.Member;
@@ -21,7 +22,7 @@ public class EightBall implements ICommand {
     static String outcomes[] = {"Ano.", "Ne.", "S největší pravděpodobností ANO!", "Možná.", "Počkej zamyslím se, ANO!", "Pravděpodobně ne!", "Nepravděpodobně...", "Když se nad tím zamyšlíš, je to možné!", "Je to jistý.", "Je to rozhodně tak", "Definitivně ano", "Něco mi říká, že ne"};
 
     @Override
-    public void onCommand(User sender, MessageChannel channel, Message message, String[] args, Member member, EventWaiter w, String guildPrefix) {
+    public void onCommand(User sender, MessageChannel channel, Message message, String[] args, Member member, EventWaiter w, GuildWrapper gw) {
         try {
             if (args.length < 1) {
                 channel.sendMessage(sender.getAsMention() + " Musíš položit otázku, neumím číst myšlenky!").queue();
@@ -30,7 +31,7 @@ public class EightBall implements ICommand {
             }
         } catch (Exception e) {
             MessageUtils.sendAutoDeletedMessage("Chyba při provádění příkazu!", 10000, channel);
-            CorgiBot.LOGGER.error("Chyba při provádění příkazu " + guildPrefix + "8ball!", e);
+            CorgiBot.LOGGER.error("Chyba při provádění příkazu " + gw.getPrefix() + "8ball!", e);
         }
     }
 

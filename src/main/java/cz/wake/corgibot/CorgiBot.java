@@ -73,8 +73,6 @@ public class CorgiBot {
         (instance = new CorgiBot()).init();
         (instance = new CorgiBot()).initDatabase();
 
-        //prefixes = new Prefixes();
-        //ignoredChannels = new IgnoredChannels();
         BotManager.loadGuilds();
 
         Timer timer = new Timer();
@@ -142,10 +140,6 @@ public class CorgiBot {
 
     public TextChannel getGuildLogChannel() {
         return getJda().getGuildById("255045073887166475").getTextChannelById("361636711585021953");
-    }
-
-    public static String getPrefix(String id) {
-        return getPrefixes().get(id);
     }
 
     public static IgnoredChannels getIgnoredChannels() {

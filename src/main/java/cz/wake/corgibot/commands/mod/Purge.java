@@ -5,6 +5,7 @@ import cz.wake.corgibot.annotations.SinceCorgi;
 import cz.wake.corgibot.commands.CommandType;
 import cz.wake.corgibot.commands.ICommand;
 import cz.wake.corgibot.commands.Rank;
+import cz.wake.corgibot.objects.GuildWrapper;
 import cz.wake.corgibot.utils.Constants;
 import cz.wake.corgibot.utils.EmoteList;
 import cz.wake.corgibot.utils.MessageUtils;
@@ -29,7 +30,7 @@ public class Purge implements ICommand {
     private final Pattern QUOTES_PATTERN = Pattern.compile(QUOTES_REGEX);
 
     @Override
-    public void onCommand(User sender, MessageChannel channel, Message message, String[] args, Member member, EventWaiter w, String guildPrefix) {
+    public void onCommand(User sender, MessageChannel channel, Message message, String[] args, Member member, EventWaiter w, GuildWrapper gw) {
         if (args.length < 1) {
             channel.sendMessage(MessageUtils.getEmbed(Constants.BLUE).setTitle("Zvol typ zpráv, který má být smazaný\n")
                     .setDescription(CleanType.ROBOT.getUnicode() + " **Boti**\n" + CleanType.EMBEDS.getUnicode() + " **Embeds**\n" + CleanType.LINKS.getUnicode() + " **Odkazy**\n" + CANCEL + " **Zrušení**").build()).queue((Message m) -> {
@@ -42,7 +43,7 @@ public class Purge implements ICommand {
                     m.delete().queue();
                     CleanType type = CleanType.of(ev.getReaction().getEmote().getName());
                     if (type != null)
-                        executeClean(type.getText(), channel, message, " " + type.getText(), guildPrefix);
+                        executeClean(type.getText(), channel, message, " " + type.getText(), gw.getPrefix());
                 }, 25, TimeUnit.SECONDS, () -> m.editMessage(MessageUtils.getEmbed(Constants.RED).setDescription("Čas vypršel!").build()).queue());
             });
         } else {
@@ -86,7 +87,7 @@ public class Purge implements ICommand {
                 channel.sendMessage(MessageUtils.getEmbed(Constants.GREEN).setDescription(EmoteList.WARNING + " | Smazáno **" + i + "** zpráv.").build()).queue();
 
             } catch (Exception e) {
-                executeClean(Arrays.toString(args), channel, message, null, guildPrefix);
+                executeClean(Arrays.toString(args), channel, message, null, gw.getPrefix());
             }
         }
     }

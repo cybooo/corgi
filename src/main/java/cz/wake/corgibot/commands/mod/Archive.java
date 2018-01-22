@@ -6,6 +6,7 @@ import cz.wake.corgibot.annotations.SinceCorgi;
 import cz.wake.corgibot.commands.CommandType;
 import cz.wake.corgibot.commands.ICommand;
 import cz.wake.corgibot.commands.Rank;
+import cz.wake.corgibot.objects.GuildWrapper;
 import cz.wake.corgibot.utils.Constants;
 import cz.wake.corgibot.utils.MessageUtils;
 import net.dv8tion.jda.core.Permission;
@@ -20,7 +21,7 @@ import java.util.List;
 public class Archive implements ICommand {
 
     @Override
-    public void onCommand(User sender, MessageChannel channel, Message message, String[] args, Member member, EventWaiter w, String guildPrefix) {
+    public void onCommand(User sender, MessageChannel channel, Message message, String[] args, Member member, EventWaiter w, GuildWrapper gw) {
         try {
             if (!PermissionUtil.checkPermission(member, Permission.MESSAGE_HISTORY) || !PermissionUtil.checkPermission(member, Permission.MESSAGE_READ)) {
                 MessageUtils.sendAutoDeletedMessage("Můžeš archivovat pouze channely do kterých vidíš!", 10000, channel);
@@ -51,7 +52,7 @@ public class Archive implements ICommand {
                     "**Odkaz**: " + MessageUtils.hastebin(builder.toString())).build();
             channel.sendMessage(mess).queue();
         } catch (ArrayIndexOutOfBoundsException ax) {
-            MessageUtils.sendAutoDeletedMessage("Musíš zadat počet řádků! Př. `" + guildPrefix + "archive 10`", 20000, channel);
+            MessageUtils.sendAutoDeletedMessage("Musíš zadat počet řádků! Př. `" + gw.getPrefix() + "archive 10`", 20000, channel);
         } catch (Exception e) {
             CorgiBot.LOGGER.error("Chyba při provádení příkazu .archive !", e);
         }

@@ -5,6 +5,7 @@ import cz.wake.corgibot.annotations.SinceCorgi;
 import cz.wake.corgibot.commands.CommandType;
 import cz.wake.corgibot.commands.ICommand;
 import cz.wake.corgibot.commands.Rank;
+import cz.wake.corgibot.objects.GuildWrapper;
 import cz.wake.corgibot.utils.ColorSelector;
 import cz.wake.corgibot.utils.MessageUtils;
 import net.dv8tion.jda.core.entities.Member;
@@ -16,7 +17,7 @@ import net.dv8tion.jda.core.entities.User;
 public class About implements ICommand {
 
     @Override
-    public void onCommand(User sender, MessageChannel channel, Message message, String[] args, Member member, EventWaiter w, String guildPrefix) {
+    public void onCommand(User sender, MessageChannel channel, Message message, String[] args, Member member, EventWaiter w, GuildWrapper gw) {
         channel.sendMessage(MessageUtils.getEmbed(ColorSelector.getRandomColor()).setTitle("Představení Corgiho")
                 .setDescription("Ahoj já jsem Corgi, jsem bot pro Discord servery.\nAktuálně moc funkcí nemám, ale časem se to určitě změní!\n\n" +
                         "**Web**: [https://corgibot.xyz](https://corgibot.xyz)\n" +

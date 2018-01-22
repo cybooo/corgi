@@ -5,6 +5,7 @@ import cz.wake.corgibot.annotations.SinceCorgi;
 import cz.wake.corgibot.commands.CommandType;
 import cz.wake.corgibot.commands.ICommand;
 import cz.wake.corgibot.commands.Rank;
+import cz.wake.corgibot.objects.GuildWrapper;
 import cz.wake.corgibot.utils.Constants;
 import cz.wake.corgibot.utils.MessageUtils;
 import net.dv8tion.jda.core.entities.Member;
@@ -16,7 +17,7 @@ import net.dv8tion.jda.core.entities.User;
 public class Invite implements ICommand {
 
     @Override
-    public void onCommand(User sender, MessageChannel channel, Message message, String[] args, Member member, EventWaiter w, String guildPrefix) {
+    public void onCommand(User sender, MessageChannel channel, Message message, String[] args, Member member, EventWaiter w, GuildWrapper gw) {
         channel.sendMessage(MessageUtils.getEmbed(Constants.GREEN).setTitle("Přidání Corgiho na server")
                 .setDescription("K pozvání použij následující [**ODKAZ**](https://discordapp.com/oauth2/authorize?client_id=294952122582302720&scope=bot&permissions=104197334)").build()).queue();
     }

@@ -5,13 +5,14 @@ import cz.wake.corgibot.annotations.SinceCorgi;
 import cz.wake.corgibot.commands.CommandType;
 import cz.wake.corgibot.commands.ICommand;
 import cz.wake.corgibot.commands.Rank;
+import cz.wake.corgibot.objects.GuildWrapper;
 import net.dv8tion.jda.core.entities.*;
 
 @SinceCorgi(version = "1.1")
 public class Roles implements ICommand {
 
     @Override
-    public void onCommand(User sender, MessageChannel channel, Message message, String[] args, Member member, EventWaiter w, String guildPrefix) {
+    public void onCommand(User sender, MessageChannel channel, Message message, String[] args, Member member, EventWaiter w, GuildWrapper gw) {
         StringBuilder sb = new StringBuilder();
         sb.append("**Server Roles**\n```\n");
         for (Role role : member.getGuild().getRoles()) {

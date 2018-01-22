@@ -64,6 +64,10 @@ public class BotManager {
         }
     }
 
+    public static HashSet<GuildWrapper> getListGuilds() {
+        return listGuilds;
+    }
+
     public static void addGuild(GuildWrapper gw){
         listGuilds.add(gw);
     }

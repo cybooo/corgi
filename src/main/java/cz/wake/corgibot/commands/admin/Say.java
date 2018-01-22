@@ -5,6 +5,7 @@ import cz.wake.corgibot.annotations.SinceCorgi;
 import cz.wake.corgibot.commands.CommandType;
 import cz.wake.corgibot.commands.ICommand;
 import cz.wake.corgibot.commands.Rank;
+import cz.wake.corgibot.objects.GuildWrapper;
 import cz.wake.corgibot.utils.MessageUtils;
 import net.dv8tion.jda.core.entities.Member;
 import net.dv8tion.jda.core.entities.Message;
@@ -15,12 +16,12 @@ import net.dv8tion.jda.core.entities.User;
 public class Say implements ICommand {
 
     @Override
-    public void onCommand(User sender, MessageChannel channel, Message message, String[] args, Member member, EventWaiter w, String guildPrefix) {
+    public void onCommand(User sender, MessageChannel channel, Message message, String[] args, Member member, EventWaiter w, GuildWrapper gw) {
         if (args.length < 1) {
             MessageUtils.sendErrorMessage("Nelze poslat zprávu, která nemá text!", channel);
             return;
         }
-        channel.sendMessage(message.getRawContent().replace(guildPrefix + "say", "")).queue();
+        channel.sendMessage(message.getRawContent().replace(gw.getPrefix() + "say", "")).queue();
     }
 
     @Override

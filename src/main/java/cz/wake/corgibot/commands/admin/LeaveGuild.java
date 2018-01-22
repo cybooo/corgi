@@ -5,6 +5,7 @@ import cz.wake.corgibot.annotations.SinceCorgi;
 import cz.wake.corgibot.commands.CommandType;
 import cz.wake.corgibot.commands.ICommand;
 import cz.wake.corgibot.commands.Rank;
+import cz.wake.corgibot.objects.GuildWrapper;
 import cz.wake.corgibot.utils.Constants;
 import cz.wake.corgibot.utils.MessageUtils;
 import net.dv8tion.jda.core.entities.Member;
@@ -19,7 +20,7 @@ import java.util.concurrent.TimeUnit;
 public class LeaveGuild implements ICommand {
 
     @Override
-    public void onCommand(User sender, MessageChannel channel, Message message, String[] args, Member member, EventWaiter w, String guildPrefix) {
+    public void onCommand(User sender, MessageChannel channel, Message message, String[] args, Member member, EventWaiter w, GuildWrapper gw) {
         if (args.length < 1) {
             channel.sendMessage(MessageUtils.getEmbed(Constants.ORANGE).setTitle("\u26A0 Potvrzení opuštění serveru \u26A0")
                     .setDescription("**VAROVÁNÍ**: Potvrzením následující akce Corgi opustí tento server!\nOpravdu chceš provést následující akci?").setFooter("Na potvrzení máš 60 vteřin.", null).build()).queue((Message m) -> {

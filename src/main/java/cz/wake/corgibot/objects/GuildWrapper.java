@@ -1,6 +1,7 @@
 package cz.wake.corgibot.objects;
 
 import cz.wake.corgibot.utils.Constants;
+import net.dv8tion.jda.core.entities.TextChannel;
 
 import java.awt.*;
 import java.util.*;
@@ -21,7 +22,7 @@ public class GuildWrapper {
     /*
         Set of ignored channels where corgi will not react on commands
      */
-    private Set<String> ignoredChannels = new HashSet<>();
+    private Set<TextChannel> ignoredChannels = new HashSet<>();
 
     /*
         Sets of blocked commands in guild that corgi wil not react
@@ -106,7 +107,7 @@ public class GuildWrapper {
      *
      * @return {@link Set} of ignored channels
      */
-    public Set<String> getIgnoredChannels() {
+    public Set<TextChannel> getIgnoredChannels() {
         return ignoredChannels;
     }
 
@@ -219,7 +220,7 @@ public class GuildWrapper {
      * @param ignoredChannels Ignored channels
      * @return {@link GuildWrapper}
      */
-    public GuildWrapper setIgnoredChannels(Set<String> ignoredChannels) {
+    public GuildWrapper setIgnoredChannels(Set<TextChannel> ignoredChannels) {
         this.ignoredChannels = ignoredChannels;
         return this;
     }
@@ -334,5 +335,10 @@ public class GuildWrapper {
     public GuildWrapper setBeta(boolean beta) {
         isBeta = beta;
         return this;
+    }
+
+    @Override
+    public String toString(){
+        return getClass().getSimpleName() + "[id=" + guildId + ",prefix=" + prefix + ",ignoredChannels=" + ignoredChannels.toString() + "]";
     }
 }

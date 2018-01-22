@@ -4,6 +4,7 @@ import com.jagrosh.jdautilities.waiter.EventWaiter;
 import cz.wake.corgibot.commands.CommandHandler;
 import cz.wake.corgibot.commands.Prefixes;
 import cz.wake.corgibot.listener.MainListener;
+import cz.wake.corgibot.managers.BotManager;
 import cz.wake.corgibot.managers.IgnoredChannels;
 import cz.wake.corgibot.runnable.StatusChanger;
 import cz.wake.corgibot.sql.SQLManager;
@@ -72,8 +73,9 @@ public class CorgiBot {
         (instance = new CorgiBot()).init();
         (instance = new CorgiBot()).initDatabase();
 
-        prefixes = new Prefixes();
-        ignoredChannels = new IgnoredChannels();
+        //prefixes = new Prefixes();
+        //ignoredChannels = new IgnoredChannels();
+        BotManager.loadGuilds();
 
         Timer timer = new Timer();
         timer.scheduleAtFixedRate(new Checker(), 10, 60000);

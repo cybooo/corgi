@@ -208,12 +208,24 @@ public class GuildWrapper {
     }
 
     /**
-     * Sets custom prefix for this guild
+     * For startup proposes
+     *
+     * @param prefix Custom prefix
+     * @return {@link GuildWrapper}
+     */
+    public GuildWrapper setPrefix(String prefix){
+        this.prefix = prefix;
+        return this;
+    }
+
+    /**
+     * Update prefix for the guild!
+     * <b>ONLY FOR UPDATE!</b>
      * 
      * @param prefix Custom prefix
      * @return {@link GuildWrapper}
      */
-    public GuildWrapper setPrefix(String prefix) {
+    public GuildWrapper updatePrefix(String prefix) {
         if(prefix == Constants.PREFIX){
             this.prefix = Constants.PREFIX;
             try {

@@ -1,5 +1,6 @@
 package cz.wake.corgibot.objects;
 
+import cz.wake.corgibot.CorgiBot;
 import cz.wake.corgibot.utils.Constants;
 import net.dv8tion.jda.core.entities.TextChannel;
 
@@ -99,6 +100,9 @@ public class GuildWrapper {
      * @return The prefix that the guild is using
      */
     public String getPrefix() {
+        if(prefix == null){
+            return Constants.PREFIX;
+        }
         return prefix;
     }
 
@@ -210,7 +214,21 @@ public class GuildWrapper {
      * @return {@link GuildWrapper}
      */
     public GuildWrapper setPrefix(String prefix) {
+        if(prefix == Constants.PREFIX){
+            this.prefix = Constants.PREFIX;
+            try {
+                CorgiBot.getInstance().getSql().updatePrefix(guildId, prefix);
+            } catch (Exception e) {
+                CorgiBot.LOGGER.error("Chyba při mazání prefixu!", e);
+            }
+            return this;
+        }
         this.prefix = prefix;
+        try {
+            CorgiBot.getInstance().getSql().updatePrefix(guildId, prefix);
+        } catch (Exception e) {
+            CorgiBot.LOGGER.error("Chyba při přidávání prefixu!", e);
+        }
         return this;
     }
 

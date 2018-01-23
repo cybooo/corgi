@@ -2,7 +2,6 @@ package cz.wake.corgibot;
 
 import com.jagrosh.jdautilities.waiter.EventWaiter;
 import cz.wake.corgibot.commands.CommandHandler;
-import cz.wake.corgibot.commands.Prefixes;
 import cz.wake.corgibot.listener.MainListener;
 import cz.wake.corgibot.managers.BotManager;
 import cz.wake.corgibot.managers.IgnoredChannels;
@@ -42,7 +41,6 @@ public class CorgiBot {
     public static long startUp;
     private static final Map<String, Logger> LOGGERS;
     public static final Logger LOGGER;
-    private static Prefixes prefixes;
     private static IgnoredChannels ignoredChannels;
     private static boolean isBeta;
 
@@ -134,10 +132,6 @@ public class CorgiBot {
         return getLog(clazz.getName());
     }
 
-    public static Prefixes getPrefixes() {
-        return prefixes;
-    }
-
     public TextChannel getGuildLogChannel() {
         return getJda().getGuildById("255045073887166475").getTextChannelById("361636711585021953");
     }
@@ -149,7 +143,6 @@ public class CorgiBot {
     public static Guild getDefaultGuild() {
         return getJda().getGuildById("255045073887166475");
     }
-
 
     private static void bootLogo() {
         LOGGER.info("Spousteni bota...");

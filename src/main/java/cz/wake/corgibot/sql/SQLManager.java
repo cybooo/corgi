@@ -51,10 +51,9 @@ public class SQLManager {
         PreparedStatement ps = null;
         try {
             conn = pool.getConnection();
-            ps = conn.prepareStatement("INSERT INTO corgibot.prefixes (guild_id, prefix) VALUES (?, ?) ON DUPLICATE KEY UPDATE prefix = ?;");
-            ps.setString(1, guildId);
-            ps.setString(2, prefix);
-            ps.setString(3, prefix);
+            ps = conn.prepareStatement("UPDATE corgibot.guild_data SET prefix = ? WHERE guild_id = ?;");
+            ps.setString(1, prefix);
+            ps.setString(2, guildId);
             ps.executeUpdate();
         } catch (Exception e) {
             e.printStackTrace();

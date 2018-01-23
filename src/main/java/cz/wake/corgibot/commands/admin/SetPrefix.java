@@ -21,10 +21,10 @@ public class SetPrefix implements ICommand {
     public void onCommand(User sender, MessageChannel channel, Message message, String[] args, Member member, EventWaiter w, GuildWrapper gw) {
         if (args.length == 1) {
             if (args[0].equalsIgnoreCase("reset")) {
-                CorgiBot.getPrefixes().set(message.getGuild().getId(), ".");
+                gw.setPrefix(".");
                 channel.sendMessage(MessageUtils.getEmbed(Constants.GREEN).setDescription("Prefix byl vyresetován zpět na `.`").build()).queue();
             } else if (args[0].length() < 3) {
-                CorgiBot.getPrefixes().set(message.getGuild().getId(), args[0]);
+                gw.setPrefix(args[0]);
                 channel.sendMessage(MessageUtils.getEmbed(Constants.GREEN).setDescription(String.format("Prefix byl nastaven na `%s`", args[0])).build()).queue();
             } else {
                 MessageUtils.sendErrorMessage("Nelze nastavit prefix, který má víc než tři znaky!", channel);

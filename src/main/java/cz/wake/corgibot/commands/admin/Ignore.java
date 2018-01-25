@@ -90,13 +90,13 @@ public class Ignore implements ICommand {
             TextChannel ch = member.getGuild().getTextChannelById(channel.getId());
             if (gw.getIgnoredChannels().contains(ch)) {
                 gw.updateIgnoredChannel(ch);
-                channel.sendMessage(MessageUtils.getEmbed(Constants.GREEN).setTitle("Ignorování channlu: " + channel.getName())
+                channel.sendMessage(MessageUtils.getEmbed(Constants.GREEN).setTitle("Ignorování channelu: " + channel.getName())
                         .setDescription("\uD83D\uDD14 | Corgi naslouchá všem svým příkazům v tomto channelu!")
                         .setFooter("Ignorování povolíš opět pomocí `" + prefix + "ignore`", null).build()).queue();
                 return;
             }
             gw.updateIgnoredChannel(ch);
-            channel.sendMessage(MessageUtils.getEmbed(Constants.ORANGE).setTitle("Ignorování channlu: " + channel.getName())
+            channel.sendMessage(MessageUtils.getEmbed(Constants.ORANGE).setTitle("Ignorování channelu: " + channel.getName())
                     .setDescription("\uD83D\uDD15 | Corgi od teď ignoruje veškeré své příkazy v tomto channelu!")
                     .setFooter("Ignorování zrušíš opět pomocí `" + prefix + "ignore`", null).build()).queue();
         } catch (Exception e) {

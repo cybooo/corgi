@@ -27,7 +27,7 @@ public class Ignore implements ICommand {
         if (args.length < 1) {
             channel.sendMessage(MessageUtils.getEmbed(Constants.GREEN).setTitle("Ignorování channelu: " + channel.getName())
                     .setDescription("Zakáže používání Corgiho příkazů v tomto channelu.\nPokuď budeš chtít ignorování zrušit, stačí napsat opět příkaz `" + gw.getPrefix() + "ignore` a ignorování zrušit.\n\n" +
-                            ":one: | " + formatTruth(channel) + " ignorování tohoto channelu!\n:two: | Pro zobrazení seznamu všech ignorovaných channelů").setFooter("Pokud chceš akci odvolat nereaguj na ní, do 30 vteřin se zruší!", null).build()).queue((Message m) -> {
+                            ":one: | " + formatTruth(channel, gw) + " ignorování tohoto channelu!\n:two: | Pro zobrazení seznamu všech ignorovaných channelů").setFooter("Pokud chceš akci odvolat nereaguj na ní, do 30 vteřin se zruší!", null).build()).queue((Message m) -> {
                 m.addReaction(EmoteList.ONE).queue();
                 m.addReaction(EmoteList.TWO).queue();
 
@@ -35,14 +35,14 @@ public class Ignore implements ICommand {
                     return e.getUser().equals(sender) && e.getMessageId().equals(m.getId()) && (e.getReaction().getEmote().getName().equals(EmoteList.ONE));
                 }, (MessageReactionAddEvent ev) -> {
                     m.delete().queue();
-                    ignoreChannel(channel, member, gw.getPrefix());
+                    ignoreChannel(channel, member, gw.getPrefix(), gw);
                 }, 60, TimeUnit.SECONDS, () -> m.editMessage(MessageUtils.getEmbed(Constants.RED).setDescription("Čas vypršel!").build()));
 
                 w.waitForEvent(MessageReactionAddEvent.class, (MessageReactionAddEvent e) -> { // 2
                     return e.getUser().equals(sender) && e.getMessageId().equals(m.getId()) && (e.getReaction().getEmote().getName().equals(EmoteList.TWO));
                 }, (MessageReactionAddEvent ev) -> {
                     m.delete().queue();
-                    shopIgnoredChannels(channel, member, w);
+                    shopIgnoredChannels(channel, member, w, gw);
                 }, 60, TimeUnit.SECONDS, null);
             });
         }
@@ -73,29 +73,29 @@ public class Ignore implements ICommand {
         return Rank.ADMINISTRATOR;
     }
 
-    private boolean getTruth(MessageChannel channel) {
-        return CorgiBot.getIgnoredChannels().isBlocked(channel);
+    private boolean getTruth(MessageChannel channel, GuildWrapper gw) {
+        return gw.getIgnoredChannels().contains(channel);
     }
 
-    private String formatTruth(MessageChannel channel) {
-        boolean truth = getTruth(channel);
+    private String formatTruth(MessageChannel channel, GuildWrapper gw) {
+        boolean truth = getTruth(channel, gw);
         if (truth) {
             return "Zakázat";
         }
         return "Povolit";
     }
 
-    private void ignoreChannel(MessageChannel channel, Member member, String prefix) {
+    private void ignoreChannel(MessageChannel channel, Member member, String prefix, GuildWrapper gw) {
         try {
             TextChannel ch = member.getGuild().getTextChannelById(channel.getId());
-            if (CorgiBot.getIgnoredChannels().getIgnoredChannels().containsValue(ch)) {
-                CorgiBot.getIgnoredChannels().set(member.getGuild(), ch);
+            if (gw.getIgnoredChannels().contains(ch)) {
+                gw.updateIgnoredChannel(ch);
                 channel.sendMessage(MessageUtils.getEmbed(Constants.GREEN).setTitle("Ignorování channlu: " + channel.getName())
                         .setDescription("\uD83D\uDD14 | Corgi naslouchá všem svým příkazům v tomto channelu!")
                         .setFooter("Ignorování povolíš opět pomocí `" + prefix + "ignore`", null).build()).queue();
                 return;
             }
-            CorgiBot.getIgnoredChannels().set(member.getGuild(), ch);
+            gw.updateIgnoredChannel(ch);
             channel.sendMessage(MessageUtils.getEmbed(Constants.ORANGE).setTitle("Ignorování channlu: " + channel.getName())
                     .setDescription("\uD83D\uDD15 | Corgi od teď ignoruje veškeré své příkazy v tomto channelu!")
                     .setFooter("Ignorování zrušíš opět pomocí `" + prefix + "ignore`", null).build()).queue();
@@ -105,8 +105,8 @@ public class Ignore implements ICommand {
 
     }
 
-    private void shopIgnoredChannels(MessageChannel channel, Member member, EventWaiter w) {
-        List<TextChannel> channels = CorgiBot.getIgnoredChannels().getIgnoredGuildChannels(member);
+    private void shopIgnoredChannels(MessageChannel channel, Member member, EventWaiter w, GuildWrapper gw) {
+        List<TextChannel> channels = gw.getIgnoredChannelsByMember(member);
 
         if (channels.isEmpty()) {
             MessageUtils.sendErrorMessage("Nemáš nastavený žádný ignorovaný channel!", channel);

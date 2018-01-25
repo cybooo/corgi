@@ -4,7 +4,6 @@ import com.jagrosh.jdautilities.waiter.EventWaiter;
 import cz.wake.corgibot.commands.CommandHandler;
 import cz.wake.corgibot.listener.MainListener;
 import cz.wake.corgibot.managers.BotManager;
-import cz.wake.corgibot.managers.IgnoredChannels;
 import cz.wake.corgibot.runnable.StatusChanger;
 import cz.wake.corgibot.sql.SQLManager;
 import cz.wake.corgibot.utils.LoadingProperties;
@@ -41,8 +40,6 @@ public class CorgiBot {
     public static long startUp;
     private static final Map<String, Logger> LOGGERS;
     public static final Logger LOGGER;
-    private static IgnoredChannels ignoredChannels;
-    private static boolean isBeta;
 
     static {
         new File("latest.log").delete();
@@ -112,10 +109,6 @@ public class CorgiBot {
         sql = new SQLManager(this);
     }
 
-    public static long getStartUp() {
-        return startUp;
-    }
-
     public String formatTime(LocalDateTime dateTime) {
         return dateTime.getDayOfMonth() + ". " + dateTime.format(timeFormat);
     }
@@ -136,10 +129,6 @@ public class CorgiBot {
         return getJda().getGuildById("255045073887166475").getTextChannelById("361636711585021953");
     }
 
-    public static IgnoredChannels getIgnoredChannels() {
-        return ignoredChannels;
-    }
-
     public static Guild getDefaultGuild() {
         return getJda().getGuildById("255045073887166475");
     }
@@ -154,9 +143,5 @@ public class CorgiBot {
         LOGGER.info("\\____/\\____/_/   \\__, /_/   ");
         LOGGER.info("                /____/      ");
         LOGGER.info("");
-    }
-
-    public boolean isBeta() {
-        return isBeta;
     }
 }

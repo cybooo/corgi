@@ -2,10 +2,12 @@ package cz.wake.corgibot.objects;
 
 import cz.wake.corgibot.CorgiBot;
 import cz.wake.corgibot.utils.Constants;
+import net.dv8tion.jda.core.entities.Member;
 import net.dv8tion.jda.core.entities.TextChannel;
 
 import java.awt.*;
 import java.util.*;
+import java.util.List;
 import java.util.concurrent.ConcurrentHashMap;
 
 public class GuildWrapper {
@@ -112,6 +114,23 @@ public class GuildWrapper {
      * @return {@link Set} of ignored channels
      */
     public Set<TextChannel> getIgnoredChannels() {
+        return ignoredChannels;
+    }
+
+
+    /**
+     * List of ignored channels by selected member
+     *
+     * @param member Selected member in guild
+     * @return {@link List}
+     */
+    public List<TextChannel> getIgnoredChannelsByMember(Member member) {
+        ArrayList<TextChannel> ignoredChannels = new ArrayList<>();
+        for (TextChannel tc : this.ignoredChannels) {
+            if (member.getGuild().getTextChannels().contains(tc)) {
+                ignoredChannels.add(tc);
+            }
+        }
         return ignoredChannels;
     }
 
@@ -239,11 +258,37 @@ public class GuildWrapper {
     /**
      * Sets ignored channels for this guild
      *
-     * @param ignoredChannels Ignored channels
+     * @param ignoredChannel Ignored channels
      * @return {@link GuildWrapper}
      */
-    public GuildWrapper setIgnoredChannels(Set<TextChannel> ignoredChannels) {
-        this.ignoredChannels = ignoredChannels;
+    public GuildWrapper setIgnoredChannels(Set<TextChannel> ignoredChannel) {
+        this.ignoredChannels = ignoredChannel;
+        return this;
+    }
+
+    /**
+     * Update ignored channels in the guild
+     * If textchannels exists will be deleted from list, if not will be added
+     *
+     * @param textChannel Selected channel
+     * @return {@link GuildWrapper}
+     */
+    public GuildWrapper updateIgnoredChannel(TextChannel textChannel) {
+        if (ignoredChannels.contains(textChannel)) {
+            ignoredChannels.remove(textChannel);
+            try {
+                CorgiBot.getInstance().getSql().deleteIgnoredChannel(textChannel.getId());
+            } catch (Exception e) {
+                CorgiBot.LOGGER.error("Chyba při mazání ignorovaného channelu!", e);
+            }
+            return this;
+        }
+        this.ignoredChannels.add(textChannel);
+        try {
+            CorgiBot.getInstance().getSql().addIgnoredChannel(this.guildId, textChannel.getId());
+        } catch (Exception e) {
+            CorgiBot.LOGGER.error("Chyba při přidávání ignorovaného channelu!", e);
+        }
         return this;
     }
 

@@ -208,39 +208,31 @@ public class GuildWrapper {
     }
 
     /**
-     * For startup proposes
-     *
-     * @param prefix Custom prefix
-     * @return {@link GuildWrapper}
-     */
-    public GuildWrapper setPrefix(String prefix){
-        this.prefix = prefix;
-        return this;
-    }
-
-    /**
      * Update prefix for the guild!
-     * <b>ONLY FOR UPDATE!</b>
      * 
      * @param prefix Custom prefix
+     * @param updateSQL boolean value if we want to update prefix in SQL
      * @return {@link GuildWrapper}
      */
-    public GuildWrapper updatePrefix(String prefix) {
-        if(prefix == Constants.PREFIX){
-            this.prefix = Constants.PREFIX;
+    public GuildWrapper setPrefix(String prefix, boolean updateSQL) {
+        if(updateSQL){
+            if(prefix == Constants.PREFIX){
+                this.prefix = Constants.PREFIX;
+                try {
+                    CorgiBot.getInstance().getSql().updatePrefix(guildId, prefix);
+                } catch (Exception e) {
+                    CorgiBot.LOGGER.error("Chyba při mazání prefixu!", e);
+                }
+                return this;
+            }
+            this.prefix = prefix;
             try {
                 CorgiBot.getInstance().getSql().updatePrefix(guildId, prefix);
             } catch (Exception e) {
-                CorgiBot.LOGGER.error("Chyba při mazání prefixu!", e);
+                CorgiBot.LOGGER.error("Chyba při přidávání prefixu!", e);
             }
-            return this;
         }
         this.prefix = prefix;
-        try {
-            CorgiBot.getInstance().getSql().updatePrefix(guildId, prefix);
-        } catch (Exception e) {
-            CorgiBot.LOGGER.error("Chyba při přidávání prefixu!", e);
-        }
         return this;
     }
 

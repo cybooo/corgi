@@ -45,7 +45,7 @@ public class BotManager {
                 ResultSet set = CorgiBot.getInstance().getSql().getPool().getConnection().createStatement().executeQuery("SELECT * FROM corgibot.guild_data WHERE guild_id = " + guild.getId() + ";");
                 while (set.next()) {
                     try {
-                        gw.setIgnoredChannels(ignoredChannels).setPrefix(set.getString("prefix"));
+                        gw.setIgnoredChannels(ignoredChannels).setPrefix(set.getString("prefix"), false);
                     } catch (NullPointerException e) {
                         e.printStackTrace();
                     }

@@ -48,12 +48,12 @@ public class MainListener extends ListenerAdapter {
         GuildWrapper guildWrapper = BotManager.getCustomGuild(e.getMember().getGuild().getId());
         String prefix = guildWrapper.getPrefix();
 
-        if (e.getMessage().getContentRaw().startsWith(prefix)) {
+        if (e.getMessage().getContentRaw().startsWith(prefix) || e.getMessage().getRawContent().substring(0,prefix.length()).contains(prefix)) {
             String message = e.getMessage().getRawContent();
-            String command = message.substring(1);
+            String command = message.substring(prefix.length());
             String[] args = new String[0];
             if (message.contains(" ")) {
-                command = command.substring(0, message.indexOf(" ") - 1);
+                command = command.substring(0, message.indexOf(" ") - prefix.length());
                 args = message.substring(message.indexOf(" ") + 1).split(" ");
             }
             for (ICommand cmd : CorgiBot.getInstance().getCommandHandler().getCommands()) {

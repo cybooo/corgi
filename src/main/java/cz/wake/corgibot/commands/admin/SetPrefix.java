@@ -22,7 +22,7 @@ public class SetPrefix implements ICommand {
             if (args[0].equalsIgnoreCase("reset")) {
                 gw.setPrefix(".", true);
                 channel.sendMessage(MessageUtils.getEmbed(Constants.GREEN).setDescription("Prefix byl vyresetován zpět na `.`").build()).queue();
-            } else if (args[0].length() < 3) {
+            } else if (args[0].length() < 4) {
                 gw.setPrefix(args[0], true);
                 channel.sendMessage(MessageUtils.getEmbed(Constants.GREEN).setDescription(String.format("Prefix byl nastaven na `%s`", args[0])).build()).queue();
             } else {

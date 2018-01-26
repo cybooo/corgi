@@ -22,8 +22,29 @@ public class Ping implements ICommand {
 
     @Override
     public void onCommand(User sender, MessageChannel channel, Message message, String[] args, Member member, EventWaiter w, GuildWrapper gw) {
-        channel.sendMessage(MessageUtils.getEmbed(Color.GRAY).setDescription("Vypočítávám ping...").build()).queue(m -> {
+        /*channel.sendMessage(MessageUtils.getEmbed(Color.GRAY).setDescription("Vypočítávám ping...").build()).queue(m -> {
             m.editMessage(MessageUtils.getEmbed(Constants.GREEN).setDescription(EmoteList.PONG + " Pong! `" + message.getCreationTime().until(m.getCreationTime(), ChronoUnit.MILLIS) + " ms`").build()).queue();
+        });*/
+
+        channel.sendMessage(MessageUtils.getEmbed(Color.GRAY).setDescription("Vypočítávám ping...").build()).queue(m -> {
+            int pings = 5;
+            int lastResult;
+            int sum = 0, min = 999, max = 0;
+            long start = System.currentTimeMillis();
+            for (int j = 0; j < pings; j++) {
+                m.editMessage(MessageUtils.getEmbed(Constants.ORANGE).setDescription(pingMessages[j % pingMessages.length]).build()).complete();
+                lastResult = (int) (System.currentTimeMillis() - start);
+                sum += lastResult;
+                min = Math.min(min, lastResult);
+                max = Math.max(max, lastResult);
+                try {
+                    Thread.sleep(1_500L);
+                } catch (InterruptedException e) {
+                    e.printStackTrace();
+                }
+                start = System.currentTimeMillis();
+            }
+            m.editMessage(MessageUtils.getEmbed(Constants.GREEN).setDescription(String.format(EmoteList.LOUDSPEAKER + " | **Průměrný ping je:** %dms (min: %d, max: %d)", (int)Math.ceil(sum / 5f), min, max)).build()).complete();
         });
     }
 
@@ -51,5 +72,12 @@ public class Ping implements ICommand {
     public Rank getRank() {
         return Rank.USER;
     }
+
+    private static final String[] pingMessages = new String[]{
+            ":ping_pong::white_small_square::black_small_square::black_small_square::ping_pong:",
+            ":ping_pong::black_small_square::white_small_square::black_small_square::ping_pong:",
+            ":ping_pong::black_small_square::black_small_square::white_small_square::ping_pong:",
+            ":ping_pong::black_small_square::white_small_square::black_small_square::ping_pong:",
+    };
 
 }

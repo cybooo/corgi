@@ -27,6 +27,8 @@ public class EmoteList {
     final public static String RED_DENY = "\u26D4";
     final public static String WARNING = "\u26A0";
 
+    final public static String LOUDSPEAKER = "\uD83D\uDCE2";
+
     /*
         Emotes for help menu
      */

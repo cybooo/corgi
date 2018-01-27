@@ -24,7 +24,7 @@ public class Choose implements ICommand {
             MessageUtils.sendErrorMessage("Musíš si něco vybrat!", channel);
         } else {
             // Format message
-            String request = message.getRawContent().replaceAll("\\s+","").replace(".choose","");
+            String request = message.getRawContent().replaceAll("\\s+","").replace("choose","").replace("volba", "").replace(gw.getPrefix(), "");
             System.out.println("Request: " + request); // text|text2|text3
             String[] arguments = request.split("\\|");
 

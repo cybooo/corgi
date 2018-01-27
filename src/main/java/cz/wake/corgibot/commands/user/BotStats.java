@@ -19,6 +19,8 @@ import java.lang.management.ManagementFactory;
 @SinceCorgi(version = "0.7")
 public class BotStats implements ICommand {
 
+    //TODO: Predelat
+
     @Override
     public void onCommand(User sender, MessageChannel channel, Message message, String[] args, Member member, EventWaiter w, GuildWrapper gw) {
         if (args.length < 1) {
@@ -36,6 +38,7 @@ public class BotStats implements ICommand {
             embed.addField("Threads", String.valueOf(Thread.getAllStackTraces().size()), true);
             embed.addField("Počet odpovědí", String.valueOf(channel.getJDA().getResponseTotal()), true);
             embed.addField("JDA verze", JDAInfo.VERSION, true);
+            embed.addField("Java verze", Runtime.class.getPackage().getImplementationVersion(), true);
             embed.addBlankField(true);
             channel.sendMessage(embed.build()).queue();
         }

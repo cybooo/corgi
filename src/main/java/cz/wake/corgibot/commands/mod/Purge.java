@@ -1,6 +1,7 @@
 package cz.wake.corgibot.commands.mod;
 
 import com.jagrosh.jdautilities.waiter.EventWaiter;
+import cz.wake.corgibot.CorgiBot;
 import cz.wake.corgibot.annotations.SinceCorgi;
 import cz.wake.corgibot.commands.CommandType;
 import cz.wake.corgibot.commands.ICommand;
@@ -9,139 +10,99 @@ import cz.wake.corgibot.objects.GuildWrapper;
 import cz.wake.corgibot.utils.Constants;
 import cz.wake.corgibot.utils.EmoteList;
 import cz.wake.corgibot.utils.MessageUtils;
+import net.dv8tion.jda.core.Permission;
 import net.dv8tion.jda.core.entities.*;
-import net.dv8tion.jda.core.events.message.react.MessageReactionAddEvent;
+import net.dv8tion.jda.core.exceptions.ErrorResponseException;
+import net.dv8tion.jda.core.exceptions.PermissionException;
 
 import java.time.OffsetDateTime;
 import java.util.ArrayList;
-import java.util.Arrays;
 import java.util.List;
 import java.util.concurrent.TimeUnit;
-import java.util.regex.Matcher;
-import java.util.regex.Pattern;
-import java.util.stream.Collectors;
 
-@SinceCorgi(version = "1.0")
+@SinceCorgi(version = "1.3.0")
 public class Purge implements ICommand {
-
-    private final String CANCEL = "\u274C";
-    private final Pattern LINK_PATTERN = Pattern.compile("https?:\\/\\/.+");
-    private final String QUOTES_REGEX = "\"(.*?)\"";
-    private final Pattern QUOTES_PATTERN = Pattern.compile(QUOTES_REGEX);
 
     @Override
     public void onCommand(User sender, MessageChannel channel, Message message, String[] args, Member member, EventWaiter w, GuildWrapper gw) {
-        if (args.length < 1) {
-            channel.sendMessage(MessageUtils.getEmbed(Constants.BLUE).setTitle("Zvol typ zpráv, který má být smazaný\n")
-                    .setDescription(CleanType.ROBOT.getUnicode() + " **Boti**\n" + CleanType.EMBEDS.getUnicode() + " **Embeds**\n" + CleanType.LINKS.getUnicode() + " **Odkazy**\n" + CANCEL + " **Zrušení**").build()).queue((Message m) -> {
-                for (CleanType type : CleanType.values())
-                    m.addReaction(type.getUnicode()).queue();
-                m.addReaction(CANCEL).queue();
-                w.waitForEvent(MessageReactionAddEvent.class, (MessageReactionAddEvent e) -> {
-                    return e.getUser().equals(sender) && e.getMessageId().equals(m.getId()) && (e.getReaction().getEmote().getName().equals(CANCEL) || CleanType.of(e.getReaction().getEmote().getName()) != null);
-                }, (MessageReactionAddEvent ev) -> {
-                    m.delete().queue();
-                    CleanType type = CleanType.of(ev.getReaction().getEmote().getName());
-                    if (type != null)
-                        executeClean(type.getText(), channel, message, " " + type.getText(), gw.getPrefix());
-                }, 25, TimeUnit.SECONDS, () -> m.editMessage(MessageUtils.getEmbed(Constants.RED).setDescription("Čas vypršel!").build()).queue());
-            });
-        } else {
-            try {
-                int count = Integer.parseInt(args[0]) + 1;
-                if (count < 2) {
-                    MessageUtils.sendErrorMessage("Lze smazat nejméně 2 zprávy!", channel);
+        if (args.length >= 1) {
+            User targetUser = null;
+            int amount;
+            if (args.length == 1 && args[0].matches("\\d+")) {
+                amount = getInt(args[0], -1);
+            } else if (args.length == 2 && args[1].matches("\\d+")) {
+                amount = getInt(args[1], -1);
+                try {
+                    String id = args[0].replaceAll("[^0-9]", "");
+                    targetUser = CorgiBot.getJda().getUserById(id);
+                } catch (ErrorResponseException e) {
+                    MessageUtils.sendErrorMessage("Požadovaný uživatel nemůže být nalezen, zkus ho označit pomocí @ nebo napiš jeho ID.", channel);
+                    return;
                 }
-                MessageHistory history = new MessageHistory(channel);
-                int toRetrieve = count;
-                while (history.getRetrievedHistory().size() < count) {
-                    if (history.retrievePast(Math.min(toRetrieve, 100)).complete().isEmpty())
-                        break;
-                    toRetrieve -= Math.min(toRetrieve, 100);
-                    if (toRetrieve < 2)
-                        toRetrieve = 2;
-                }
-                int i = 0;
-                List<Message> toDelete = new ArrayList<>();
-                for (Message m : history.getRetrievedHistory()) {
-                    if (m.getCreationTime().plusWeeks(2).isAfter(OffsetDateTime.now())) {
-                        i++;
-                        toDelete.add(m);
-                    }
-                    if (toDelete.size() == 100) {
-                        for (Message mess : toDelete) {
-                            channel.deleteMessageById(mess.getId()).queue();
-                        }
-                        toDelete.clear();
-                    }
-                }
-                if (!toDelete.isEmpty()) {
-                    if (toDelete.size() != 1) {
-                        for (Message mess : toDelete) {
-                            channel.deleteMessageById(mess.getId()).queue();
-                        }
-                    } else {
-                        toDelete.forEach(mssage -> mssage.delete().complete());
-                    }
-                }
-                channel.sendMessage(MessageUtils.getEmbed(Constants.GREEN).setDescription(EmoteList.WARNING + " | Smazáno **" + i + "** zpráv.").build()).queue();
-
-            } catch (Exception e) {
-                executeClean(Arrays.toString(args), channel, message, null, gw.getPrefix());
-            }
-        }
-    }
-
-    protected void executeClean(String args, MessageChannel channel, Message m, String extra, String prefix) {
-        List<String> texts = new ArrayList<>();
-        Matcher ma = QUOTES_PATTERN.matcher(args);
-        while (ma.find())
-            texts.add(ma.group(1).trim().toLowerCase());
-        String newArgs = args.replaceAll(QUOTES_REGEX, " ").toLowerCase();
-        boolean all = newArgs.contains("vše");
-        boolean bots = newArgs.contains("bots");
-        boolean embeds = newArgs.contains("embeds");
-        boolean links = newArgs.contains("odkazy");
-
-        if (!all && !bots && !embeds && !links && texts.isEmpty() && m.getMentionedUsers().isEmpty()) {
-            MessageUtils.sendErrorMessage("**Neplatný argumenty!**\nSprávné použití: " + prefix + "purge @uživatel | počet zpráv | `text` | bots | embeds | odkazy | vše\nVšechny typy mazání mohou smazat až 100 zpráv!", channel);
-            return;
-        }
-
-        channel.getHistory().retrievePast(100).queue(messages -> {
-            List<Message> toClean;
-            if (all)
-                toClean = messages;
-            else {
-                toClean = messages.stream().filter(mess -> {
-                    String lowerCaseContent = mess.getRawContent().toLowerCase();
-                    if (mess.getMentionedUsers().contains(mess.getAuthor()))
-                        return true;
-                    if (bots && mess.getAuthor().isBot())
-                        return true;
-                    if (embeds && !(mess.getEmbeds().isEmpty() && mess.getAttachments().isEmpty()))
-                        return true;
-                    if (links && LINK_PATTERN.matcher(mess.getRawContent()).find())
-                        return true;
-                    return texts.stream().anyMatch(str -> lowerCaseContent.contains(str));
-                }).collect(Collectors.toList());
-            }
-            toClean.remove(m);
-            if (toClean.isEmpty()) {
-                MessageUtils.sendAutoDeletedMessage("Nebyly nalezeny žádné zprávy!", 10000, channel);
+            } else {
+                channel.sendMessage(MessageUtils.getEmbed(Constants.GRAY).setTitle("Nápověda k příkazu purge").setDescription(getHelp().replace("%", gw.getPrefix())).build()).queue();
                 return;
             }
-            if (toClean.size() == 1)
-                toClean.get(0).delete().queue(v -> channel.sendMessage(MessageUtils.getEmbed(Constants.GREEN).setDescription(":greenTick: | Smazáno **" + toClean.size() + "** zpráv.").build()).queue());
-            else {
-                try {
-                    ((TextChannel) channel).deleteMessages(toClean).queue(v -> channel.sendMessage(MessageUtils.getEmbed(Constants.GREEN).setDescription(":greenTick: | Smazáno **" + toClean.size() + "** zpráv.").build()).queue());
-                } catch (IllegalArgumentException e) {
-                    MessageUtils.sendAutoDeletedMessage("Požadovaný výběr zpráv pro smazání je starší než 14 dní!", 10000, channel);
-                }
+
+            if (amount < 1) {
+                MessageUtils.sendErrorMessage("Nemohu mazat méně jak 1 zprávu. Zkus to znova...", channel);
+                return;
             }
-        });
+
+            if (!member.getGuild().getSelfMember().hasPermission(Permission.MESSAGE_MANAGE, Permission.MESSAGE_HISTORY)) {
+                MessageUtils.sendErrorMessage("Nemám dostatečná práva na správu zpráv a čtení historie. Nemohu tedy mazat zprávy...", channel);
+                return;
+            }
+
+            MessageHistory history = new MessageHistory(channel);
+            TextChannel textChannel = (TextChannel) channel;
+            int toRetrieve = amount;
+            int i = 0;
+            message.delete().complete();
+            outer:
+            while (toRetrieve > 0) {
+                if (history.retrievePast((targetUser == null ? Math.min(toRetrieve, 100) : 100)).complete().isEmpty()) {
+                    break;
+                }
+
+                List<Message> toDelete = new ArrayList<>();
+                for (Message msg : history.getRetrievedHistory()) {
+                    if (msg.getCreationTime().plusWeeks(2).isBefore(OffsetDateTime.now())) break outer;
+                    if (msg.getId().equals(message.getId())) continue;
+                    if ((targetUser != null && msg.getAuthor().getId().equals(targetUser.getId())) || targetUser == null) {
+                        toDelete.add(msg);
+                        i++;
+                        toRetrieve--;
+                    }
+                    if (toRetrieve == 0) break;
+                }
+                try {
+                    if (toDelete.size() == 0) break;
+                    if (toDelete.size() == 1) {
+                        channel.deleteMessageById(toDelete.get(0).getId()).complete();
+                        break;
+                    }
+                    textChannel.deleteMessages(toDelete).complete();
+                } catch (PermissionException e) {
+                    MessageUtils.sendErrorMessage("Nemám dostatečná práva na provedení této akce! Zřejmě mi chybí právo na mazání zpráv!", channel);
+                    return;
+                } catch (ErrorResponseException e) {
+                    MessageUtils.sendErrorMessage("Interní chyba při provádění akce!", channel);
+                    return;
+                }
+                toDelete.clear();
+            }
+            if (i > 0) {
+                channel.sendMessage(MessageUtils.getEmbed(Constants.GREEN)
+                                .setDescription(String.format(EmoteList.GREEN_OK + " | Smazáno `%s` zpráv!", i)).build()).queue();
+            } else {
+                MessageUtils.sendErrorMessage("Nemohu najít zprávy, které mám smazat!", channel);
+            }
+        } else {
+            channel.sendMessage(MessageUtils.getEmbed(Constants.GRAY).setTitle("Nápověda k příkazu purge").setDescription(getHelp().replace("%", gw.getPrefix())).build()).queue();
+        }
     }
+
 
     @Override
     public String getCommand() {
@@ -155,8 +116,8 @@ public class Purge implements ICommand {
 
     @Override
     public String getHelp() {
-        return "%purge\n" +
-                "%purge <číslo> - Maximum je 100 zpráv";
+        return "%purge <počet> - Smaže požadovaný počet zpráv.\n" +
+                "%purge <@uživatel> <počet> - Smaže konkrétné počet zpráv pro zvoleného uživatele.";
     }
 
     @Override
@@ -174,31 +135,11 @@ public class Purge implements ICommand {
         return new String[]{"clean"};
     }
 
-    private enum CleanType {
-        ROBOT("\uD83E\uDD16", "bots"),
-        EMBEDS("\uD83D\uDDBC", "embeds"),
-        LINKS("\uD83D\uDD17", "links");
-
-        private final String unicode, text;
-
-        CleanType(String unicode, String text) {
-            this.unicode = unicode;
-            this.text = text;
-        }
-
-        public String getUnicode() {
-            return unicode;
-        }
-
-        public String getText() {
-            return text;
-        }
-
-        public static CleanType of(String unicode) {
-            for (CleanType type : values())
-                if (type.getUnicode().equals(unicode))
-                    return type;
-            return null;
+    public static int getInt(String s, int defaultValue) {
+        try {
+            return Integer.parseInt(s);
+        } catch (NumberFormatException e) {
+            return defaultValue;
         }
     }
 }

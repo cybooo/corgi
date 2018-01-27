@@ -57,7 +57,7 @@ public class MainListener extends ListenerAdapter {
                 args = message.substring(message.indexOf(" ") + 1).split(" ");
             }
             for (ICommand cmd : CorgiBot.getInstance().getCommandHandler().getCommands()) {
-                if (cmd.getCommand().equalsIgnoreCase(command)) {
+                if (cmd.getCommand().equalsIgnoreCase(command) || Arrays.asList(cmd.getAliases()).contains(command)) {
                     if (guildWrapper.getIgnoredChannels().contains(e.getChannel()) && !cmd.getCommand().equalsIgnoreCase("ignore")) {
                         return;
                     }

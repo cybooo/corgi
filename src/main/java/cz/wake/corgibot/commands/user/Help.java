@@ -67,6 +67,11 @@ public class Help implements ICommand {
         return Rank.USER;
     }
 
+    @Override
+    public String[] getAliases() {
+        return new String[]{"pomoc", "prikazy", "commands"};
+    }
+
     private StringBuilder getContext(Member member) {
         StringBuilder builder = new StringBuilder();
         CommandHandler ch = new CommandHandler();

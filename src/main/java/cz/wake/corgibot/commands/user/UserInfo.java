@@ -96,7 +96,7 @@ public class UserInfo implements ICommand {
 
     @Override
     public String[] getAliases() {
-        return new String[]{"ui"};
+        return new String[]{"ui", "uzivatel"};
     }
 
     @Override

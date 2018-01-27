@@ -59,4 +59,9 @@ public class EightBall implements ICommand {
     public Rank getRank() {
         return Rank.USER;
     }
+
+    @Override
+    public String[] getAliases() {
+        return new String[]{"8b"};
+    }
 }

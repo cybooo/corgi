@@ -71,4 +71,9 @@ public class GuildInfo implements ICommand {
     public Rank getRank() {
         return Rank.USER;
     }
+
+    @Override
+    public String[] getAliases() {
+        return new String[]{"serverinfo"};
+    }
 }

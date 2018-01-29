@@ -32,14 +32,14 @@ public class Ignore implements ICommand {
                 m.addReaction(EmoteList.TWO).queue();
 
                 w.waitForEvent(MessageReactionAddEvent.class, (MessageReactionAddEvent e) -> { // 1
-                    return e.getUser().equals(sender) && e.getMessageId().equals(m.getId()) && (e.getReaction().getEmote().getName().equals(EmoteList.ONE));
+                    return e.getUser().equals(sender) && e.getMessageId().equals(m.getId()) && (e.getReaction().getReactionEmote().getName().equals(EmoteList.ONE));
                 }, (MessageReactionAddEvent ev) -> {
                     m.delete().queue();
                     ignoreChannel(channel, member, gw.getPrefix(), gw);
                 }, 60, TimeUnit.SECONDS, () -> m.editMessage(MessageUtils.getEmbed(Constants.RED).setDescription("Čas vypršel!").build()));
 
                 w.waitForEvent(MessageReactionAddEvent.class, (MessageReactionAddEvent e) -> { // 2
-                    return e.getUser().equals(sender) && e.getMessageId().equals(m.getId()) && (e.getReaction().getEmote().getName().equals(EmoteList.TWO));
+                    return e.getUser().equals(sender) && e.getMessageId().equals(m.getId()) && (e.getReaction().getReactionEmote().getName().equals(EmoteList.TWO));
                 }, (MessageReactionAddEvent ev) -> {
                     m.delete().queue();
                     shopIgnoredChannels(channel, member, w, gw);

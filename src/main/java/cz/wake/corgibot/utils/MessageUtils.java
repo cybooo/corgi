@@ -110,7 +110,7 @@ public class MessageUtils {
     }
 
     public static void editMessage(EmbedBuilder embed, Message message) {
-        editMessage(message.getRawContent(), embed, message);
+        editMessage(message.getContentRaw(), embed, message);
     }
 
     public static void editMessage(String s, EmbedBuilder embed, Message message) {

@@ -29,7 +29,7 @@ public class LeaveGuild implements ICommand {
                 message.delete().queue();
 
                 w.waitForEvent(MessageReactionAddEvent.class, (MessageReactionAddEvent e) -> { //Potvrzení
-                    return e.getUser().equals(sender) && e.getMessageId().equals(m.getId()) && (e.getReaction().getEmote().getName().equals("\u2705"));
+                    return e.getUser().equals(sender) && e.getMessageId().equals(m.getId()) && (e.getReaction().getReactionEmote().getName().equals("\u2705"));
                 }, (MessageReactionAddEvent ev) -> {
                     m.clearReactions().queue();
                     m.editMessage(MessageUtils.getEmbed(Constants.RED).setTitle("Potvrzení o opuštění!").setDescription("Corgi nyní opustí tento server! :sob:").build()).queue();
@@ -37,7 +37,7 @@ public class LeaveGuild implements ICommand {
                 }, 60, TimeUnit.SECONDS, null);
 
                 w.waitForEvent(MessageReactionAddEvent.class, (MessageReactionAddEvent e) -> { //Zrušení
-                    return e.getUser().equals(sender) && e.getMessageId().equals(m.getId()) && (e.getReaction().getEmote().getName().equals("\u26D4"));
+                    return e.getUser().equals(sender) && e.getMessageId().equals(m.getId()) && (e.getReaction().getReactionEmote().getName().equals("\u26D4"));
                 }, (MessageReactionAddEvent ev) -> {
                     m.editMessage(MessageUtils.getEmbed(Constants.GREEN).setTitle("Opuštění zrušeno!").setDescription("Juchůůů! Corgi zde zůstane! :hugging:").build()).queue();
                     m.clearReactions().queue();

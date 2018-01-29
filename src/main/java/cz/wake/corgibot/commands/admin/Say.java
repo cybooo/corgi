@@ -21,7 +21,7 @@ public class Say implements ICommand {
             MessageUtils.sendErrorMessage("Nelze poslat zprávu, která nemá text!", channel);
             return;
         }
-        channel.sendMessage(message.getRawContent().replace(gw.getPrefix() + "say", "")).queue();
+        channel.sendMessage(message.getContentRaw().replace(gw.getPrefix() + "say", "")).queue();
     }
 
     @Override

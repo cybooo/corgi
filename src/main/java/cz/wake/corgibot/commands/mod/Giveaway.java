@@ -16,7 +16,7 @@ public class Giveaway implements ICommand {
 
     @Override
     public void onCommand(User sender, MessageChannel channel, Message message, String[] args, Member member, EventWaiter w, GuildWrapper gw) {
-        String str = message.getRawContent().substring(9).trim();
+        String str = message.getContentRaw().substring(9).trim();
         String[] parts = str.split("\\s+", 2);
         try {
             int sec = Integer.parseInt(parts[0]);

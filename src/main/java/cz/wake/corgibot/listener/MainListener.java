@@ -48,8 +48,8 @@ public class MainListener extends ListenerAdapter {
         GuildWrapper guildWrapper = BotManager.getCustomGuild(e.getMember().getGuild().getId());
         String prefix = guildWrapper.getPrefix();
 
-        if (e.getMessage().getContentRaw().startsWith(prefix) || e.getMessage().getRawContent().substring(0,prefix.length()).contains(prefix)) {
-            String message = e.getMessage().getRawContent();
+        if (e.getMessage().getContentRaw().startsWith(prefix) || e.getMessage().getContentRaw().substring(0,prefix.length()).contains(prefix)) {
+            String message = e.getMessage().getContentRaw();
             String command = message.substring(prefix.length());
             String[] args = new String[0];
             if (message.contains(" ")) {

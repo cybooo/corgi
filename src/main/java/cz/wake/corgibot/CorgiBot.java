@@ -61,7 +61,7 @@ public class CorgiBot {
                 .setToken(config.getBotToken())
                 .addEventListener(new MainListener(waiter))
                 .addEventListener(waiter)
-                .setGame(Game.of("Loading..."))
+                .setGame(Game.playing("Starting..."))
                 .setStatus(OnlineStatus.IDLE)
                 .buildBlocking();
 

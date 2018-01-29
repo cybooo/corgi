@@ -45,7 +45,7 @@ public class Archive implements ICommand {
                 Message m = messages.complete().get(i);
                 builder.append("[").append(m.getCreationTime() == null ? "NEZNÁMÝ ČAS" : m.getCreationTime().format(DateTimeFormatter.RFC_1123_DATE_TIME)).append("] ");
                 builder.append(m.getAuthor() == null ? "????" : m.getAuthor().getName()).append(" : ");
-                builder.append(m.getContent()).append(m.getAttachments() != null && m.getAttachments().size() > 0 ? " " + m.getAttachments().get(0).getUrl() : "").append("\n");
+                builder.append(m.getContentRaw()).append(m.getAttachments() != null && m.getAttachments().size() > 0 ? " " + m.getAttachments().get(0).getUrl() : "").append("\n");
             }
 
             MessageEmbed mess = MessageUtils.getEmbed(Constants.GREEN).setTitle("Vygenerovaný log soubor").setDescription("Zasílám vygenerovaný log soubor s " + numposts + " zprávami.\n" +

@@ -78,6 +78,7 @@ public class CommandHandler {
         registerCommand(new GuildInfo());
         registerCommand(new Eval());
         registerCommand(new Choose());
+        registerCommand(new Support());
     }
 
 

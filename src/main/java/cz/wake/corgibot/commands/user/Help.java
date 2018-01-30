@@ -14,6 +14,8 @@ import cz.wake.corgibot.utils.EmoteList;
 import cz.wake.corgibot.utils.MessageUtils;
 import net.dv8tion.jda.core.entities.*;
 
+import java.util.Arrays;
+
 @SinceCorgi(version = "0.1")
 public class Help implements ICommand {
 
@@ -33,10 +35,15 @@ public class Help implements ICommand {
         } else {
             String commandName = args[0];
             CommandHandler ch = new CommandHandler();
+            StringBuilder sb = new StringBuilder();
             for (ICommand c : ch.getCommands()) {
                 if (c.getCommand().equalsIgnoreCase(commandName)) { //Normal
+                    for(String s : c.getAliases()){
+                        sb.append(s).append(", ");
+                    }
                     channel.sendMessage(MessageUtils.getEmbed().setTitle("Nápověda k příkazu - " + commandName + " :question:")
-                            .setDescription(c.getDescription() + "\n\n**Použití**\n" + c.getHelp().replace("%", gw.getPrefix())).build()).queue();
+                            .setDescription(c.getDescription() + "\n\n**Použití**\n" + c.getHelp().replace("%", gw.getPrefix()))
+                            .setFooter("Aliasy: " + sb.toString().substring(0, sb.length() - 2), null).build()).queue();
                 }
             }
         }

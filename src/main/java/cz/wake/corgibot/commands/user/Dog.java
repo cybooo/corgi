@@ -45,12 +45,12 @@ public class Dog implements ICommand {
 
     @Override
     public String getDescription() {
-        return null;
+        return "Získání náhodného obrázku psa.";
     }
 
     @Override
     public String getHelp() {
-        return null;
+        return "%dog - K získání obrázku";
     }
 
     @Override

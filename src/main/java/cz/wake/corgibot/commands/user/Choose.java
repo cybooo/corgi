@@ -20,20 +20,20 @@ public class Choose implements ICommand {
 
     @Override
     public void onCommand(User sender, MessageChannel channel, Message message, String[] args, Member member, EventWaiter w, GuildWrapper gw) {
-        if(args.length < 1){
+        if (args.length < 1) {
             MessageUtils.sendErrorMessage("Musíš si něco vybrat!", channel);
         } else {
             // Format message
-            String request = message.getContentRaw().replaceAll("\\s+","").replace("choose","").replace("volba", "").replace(gw.getPrefix(), "");
+            String request = message.getContentRaw().replaceAll("\\s+", "").replace("choose", "").replace("volba", "").replace(gw.getPrefix(), "");
             System.out.println("Request: " + request); // text|text2|text3
             String[] arguments = request.split("\\|");
 
-            if(arguments.length == 1){
+            if (arguments.length == 1) {
                 MessageUtils.sendErrorMessage("Musíš zadat víc než 1 volbu!", channel);
                 return;
             }
 
-            channel.sendMessage(getRandomThinkingEmote() + " | **" + sender.getName() + "**, zvolil jsem **" + arguments[(int)(Math.random()*arguments.length)] + "**!").queue();
+            channel.sendMessage(getRandomThinkingEmote() + " | **" + sender.getName() + "**, zvolil jsem **" + arguments[(int) (Math.random() * arguments.length)] + "**!").queue();
         }
     }
 
@@ -67,10 +67,10 @@ public class Choose implements ICommand {
         return new String[]{"volba"};
     }
 
-    private String getRandomThinkingEmote(){
+    private String getRandomThinkingEmote() {
         Random r = new Random();
         int number = r.nextInt(3) + 1;
-        switch (number){
+        switch (number) {
             case 1:
                 return EmoteList.THINKING_1;
             case 2:

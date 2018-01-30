@@ -23,4 +23,9 @@ public class Constants {
         Basic color for Giveaway Embed
      */
     final public static Color GIVEAWAY_BLUE = new Color(112, 145, 255);
+
+    /*
+        Official Support Guild server for Corgi
+     */
+    final public static String SUPPORT_INVIITE = "https://discordapp.com/invite/eaEFCYX";
 }

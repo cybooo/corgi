@@ -19,7 +19,7 @@ import java.util.concurrent.ThreadLocalRandom;
 @SinceCorgi(version = "0.3")
 public class EightBall implements ICommand {
 
-    static String outcomes[] = {"Ano.", "Ne.", "S největší pravděpodobností ANO!", "Možná.", "Počkej zamyslím se, ANO!", "Pravděpodobně ne!", "Nepravděpodobně...", "Když se nad tím zamyšlíš, je to možné!", "Je to jistý.", "Je to rozhodně tak", "Definitivně ano", "Něco mi říká, že ne"};
+    private static String outcomes[] = {"Ano.", "Ne.", "S největší pravděpodobností ANO!", "Možná.", "Počkej zamyslím se, ANO!", "Pravděpodobně ne!", "Nepravděpodobně...", "Když se nad tím zamyšlíš, je to možné!", "Je to jistý.", "Je to rozhodně tak", "Definitivně ano", "Něco mi říká, že ne"};
 
     @Override
     public void onCommand(User sender, MessageChannel channel, Message message, String[] args, Member member, EventWaiter w, GuildWrapper gw) {
@@ -27,7 +27,7 @@ public class EightBall implements ICommand {
             if (args.length < 1) {
                 channel.sendMessage(sender.getAsMention() + " Musíš položit otázku, neumím číst myšlenky!").queue();
             } else {
-                channel.sendMessage(MessageUtils.getEmbed(sender, Constants.PINK).addField(sender.getName() + " se ptá:", message.getContentRaw().replace("8ball ", "").replace("8b", "").replace(gw.getPrefix(), "").replace("dotaz",""), false).addField("Corgi odpovídá:", outcomes[ThreadLocalRandom.current().nextInt(0, outcomes.length)], false).build()).queue();
+                channel.sendMessage(MessageUtils.getEmbed(sender, Constants.PINK).addField(sender.getName() + " se ptá:", message.getContentRaw().replace("8ball ", "").replace("8b", "").replace(gw.getPrefix(), "").replace("dotaz", ""), false).addField("Corgi odpovídá:", outcomes[ThreadLocalRandom.current().nextInt(0, outcomes.length)], false).build()).queue();
             }
         } catch (Exception e) {
             MessageUtils.sendAutoDeletedMessage("Chyba při provádění příkazu!", 10000, channel);

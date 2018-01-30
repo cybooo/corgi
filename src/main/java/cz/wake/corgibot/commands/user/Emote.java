@@ -31,7 +31,7 @@ public class Emote implements ICommand {
             }
             channel.sendMessage(builder.toString()).queue();
         } else {
-            String str = (String) args[0];
+            String str = args[0];
             if (str.matches("<:.*:\\d+>")) { //Server Emotes
                 String id = str.replaceAll("<:.*:(\\d+)>", "$1");
                 net.dv8tion.jda.core.entities.Emote emote = channel.getJDA().getEmoteById(id);

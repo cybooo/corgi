@@ -23,7 +23,7 @@ public class Dog implements ICommand {
 
     @Override
     public void onCommand(User sender, MessageChannel channel, Message message, String[] args, Member member, EventWaiter w, GuildWrapper gw) {
-        String url = new String();
+        String url = "";
         OkHttpClient caller = new OkHttpClient();
         Request request = new Request.Builder().url("https://api.thedogapi.co.uk/v2/dog.php").build();
         try {

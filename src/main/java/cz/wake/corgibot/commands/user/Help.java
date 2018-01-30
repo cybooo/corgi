@@ -26,26 +26,23 @@ public class Help implements ICommand {
                 channel.sendMessage(MessageUtils.getEmbed(Constants.BLUE).setTitle("Zkontroluj si zprávy")
                         .setDescription(EmoteList.MAILBOX + " | Odeslal jsem ti do zpráv nápovědu s příkazy!").build()).queue();
             }
-            sender.openPrivateChannel().queue(msg -> {
-                msg.sendMessage(MessageUtils.getEmbed(Constants.BLUE)
-                        .setAuthor("Nápověda k CorgiBot", null, channel.getJDA().getSelfUser().getAvatarUrl())
-                        .setDescription(getContext(member)).setFooter("Podrobnější popis nalezneš na: https://corgibot.xyz/prikazy", null)
-                        .build()).queue();
-            });
+            sender.openPrivateChannel().queue(msg -> msg.sendMessage(MessageUtils.getEmbed(Constants.BLUE)
+                    .setAuthor("Nápověda k CorgiBot", null, channel.getJDA().getSelfUser().getAvatarUrl())
+                    .setDescription(getContext(member)).setFooter("Podrobnější popis nalezneš na: https://corgibot.xyz/prikazy", null)
+                    .build()).queue());
         } else {
             String commandName = args[0];
             CommandHandler ch = new CommandHandler();
             StringBuilder sb = new StringBuilder();
-            for (ICommand c : ch.getCommands()) {
-                if (c.getCommand().equalsIgnoreCase(commandName)) { //Normal
-                    for(String s : c.getAliases()){
-                        sb.append(s).append(", ");
-                    }
-                    channel.sendMessage(MessageUtils.getEmbed().setTitle("Nápověda k příkazu - " + commandName + " :question:")
-                            .setDescription(c.getDescription() + "\n\n**Použití**\n" + c.getHelp().replace("%", gw.getPrefix()))
-                            .setFooter("Aliasy: " + sb.toString().substring(0, sb.length() - 2), null).build()).queue();
+            //Normal
+            ch.getCommands().stream().filter(c -> c.getCommand().equalsIgnoreCase(commandName)).forEach(c -> {
+                for (String s : c.getAliases()) {
+                    sb.append(s).append(", ");
                 }
-            }
+                channel.sendMessage(MessageUtils.getEmbed().setTitle("Nápověda k příkazu - " + commandName + " :question:")
+                        .setDescription(c.getDescription() + "\n\n**Použití**\n" + c.getHelp().replace("%", gw.getPrefix()))
+                        .setFooter("Aliasy: " + sb.toString().substring(0, sb.length() - 2), null).build()).queue();
+            });
         }
     }
 

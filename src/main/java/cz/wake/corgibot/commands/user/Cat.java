@@ -22,7 +22,7 @@ public class Cat implements ICommand {
 
     @Override
     public void onCommand(User sender, MessageChannel channel, Message message, String[] args, Member member, EventWaiter w, GuildWrapper gw) {
-        String url = new String();
+        String url = "";
         OkHttpClient caller = new OkHttpClient();
         Request request = new Request.Builder().url("http://random.cat/meow").build();
         try {

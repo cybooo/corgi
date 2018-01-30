@@ -58,7 +58,7 @@ public class CommandHandler {
         registerCommand(new Purge());
         registerCommand(new TextToBlock());
         registerCommand(new Giveaway());
-        registerCommand(new BotStats());
+        registerCommand(new Stats());
         registerCommand(new Perms());
         registerCommand(new About());
         registerCommand(new FullWidth());

@@ -40,6 +40,7 @@ public class CorgiBot {
     public static long startUp;
     private static final Map<String, Logger> LOGGERS;
     public static final Logger LOGGER;
+    public static int commands = 0;
 
     static {
         new File("latest.log").delete();

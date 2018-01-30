@@ -26,8 +26,17 @@ public class EmoteList {
     final public static String GREEN_OK = "\u2705";
     final public static String RED_DENY = "\u26D4";
     final public static String WARNING = "\u26A0";
-
+    final public static String HOMES = "\uD83C\uDFD8";
+    final public static String USERS = "\uD83D\uDC65";
     final public static String LOUDSPEAKER = "\uD83D\uDCE2";
+    final public static String PENCIL = "\uD83D\uDCDD";
+    final public static String MEGAFON = "\uD83D\uDCE3";
+    final public static String COMMANDS = "<:commands:407688735350587392>";
+    final public static String JDA = "<:jda:407690846536728577>";
+    final public static String COMPRESS = "\uD83D\uDDDC";
+    final public static String FLOPY_DISC =  "\uD83D\uDCBE";
+    final public static String COMET = "\u2604";
+    final public static String JAVA = "<:java:407692830912544769>";
 
     /*
         Emotes for help menu

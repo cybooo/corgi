@@ -83,6 +83,7 @@ public class MainListener extends ListenerAdapter {
                             delete(e.getMessage());
                         }
                     }
+                    CorgiBot.commands++;
 
                 }
             }

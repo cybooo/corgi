@@ -7,6 +7,7 @@ import cz.wake.corgibot.commands.ICommand;
 import cz.wake.corgibot.commands.Rank;
 import cz.wake.corgibot.objects.GuildWrapper;
 import cz.wake.corgibot.utils.ColorSelector;
+import cz.wake.corgibot.utils.Constants;
 import cz.wake.corgibot.utils.MessageUtils;
 import net.dv8tion.jda.core.entities.Member;
 import net.dv8tion.jda.core.entities.Message;

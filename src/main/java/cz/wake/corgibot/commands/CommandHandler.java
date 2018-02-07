@@ -79,6 +79,7 @@ public class CommandHandler {
         registerCommand(new Eval());
         registerCommand(new Choose());
         registerCommand(new Support());
+        registerCommand(new Reminder());
     }
 
 

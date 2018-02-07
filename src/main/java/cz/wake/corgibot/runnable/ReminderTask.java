@@ -1,0 +1,43 @@
+package cz.wake.corgibot.runnable;
+
+import cz.wake.corgibot.CorgiBot;
+
+import java.sql.Connection;
+import java.sql.PreparedStatement;
+import java.util.TimerTask;
+
+public class ReminderTask extends TimerTask {
+
+    private long reminderTime;
+    private String userId, message;
+
+    @Override
+    public void run() {
+
+        long now = System.currentTimeMillis();
+        Connection conn = null;
+        PreparedStatement ps = null;
+        try {
+            conn = CorgiBot.getInstance().getSql().getPool().getConnection();
+            ps = conn.prepareStatement("SELECT * FROM corgibot.reminders;");
+            ps.executeQuery();
+            if (ps.getResultSet().next()) {
+                reminderTime = ps.getResultSet().getLong("remind_time");
+                if (reminderTime < now) {
+                    userId = ps.getResultSet().getString("user_id");
+                    message = ps.getResultSet().getString("reminder");
+                    try {
+                        CorgiBot.getJda().getUserById(userId).openPrivateChannel().queue(channel -> channel.sendMessage(message).queue());
+                    } catch (Exception e) {
+                        e.printStackTrace();
+                    }
+                }
+            }
+        } catch (Exception e) {
+            e.printStackTrace();
+        } finally {
+            CorgiBot.getInstance().getSql().getPool().close(conn, ps, null);
+        }
+        CorgiBot.getInstance().getSql().deleteReminder(userId, reminderTime);
+    }
+}

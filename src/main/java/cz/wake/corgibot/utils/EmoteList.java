@@ -22,6 +22,7 @@ public class EmoteList {
     final public static String MAILBOX = "\uD83D\uDCEC";
     final public static String CHANGELOG = "\uD83D\uDCC3";
     final public static String PONG = "\uD83C\uDFD3";
+    final public static String ALARM_CLOCK = "\u23F0";
 
     final public static String GREEN_OK = "\u2705";
     final public static String RED_DENY = "\u26D4";

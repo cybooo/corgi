@@ -2,6 +2,8 @@ package cz.wake.corgibot.utils;
 
 import net.dv8tion.jda.core.entities.User;
 
+import java.awt.*;
+
 public class FormatUtil {
 
     /**
@@ -56,5 +58,27 @@ public class FormatUtil {
             return "```" + language + "\n" + in + "```";
         else
             return "```" + language + "\n" + in.substring(0, in.length() - language.length() - 8) + "```";
+    }
+
+    public static String colourFormat(Color color) {
+        return String.format("#%02X%02X%02X", color.getRed(), color.getGreen(), color.getBlue());
+    }
+
+    public static String truncate(int length, String string) {
+        return truncate(length, string, true);
+    }
+
+    public static String truncate(int length, String string, boolean ellipse) {
+        return string.substring(0, Math.min(string.length(), length - (ellipse ? 3 : 0))) + (string.length() >
+                length - (ellipse ? 3 : 0) && ellipse ? "..." : "");
+    }
+
+    public static boolean isStringInt(String s) {
+        try {
+            Integer.parseInt(s);
+            return true;
+        } catch (NumberFormatException ex) {
+            return false;
+        }
     }
 }

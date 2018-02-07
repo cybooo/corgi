@@ -2,6 +2,7 @@ package cz.wake.corgibot.sql;
 
 import com.zaxxer.hikari.HikariDataSource;
 import cz.wake.corgibot.CorgiBot;
+import cz.wake.corgibot.objects.TemporaryReminder;
 import net.dv8tion.jda.core.entities.TextChannel;
 import net.dv8tion.jda.core.entities.User;
 
@@ -69,6 +70,55 @@ public class SQLManager {
             conn = pool.getConnection();
             ps = conn.prepareStatement("DELETE FROM corgibot.ignored_channels WHERE channel_id = ?");
             ps.setString(1, channelId);
+            ps.executeUpdate();
+        } catch (Exception e) {
+            e.printStackTrace();
+        } finally {
+            pool.close(conn, ps, null);
+        }
+    }
+
+    public final void addReminder(final String userId, final long remindTime, final String message) {
+        Connection conn = null;
+        PreparedStatement ps = null;
+        try {
+            conn = pool.getConnection();
+            ps = conn.prepareStatement("SET NAMES utf8mb4;INSERT INTO corgibot.reminders (user_id, remind_time, reminder) VALUES (?, ?, ?);");
+            ps.setString(1, userId);
+            ps.setLong(2, remindTime);
+            ps.setString(3, message);
+            ps.executeUpdate();
+        } catch (Exception e) {
+            e.printStackTrace();
+        } finally {
+            pool.close(conn, ps, null);
+        }
+    }
+
+    public final void deleteReminder(final String userId, final long remindTime) {
+        Connection conn = null;
+        PreparedStatement ps = null;
+        try {
+            conn = pool.getConnection();
+            ps = conn.prepareStatement("DELETE FROM corgibot.reminders WHERE user_id = ? AND remind_time = ?");
+            ps.setString(1, userId);
+            ps.setLong(2, remindTime);
+            ps.executeUpdate();
+        } catch (Exception e) {
+            e.printStackTrace();
+        } finally {
+            pool.close(conn, ps, null);
+        }
+    }
+
+    public final void deleteReminderById(final String userId, final int reminderId) {
+        Connection conn = null;
+        PreparedStatement ps = null;
+        try {
+            conn = pool.getConnection();
+            ps = conn.prepareStatement("DELETE FROM corgibot.reminders WHERE user_id = ? AND id = ?");
+            ps.setString(1, userId);
+            ps.setInt(2, reminderId);
             ps.executeUpdate();
         } catch (Exception e) {
             e.printStackTrace();
@@ -206,6 +256,26 @@ public class SQLManager {
             pool.close(conn, ps, null);
         }
     }
+
+    public HashSet<TemporaryReminder> getRemindersByUser(final String userId){
+        HashSet<TemporaryReminder> list = new HashSet<>();
+        try {
+            ResultSet set = CorgiBot.getInstance().getSql().getPool().getConnection().createStatement().executeQuery("SELECT * FROM corgibot.reminders WHERE user_id = '" + userId + "';");
+            while (set.next()) {
+                try {
+                    list.add(new TemporaryReminder(set.getInt("id"), set.getLong("remind_time"), set.getString("reminder")));
+                } catch (NullPointerException e) {
+                    e.printStackTrace();
+                }
+            }
+            set.close();
+        } catch (Exception e) {
+            e.printStackTrace();
+        }
+        return list;
+    }
+
+
 
 
 }

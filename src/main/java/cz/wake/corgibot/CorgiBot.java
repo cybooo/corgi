@@ -4,6 +4,7 @@ import com.jagrosh.jdautilities.waiter.EventWaiter;
 import cz.wake.corgibot.commands.CommandHandler;
 import cz.wake.corgibot.listener.MainListener;
 import cz.wake.corgibot.managers.BotManager;
+import cz.wake.corgibot.runnable.ReminderTask;
 import cz.wake.corgibot.runnable.StatusChanger;
 import cz.wake.corgibot.sql.SQLManager;
 import cz.wake.corgibot.utils.LoadingProperties;
@@ -48,7 +49,7 @@ public class CorgiBot {
         LOGGER = getLog(CorgiBot.class);
     }
 
-    public static void main(String[] args) throws LoginException, RateLimitedException, InterruptedException, IOException {
+    public static void main(String[] args) throws LoginException, InterruptedException {
 
         bootLogo();
 
@@ -74,6 +75,7 @@ public class CorgiBot {
         Timer timer = new Timer();
         timer.scheduleAtFixedRate(new Checker(), 10, 60000);
         timer.scheduleAtFixedRate(new StatusChanger(), 10, 120000);
+        timer.scheduleAtFixedRate(new ReminderTask(), 10, 30000);
 
         imgflipToken = config.getImgFlipToken();
 

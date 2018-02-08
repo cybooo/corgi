@@ -2,6 +2,7 @@ package cz.wake.corgibot.runnable;
 
 import cz.wake.corgibot.CorgiBot;
 import cz.wake.corgibot.sql.ConnectionPoolManager;
+import cz.wake.corgibot.utils.MessageUtils;
 
 import java.sql.Connection;
 import java.sql.PreparedStatement;
@@ -35,7 +36,7 @@ public class ReminderTask extends TimerTask {
                     userId = ps.getResultSet().getString("user_id");
                     message = ps.getResultSet().getString("reminder");
                     try {
-                        CorgiBot.getJda().getUserById(userId).openPrivateChannel().queue(channel -> channel.sendMessage(message).queue());
+                        MessageUtils.sendPrivateMessage(CorgiBot.getJda().getUserById(userId), message);
                     } catch (Exception e) {
                         e.printStackTrace();
                     }

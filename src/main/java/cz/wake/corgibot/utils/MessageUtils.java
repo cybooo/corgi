@@ -10,6 +10,7 @@ import net.dv8tion.jda.core.entities.Message;
 import net.dv8tion.jda.core.entities.MessageChannel;
 import net.dv8tion.jda.core.entities.MessageEmbed;
 import net.dv8tion.jda.core.entities.User;
+import net.dv8tion.jda.core.exceptions.ErrorResponseException;
 
 import java.awt.*;
 import java.io.ByteArrayInputStream;
@@ -150,5 +151,30 @@ public class MessageUtils {
             message.append(args[index]).append(" ");
         }
         return message.toString().trim();
+    }
+
+    public static void sendPrivateMessage(User user, String message) {
+        try {
+            user.openPrivateChannel().complete()
+                    .sendMessage(message.substring(0, Math.min(message.length(), 1999))).queue();
+        } catch (ErrorResponseException ignored) {
+        }
+    }
+
+    public static void sendPrivateMessage(MessageChannel channel, User user, String message) {
+        try {
+            user.openPrivateChannel().complete()
+                    .sendMessage(message.substring(0, Math.min(message.length(), 1999))).queue();
+        } catch (ErrorResponseException e) {
+            channel.sendMessage(message).queue();
+        }
+    }
+
+    public static void sendPrivateMessage(MessageChannel channel, User user, EmbedBuilder message) {
+        try {
+            user.openPrivateChannel().complete().sendMessage(message.build()).complete();
+        } catch (ErrorResponseException e) {
+            channel.sendMessage(message.build()).queue();
+        }
     }
 }

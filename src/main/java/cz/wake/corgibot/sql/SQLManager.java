@@ -21,7 +21,7 @@ public class SQLManager {
 
     public SQLManager(CorgiBot plugin) {
         this.plugin = plugin;
-        pool = new ConnectionPoolManager(plugin);
+        pool = new ConnectionPoolManager(plugin, "MySQL-Pool");
     }
 
     public void onDisable() {

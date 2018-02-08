@@ -1,6 +1,7 @@
 package cz.wake.corgibot.runnable;
 
 import cz.wake.corgibot.CorgiBot;
+import cz.wake.corgibot.sql.ConnectionPoolManager;
 
 import java.sql.Connection;
 import java.sql.PreparedStatement;
@@ -8,8 +9,15 @@ import java.util.TimerTask;
 
 public class ReminderTask extends TimerTask {
 
+    private final CorgiBot plugin;
+    private final ConnectionPoolManager pool;
     private long reminderTime;
     private String userId, message;
+
+    public ReminderTask(CorgiBot plugin){
+        this.plugin = plugin;
+        pool = new ConnectionPoolManager(plugin, "Reminder-Pool");
+    }
 
     @Override
     public void run() {
@@ -18,7 +26,7 @@ public class ReminderTask extends TimerTask {
         Connection conn = null;
         PreparedStatement ps = null;
         try {
-            conn = CorgiBot.getInstance().getSql().getPool().getConnection();
+            conn = pool.getConnection();
             ps = conn.prepareStatement("SELECT * FROM corgibot.reminders;");
             ps.executeQuery();
             if (ps.getResultSet().next()) {
@@ -36,7 +44,7 @@ public class ReminderTask extends TimerTask {
         } catch (Exception e) {
             e.printStackTrace();
         } finally {
-            CorgiBot.getInstance().getSql().getPool().close(conn, ps, null);
+            pool.close(conn, ps, null);
         }
         CorgiBot.getInstance().getSql().deleteReminder(userId, reminderTime);
     }

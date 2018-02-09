@@ -115,7 +115,7 @@ public class TimeUtils {
     public static String toShortTime(long timeInMillis) {
 
         if (timeInMillis < 1) {
-            return "0 ms";
+            return "<1m";
         }
 
         StringBuffer timeBuf = new StringBuffer();
@@ -174,6 +174,10 @@ public class TimeUtils {
         }
 
         prependTimeAndUnit(timeBuf, time, "y");
+
+        if(timeBuf.toString().length() < 2){
+            return "<1m";
+        }
 
         return timeBuf.toString();
     }

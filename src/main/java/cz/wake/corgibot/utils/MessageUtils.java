@@ -157,7 +157,9 @@ public class MessageUtils {
         try {
             user.openPrivateChannel().complete()
                     .sendMessage(message.substring(0, Math.min(message.length(), 1999))).queue();
+            CorgiBot.LOGGER.info("Zasílání zprávy - " + user.getName() + "(" + user.getId() + ") -> " + message);
         } catch (ErrorResponseException ignored) {
+            ignored.printStackTrace();
         }
     }
 

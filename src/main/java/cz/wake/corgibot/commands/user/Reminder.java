@@ -162,7 +162,7 @@ public class Reminder implements ICommand {
         try {
             return periodParser.parsePeriod(input);
         } catch (IllegalArgumentException e) {
-            MessageUtils.sendErrorMessage("The duration is not in the correct format! Try something like `1d`",
+            MessageUtils.sendErrorMessage("Byl zadán neplatný formát času! Zkus to třeba takto `1d` -> pro 1 den.",
                     channel);
             return null;
         }

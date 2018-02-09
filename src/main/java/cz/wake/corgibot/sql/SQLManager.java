@@ -6,6 +6,7 @@ import cz.wake.corgibot.objects.TemporaryReminder;
 import net.dv8tion.jda.core.entities.TextChannel;
 import net.dv8tion.jda.core.entities.User;
 
+import java.sql.Array;
 import java.sql.Connection;
 import java.sql.PreparedStatement;
 import java.sql.ResultSet;
@@ -259,18 +260,39 @@ public class SQLManager {
 
     public HashSet<TemporaryReminder> getRemindersByUser(final String userId){
         HashSet<TemporaryReminder> list = new HashSet<>();
+        Connection conn = null;
+        PreparedStatement ps = null;
         try {
-            ResultSet set = CorgiBot.getInstance().getSql().getPool().getConnection().createStatement().executeQuery("SELECT * FROM corgibot.reminders WHERE user_id = '" + userId + "';");
-            while (set.next()) {
-                try {
-                    list.add(new TemporaryReminder(set.getInt("id"), set.getLong("remind_time"), set.getString("reminder")));
-                } catch (NullPointerException e) {
-                    e.printStackTrace();
-                }
+            conn = pool.getConnection();
+            ps = conn.prepareStatement("SELECT * FROM corgibot.reminders WHERE user_id = ?;");
+            ps.setString(1, userId);
+            ps.executeQuery();
+            while (ps.getResultSet().next()) {
+                list.add(new TemporaryReminder(ps.getResultSet().getInt("id"), ps.getResultSet().getString("user_id"), ps.getResultSet().getLong("remind_time"), ps.getResultSet().getString("reminder")));
             }
-            set.close();
         } catch (Exception e) {
             e.printStackTrace();
+        } finally {
+            pool.close(conn, ps, null);
+        }
+        return list;
+    }
+
+    public HashSet<TemporaryReminder> getAllReminders(){
+        HashSet<TemporaryReminder> list = new HashSet<>();
+        Connection conn = null;
+        PreparedStatement ps = null;
+        try {
+            conn = pool.getConnection();
+            ps = conn.prepareStatement("SELECT * FROM corgibot.reminders;");
+            ps.executeQuery();
+            while (ps.getResultSet().next()) {
+                list.add(new TemporaryReminder(ps.getResultSet().getInt("id"), ps.getResultSet().getString("user_id"), ps.getResultSet().getLong("remind_time"), ps.getResultSet().getString("reminder")));
+            }
+        } catch (Exception e) {
+            e.printStackTrace();
+        } finally {
+            pool.close(conn, ps, null);
         }
         return list;
     }

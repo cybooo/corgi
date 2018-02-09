@@ -1,52 +1,37 @@
 package cz.wake.corgibot.runnable;
 
 import cz.wake.corgibot.CorgiBot;
+import cz.wake.corgibot.objects.TemporaryReminder;
 import cz.wake.corgibot.sql.ConnectionPoolManager;
 import cz.wake.corgibot.utils.MessageUtils;
 
 import java.sql.Connection;
 import java.sql.PreparedStatement;
+import java.util.HashSet;
 import java.util.TimerTask;
 
 public class ReminderTask extends TimerTask {
 
     private final CorgiBot plugin;
-    private final ConnectionPoolManager pool;
-    private long reminderTime;
-    private String userId, message;
 
     public ReminderTask(CorgiBot plugin){
         this.plugin = plugin;
-        pool = new ConnectionPoolManager(plugin, "Reminder-Pool");
     }
 
     @Override
     public void run() {
 
         long now = System.currentTimeMillis();
-        Connection conn = null;
-        PreparedStatement ps = null;
+        HashSet<TemporaryReminder> reminders = plugin.getSql().getAllReminders();
         try {
-            conn = pool.getConnection();
-            ps = conn.prepareStatement("SELECT * FROM corgibot.reminders;");
-            ps.executeQuery();
-            if (ps.getResultSet().next()) {
-                reminderTime = ps.getResultSet().getLong("remind_time");
-                if (reminderTime < now) {
-                    userId = ps.getResultSet().getString("user_id");
-                    message = ps.getResultSet().getString("reminder");
-                    try {
-                        MessageUtils.sendPrivateMessage(CorgiBot.getJda().getUserById(userId), message);
-                    } catch (Exception e) {
-                        e.printStackTrace();
-                    }
+            reminders.forEach(reminder -> {
+                if(reminder.getDate() < now){
+                    MessageUtils.sendPrivateMessage(CorgiBot.getJda().getUserById(reminder.getUserId()), reminder.getMessage());
+                    CorgiBot.getInstance().getSql().deleteReminder(reminder.getUserId(), reminder.getDate());
                 }
-            }
+            });
         } catch (Exception e) {
             e.printStackTrace();
-        } finally {
-            pool.close(conn, ps, null);
         }
-        CorgiBot.getInstance().getSql().deleteReminder(userId, reminderTime);
     }
 }

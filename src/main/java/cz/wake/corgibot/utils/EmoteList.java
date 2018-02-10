@@ -38,6 +38,8 @@ public class EmoteList {
     final public static String FLOPY_DISC =  "\uD83D\uDCBE";
     final public static String COMET = "\u2604";
     final public static String JAVA = "<:java:407692830912544769>";
+    final public static String INFO = "\u2139";
+    final public static String BUG = "\uD83D\uDC1B";
 
     /*
         Emotes for help menu

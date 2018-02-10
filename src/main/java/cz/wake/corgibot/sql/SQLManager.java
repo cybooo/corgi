@@ -2,6 +2,7 @@ package cz.wake.corgibot.sql;
 
 import com.zaxxer.hikari.HikariDataSource;
 import cz.wake.corgibot.CorgiBot;
+import cz.wake.corgibot.objects.ChangeLog;
 import cz.wake.corgibot.objects.TemporaryReminder;
 import net.dv8tion.jda.core.entities.TextChannel;
 import net.dv8tion.jda.core.entities.User;
@@ -295,6 +296,27 @@ public class SQLManager {
             pool.close(conn, ps, null);
         }
         return list;
+    }
+
+    public final ChangeLog getLastChanges() {
+        Connection conn = null;
+        PreparedStatement ps = null;
+        try {
+            conn = pool.getConnection();
+            ps = conn.prepareStatement("SELECT * FROM corgibot.changelog;");
+            ps.executeQuery();
+            if (ps.getResultSet().next()) {
+                return new ChangeLog(ps.getResultSet().getLong("date"),
+                        ps.getResultSet().getString("news"),
+                        ps.getResultSet().getString("fixes"),
+                        ps.getResultSet().getString("warning"));
+            }
+        } catch (Exception e) {
+            e.printStackTrace();
+        } finally {
+            pool.close(conn, ps, null);
+        }
+        return null;
     }
 
 

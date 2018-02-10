@@ -45,9 +45,6 @@ public class RoleInfo implements ICommand {
         embed.addField("Spravovaná", String.valueOf(role.isManaged()), true);
         embed.addField("Označitelná", String.valueOf(role.isMentionable()), true);
         embed.addField("Datum vytvoření", CorgiBot.getInstance().formatTime(role.getCreationTime().toLocalDateTime()), true);
-        String perms = "";
-        perms = role.getPermissions().stream().map((perm) -> perm.name()).map((p) -> "`, `" + p).reduce(perms, String::concat);
-        embed.addField("Práva", perms.substring(3) + "`", false);
 
         channel.sendMessage(embed.build()).queue();
     }

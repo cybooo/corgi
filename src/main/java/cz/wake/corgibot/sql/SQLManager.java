@@ -3,7 +3,9 @@ package cz.wake.corgibot.sql;
 import com.zaxxer.hikari.HikariDataSource;
 import cz.wake.corgibot.CorgiBot;
 import cz.wake.corgibot.objects.ChangeLog;
+import cz.wake.corgibot.objects.GuildWrapper;
 import cz.wake.corgibot.objects.TemporaryReminder;
+import net.dv8tion.jda.core.entities.Guild;
 import net.dv8tion.jda.core.entities.TextChannel;
 import net.dv8tion.jda.core.entities.User;
 
@@ -210,20 +212,22 @@ public class SQLManager {
         return null;
     }
 
-    public final Set<TextChannel> getIgnoredChannels(final String guildId) {
-        Set<TextChannel> list = new HashSet<>();
+    public final HashSet<TextChannel> getIgnoredChannels(final String guildId) {
+        HashSet<TextChannel> list = new HashSet<>();
+        Connection conn = null;
+        PreparedStatement ps = null;
         try {
-            ResultSet set = CorgiBot.getInstance().getSql().getPool().getConnection().createStatement().executeQuery("SELECT channel_id FROM corgibot.ignored_channels WHERE guild_id = '" + guildId + "';");
-            while (set.next()) {
-                try {
-                    list.add(CorgiBot.getJda().getGuildById(guildId).getTextChannelById(set.getString("channel_id")));
-                } catch (NullPointerException e) {
-                    e.printStackTrace();
-                }
+            conn = pool.getConnection();
+            ps = conn.prepareStatement("SELECT channel_id FROM corgibot.ignored_channels WHERE guild_id = ?;");
+            ps.setString(1, guildId);
+            ps.executeQuery();
+            while (ps.getResultSet().next()) {
+                list.add(CorgiBot.getJda().getGuildById(guildId).getTextChannelById(ps.getResultSet().getString("channel_id")));
             }
-            set.close();
         } catch (Exception e) {
             e.printStackTrace();
+        } finally {
+            pool.close(conn, ps, null);
         }
         return list;
     }
@@ -296,6 +300,25 @@ public class SQLManager {
             pool.close(conn, ps, null);
         }
         return list;
+    }
+
+    public GuildWrapper createGuildWrappers(String id){
+        Connection conn = null;
+        PreparedStatement ps = null;
+        try {
+            conn = pool.getConnection();
+            ps = conn.prepareStatement("SELECT * FROM corgibot.guild_data WHERE guild_id = ?;");
+            ps.setString(1, id);
+            ps.executeQuery();
+            if (ps.getResultSet().next()) {
+                return new GuildWrapper(id).setPrefix(ps.getResultSet().getString("prefix"), false);
+            }
+        } catch (Exception e) {
+            e.printStackTrace();
+        } finally {
+            pool.close(conn, ps, null);
+        }
+        return null;
     }
 
     public final ChangeLog getLastChanges() {

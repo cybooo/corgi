@@ -133,6 +133,8 @@ public class MainListener extends ListenerAdapter {
                             "Majitel: " + event.getGuild().getOwner().getUser().getName() + "\nPočet členů: " +
                             event.getGuild().getMembers().size()).build()).queue();
         }
+
+        CorgiBot.getInstance().getSql().insertDefaultServerData(event.getGuild().getId(), ".");
     }
 
     @Override
@@ -147,6 +149,7 @@ public class MainListener extends ListenerAdapter {
                         "Majitel: " + (event.getGuild().getOwner() != null ?
                         event.getGuild().getOwner().getUser().getName()
                         : "Neexistuje, nebo nelze zjistit!")).build()).queue();
+
         // Smazani vsech ignored IDs
         CorgiBot.getInstance().getSql().deleteIgnoredChannel(event.getGuild().getId());
     }

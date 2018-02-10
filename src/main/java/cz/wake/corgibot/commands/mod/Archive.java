@@ -75,11 +75,6 @@ public class Archive implements ICommand {
     }
 
     @Override
-    public String[] getAliases() {
-        return new String[]{"log"};
-    }
-
-    @Override
     public CommandType getType() {
         return CommandType.MODERATION;
     }

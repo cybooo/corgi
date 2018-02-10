@@ -5,7 +5,7 @@ import cz.wake.corgibot.commands.CommandType;
 import cz.wake.corgibot.commands.ICommand;
 import cz.wake.corgibot.commands.Rank;
 import cz.wake.corgibot.objects.GuildWrapper;
-import cz.wake.corgibot.utils.ColorSelector;
+import cz.wake.corgibot.utils.Constants;
 import cz.wake.corgibot.utils.MessageUtils;
 import net.dv8tion.jda.core.entities.Member;
 import net.dv8tion.jda.core.entities.Message;
@@ -16,7 +16,7 @@ public class Support implements ICommand {
 
     @Override
     public void onCommand(User sender, MessageChannel channel, Message message, String[] args, Member member, EventWaiter w, GuildWrapper gw) {
-        channel.sendMessage(MessageUtils.getEmbed(ColorSelector.getRandomColor()).setTitle("Odkaz na server podpory pro Corgiho!")
+        channel.sendMessage(MessageUtils.getEmbed(Constants.WHITE).setTitle("Odkaz na server podpory pro Corgiho!")
                 .setDescription("K připojení na Discord podpory pro Corgiho použij následující [**ODKAZ**](https://discordapp.com/invite/eaEFCYX)").build()).queue();
     }
 

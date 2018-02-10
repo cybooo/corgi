@@ -62,4 +62,10 @@ public class EmoteList {
     final public static String THINKING_2 = "<:ThinkingPlant:306503645040607234>";
     final public static String THINKING_3 = "<:ThinkingPear:314437723219951617>";
 
+    /*
+        Flags
+     */
+    final public static String CZECH_FLAG = ":flag_cz:";
+    final public static String SLOVAK_FLAG = ":flag_sk:";
+
 }

@@ -80,6 +80,7 @@ public class CommandHandler {
         registerCommand(new Choose());
         registerCommand(new Support());
         registerCommand(new Reminder());
+        registerCommand(new Donate());
     }
 
 

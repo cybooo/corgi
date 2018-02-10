@@ -1,11 +1,13 @@
 package cz.wake.corgibot.commands.user;
 
+import com.jagrosh.jdautilities.waiter.EventWaiter;
+import cz.wake.corgibot.annotations.SinceCorgi;
 import cz.wake.corgibot.commands.CommandType;
 import cz.wake.corgibot.commands.ICommand;
 import cz.wake.corgibot.commands.Rank;
+import cz.wake.corgibot.objects.GuildWrapper;
 import cz.wake.corgibot.utils.Constants;
 import cz.wake.corgibot.utils.MessageUtils;
-import com.jagrosh.jdautilities.waiter.EventWaiter;
 import net.dv8tion.jda.core.entities.Member;
 import net.dv8tion.jda.core.entities.Message;
 import net.dv8tion.jda.core.entities.MessageChannel;
@@ -15,18 +17,19 @@ import okhttp3.Request;
 import okhttp3.Response;
 import org.json.JSONObject;
 
+@SinceCorgi(version = "1.2.2")
 public class Cat implements ICommand {
 
     @Override
-    public void onCommand(User sender, MessageChannel channel, Message message, String[] args, Member member, EventWaiter w, String guildPrefix) {
-        String url = new String();
+    public void onCommand(User sender, MessageChannel channel, Message message, String[] args, Member member, EventWaiter w, GuildWrapper gw) {
+        String url = "";
         OkHttpClient caller = new OkHttpClient();
         Request request = new Request.Builder().url("http://random.cat/meow").build();
         try {
             Response response = caller.newCall(request).execute();
             JSONObject json = new JSONObject(response.body().string());
             url = (String) json.get("file");
-        } catch (Exception e){
+        } catch (Exception e) {
             MessageUtils.sendErrorMessage("Nastala chyba při provádění příkazu. Zkus to znova zachvilku!", channel);
         }
         channel.sendMessage(MessageUtils.getEmbed(Constants.ORANGE).setTitle("Náhodný obrázek kočky:").setImage(url).build()).queue();
@@ -55,5 +58,10 @@ public class Cat implements ICommand {
     @Override
     public Rank getRank() {
         return Rank.USER;
+    }
+
+    @Override
+    public String[] getAliases() {
+        return new String[]{"kocka", "rcat"};
     }
 }

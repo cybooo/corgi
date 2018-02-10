@@ -1,24 +1,30 @@
 package cz.wake.corgibot.commands.user;
 
-import cz.wake.corgibot.commands.ICommand;
+import com.jagrosh.jdautilities.waiter.EventWaiter;
+import cz.wake.corgibot.annotations.SinceCorgi;
 import cz.wake.corgibot.commands.CommandType;
+import cz.wake.corgibot.commands.ICommand;
 import cz.wake.corgibot.commands.Rank;
+import cz.wake.corgibot.objects.GuildWrapper;
 import cz.wake.corgibot.utils.Constants;
 import cz.wake.corgibot.utils.EmoteList;
 import cz.wake.corgibot.utils.statuses.Checker;
 import cz.wake.corgibot.utils.statuses.MojangService;
-import com.jagrosh.jdautilities.waiter.EventWaiter;
 import net.dv8tion.jda.core.EmbedBuilder;
-import net.dv8tion.jda.core.entities.*;
+import net.dv8tion.jda.core.entities.Member;
+import net.dv8tion.jda.core.entities.Message;
+import net.dv8tion.jda.core.entities.MessageChannel;
+import net.dv8tion.jda.core.entities.User;
 
 import java.util.concurrent.ConcurrentMap;
 
+@SinceCorgi(version = "0.4")
 public class Status implements ICommand {
 
     private ConcurrentMap map = Checker.getServiceStatus();
 
     @Override
-    public void onCommand(User sender, MessageChannel channel, Message message, String[] args, Member member, EventWaiter w, String guildPrefix) {
+    public void onCommand(User sender, MessageChannel channel, Message message, String[] args, Member member, EventWaiter w, GuildWrapper gw) {
         int state = 0;
         EmbedBuilder builder = new EmbedBuilder();
         for (MojangService service : MojangService.values) {
@@ -52,7 +58,7 @@ public class Status implements ICommand {
     }
 
     @Override
-    public String getDescription(){
+    public String getDescription() {
         return "Příkaz na získání základní nápovědy.";
     }
 
@@ -64,5 +70,10 @@ public class Status implements ICommand {
     @Override
     public Rank getRank() {
         return Rank.USER;
+    }
+
+    @Override
+    public String[] getAliases() {
+        return new String[]{"mcs", "mojang"};
     }
 }

@@ -23,10 +23,10 @@ public class ConnectionPoolManager {
     private int maximumConnections;
     private long connectionTimeout;
 
-    public ConnectionPoolManager(CorgiBot plugin) {
+    public ConnectionPoolManager(CorgiBot plugin, String name) {
         this.plugin = plugin;
         init();
-        setupPool();
+        setupPool(name);
     }
 
     private void init() {
@@ -41,15 +41,16 @@ public class ConnectionPoolManager {
         connectionTimeout = config.getTimeout();
     }
 
-    private void setupPool() {
+    private void setupPool(String name) {
         HikariConfig config = new HikariConfig();
-        config.setJdbcUrl("jdbc:mysql://" + host + ":" + port + "/" + database + "?characterEncoding=UTF-8&useLegacyDatetimeCode=false&serverTimezone=UTC&useSSL=false");
+        config.setJdbcUrl("jdbc:mysql://" + host + ":" + port + "/" + database + "?characterEncoding=UTF-8&allowMultiQueries=true&useLegacyDatetimeCode=false&serverTimezone=UTC&useSSL=false");
         config.setDriverClassName("com.mysql.jdbc.Driver");
         config.setUsername(username);
         config.setPassword(password);
         config.setMinimumIdle(minimumConnections);
         config.setMaximumPoolSize(maximumConnections);
         config.setConnectionTimeout(connectionTimeout);
+        config.setPoolName(name);
         dataSource = new HikariDataSource(config);
     }
 

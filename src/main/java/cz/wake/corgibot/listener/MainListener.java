@@ -4,6 +4,8 @@ import com.jagrosh.jdautilities.waiter.EventWaiter;
 import cz.wake.corgibot.CorgiBot;
 import cz.wake.corgibot.commands.ICommand;
 import cz.wake.corgibot.commands.Rank;
+import cz.wake.corgibot.managers.BotManager;
+import cz.wake.corgibot.objects.GuildWrapper;
 import cz.wake.corgibot.utils.ColorSelector;
 import cz.wake.corgibot.utils.Constants;
 import cz.wake.corgibot.utils.MessageUtils;
@@ -40,22 +42,23 @@ public class MainListener extends ListenerAdapter {
             return;
         }
 
-        if (CorgiBot.getPrefixes() == null) return;
+        if (BotManager.getListGuilds() == null) return;
 
         // Custom Guild prefix
-        String prefix = String.valueOf(CorgiBot.getPrefixes().get(getGuildId(e)));
+        GuildWrapper guildWrapper = BotManager.getCustomGuild(e.getMember().getGuild().getId());
+        String prefix = guildWrapper.getPrefix();
 
-        if (e.getMessage().getContentRaw().startsWith(prefix)) {
-            String message = e.getMessage().getRawContent();
-            String command = message.substring(1);
+        if (e.getMessage().getContentRaw().startsWith(prefix) || e.getMessage().getContentRaw().substring(0,prefix.length()).contains(prefix)) {
+            String message = e.getMessage().getContentRaw();
+            String command = message.substring(prefix.length());
             String[] args = new String[0];
             if (message.contains(" ")) {
-                command = command.substring(0, message.indexOf(" ") - 1);
+                command = command.substring(0, message.indexOf(" ") - prefix.length());
                 args = message.substring(message.indexOf(" ") + 1).split(" ");
             }
             for (ICommand cmd : CorgiBot.getInstance().getCommandHandler().getCommands()) {
-                if (cmd.getCommand().equalsIgnoreCase(command)) {
-                    if (CorgiBot.getIgnoredChannels().isBlocked(e.getChannel()) && !cmd.getCommand().equalsIgnoreCase("ignore")) {
+                if (cmd.getCommand().equalsIgnoreCase(command) || Arrays.asList(cmd.getAliases()).contains(command)) {
+                    if (guildWrapper.getIgnoredChannels().contains(e.getChannel()) && !cmd.getCommand().equalsIgnoreCase("ignore")) {
                         return;
                     }
                     String[] finalArgs = args;
@@ -69,7 +72,7 @@ public class MainListener extends ListenerAdapter {
                     }
                     if (Rank.getPermLevelForUser(e.getAuthor(), e.getChannel()).isAtLeast(cmd.getRank())) {
                         try {
-                            cmd.onCommand(e.getAuthor(), e.getChannel(), e.getMessage(), finalArgs, e.getMember(), w, prefix);
+                            cmd.onCommand(e.getAuthor(), e.getChannel(), e.getMessage(), finalArgs, e.getMember(), w, guildWrapper);
                         } catch (Exception ex) {
                             MessageUtils.sendAutoDeletedMessage("Interní chyba při provádění příkazu!", 10000, e.getChannel());
                             CorgiBot.LOGGER.error("Chyba při provádění příkazu '" + cmd.getCommand() + "' " + Arrays
@@ -80,6 +83,7 @@ public class MainListener extends ListenerAdapter {
                             delete(e.getMessage());
                         }
                     }
+                    CorgiBot.commands++;
 
                 }
             }
@@ -103,29 +107,10 @@ public class MainListener extends ListenerAdapter {
                     .getClientCloseFrame().getCloseReason()));
     }
 
-    public boolean isCreator(User user) {
-        return user.getId().equals("177516608778928129"); //Wake ID
-    }
-
     private void delete(Message message) {
         if (message.getTextChannel().getGuild().getSelfMember()
                 .getPermissions(message.getTextChannel()).contains(Permission.MESSAGE_MANAGE)) {
             message.delete().queue();
-        }
-    }
-
-    // Wake Secret :O
-    @Override
-    public void onUserOnlineStatusUpdate(UserOnlineStatusUpdateEvent e) {
-        User u = e.getUser();
-        if (isCreator(u)) {
-            if (e.getPreviousOnlineStatus() == OnlineStatus.DO_NOT_DISTURB) {
-                CorgiBot.getJda().getPresence().setStatus(OnlineStatus.DO_NOT_DISTURB);
-            } else if (e.getPreviousOnlineStatus() == OnlineStatus.ONLINE) {
-                CorgiBot.getJda().getPresence().setStatus(OnlineStatus.ONLINE);
-            } else {
-                CorgiBot.getJda().getPresence().setStatus(OnlineStatus.ONLINE);
-            }
         }
     }
 

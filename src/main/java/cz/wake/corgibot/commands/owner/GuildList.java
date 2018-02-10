@@ -3,9 +3,11 @@ package cz.wake.corgibot.commands.owner;
 import com.jagrosh.jdautilities.menu.pagination.Paginator;
 import com.jagrosh.jdautilities.menu.pagination.PaginatorBuilder;
 import com.jagrosh.jdautilities.waiter.EventWaiter;
+import cz.wake.corgibot.annotations.SinceCorgi;
 import cz.wake.corgibot.commands.CommandType;
 import cz.wake.corgibot.commands.ICommand;
 import cz.wake.corgibot.commands.Rank;
+import cz.wake.corgibot.objects.GuildWrapper;
 import cz.wake.corgibot.utils.MessageUtils;
 import net.dv8tion.jda.core.entities.*;
 import net.dv8tion.jda.core.exceptions.PermissionException;
@@ -13,12 +15,13 @@ import net.dv8tion.jda.core.exceptions.PermissionException;
 import java.awt.*;
 import java.util.concurrent.TimeUnit;
 
+@SinceCorgi(version = "1.0")
 public class GuildList implements ICommand {
 
     private PaginatorBuilder pBuilder;
 
     @Override
-    public void onCommand(User sender, MessageChannel channel, Message message, String[] args, Member member, EventWaiter w, String guildPrefix) {
+    public void onCommand(User sender, MessageChannel channel, Message message, String[] args, Member member, EventWaiter w, GuildWrapper gw) {
 
         pBuilder = new PaginatorBuilder().setColumns(1)
                 .setItemsPerPage(10)

@@ -1,9 +1,15 @@
 package cz.wake.corgibot.commands;
 
 import cz.wake.corgibot.CorgiBot;
-import cz.wake.corgibot.commands.admin.*;
+import cz.wake.corgibot.commands.admin.Ignore;
+import cz.wake.corgibot.commands.admin.LeaveGuild;
+import cz.wake.corgibot.commands.admin.Say;
+import cz.wake.corgibot.commands.admin.SetPrefix;
 import cz.wake.corgibot.commands.mod.*;
-import cz.wake.corgibot.commands.owner.*;
+import cz.wake.corgibot.commands.owner.Eval;
+import cz.wake.corgibot.commands.owner.GuildList;
+import cz.wake.corgibot.commands.owner.Log;
+import cz.wake.corgibot.commands.owner.Stop;
 import cz.wake.corgibot.commands.user.*;
 
 import java.util.ArrayList;
@@ -52,10 +58,9 @@ public class CommandHandler {
         registerCommand(new Purge());
         registerCommand(new TextToBlock());
         registerCommand(new Giveaway());
-        registerCommand(new BotStats());
+        registerCommand(new Stats());
         registerCommand(new Perms());
         registerCommand(new About());
-        registerCommand(new Game());
         registerCommand(new FullWidth());
         registerCommand(new Invite());
         registerCommand(new Changelog());
@@ -72,6 +77,11 @@ public class CommandHandler {
         registerCommand(new Dog());
         registerCommand(new GuildInfo());
         registerCommand(new Eval());
+        registerCommand(new Choose());
+        registerCommand(new Support());
+        registerCommand(new Reminder());
+        registerCommand(new Donate());
+        registerCommand(new Svatek());
     }
 
 

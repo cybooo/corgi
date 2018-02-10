@@ -10,6 +10,7 @@ import net.dv8tion.jda.core.entities.Message;
 import net.dv8tion.jda.core.entities.MessageChannel;
 import net.dv8tion.jda.core.entities.MessageEmbed;
 import net.dv8tion.jda.core.entities.User;
+import net.dv8tion.jda.core.exceptions.ErrorResponseException;
 
 import java.awt.*;
 import java.io.ByteArrayInputStream;
@@ -21,6 +22,13 @@ import java.util.stream.Collectors;
 
 public class MessageUtils {
 
+    /**
+        Sends Exception to selected {@link MessageChannel}
+
+        @param s Initial message
+        @param e Throwable message {@link Throwable}
+        @param channel Selected {@link MessageChannel} where Corgi will send Exception message
+     */
     public static Message sendException(String s, Throwable e, MessageChannel channel) {
         StringWriter sw = new StringWriter();
         PrintWriter pw = new PrintWriter(sw);
@@ -103,7 +111,7 @@ public class MessageUtils {
     }
 
     public static void editMessage(EmbedBuilder embed, Message message) {
-        editMessage(message.getRawContent(), embed, message);
+        editMessage(message.getContentRaw(), embed, message);
     }
 
     public static void editMessage(String s, EmbedBuilder embed, Message message) {
@@ -143,5 +151,32 @@ public class MessageUtils {
             message.append(args[index]).append(" ");
         }
         return message.toString().trim();
+    }
+
+    public static void sendPrivateMessage(User user, String message) {
+        try {
+            user.openPrivateChannel().complete()
+                    .sendMessage(message.substring(0, Math.min(message.length(), 1999))).queue();
+            CorgiBot.LOGGER.info("Zasílání zprávy - " + user.getName() + "(" + user.getId() + ") -> " + message);
+        } catch (ErrorResponseException ignored) {
+            ignored.printStackTrace();
+        }
+    }
+
+    public static void sendPrivateMessage(MessageChannel channel, User user, String message) {
+        try {
+            user.openPrivateChannel().complete()
+                    .sendMessage(message.substring(0, Math.min(message.length(), 1999))).queue();
+        } catch (ErrorResponseException e) {
+            channel.sendMessage(message).queue();
+        }
+    }
+
+    public static void sendPrivateMessage(MessageChannel channel, User user, EmbedBuilder message) {
+        try {
+            user.openPrivateChannel().complete().sendMessage(message.build()).complete();
+        } catch (ErrorResponseException e) {
+            channel.sendMessage(message.build()).queue();
+        }
     }
 }

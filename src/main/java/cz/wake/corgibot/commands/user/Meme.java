@@ -1,16 +1,21 @@
 package cz.wake.corgibot.commands.user;
 
+import com.jagrosh.jdautilities.waiter.EventWaiter;
 import com.mashape.unirest.http.Unirest;
 import com.mashape.unirest.http.exceptions.UnirestException;
 import cz.wake.corgibot.CorgiBot;
-import cz.wake.corgibot.commands.ICommand;
+import cz.wake.corgibot.annotations.SinceCorgi;
 import cz.wake.corgibot.commands.CommandType;
+import cz.wake.corgibot.commands.ICommand;
 import cz.wake.corgibot.commands.Rank;
+import cz.wake.corgibot.objects.GuildWrapper;
 import cz.wake.corgibot.utils.Constants;
 import cz.wake.corgibot.utils.LoadingProperties;
 import cz.wake.corgibot.utils.MessageUtils;
-import com.jagrosh.jdautilities.waiter.EventWaiter;
-import net.dv8tion.jda.core.entities.*;
+import net.dv8tion.jda.core.entities.Member;
+import net.dv8tion.jda.core.entities.Message;
+import net.dv8tion.jda.core.entities.MessageChannel;
+import net.dv8tion.jda.core.entities.User;
 import org.apache.commons.lang3.StringUtils;
 import org.json.JSONArray;
 import org.json.JSONObject;
@@ -19,6 +24,7 @@ import java.util.Map;
 import java.util.Set;
 import java.util.TreeMap;
 
+@SinceCorgi(version = "0.9")
 public class Meme implements ICommand {
 
     private static final Map<String, String> map = new TreeMap<>();
@@ -41,12 +47,12 @@ public class Meme implements ICommand {
     }
 
     @Override
-    public void onCommand(User sender, MessageChannel channel, Message message, String[] args, Member member, EventWaiter w, String guildPrefix) {
+    public void onCommand(User sender, MessageChannel channel, Message message, String[] args, Member member, EventWaiter w, GuildWrapper gw) {
         if (args.length < 1) {
-            channel.sendMessage(MessageUtils.getEmbed(Constants.BLUE).setTitle("**Použítí příkazu " + guildPrefix +"meme**")
-                    .setDescription("**.meme** - Zobrazí tuto nápovědu\n" +
-                            "**" + guildPrefix +"meme list [cislo]** - Zobrazí seznam všech dostupných obrázků\n" +
-                            "**" + guildPrefix +"meme [nazev] | [horni_radek] | [dolni_rade]** - Vygeneruje meme obrázek").build()).queue();
+            channel.sendMessage(MessageUtils.getEmbed(Constants.BLUE).setTitle("**Použítí příkazu " + gw.getPrefix() + "meme**")
+                    .setDescription("**" + gw.getPrefix() + "meme** - Zobrazí tuto nápovědu\n" +
+                            "**" + gw.getPrefix() + "meme list [cislo]** - Zobrazí seznam všech dostupných obrázků\n" +
+                            "**" + gw.getPrefix() + "meme [nazev] | [horni_radek] | [dolni_rade]** - Vygeneruje meme obrázek").build()).queue();
         } else if (args[0].equalsIgnoreCase("list")) {
             int page = 1;
 
@@ -118,7 +124,7 @@ public class Meme implements ICommand {
                 channel.sendMessage(MessageUtils.getEmbed(Constants.BLUE).setTitle("Vygenerované meme")
                         .setImage(response.optString("url")).build()).queue();
             } catch (Exception e) {
-                MessageUtils.sendErrorMessage("Nesprávné použití příkazu! Správně **" + guildPrefix + "meme [nazev] | [prvni_radek] | [druhy_radek]**", channel);
+                MessageUtils.sendErrorMessage("Nesprávné použití příkazu! Správně **" + gw.getPrefix() + "meme [nazev] | [prvni_radek] | [druhy_radek]**", channel);
             }
         }
     }

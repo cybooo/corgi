@@ -1,11 +1,13 @@
 package cz.wake.corgibot.commands.user;
 
+import com.jagrosh.jdautilities.waiter.EventWaiter;
+import cz.wake.corgibot.annotations.SinceCorgi;
 import cz.wake.corgibot.commands.CommandType;
 import cz.wake.corgibot.commands.ICommand;
 import cz.wake.corgibot.commands.Rank;
+import cz.wake.corgibot.objects.GuildWrapper;
 import cz.wake.corgibot.utils.Constants;
 import cz.wake.corgibot.utils.MessageUtils;
-import com.jagrosh.jdautilities.waiter.EventWaiter;
 import net.dv8tion.jda.core.entities.Member;
 import net.dv8tion.jda.core.entities.Message;
 import net.dv8tion.jda.core.entities.MessageChannel;
@@ -16,11 +18,12 @@ import okhttp3.Response;
 import org.json.JSONArray;
 import org.json.JSONObject;
 
+@SinceCorgi(version = "1.2.1")
 public class Dog implements ICommand {
 
     @Override
-    public void onCommand(User sender, MessageChannel channel, Message message, String[] args, Member member, EventWaiter w, String guildPrefix) {
-        String url = new String();
+    public void onCommand(User sender, MessageChannel channel, Message message, String[] args, Member member, EventWaiter w, GuildWrapper gw) {
+        String url = "";
         OkHttpClient caller = new OkHttpClient();
         Request request = new Request.Builder().url("https://api.thedogapi.co.uk/v2/dog.php").build();
         try {
@@ -29,7 +32,7 @@ public class Dog implements ICommand {
             JSONArray jsonArray = json.getJSONArray("data");
             JSONObject jsonObject = jsonArray.getJSONObject(0);
             url = jsonObject.getString("url");
-        } catch (Exception e){
+        } catch (Exception e) {
             MessageUtils.sendErrorMessage("Nastala chyba při provádění příkazu. Zkus to znova zachvilku!", channel);
         }
         channel.sendMessage(MessageUtils.getEmbed(Constants.BLUE).setTitle("Náhodný obrázek psa:").setImage(url).build()).queue();
@@ -42,12 +45,12 @@ public class Dog implements ICommand {
 
     @Override
     public String getDescription() {
-        return null;
+        return "Získání náhodného obrázku psa.";
     }
 
     @Override
     public String getHelp() {
-        return null;
+        return "%dog - K získání obrázku";
     }
 
     @Override
@@ -58,5 +61,10 @@ public class Dog implements ICommand {
     @Override
     public Rank getRank() {
         return Rank.USER;
+    }
+
+    @Override
+    public String[] getAliases() {
+        return new String[]{"pes", "rdog"};
     }
 }

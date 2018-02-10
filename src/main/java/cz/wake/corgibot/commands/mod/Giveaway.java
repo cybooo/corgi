@@ -2,18 +2,21 @@ package cz.wake.corgibot.commands.mod;
 
 import com.jagrosh.jdautilities.waiter.EventWaiter;
 import cz.wake.corgibot.CorgiBot;
+import cz.wake.corgibot.annotations.SinceCorgi;
 import cz.wake.corgibot.commands.ICommand;
 import cz.wake.corgibot.commands.CommandType;
 import cz.wake.corgibot.commands.Rank;
+import cz.wake.corgibot.objects.GuildWrapper;
 import cz.wake.corgibot.utils.Constants;
 import cz.wake.corgibot.utils.MessageUtils;
 import net.dv8tion.jda.core.entities.*;
 
+@SinceCorgi(version = "0.5")
 public class Giveaway implements ICommand {
 
     @Override
-    public void onCommand(User sender, MessageChannel channel, Message message, String[] args, Member member, EventWaiter w, String guildPrefix) {
-        String str = message.getRawContent().substring(9).trim();
+    public void onCommand(User sender, MessageChannel channel, Message message, String[] args, Member member, EventWaiter w, GuildWrapper gw) {
+        String str = message.getContentRaw().substring(9).trim();
         String[] parts = str.split("\\s+", 2);
         try {
             int sec = Integer.parseInt(parts[0]);
@@ -30,7 +33,7 @@ public class Giveaway implements ICommand {
         } catch (NumberFormatException ex) {
             MessageUtils.sendAutoDeletedMessage("Nelze zadat vteřiny v tomto tvaru `" + parts[0] + "`", 15000, channel);
         } catch (Exception em){
-            CorgiBot.LOGGER.error("Chyba při provádení příkazu " + guildPrefix + "giveaway!", em);
+            CorgiBot.LOGGER.error("Chyba při provádení příkazu " + gw.getPrefix() + "giveaway!", em);
         }
     }
 

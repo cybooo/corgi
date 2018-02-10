@@ -1,10 +1,12 @@
 package cz.wake.corgibot.commands.user;
 
+import com.jagrosh.jdautilities.waiter.EventWaiter;
+import cz.wake.corgibot.annotations.SinceCorgi;
 import cz.wake.corgibot.commands.CommandType;
 import cz.wake.corgibot.commands.ICommand;
 import cz.wake.corgibot.commands.Rank;
+import cz.wake.corgibot.objects.GuildWrapper;
 import cz.wake.corgibot.utils.Constants;
-import com.jagrosh.jdautilities.waiter.EventWaiter;
 import net.dv8tion.jda.core.EmbedBuilder;
 import net.dv8tion.jda.core.OnlineStatus;
 import net.dv8tion.jda.core.entities.*;
@@ -12,10 +14,11 @@ import net.dv8tion.jda.core.entities.*;
 import java.time.format.DateTimeFormatter;
 import java.util.stream.Collectors;
 
+@SinceCorgi(version = "1.0")
 public class GuildInfo implements ICommand {
 
     @Override
-    public void onCommand(User sender, MessageChannel channel, Message message, String[] args, Member member, EventWaiter w, String guildPrefix) {
+    public void onCommand(User sender, MessageChannel channel, Message message, String[] args, Member member, EventWaiter w, GuildWrapper gw) {
 
         Guild guild = member.getGuild();
 
@@ -67,5 +70,10 @@ public class GuildInfo implements ICommand {
     @Override
     public Rank getRank() {
         return Rank.USER;
+    }
+
+    @Override
+    public String[] getAliases() {
+        return new String[]{"serverinfo"};
     }
 }

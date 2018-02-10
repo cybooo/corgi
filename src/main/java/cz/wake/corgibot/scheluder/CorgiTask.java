@@ -4,7 +4,7 @@ public abstract class CorgiTask implements Runnable {
 
     private String taskName;
 
-    private CorgiTask(){
+    private CorgiTask() {
     }
 
     public CorgiTask(String taskName) {

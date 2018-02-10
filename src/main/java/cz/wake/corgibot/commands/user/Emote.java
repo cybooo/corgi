@@ -1,17 +1,23 @@
 package cz.wake.corgibot.commands.user;
 
-import cz.wake.corgibot.commands.ICommand;
+import com.jagrosh.jdautilities.waiter.EventWaiter;
+import cz.wake.corgibot.annotations.SinceCorgi;
 import cz.wake.corgibot.commands.CommandType;
+import cz.wake.corgibot.commands.ICommand;
 import cz.wake.corgibot.commands.Rank;
+import cz.wake.corgibot.objects.GuildWrapper;
 import cz.wake.corgibot.utils.Constants;
 import cz.wake.corgibot.utils.MessageUtils;
-import com.jagrosh.jdautilities.waiter.EventWaiter;
-import net.dv8tion.jda.core.entities.*;
+import net.dv8tion.jda.core.entities.Member;
+import net.dv8tion.jda.core.entities.Message;
+import net.dv8tion.jda.core.entities.MessageChannel;
+import net.dv8tion.jda.core.entities.User;
 
+@SinceCorgi(version = "0.8.1")
 public class Emote implements ICommand {
 
     @Override
-    public void onCommand(User sender, MessageChannel channel, Message message, String[] args, Member member, EventWaiter w, String guildPrefix) {
+    public void onCommand(User sender, MessageChannel channel, Message message, String[] args, Member member, EventWaiter w, GuildWrapper gw) {
         if (args.length < 1) {
             channel.sendMessage(MessageUtils.getEmbed().setTitle("Nápověda k příkazu - emote :question:")
                     .setDescription(getDescription() + "\n\n**Použití**\n" + getHelp()).build()).queue();
@@ -25,7 +31,7 @@ public class Emote implements ICommand {
             }
             channel.sendMessage(builder.toString()).queue();
         } else {
-            String str = (String) args[0];
+            String str = args[0];
             if (str.matches("<:.*:\\d+>")) { //Server Emotes
                 String id = str.replaceAll("<:.*:(\\d+)>", "$1");
                 net.dv8tion.jda.core.entities.Emote emote = channel.getJDA().getEmoteById(id);
@@ -95,5 +101,10 @@ public class Emote implements ICommand {
     @Override
     public Rank getRank() {
         return Rank.USER;
+    }
+
+    @Override
+    public String[] getAliases() {
+        return new String[]{"emoji"};
     }
 }

@@ -1,10 +1,11 @@
 package cz.wake.corgibot.commands.admin;
 
 import com.jagrosh.jdautilities.waiter.EventWaiter;
-import cz.wake.corgibot.CorgiBot;
+import cz.wake.corgibot.annotations.SinceCorgi;
 import cz.wake.corgibot.commands.CommandType;
 import cz.wake.corgibot.commands.ICommand;
 import cz.wake.corgibot.commands.Rank;
+import cz.wake.corgibot.objects.GuildWrapper;
 import cz.wake.corgibot.utils.Constants;
 import cz.wake.corgibot.utils.MessageUtils;
 import net.dv8tion.jda.core.entities.Member;
@@ -12,23 +13,23 @@ import net.dv8tion.jda.core.entities.Message;
 import net.dv8tion.jda.core.entities.MessageChannel;
 import net.dv8tion.jda.core.entities.User;
 
+@SinceCorgi(version = "1.2.0")
 public class SetPrefix implements ICommand {
 
     @Override
-    public void onCommand(User sender, MessageChannel channel, Message message, String[] args, Member member, EventWaiter w, String guildPrefix) {
+    public void onCommand(User sender, MessageChannel channel, Message message, String[] args, Member member, EventWaiter w, GuildWrapper gw) {
         if (args.length == 1) {
             if (args[0].equalsIgnoreCase("reset")) {
-                CorgiBot.getPrefixes().set(message.getGuild().getId(), ".");
+                gw.setPrefix(".", true);
                 channel.sendMessage(MessageUtils.getEmbed(Constants.GREEN).setDescription("Prefix byl vyresetován zpět na `.`").build()).queue();
-            } else if (args[0].length() < 3) {
-                CorgiBot.getPrefixes().set(message.getGuild().getId(), args[0]);
+            } else if (args[0].length() < 4) {
+                gw.setPrefix(args[0], true);
                 channel.sendMessage(MessageUtils.getEmbed(Constants.GREEN).setDescription(String.format("Prefix byl nastaven na `%s`", args[0])).build()).queue();
             } else {
                 MessageUtils.sendErrorMessage("Nelze nastavit prefix, který má víc než tři znaky!", channel);
-                return;
             }
         } else {
-            channel.sendMessage(MessageUtils.getEmbed(Constants.BLUE).setDescription(String.format("Aktuální prefix pro server je `%s`", CorgiBot.getPrefix(message.getGuild().getId()))).build()).queue();
+            channel.sendMessage(MessageUtils.getEmbed(Constants.BLUE).setDescription(String.format("Aktuální prefix pro server je `%s`", gw.getPrefix())).build()).queue();
         }
     }
 

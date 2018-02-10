@@ -1,30 +1,33 @@
 package cz.wake.corgibot;
 
+import com.jagrosh.jdautilities.waiter.EventWaiter;
 import cz.wake.corgibot.commands.CommandHandler;
-import cz.wake.corgibot.commands.Prefixes;
 import cz.wake.corgibot.listener.MainListener;
-import cz.wake.corgibot.managers.IgnoredChannels;
+import cz.wake.corgibot.managers.BotManager;
+import cz.wake.corgibot.runnable.ReminderTask;
 import cz.wake.corgibot.runnable.StatusChanger;
 import cz.wake.corgibot.sql.SQLManager;
 import cz.wake.corgibot.utils.LoadingProperties;
 import cz.wake.corgibot.utils.statuses.Checker;
-import com.jagrosh.jdautilities.waiter.EventWaiter;
 import net.dv8tion.jda.core.AccountType;
 import net.dv8tion.jda.core.JDA;
 import net.dv8tion.jda.core.JDABuilder;
-import net.dv8tion.jda.core.entities.*;
+import net.dv8tion.jda.core.OnlineStatus;
+import net.dv8tion.jda.core.entities.Game;
+import net.dv8tion.jda.core.entities.Guild;
+import net.dv8tion.jda.core.entities.TextChannel;
 import net.dv8tion.jda.core.exceptions.RateLimitedException;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 
 import javax.security.auth.login.LoginException;
 import java.io.File;
 import java.io.IOException;
 import java.time.LocalDateTime;
 import java.time.format.DateTimeFormatter;
-import java.util.*;
+import java.util.Map;
+import java.util.Timer;
 import java.util.concurrent.ConcurrentHashMap;
-
-import org.slf4j.Logger;
-import org.slf4j.LoggerFactory;
 
 public class CorgiBot {
 
@@ -32,16 +35,13 @@ public class CorgiBot {
     private MainListener events;
     private static JDA jda;
     private CommandHandler ch = new CommandHandler();
-    public static final String PREFIX = ".";
     private SQLManager sql;
     private DateTimeFormatter timeFormat = DateTimeFormatter.ofPattern("MMMM yyyy HH:mm:ss");
     private static String imgflipToken = "";
     public static long startUp;
     private static final Map<String, Logger> LOGGERS;
     public static final Logger LOGGER;
-    private static Prefixes prefixes;
-    private static IgnoredChannels ignoredChannels;
-    private static boolean isBeta;
+    public static int commands = 0;
 
     static {
         new File("latest.log").delete();
@@ -49,7 +49,7 @@ public class CorgiBot {
         LOGGER = getLog(CorgiBot.class);
     }
 
-    public static void main(String[] args) throws LoginException, RateLimitedException, InterruptedException, IOException {
+    public static void main(String[] args) throws LoginException, InterruptedException {
 
         bootLogo();
 
@@ -63,18 +63,19 @@ public class CorgiBot {
                 .setToken(config.getBotToken())
                 .addEventListener(new MainListener(waiter))
                 .addEventListener(waiter)
-                .setGame(Game.of("Loading..."))
+                .setGame(Game.playing("Starting..."))
+                .setStatus(OnlineStatus.IDLE)
                 .buildBlocking();
 
         (instance = new CorgiBot()).init();
         (instance = new CorgiBot()).initDatabase();
 
-        prefixes = new Prefixes();
-        ignoredChannels = new IgnoredChannels();
+        BotManager.loadGuilds();
 
         Timer timer = new Timer();
         timer.scheduleAtFixedRate(new Checker(), 10, 60000);
         timer.scheduleAtFixedRate(new StatusChanger(), 10, 120000);
+        timer.scheduleAtFixedRate(new ReminderTask(getInstance()), 10, 20000);
 
         imgflipToken = config.getImgFlipToken();
 
@@ -111,10 +112,6 @@ public class CorgiBot {
         sql = new SQLManager(this);
     }
 
-    public static long getStartUp(){
-        return startUp;
-    }
-
     public String formatTime(LocalDateTime dateTime) {
         return dateTime.getDayOfMonth() + ". " + dateTime.format(timeFormat);
     }
@@ -131,28 +128,15 @@ public class CorgiBot {
         return getLog(clazz.getName());
     }
 
-    public static Prefixes getPrefixes() {
-        return prefixes;
-    }
-
     public TextChannel getGuildLogChannel() {
         return getJda().getGuildById("255045073887166475").getTextChannelById("361636711585021953");
     }
 
-    public static String getPrefix(String id) {
-        return getPrefixes().get(id);
-    }
-
-    public static IgnoredChannels getIgnoredChannels(){
-        return ignoredChannels;
-    }
-
-    public static Guild getDefaultGuild(){
+    public static Guild getDefaultGuild() {
         return getJda().getGuildById("255045073887166475");
     }
 
-
-    private static void bootLogo(){
+    private static void bootLogo() {
         LOGGER.info("Spousteni bota...");
         LOGGER.info("");
         LOGGER.info("   ______                 _ ");
@@ -162,9 +146,5 @@ public class CorgiBot {
         LOGGER.info("\\____/\\____/_/   \\__, /_/   ");
         LOGGER.info("                /____/      ");
         LOGGER.info("");
-    }
-
-    public boolean isBeta() {
-        return isBeta;
     }
 }

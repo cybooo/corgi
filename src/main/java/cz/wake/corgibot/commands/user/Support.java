@@ -1,56 +1,52 @@
-package cz.wake.corgibot.commands.admin;
+package cz.wake.corgibot.commands.user;
 
 import com.jagrosh.jdautilities.waiter.EventWaiter;
-import cz.wake.corgibot.annotations.SinceCorgi;
 import cz.wake.corgibot.commands.CommandType;
 import cz.wake.corgibot.commands.ICommand;
 import cz.wake.corgibot.commands.Rank;
 import cz.wake.corgibot.objects.GuildWrapper;
+import cz.wake.corgibot.utils.Constants;
 import cz.wake.corgibot.utils.MessageUtils;
 import net.dv8tion.jda.core.entities.Member;
 import net.dv8tion.jda.core.entities.Message;
 import net.dv8tion.jda.core.entities.MessageChannel;
 import net.dv8tion.jda.core.entities.User;
 
-@SinceCorgi(version = "0.8")
-public class Say implements ICommand {
+public class Support implements ICommand {
 
     @Override
     public void onCommand(User sender, MessageChannel channel, Message message, String[] args, Member member, EventWaiter w, GuildWrapper gw) {
-        if (args.length < 1) {
-            MessageUtils.sendErrorMessage("Nelze poslat zprávu, která nemá text!", channel);
-            return;
-        }
-        channel.sendMessage(message.getContentRaw().replace(gw.getPrefix() + "say", "")).queue();
+        channel.sendMessage(MessageUtils.getEmbed(Constants.WHITE).setTitle("Odkaz na server podpory pro Corgiho!")
+                .setDescription("K připojení na Discord podpory pro Corgiho použij následující [**ODKAZ**](https://discordapp.com/invite/eaEFCYX)").build()).queue();
     }
 
     @Override
     public String getCommand() {
-        return "say";
+        return "support";
     }
 
     @Override
     public String getDescription() {
-        return "Tímto příkazem lze psát jako bot.";
+        return "Získání odkazu na podporu Corgiho (server).";
     }
 
     @Override
     public String getHelp() {
-        return "%say <text>";
+        return "%support - Získání odkazu";
     }
 
     @Override
     public CommandType getType() {
-        return CommandType.ADMINISTARTOR;
+        return CommandType.GENERAL;
     }
 
     @Override
     public Rank getRank() {
-        return Rank.ADMINISTRATOR;
+        return Rank.USER;
     }
 
     @Override
-    public boolean deleteMessage() {
-        return true;
+    public String[] getAliases() {
+        return new String[]{"podpora"};
     }
 }

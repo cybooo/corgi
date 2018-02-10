@@ -57,7 +57,7 @@ public class Giveaway {
                 }
                 try {
                     message.getChannel().getMessageById(message.getId()).complete().getReactions()
-                            .stream().filter(mr -> mr.getEmote().getName().equals("\uD83C\uDF89"))
+                            .stream().filter(mr -> mr.getReactionEmote().getName().equals("\uD83C\uDF89"))
                             .findAny().ifPresent(mr -> {
                         List<User> users = new LinkedList<>(mr.getUsers().complete());
                         users.remove(message.getJDA().getSelfUser());

@@ -1,26 +1,28 @@
 package cz.wake.corgibot.commands.user;
 
-import cz.wake.corgibot.CorgiBot;
-import cz.wake.corgibot.commands.ICommand;
-import cz.wake.corgibot.commands.CommandType;
-import cz.wake.corgibot.commands.Rank;
-import cz.wake.corgibot.utils.Constants;
-import cz.wake.corgibot.utils.MessageUtils;
 import com.jagrosh.jdautilities.waiter.EventWaiter;
+import cz.wake.corgibot.CorgiBot;
+import cz.wake.corgibot.annotations.SinceCorgi;
+import cz.wake.corgibot.commands.CommandType;
+import cz.wake.corgibot.commands.ICommand;
+import cz.wake.corgibot.commands.Rank;
+import cz.wake.corgibot.objects.GuildWrapper;
+import cz.wake.corgibot.utils.Constants;
+import cz.wake.corgibot.utils.EmoteList;
+import cz.wake.corgibot.utils.MessageUtils;
 import net.dv8tion.jda.core.OnlineStatus;
 import net.dv8tion.jda.core.entities.*;
-import net.dv8tion.jda.core.entities.Game;
 
 import java.time.LocalDateTime;
 import java.util.Comparator;
 import java.util.List;
 import java.util.stream.Collectors;
 
+@SinceCorgi(version = "1.2.3.2")
 public class UserInfo implements ICommand {
 
-
     @Override
-    public void onCommand(User sender, MessageChannel channel, Message message, String[] args, Member member, EventWaiter w, String guildPrefix) {
+    public void onCommand(User sender, MessageChannel channel, Message message, String[] args, Member member, EventWaiter w, GuildWrapper gw) {
         String id;
         if (args.length != 1) {
             id = sender.getId();
@@ -61,7 +63,6 @@ public class UserInfo implements ICommand {
         }
 
 
-
         channel.sendMessage(MessageUtils.getEmbed(sender, member.getGuild().getMember(user).getColor())
                 .setThumbnail(user.getEffectiveAvatarUrl())
                 .addField("Jméno", user.getName() + "#" + user.getDiscriminator() + " " + getDiscordRank(user), true)
@@ -95,7 +96,7 @@ public class UserInfo implements ICommand {
 
     @Override
     public String[] getAliases() {
-        return new String[]{"ui"};
+        return new String[]{"ui", "uzivatel"};
     }
 
     @Override
@@ -128,19 +129,19 @@ public class UserInfo implements ICommand {
 
     private String getDiscordRank(User user) {
         if (user.isBot()) {
-            return Constants.EMOTE_BOT;
+            return EmoteList.EMOTE_BOT;
         } else if (user.getId().equals("177516608778928129")) { //Wake
-            return Constants.EMOTE_PARTNER;
+            return EmoteList.EMOTE_PARTNER;
         } else if (user.getId().equals("151332840577957889")) { //Liturkey
-            return Constants.EMOTE_HYPESQUAD;
+            return EmoteList.EMOTE_HYPESQUAD;
         } else if (user.getId().equals("263736235539955713")) { //_yyySepii
-            return Constants.EMOTE_NITRO;
+            return EmoteList.EMOTE_NITRO;
         } else {
             return "";
         }
     }
 
-    public static String convertStatus(OnlineStatus status) {
+    private static String convertStatus(OnlineStatus status) {
         switch (status) {
             case ONLINE:
                 return "<:online:314899088510418945>";
@@ -154,7 +155,7 @@ public class UserInfo implements ICommand {
         }
     }
 
-    public static String gameToString(Game g) {
+    private static String gameToString(Game g) {
         if (g == null) return "no game";
 
         String gameType = "Playing";

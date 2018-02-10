@@ -1,6 +1,6 @@
 <img align="right" src="https://i.imgur.com/N9wftHn.jpg" height="250" width="250">
 
-# CorgiBot [![License](https://img.shields.io/github/license/mashape/apistatus.svg?style=flat-square)](LICENSE) [![Maintenance](https://img.shields.io/maintenance/yes/2017.svg?style=flat-square)]() [![Chat](https://img.shields.io/badge/chat-discord-yellow.svg?style=flat-square)](https://discord.gg/rfsEqme)
+# CorgiBot [![License](https://img.shields.io/github/license/mashape/apistatus.svg?style=flat-square)](LICENSE) [![Maintenance](https://img.shields.io/maintenance/yes/2018.svg?style=flat-square)]() [![Chat](https://img.shields.io/badge/chat-discord-yellow.svg?style=flat-square)](https://discord.gg/rfsEqme)
 **Corgi** is an open-source Discord bot written in Java, using JDA 3.
 Corgi provides various features including music playback, fun and moderation commands.
 
@@ -16,7 +16,8 @@ Click the following [link](https://discordapp.com/oauth2/authorize?client_id=294
 * [MrWakeCZ](https://github.com/MrWakeCZ)
 
 ## Dependencies
-* [JDA 3.1](https://github.com/DV8FromTheWorld/JDA)
+* [JDA 3.4](https://github.com/DV8FromTheWorld/JDA)
 * [Guava](https://github.com/google/guava)
 * [Configurate](https://github.com/zml2008/configurate)
 * [OkHttp](https://github.com/square/okhttp)
+* [HikariCP](https://github.com/brettwooldridge/HikariCP)

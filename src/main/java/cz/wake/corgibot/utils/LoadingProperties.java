@@ -6,6 +6,8 @@ import java.util.Properties;
 
 public class LoadingProperties {
 
+    //TODO: JSON
+
     private String botToken, imgFlipToken;
     private String host, port, dbname, dbuser, dbpassword, minConnections, maxConnections, timeout, mashapeGameKey;
     private String beta;

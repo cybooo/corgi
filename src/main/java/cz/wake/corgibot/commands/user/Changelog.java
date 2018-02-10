@@ -35,12 +35,12 @@ public class Changelog implements ICommand {
 
         changelog.append(EmoteList.INFO + " | **Update [" + convertMilisToDate(String.valueOf(changes.getDate())) + "]**");
         changelog.append("\n\n");
-        changelog.append(EmoteList.GREEN_OK + "** | Přidáno & změněno:**\n");
+        changelog.append(EmoteList.GREEN_OK + "** | Novinky:**\n");
         changelog.append(changes.getNews().replaceAll("-", "•"));
         changelog.append("\n\n");
 
         if(changes.getFixes() != null){
-            changelog.append(EmoteList.BUG + " ** | Opraveno:**\n");
+            changelog.append(EmoteList.BUG + " ** | Opravy & změny:**\n");
             changelog.append(changes.getFixes().replaceAll("-", "•"));
             changelog.append("\n\n");
         }

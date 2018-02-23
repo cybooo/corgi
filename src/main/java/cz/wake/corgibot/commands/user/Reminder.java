@@ -103,15 +103,14 @@ public class Reminder implements ICommand {
 
             long millis = end.getMillis() - start.getMillis(); // Rozdil na upozorneni
 
-            if (millis < 300000L) {
-                MessageUtils.sendErrorMessage("Minimální čas na upozornění je 5 minut!", channel);
+            if (millis < 60000L) {
+                MessageUtils.sendErrorMessage("Minimální čas na upozornění je 1 minuta!", channel);
                 return;
             }
 
             try {
                 // SQL
                 CorgiBot.getInstance().getSql().addReminder(sender.getId(), end.getMillis(), reminderMessage);
-
             } catch (Exception e) {
                 e.printStackTrace();
                 MessageUtils.sendErrorMessage("Interní chyba při provádění operace, zkus to zachvilku!", channel);

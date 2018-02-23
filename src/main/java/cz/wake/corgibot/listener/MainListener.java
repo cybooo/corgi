@@ -38,7 +38,7 @@ public class MainListener extends ListenerAdapter {
     @Override
     public void onGuildMessageReceived(GuildMessageReceivedEvent e) {
 
-        if (e.getAuthor().isBot() || e.getAuthor().isFake() || e.getAuthor() == null) {
+        if (e.getAuthor().isBot() || e.getAuthor().isFake() || e.getAuthor() == null || e.getMessage() == null) {
             return;
         }
 
@@ -84,7 +84,6 @@ public class MainListener extends ListenerAdapter {
                         }
                     }
                     CorgiBot.commands++;
-
                 }
             }
         }
@@ -152,9 +151,5 @@ public class MainListener extends ListenerAdapter {
 
         // Smazani vsech ignored IDs
         CorgiBot.getInstance().getSql().deleteIgnoredChannel(event.getGuild().getId());
-    }
-
-    private String getGuildId(GenericGuildMessageEvent e) {
-        return e.getChannel().getGuild() != null ? e.getChannel().getGuild().getId() : null;
     }
 }

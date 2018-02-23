@@ -130,7 +130,7 @@ public class TimeUtils {
         }
 
         long seconds = time % 60;
-        //prependTimeAndUnit(timeBuf, seconds, "vteřin");
+        prependTimeAndUnit(timeBuf, seconds, "s");
 
         // minute(60s) & above
         time = time / 60;
@@ -139,8 +139,7 @@ public class TimeUtils {
         }
 
         long minutes = time % 60;
-        String minutesFormat = "m";
-        prependTimeAndUnit(timeBuf, minutes, minutesFormat);
+        prependTimeAndUnit(timeBuf, minutes, "m");
 
         // hour(60m) & above
         time = time / 60;
@@ -149,8 +148,7 @@ public class TimeUtils {
         }
 
         long hours = time % 24;
-        String hourFormat = "h";
-        prependTimeAndUnit(timeBuf, hours, hourFormat);
+        prependTimeAndUnit(timeBuf, hours, "h");
 
         // day(24h) & above
         time = time / 24;

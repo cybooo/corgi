@@ -24,15 +24,16 @@ public class Choose implements ICommand {
             MessageUtils.sendErrorMessage("Musíš si něco vybrat!", channel);
         } else {
             // Format message
-            String request = message.getContentRaw().replaceAll("\\s+", "").replace("choose", "").replace("volba", "").replace(gw.getPrefix(), "");
-            System.out.println("Request: " + request); // text|text2|text3
+            String request = message.getContentRaw().replaceAll("\\s+\\|", "|").replaceAll("\\|\\s+", "|").replaceAll("\\|", "|").replace("choose ", "").replace("volba ", "").replace(gw.getPrefix(), "");
             String[] arguments = request.split("\\|");
-
             if (arguments.length == 1) {
                 MessageUtils.sendErrorMessage("Musíš zadat víc než 1 volbu!", channel);
                 return;
             }
-
+            if (arguments[0].equalsIgnoreCase("choose") || arguments[0].equalsIgnoreCase("volba")){
+                MessageUtils.sendErrorMessage("První možnost byla zadána špatně. Zkus to znova...", channel);
+                return;
+            }
             channel.sendMessage(getRandomThinkingEmote() + " | **" + sender.getName() + "**, zvolil jsem **" + arguments[(int) (Math.random() * arguments.length)] + "**!").queue();
         }
     }

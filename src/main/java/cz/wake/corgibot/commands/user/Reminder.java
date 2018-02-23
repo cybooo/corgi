@@ -111,7 +111,6 @@ public class Reminder implements ICommand {
             try {
                 // SQL
                 CorgiBot.getInstance().getSql().addReminder(sender.getId(), end.getMillis(), reminderMessage);
-
             } catch (Exception e) {
                 e.printStackTrace();
                 MessageUtils.sendErrorMessage("Interní chyba při provádění operace, zkus to zachvilku!", channel);

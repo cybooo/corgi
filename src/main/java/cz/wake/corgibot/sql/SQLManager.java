@@ -222,7 +222,15 @@ public class SQLManager {
             ps.setString(1, guildId);
             ps.executeQuery();
             while (ps.getResultSet().next()) {
-                list.add(CorgiBot.getJda().getGuildById(guildId).getTextChannelById(ps.getResultSet().getString("channel_id")));
+                try {
+                    TextChannel tx = CorgiBot.getJda().getGuildById(guildId).getTextChannelById(ps.getResultSet().getString("channel_id"));
+                    if(tx != null){
+                        list.add(tx);
+                    }
+                    //TODO: Event pri smazani channelu smaze i z SQL, pokud je ignorovany!
+                } catch (NullPointerException e){
+                    CorgiBot.LOGGER.error(e.getMessage());
+                }
             }
         } catch (Exception e) {
             e.printStackTrace();

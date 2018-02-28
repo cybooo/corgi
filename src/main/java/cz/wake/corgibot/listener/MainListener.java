@@ -13,6 +13,7 @@ import net.dv8tion.jda.core.JDA;
 import net.dv8tion.jda.core.OnlineStatus;
 import net.dv8tion.jda.core.Permission;
 import net.dv8tion.jda.core.entities.Message;
+import net.dv8tion.jda.core.entities.TextChannel;
 import net.dv8tion.jda.core.entities.User;
 import net.dv8tion.jda.core.events.DisconnectEvent;
 import net.dv8tion.jda.core.events.ShutdownEvent;
@@ -26,6 +27,7 @@ import net.dv8tion.jda.core.hooks.ListenerAdapter;
 import java.time.OffsetDateTime;
 import java.util.Arrays;
 import java.util.List;
+import java.util.Set;
 
 public class MainListener extends ListenerAdapter {
 
@@ -116,11 +118,31 @@ public class MainListener extends ListenerAdapter {
     @Override
     public void onGuildJoin(GuildJoinEvent event) {
 
+        /*
+            Initial setup
+         */
+        if(CorgiBot.getInstance().getSql().existsGuildData(event.getGuild().getId())){
+            // Load dat z SQL + load do BotManageru
+            Set<TextChannel> ignoredChannels = CorgiBot.getInstance().getSql().getIgnoredChannels(event.getGuild().getId());
+            GuildWrapper gw = CorgiBot.getInstance().getSql().createGuildWrappers(event.getGuild().getId());
+            gw.setIgnoredChannels(ignoredChannels);
+            gw.setPrefix(".", true); // Reset prefixu na .
+            BotManager.addGuild(gw);
+        } else {
+            // INSERT DAT + insert do botmanageru
+            CorgiBot.getInstance().getSql().insertDefaultServerData(event.getGuild().getId(), ".");
+            GuildWrapper gw = new GuildWrapper(event.getGuild().getId());
+            gw.setPrefix(".", false);
+            BotManager.addGuild(gw);
+        }
+
+        // Informal message
         MessageUtils.sendAutoDeletedMessage(MessageUtils.getEmbed(ColorSelector.getRandomColor()).setTitle("Corgi je připojen! :heart_eyes: ")
                 .setDescription("Corgi byl správně připojen na Váš server. Pokud chceš změnit prefix, použij příkaz `.prefix`\n" +
                         "Seznam všech příkazů zobrazíš pomocí `.help` nebo také na [**WEBU**](http://corgibot.xyz)")
                 .setThumbnail(CorgiBot.getJda().getSelfUser().getAvatarUrl()).setFooter("Tato zpráva se smaže sama do 30 vteřin!", null).build(), 40000L, event.getGuild().getDefaultChannel());
 
+        // Info into dev chanel
         if (event.getJDA().getStatus() == JDA.Status.CONNECTED &&
                 event.getGuild().getSelfMember().getJoinDate().plusMinutes(2).isAfter(OffsetDateTime.now())) {
             CorgiBot.getInstance().getGuildLogChannel().sendMessage(MessageUtils.getEmbed(Constants.GREEN)
@@ -132,8 +154,6 @@ public class MainListener extends ListenerAdapter {
                             "Majitel: " + event.getGuild().getOwner().getUser().getName() + "\nPočet členů: " +
                             event.getGuild().getMembers().size()).build()).queue();
         }
-
-        CorgiBot.getInstance().getSql().insertDefaultServerData(event.getGuild().getId(), ".");
     }
 
     @Override

@@ -183,7 +183,7 @@ public class SQLManager {
         PreparedStatement ps = null;
         try {
             conn = pool.getConnection();
-            ps = conn.prepareStatement("SELECT COUNT(1) FROM corgibot.guild_data WHERE guild_id = '" + guildId + "';");
+            ps = conn.prepareStatement("SELECT * FROM corgibot.guild_data WHERE guild_id = '" + guildId + "';");
             ps.executeQuery();
             return ps.getResultSet().next();
         } catch (Exception e) {

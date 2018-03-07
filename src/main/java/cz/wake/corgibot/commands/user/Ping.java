@@ -26,7 +26,7 @@ public class Ping implements ICommand {
             m.editMessage(MessageUtils.getEmbed(Constants.GREEN).setDescription(EmoteList.PONG + " Pong! `" + message.getCreationTime().until(m.getCreationTime(), ChronoUnit.MILLIS) + " ms`").build()).queue();
         });*/
 
-        channel.sendMessage(MessageUtils.getEmbed(Color.GRAY).setDescription("Vypočítávám ping...").build()).queue(m -> {
+        channel.sendMessage(MessageUtils.getEmbed(Constants.GRAY).setDescription("Vypočítávám ping...").build()).queue(m -> {
             int pings = 5;
             int lastResult;
             int sum = 0, min = 999, max = 0;

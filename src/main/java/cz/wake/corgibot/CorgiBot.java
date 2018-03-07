@@ -94,7 +94,6 @@ public class CorgiBot {
             timer.scheduleAtFixedRate(new ReminderTask(getInstance()), 10, 20000);
         } else {
             LOGGER.info("Corgi spuštěn jako BETA! Některé funkce budou vypnuty!");
-            CorgiBot.getJda().getPresence().setPresence(OnlineStatus.ONLINE, Game.streaming("BETA", "https://twitch.tv/corgi"));
         }
 
         /* NASTAVENI NOVY PROFILOVKY

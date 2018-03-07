@@ -42,6 +42,7 @@ public class CorgiBot {
     private static final Map<String, Logger> LOGGERS;
     public static final Logger LOGGER;
     public static int commands = 0;
+    private static boolean isBeta = true;
 
     static {
         new File("latest.log").delete();
@@ -54,6 +55,7 @@ public class CorgiBot {
         bootLogo();
 
         LoadingProperties config = new LoadingProperties();
+        isBeta = config.isBeta();
 
         EventWaiter waiter = new EventWaiter();
 
@@ -73,9 +75,14 @@ public class CorgiBot {
         BotManager.loadGuilds();
 
         Timer timer = new Timer();
-        timer.scheduleAtFixedRate(new Checker(), 10, 60000);
-        timer.scheduleAtFixedRate(new StatusChanger(), 10, 120000);
-        timer.scheduleAtFixedRate(new ReminderTask(getInstance()), 10, 20000);
+
+        if(!isBeta){
+            timer.scheduleAtFixedRate(new Checker(), 10, 60000);
+            timer.scheduleAtFixedRate(new StatusChanger(), 10, 120000);
+            timer.scheduleAtFixedRate(new ReminderTask(getInstance()), 10, 20000);
+        } else {
+            LOGGER.info("Corgi spuštěn jako BETA! Některé funkce budou vypnuty!");
+        }
 
         imgflipToken = config.getImgFlipToken();
 

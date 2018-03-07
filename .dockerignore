@@ -1,0 +1,8 @@
+### Ignore everything
+**
+
+### Except this
+!Dockerfile
+!target/CorgiBot-*.jar
+!facts.txt
+

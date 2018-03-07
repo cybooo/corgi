@@ -82,6 +82,7 @@ public class CommandHandler {
         registerCommand(new Reminder());
         registerCommand(new Donate());
         registerCommand(new Svatek());
+        registerCommand(new Color());
     }
 
 

@@ -1,13 +1,11 @@
 FROM openjdk:8-jdk-alpine
 
+# Oooo KWAK!
 MAINTAINER "MrWakeCZ"
 
-#Create working direcotory
-RUN mkdir -p /srv/corgibot
-WORKDIR /srv/corgibot
-
 # Add basic files
-ADD /target/CorgiBot-1.3.jar CorgiBot.jar
+ADD /target/CorgiBot-1.3.jar corgibot.jar
 ADD facts.txt facts.txt
 
-ENTRYPOINT ["java", "-jar", "CorgiBot.jar"]
+# Basic run
+ENTRYPOINT ["java", "-jar", "corgibot.jar"]

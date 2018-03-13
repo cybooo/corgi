@@ -1,0 +1,24 @@
+version: "3"
+services:
+  bot:
+      image: mrwakecz/corgibot:latest
+      restart: on-failure:3
+      network_mode: "host"
+      ports:
+        - 5000:5000
+      volumes:
+        - ./config.yml:/srv/corgibot/config.yml
+        - ./logs:/srv/corgibot/logs
+        - ./logs/gc:/srv/corgibot/logs/gc
+      stop_grace_period: 7200s
+      entrypoint:
+        - java
+        - -jar
+        - -Xmx1g
+        - -XX:+HeapDumpOnOutOfMemoryError
+        - -XX:HeapDumpPath=emergencydump.hprof
+        - -Xlog:gc*:logs/gc/gc-%t.log
+        - -XX:+UseG1GC
+        - -XX:+ParallelRefProcEnabled
+        - -XX:+UseStringDeduplication
+        - corgibot.jar

@@ -23,8 +23,11 @@ import org.slf4j.LoggerFactory;
 
 import javax.security.auth.login.LoginException;
 import java.io.File;
+import java.io.IOException;
+import java.text.SimpleDateFormat;
 import java.time.LocalDateTime;
 import java.time.format.DateTimeFormatter;
+import java.util.Date;
 import java.util.Map;
 import java.util.Timer;
 import java.util.concurrent.ConcurrentHashMap;
@@ -43,7 +46,7 @@ public class CorgiBot {
     private static boolean isBeta = true;
 
     static {
-        new File("latest.log").delete();
+        new File("logs/latest.log").renameTo(new File("logs/log-" + getCurrentTimeStamp() + ".log"));
         LOGGERS = new ConcurrentHashMap<>();
         LOGGER = getLog(CorgiBot.class);
     }
@@ -153,5 +156,11 @@ public class CorgiBot {
         LOGGER.info("\\____/\\____/_/   \\__, /_/   ");
         LOGGER.info("                /____/      ");
         LOGGER.info("");
+    }
+
+    public static String getCurrentTimeStamp() {
+        SimpleDateFormat sdfDate = new SimpleDateFormat("yyyy-MM-dd-HH-mm-ss");
+        Date now = new Date();
+        return sdfDate.format(now);
     }
 }

@@ -27,20 +27,20 @@ public class JoinEvent extends ListenerAdapter {
             Set<TextChannel> ignoredChannels = CorgiBot.getInstance().getSql().getIgnoredChannels(event.getGuild().getId());
             GuildWrapper gw = CorgiBot.getInstance().getSql().createGuildWrappers(event.getGuild().getId());
             gw.setIgnoredChannels(ignoredChannels);
-            gw.setPrefix(".", true); // Reset prefixu na .
+            gw.setPrefix("c!", true); // Reset prefixu na c!
             BotManager.addGuild(gw);
         } else {
             // INSERT DAT + insert do botmanageru
-            CorgiBot.getInstance().getSql().insertDefaultServerData(event.getGuild().getId(), ".");
+            CorgiBot.getInstance().getSql().insertDefaultServerData(event.getGuild().getId(), "c!");
             GuildWrapper gw = new GuildWrapper(event.getGuild().getId());
-            gw.setPrefix(".", false);
+            gw.setPrefix("c!", false);
             BotManager.addGuild(gw);
         }
 
         // Informal message
         MessageUtils.sendAutoDeletedMessage(MessageUtils.getEmbed(ColorSelector.getRandomColor()).setTitle("Corgi je připojen! :heart_eyes: ")
-                .setDescription("Corgi byl správně připojen na Váš server. Pokud chceš změnit prefix, použij příkaz `.prefix`\n" +
-                        "Seznam všech příkazů zobrazíš pomocí `.help` nebo také na [**WEBU**](http://corgibot.xyz)")
+                .setDescription("Corgi byl správně připojen na Váš server. Změň si prefix pomocí příkazu `c!prefix [kod]`. Příklad: `c!prefix .`\n" +
+                        "Seznam všech příkazů zobrazíš pomocí `c!help` nebo také na [**WEBU**](https://corgibot.xyz)")
                 .setThumbnail(CorgiBot.getJda().getSelfUser().getAvatarUrl()).setFooter("Tato zpráva se smaže sama do 30 vteřin!", null).build(), 40000L, event.getGuild().getDefaultChannel());
 
         // Info into dev chanel

@@ -51,9 +51,15 @@ public class ChatListener extends ListenerAdapter {
         String prefix = guildWrapper.getPrefix();
 
         try {
-            if (e.getMessage().getContentRaw().substring(0,2).contains("c!") || e.getMessage().getContentRaw().startsWith(prefix) || e.getMessage().getContentRaw().substring(0,prefix.length()).contains(prefix)) {
+            if (e.getMessage().getContentRaw().substring(0,2).contains(Constants.PREFIX) || e.getMessage().getContentRaw().startsWith(prefix)
+                    || e.getMessage().getContentRaw().substring(0,prefix.length()).contains(prefix)) {
                 String message = e.getMessage().getContentRaw();
-                String command = message.substring(prefix.length());
+                String command;
+                if(e.getMessage().getContentRaw().substring(0,2).contains(Constants.PREFIX)){
+                    command = message.substring(2);
+                } else {
+                    command = message.substring(prefix.length());
+                }
                 String[] args = new String[0];
                 if (message.contains(" ")) {
                     command = command.substring(0, message.indexOf(" ") - prefix.length());

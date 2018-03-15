@@ -86,11 +86,11 @@ public class CorgiBot {
 
         // Startup timer
         Timer timer = new Timer();
+        timer.scheduleAtFixedRate(new StatusChanger(), 10, 120000);
 
         // Is Corgi beta?
         if (!isBeta) {
             timer.scheduleAtFixedRate(new Checker(), 10, 60000);
-            timer.scheduleAtFixedRate(new StatusChanger(), 10, 120000);
             timer.scheduleAtFixedRate(new ReminderTask(getInstance()), 10, 20000);
         } else {
             LOGGER.info("Corgi spuštěn jako BETA! Některé funkce budou vypnuty!");

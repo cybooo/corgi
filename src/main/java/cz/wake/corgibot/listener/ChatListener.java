@@ -12,9 +12,7 @@ import cz.wake.corgibot.utils.MessageUtils;
 import net.dv8tion.jda.core.JDA;
 import net.dv8tion.jda.core.OnlineStatus;
 import net.dv8tion.jda.core.Permission;
-import net.dv8tion.jda.core.entities.Message;
-import net.dv8tion.jda.core.entities.TextChannel;
-import net.dv8tion.jda.core.entities.User;
+import net.dv8tion.jda.core.entities.*;
 import net.dv8tion.jda.core.events.DisconnectEvent;
 import net.dv8tion.jda.core.events.ShutdownEvent;
 import net.dv8tion.jda.core.events.guild.GuildJoinEvent;
@@ -27,15 +25,21 @@ import net.dv8tion.jda.core.hooks.ListenerAdapter;
 import java.time.OffsetDateTime;
 import java.util.Arrays;
 import java.util.List;
+import java.util.Map;
 import java.util.Set;
+import java.util.concurrent.ConcurrentHashMap;
+import java.util.concurrent.TimeUnit;
 
 public class ChatListener extends ListenerAdapter {
 
     private EventWaiter w;
+    private static Map<String, Integer> spamMap = new ConcurrentHashMap<>();
 
     public ChatListener(EventWaiter w) {
         this.w = w;
     }
+
+    public ChatListener(){};
 
     @Override
     public void onGuildMessageReceived(GuildMessageReceivedEvent e) {
@@ -67,9 +71,24 @@ public class ChatListener extends ListenerAdapter {
                 }
                 for (ICommand cmd : CorgiBot.getInstance().getCommandHandler().getCommands()) {
                     if (cmd.getCommand().equalsIgnoreCase(command) || Arrays.asList(cmd.getAliases()).contains(command)) {
+
+                        // Spam detection
+                        handleSpamDetection(e, guildWrapper, e.getChannel());
+
+                        // Blocking guild
+                        if (guildWrapper.isBlocked()) {
+                            if (System.currentTimeMillis() > guildWrapper.getUnBlockTime() && guildWrapper.getUnBlockTime() != -1){
+                                guildWrapper.revokeBlock();
+                            } else {
+                                return; // Ignoring blocked guild
+                            }
+                        }
+
+                        // Ignored channel
                         if (guildWrapper.getIgnoredChannels().contains(e.getChannel()) && !cmd.getCommand().equalsIgnoreCase("ignore")) {
                             return;
                         }
+
                         String[] finalArgs = args;
                         CorgiBot.LOGGER.info("Provádění příkazu '" + cmd.getCommand() + "' " + Arrays
                                 .toString(args) + " v G:" + e.getGuild().getName() + " (" + (e.getChannel().getName()) + ")! Odeslal: " +
@@ -123,5 +142,37 @@ public class ChatListener extends ListenerAdapter {
                 .getPermissions(message.getTextChannel()).contains(Permission.MESSAGE_MANAGE)) {
             message.delete().queue();
         }
+    }
+
+    private void handleSpamDetection(GuildMessageReceivedEvent event, GuildWrapper guild, TextChannel ch) {
+        if (spamMap.containsKey(event.getGuild().getId())) {
+            int messages = spamMap.get(event.getGuild().getId());
+            double allowed = Math.floor(Math.sqrt(getGuildUserCount(event.getGuild()) / 2.5));
+            allowed = allowed == 0 ? 1 : allowed;
+            if (messages > allowed) {
+                if (!guild.isBlocked()) {
+                    MessageUtils.sendErrorMessage("**Detekuji SPAM!** Od teď ignoruji na tomto serveru příkazy po dobu 1 minuty!", ch);
+                    guild.setBlocked(true).setBlockReason("Spam příkazů").setUnBlockTime(System.currentTimeMillis() + TimeUnit.MINUTES.toMillis(1));
+                }
+            } else {
+                spamMap.put(event.getGuild().getId(), messages + 1);
+            }
+        } else {
+            spamMap.put(event.getGuild().getId(), 1);
+        }
+    }
+
+    public static int getGuildUserCount(Guild guild) {
+        int i = 0;
+        for (Member member : guild.getMembers()) {
+            if (!member.getUser().isBot()) {
+                i++;
+            }
+        }
+        return i;
+    }
+
+    public void clearSpamMap() {
+        spamMap.clear();
     }
 }

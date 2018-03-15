@@ -360,6 +360,16 @@ public class GuildWrapper {
     }
 
     /**
+     * Revoke blocking
+     */
+    public GuildWrapper revokeBlock() {
+        this.unBlockTime = -1; // -1 infinite and revoked
+        this.blockReason = "";
+        this.isBlocked = false;
+        return this;
+    }
+
+    /**
      * Sets reason, why is this guild blocked in Corgi.
      *
      * @param blockReason Reason for blocking

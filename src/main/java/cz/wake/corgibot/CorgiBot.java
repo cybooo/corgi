@@ -7,6 +7,7 @@ import cz.wake.corgibot.listener.JoinEvent;
 import cz.wake.corgibot.listener.LeaveEvent;
 import cz.wake.corgibot.managers.BotManager;
 import cz.wake.corgibot.runnable.ReminderTask;
+import cz.wake.corgibot.runnable.SpamHandler;
 import cz.wake.corgibot.runnable.StatusChanger;
 import cz.wake.corgibot.sql.SQLManager;
 import cz.wake.corgibot.utils.LoadingProperties;
@@ -38,6 +39,7 @@ public class CorgiBot {
     private static JDA jda;
     private CommandHandler ch = new CommandHandler();
     private SQLManager sql;
+    private ChatListener chatListener;
     private DateTimeFormatter timeFormat = DateTimeFormatter.ofPattern("MMMM yyyy HH:mm:ss");
     public static long startUp;
     private static final Map<String, Logger> LOGGERS;
@@ -87,6 +89,7 @@ public class CorgiBot {
         // Startup timer
         Timer timer = new Timer();
         timer.scheduleAtFixedRate(new StatusChanger(), 10, 120000);
+        timer.scheduleAtFixedRate(new SpamHandler(), 10, 1200); // 1.2s clear, higher = disaster
 
         // Is Corgi beta?
         if (!isBeta) {
@@ -107,6 +110,10 @@ public class CorgiBot {
 
     public static JDA getJda() {
         return jda;
+    }
+
+    public ChatListener getChatListener(){
+        return chatListener;
     }
 
     public CommandHandler getCommandHandler() {

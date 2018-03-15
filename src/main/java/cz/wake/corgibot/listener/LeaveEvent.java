@@ -23,6 +23,9 @@ public class LeaveEvent extends ListenerAdapter {
                         event.getGuild().getOwner().getUser().getName()
                         : "Neexistuje, nebo nelze zjistit!")).build()).queue();
 
+        // Logger
+        CorgiBot.LOGGER.info("GuildLeveEvent - " + event.getGuild().getName() + "(" + event.getGuild().getId() + ")");
+
         // Smazani vsech ignored IDs
         CorgiBot.getInstance().getSql().deleteIgnoredChannel(event.getGuild().getId());
     }

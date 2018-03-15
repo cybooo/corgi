@@ -37,6 +37,9 @@ public class JoinEvent extends ListenerAdapter {
             BotManager.addGuild(gw);
         }
 
+        // Logger
+        CorgiBot.LOGGER.info("GuildJoinEvent - " + event.getGuild().getName() + "(" + event.getGuild().getId() + ")");
+
         // Informal message
         MessageUtils.sendAutoDeletedMessage(MessageUtils.getEmbed(ColorSelector.getRandomColor()).setTitle("Corgi je připojen! :heart_eyes: ")
                 .setDescription("Corgi byl správně připojen na Váš server. Změň si prefix pomocí příkazu `c!prefix [kod]`. Příklad: `c!prefix .`\n" +

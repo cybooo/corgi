@@ -28,7 +28,7 @@ public class Color implements ICommand {
     @Override
     public void onCommand(User sender, MessageChannel channel, Message message, String[] args, Member member, EventWaiter w, GuildWrapper gw) {
         if (args.length < 1) {
-            channel.sendMessage(MessageUtils.getEmbed(Constants.GRAY).setTitle("Nápověda k příkazu color").setDescription(getHelp()).build()).queue();
+            channel.sendMessage(MessageUtils.getEmbed(Constants.GRAY).setTitle("Nápověda k příkazu color").setDescription(getHelp().replace("%", gw.getPrefix())).build()).queue();
         } else {
             try {
                 String color = args[0];

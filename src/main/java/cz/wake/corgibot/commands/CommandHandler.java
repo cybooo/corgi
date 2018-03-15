@@ -52,7 +52,7 @@ public class CommandHandler {
         registerCommand(new Fact());
         registerCommand(new Uptime());
         registerCommand(new Emote());
-        registerCommand(new Status());
+        registerCommand(new McStatus());
         registerCommand(new Meme());
         registerCommand(new Archive());
         registerCommand(new Purge());

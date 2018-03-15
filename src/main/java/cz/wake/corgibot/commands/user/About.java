@@ -40,7 +40,7 @@ public class About implements ICommand {
 
     @Override
     public String getHelp() {
-        return "%about";
+        return "%about - Zobrazí základní informace a odkazy pro Corgiho.";
     }
 
     @Override

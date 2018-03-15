@@ -19,7 +19,7 @@ import net.dv8tion.jda.core.entities.User;
 import java.util.concurrent.ConcurrentMap;
 
 @SinceCorgi(version = "0.4")
-public class Status implements ICommand {
+public class McStatus implements ICommand {
 
     private ConcurrentMap map = Checker.getServiceStatus();
 
@@ -54,7 +54,7 @@ public class Status implements ICommand {
 
     @Override
     public String getHelp() {
-        return "%mcstatus";
+        return "%mcstatus - Zobrazí přehled Mojang API a jeho stavu.";
     }
 
     @Override

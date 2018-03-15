@@ -50,7 +50,7 @@ public class Choose implements ICommand {
 
     @Override
     public String getHelp() {
-        return "%choose volba1 | volba2 | volba3";
+        return "%choose volba1 | volba2 | volba3 - ukázka příkazu";
     }
 
     @Override

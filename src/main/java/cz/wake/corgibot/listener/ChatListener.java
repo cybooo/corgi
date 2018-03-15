@@ -92,9 +92,7 @@ public class ChatListener extends ListenerAdapter {
                         }
 
                         String[] finalArgs = args;
-                        CorgiBot.LOGGER.info("Provádění příkazu '" + cmd.getCommand() + "' " + Arrays
-                                .toString(args) + " v G:" + e.getGuild().getName() + " (" + (e.getChannel().getName()) + ")! Odeslal: " +
-                                e.getAuthor() + '#' + e.getAuthor().getDiscriminator());
+                        CorgiBot.LOGGER.info("Command - '" + cmd.getCommand() + " " + String.join(" ", finalArgs) + "', (Guild: " + e.getGuild().getName() + ", Channel: " + (e.getChannel().getName()) + "), Sender: " + e.getAuthor());
                         List<Permission> perms = e.getGuild().getSelfMember().getPermissions(e.getChannel());
                         if (!perms.contains(Permission.MESSAGE_EMBED_LINKS)) {
                             e.getChannel().sendMessage(":warning: | Nemám dostatečná práva na používání EMBED odkazů! Přiděl mi právo: `Vkládání odkazů` nebo `Embed Links`.").queue();
@@ -105,9 +103,7 @@ public class ChatListener extends ListenerAdapter {
                                 cmd.onCommand(e.getAuthor(), e.getChannel(), e.getMessage(), finalArgs, e.getMember(), w, guildWrapper);
                             } catch (Exception ex) {
                                 MessageUtils.sendAutoDeletedMessage("Interní chyba při provádění příkazu!", 10000, e.getChannel());
-                                CorgiBot.LOGGER.error("Chyba při provádění příkazu '" + cmd.getCommand() + "' " + Arrays
-                                        .toString(args) + " v G:" + e.getGuild().getName() + " (" + (e.getChannel().getName()) + ")! Odeslal: " +
-                                        e.getAuthor() + '#' + e.getAuthor().getDiscriminator(), ex);
+                                ex.printStackTrace();
                             }
                             if (cmd.deleteMessage()) {
                                 delete(e.getMessage());

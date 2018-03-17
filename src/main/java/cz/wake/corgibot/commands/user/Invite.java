@@ -34,7 +34,7 @@ public class Invite implements ICommand {
 
     @Override
     public String getHelp() {
-        return "%invite";
+        return "%invite - Odešle odkaz na pozvání Corgiho na tvůj server.";
     }
 
     @Override

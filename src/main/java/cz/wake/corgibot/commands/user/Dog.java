@@ -50,7 +50,7 @@ public class Dog implements ICommand {
 
     @Override
     public String getHelp() {
-        return "%dog - K získání obrázku";
+        return "%dog - K získání obrázku psa.";
     }
 
     @Override

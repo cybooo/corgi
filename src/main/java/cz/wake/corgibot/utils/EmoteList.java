@@ -70,4 +70,22 @@ public class EmoteList {
     final public static String CZECH_FLAG = ":flag_cz:";
     final public static String SLOVAK_FLAG = ":flag_sk:";
 
+    /*
+        Weather
+     */
+    final public static String SUNNY = "\u2600";
+    final public static String CLOUD = "\u2601";
+    final public static String PARTLY_CLOUD = "\uD83C\uDF24";
+    final public static String THUNDER_CLOUD = "\u26C8";
+    final public static String CLOUD_RAIN = "\uD83C\uDF27";
+    final public static String CLOUD_SUN_RAIN = "\uD83C\uDF26";
+    final public static String CLOUD_SNOW = "\uD83C\uDF28";
+    final public static String TORNADO = "\uD83C\uDF2A";
+    final public static String WINDY = "\uD83C\uDF2C";
+    final public static String SNOWMAN = "\u2603";
+    final public static String HOT = "\uD83D\uDD25";
+    final public static String EYES = "\uD83D\uDC40";
+    final public static String THERMOMETER = "\uD83C\uDF21";
+    final public static String DROPLET = "\uD83D\uDCA7";
+
 }

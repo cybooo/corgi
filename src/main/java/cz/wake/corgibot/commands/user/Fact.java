@@ -40,7 +40,7 @@ public class Fact implements ICommand {
 
     @Override
     public String getHelp() {
-        return "%fact";
+        return "%fact - Vygenerování náhodného faktu.";
     }
 
     @Override

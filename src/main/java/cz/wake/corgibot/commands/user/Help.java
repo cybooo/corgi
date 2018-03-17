@@ -41,7 +41,7 @@ public class Help implements ICommand {
                 }
                 channel.sendMessage(MessageUtils.getEmbed().setTitle("Nápověda k příkazu - " + commandName + " :question:")
                         .setDescription(c.getDescription() + "\n\n**Použití**\n" + c.getHelp().replace("%", gw.getPrefix()))
-                        .setFooter("Aliasy: " + sb.toString().substring(0, sb.length() - 2), null).build()).queue();
+                        .setFooter("Aliasy: " + String.join(", ", c.getAliases()), null).build()).queue();
             });
         }
     }
@@ -58,7 +58,8 @@ public class Help implements ICommand {
 
     @Override
     public String getHelp() {
-        return null;
+        return "%help - Odešle do tvých zpráv seznam příkazů\n" +
+                "%help [příkaz] - Zobrazí informace o příkazu a jeho použití.";
     }
 
     @Override

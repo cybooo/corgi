@@ -2,9 +2,12 @@ package cz.wake.corgibot;
 
 import com.jagrosh.jdautilities.waiter.EventWaiter;
 import cz.wake.corgibot.commands.CommandHandler;
-import cz.wake.corgibot.listener.MainListener;
+import cz.wake.corgibot.listener.ChatListener;
+import cz.wake.corgibot.listener.JoinEvent;
+import cz.wake.corgibot.listener.LeaveEvent;
 import cz.wake.corgibot.managers.BotManager;
 import cz.wake.corgibot.runnable.ReminderTask;
+import cz.wake.corgibot.runnable.SpamHandler;
 import cz.wake.corgibot.runnable.StatusChanger;
 import cz.wake.corgibot.sql.SQLManager;
 import cz.wake.corgibot.utils.LoadingProperties;
@@ -16,7 +19,6 @@ import net.dv8tion.jda.core.OnlineStatus;
 import net.dv8tion.jda.core.entities.Game;
 import net.dv8tion.jda.core.entities.Guild;
 import net.dv8tion.jda.core.entities.TextChannel;
-import net.dv8tion.jda.core.exceptions.RateLimitedException;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
@@ -34,16 +36,16 @@ import java.util.concurrent.ConcurrentHashMap;
 public class CorgiBot {
 
     private static CorgiBot instance;
-    private MainListener events;
     private static JDA jda;
     private CommandHandler ch = new CommandHandler();
     private SQLManager sql;
+    private ChatListener chatListener;
     private DateTimeFormatter timeFormat = DateTimeFormatter.ofPattern("MMMM yyyy HH:mm:ss");
-    private static String imgflipToken = "";
     public static long startUp;
     private static final Map<String, Logger> LOGGERS;
     public static final Logger LOGGER;
     public static int commands = 0;
+    private static boolean isBeta = true;
 
     static {
         new File("logs/latest.log").renameTo(new File("logs/log-" + getCurrentTimeStamp() + ".log"));
@@ -53,33 +55,49 @@ public class CorgiBot {
 
     public static void main(String[] args) throws LoginException, InterruptedException {
 
+        // Logo on start
         bootLogo();
 
+        // Properties from config
         LoadingProperties config = new LoadingProperties();
+        isBeta = config.isBeta();
 
+        // JDA Event Waiter
         EventWaiter waiter = new EventWaiter();
 
+        // Startup time
         startUp = System.currentTimeMillis();
 
+        // JDA Build
         jda = new JDABuilder(AccountType.BOT)
                 .setToken(config.getBotToken())
-                .addEventListener(new MainListener(waiter))
+                .addEventListener(new ChatListener(waiter))
+                .addEventListener(new LeaveEvent())
+                .addEventListener(new JoinEvent())
                 .addEventListener(waiter)
                 .setGame(Game.playing("Starting..."))
                 .setStatus(OnlineStatus.IDLE)
                 .buildBlocking();
 
+        // Instances
         (instance = new CorgiBot()).init();
         (instance = new CorgiBot()).initDatabase();
 
+        // Load configuration for guilds
         BotManager.loadGuilds();
 
+        // Startup timer
         Timer timer = new Timer();
-        timer.scheduleAtFixedRate(new Checker(), 10, 60000);
         timer.scheduleAtFixedRate(new StatusChanger(), 10, 120000);
-        timer.scheduleAtFixedRate(new ReminderTask(getInstance()), 10, 20000);
+        timer.scheduleAtFixedRate(new SpamHandler(), 10, 1200); // 1.2s clear, higher = disaster
 
-        imgflipToken = config.getImgFlipToken();
+        // Is Corgi beta?
+        if (!isBeta) {
+            timer.scheduleAtFixedRate(new Checker(), 10, 60000);
+            timer.scheduleAtFixedRate(new ReminderTask(getInstance()), 10, 20000);
+        } else {
+            LOGGER.info("Corgi spuštěn jako BETA! Některé funkce budou vypnuty!");
+        }
 
         /* NASTAVENI NOVY PROFILOVKY
         jda.getSelfUser().getManager().setAvatar(Icon.from(
@@ -90,12 +108,12 @@ public class CorgiBot {
         return instance;
     }
 
-    public MainListener getEvents() {
-        return events;
-    }
-
     public static JDA getJda() {
         return jda;
+    }
+
+    public ChatListener getChatListener(){
+        return chatListener;
     }
 
     public CommandHandler getCommandHandler() {
@@ -116,10 +134,6 @@ public class CorgiBot {
 
     public String formatTime(LocalDateTime dateTime) {
         return dateTime.getDayOfMonth() + ". " + dateTime.format(timeFormat);
-    }
-
-    public String getImgflipToken() {
-        return imgflipToken;
     }
 
     private static Logger getLog(String name) {

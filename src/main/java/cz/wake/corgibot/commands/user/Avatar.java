@@ -51,7 +51,7 @@ public class Avatar implements ICommand {
 
     @Override
     public String getHelp() {
-        return "%avatar [@nick/ID]";
+        return "%avatar [@nick/ID] - Vygeneruje avatara požadovaného uživatele.";
     }
 
     @Override

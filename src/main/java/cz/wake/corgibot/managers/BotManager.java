@@ -7,6 +7,7 @@ import net.dv8tion.jda.core.entities.Guild;
 import net.dv8tion.jda.core.entities.TextChannel;
 
 import java.sql.ResultSet;
+import java.util.Arrays;
 import java.util.HashSet;
 import java.util.Set;
 
@@ -16,16 +17,15 @@ public class BotManager {
 
     public static void loadGuilds(){
         for(Guild guild : CorgiBot.getJda().getGuilds()){
+            System.out.println("Registrace: " + guild.getName() + "(" + guild.getId() + ")");
 
-            //TODO: MOREEEEEEEEE + OPTIMALIZOVAT
             Set<TextChannel> ignoredChannels = CorgiBot.getInstance().getSql().getIgnoredChannels(guild.getId());
 
+            System.out.println("Ignorovany channely: " + Arrays.toString(ignoredChannels.toArray()));
             GuildWrapper gw = CorgiBot.getInstance().getSql().createGuildWrappers(guild.getId());
             gw.setIgnoredChannels(ignoredChannels);
 
             listGuilds.add(gw);
-
-            System.out.println("Registrace: " + guild.getName());
         }
     }
 

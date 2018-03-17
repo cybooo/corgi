@@ -12,6 +12,9 @@ minimumConnections: 2
 maximumConnections: 5
 timeout: 30000
 
+# If is the bot beta (Only for testing)
+beta: false
+
 #Discord Token
 token: token-from-discord-api
 

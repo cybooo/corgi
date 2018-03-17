@@ -52,10 +52,10 @@ public class CommandHandler {
         registerCommand(new Fact());
         registerCommand(new Uptime());
         registerCommand(new Emote());
-        registerCommand(new Status());
+        registerCommand(new McStatus());
         registerCommand(new Meme());
         registerCommand(new Archive());
-        registerCommand(new Purge());
+        //registerCommand(new Purge());
         registerCommand(new TextToBlock());
         registerCommand(new Giveaway());
         registerCommand(new Stats());
@@ -82,6 +82,8 @@ public class CommandHandler {
         registerCommand(new Reminder());
         registerCommand(new Donate());
         registerCommand(new Svatek());
+        registerCommand(new Color());
+        registerCommand(new Weather());
     }
 
 

@@ -7,7 +7,7 @@ public class Constants {
     /*
         Main bot prefix
      */
-    public static final String PREFIX = ".";
+    public static final String PREFIX = "c!";
 
     /*
         Basic colors for Embeds

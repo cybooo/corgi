@@ -22,8 +22,8 @@ public class Perms implements ICommand {
         if (args.length < 1) {
             channel.sendMessage(MessageUtils.getEmbed(Constants.GREEN).setTitle("Nastavení práv pro Corgiho")
                     .setDescription("Ke správné funkčnosti práv na Discord serveru,\nje zapotřebí, aby práva byly nastaveny následovně.\n\n" +
-                            ":white_medium_small_square: **Administrator** - Práva Administratora Discord serveru\n" +
-                            ":white_medium_small_square: **Moderator** - Právo na `BAN_PLAYERS`\n" +
+                            ":white_medium_small_square: **Administrátor** - Práva Administratora Discord serveru\n" +
+                            ":white_medium_small_square: **Moderátor** - Právo na `BAN_PLAYERS`\n" +
                             ":white_medium_small_square: **Uživatel** - Všichni ostatní\n\n" +
                             "Zjištění aktuálních práv pro Corgiho - " + gw.getPrefix() + "perms @nick").build()).queue();
         } else {

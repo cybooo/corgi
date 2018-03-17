@@ -6,29 +6,23 @@ import cz.wake.corgibot.commands.ICommand;
 import cz.wake.corgibot.commands.Rank;
 import cz.wake.corgibot.managers.BotManager;
 import cz.wake.corgibot.objects.GuildWrapper;
-import cz.wake.corgibot.utils.ColorSelector;
 import cz.wake.corgibot.utils.Constants;
 import cz.wake.corgibot.utils.EmoteList;
 import cz.wake.corgibot.utils.MessageUtils;
-import net.dv8tion.jda.core.JDA;
-import net.dv8tion.jda.core.OnlineStatus;
 import net.dv8tion.jda.core.Permission;
-import net.dv8tion.jda.core.entities.*;
+import net.dv8tion.jda.core.entities.Guild;
+import net.dv8tion.jda.core.entities.Member;
+import net.dv8tion.jda.core.entities.Message;
+import net.dv8tion.jda.core.entities.TextChannel;
 import net.dv8tion.jda.core.events.DisconnectEvent;
 import net.dv8tion.jda.core.events.ShutdownEvent;
-import net.dv8tion.jda.core.events.guild.GuildJoinEvent;
-import net.dv8tion.jda.core.events.guild.GuildLeaveEvent;
-import net.dv8tion.jda.core.events.message.guild.GenericGuildMessageEvent;
 import net.dv8tion.jda.core.events.message.guild.GuildMessageReceivedEvent;
-import net.dv8tion.jda.core.events.user.UserOnlineStatusUpdateEvent;
 import net.dv8tion.jda.core.exceptions.ErrorResponseException;
 import net.dv8tion.jda.core.hooks.ListenerAdapter;
 
-import java.time.OffsetDateTime;
 import java.util.Arrays;
 import java.util.List;
 import java.util.Map;
-import java.util.Set;
 import java.util.concurrent.ConcurrentHashMap;
 import java.util.concurrent.TimeUnit;
 
@@ -41,7 +35,7 @@ public class ChatListener extends ListenerAdapter {
         this.w = w;
     }
 
-    public ChatListener(){};
+    public ChatListener() {}
 
     @Override
     public void onGuildMessageReceived(GuildMessageReceivedEvent e) {
@@ -57,11 +51,11 @@ public class ChatListener extends ListenerAdapter {
         String prefix = guildWrapper.getPrefix();
 
         try {
-            if (e.getMessage().getContentRaw().substring(0,2).contains(Constants.PREFIX) || e.getMessage().getContentRaw().startsWith(prefix)
-                    || e.getMessage().getContentRaw().substring(0,prefix.length()).contains(prefix)) {
+            if (e.getMessage().getContentRaw().substring(0, 2).contains(Constants.PREFIX) || e.getMessage().getContentRaw().startsWith(prefix)
+                    || e.getMessage().getContentRaw().substring(0, prefix.length()).contains(prefix)) {
                 String message = e.getMessage().getContentRaw();
                 String command;
-                if(e.getMessage().getContentRaw().substring(0,2).contains(Constants.PREFIX)){
+                if (e.getMessage().getContentRaw().substring(0, 2).contains(Constants.PREFIX)) {
                     command = message.substring(2);
                 } else {
                     command = message.substring(prefix.length());
@@ -79,7 +73,7 @@ public class ChatListener extends ListenerAdapter {
 
                         // Blocking guild
                         if (guildWrapper.isBlocked()) {
-                            if (System.currentTimeMillis() > guildWrapper.getUnBlockTime() && guildWrapper.getUnBlockTime() != -1){
+                            if (System.currentTimeMillis() > guildWrapper.getUnBlockTime() && guildWrapper.getUnBlockTime() != -1) {
                                 guildWrapper.revokeBlock();
                             } else {
                                 return; // Ignoring blocked guild
@@ -113,10 +107,10 @@ public class ChatListener extends ListenerAdapter {
                     }
                 }
             }
-        } catch (StringIndexOutOfBoundsException ex){
+        } catch (StringIndexOutOfBoundsException ex) {
             // ¯\_(ツ)_/¯
-        } catch (ErrorResponseException ex2){
-            if(ex2.getErrorCode() == 50007){
+        } catch (ErrorResponseException ex2) {
+            if (ex2.getErrorCode() == 50007) {
                 e.getChannel().sendMessage(EmoteList.WARNING + " | " + e.getAuthor().getAsMention() + " promiň, ale nemohu ti poslat zprávu. Máš to blokované!").queue();
             } else {
                 ex2.printStackTrace();

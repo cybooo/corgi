@@ -7,18 +7,16 @@ import cz.wake.corgibot.commands.Rank;
 import cz.wake.corgibot.objects.GuildWrapper;
 import cz.wake.corgibot.utils.Constants;
 import cz.wake.corgibot.utils.MessageUtils;
-import net.dv8tion.jda.core.Permission;
 import net.dv8tion.jda.core.entities.Member;
 import net.dv8tion.jda.core.entities.Message;
 import net.dv8tion.jda.core.entities.MessageChannel;
 import net.dv8tion.jda.core.entities.User;
-import net.dv8tion.jda.core.events.user.UserGameUpdateEvent;
-import net.dv8tion.jda.core.utils.PermissionUtil;
 
 import java.util.ArrayList;
 import java.util.List;
 
 public class Warn implements ICommand {
+
     @Override
     public void onCommand(User sender, MessageChannel channel, Message message, String[] args, Member member, EventWaiter w, GuildWrapper gw) {
         if (args.length < 1){
@@ -54,7 +52,7 @@ public class Warn implements ICommand {
 
     @Override
     public String getHelp() {
-        return "%warn @reason | @user [@user]";
+        return "%warn <duvod> | @user [@user]";
     }
 
     @Override

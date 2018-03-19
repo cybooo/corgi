@@ -59,6 +59,7 @@ public class CommandHandler {
         registerCommand(new TextToBlock());
         registerCommand(new Giveaway());
         registerCommand(new Stats());
+        registerCommand(new Warn());
         registerCommand(new Perms());
         registerCommand(new About());
         registerCommand(new FullWidth());

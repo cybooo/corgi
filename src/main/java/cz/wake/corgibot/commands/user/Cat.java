@@ -24,7 +24,7 @@ public class Cat implements ICommand {
     public void onCommand(User sender, MessageChannel channel, Message message, String[] args, Member member, EventWaiter w, GuildWrapper gw) {
         String url = "";
         OkHttpClient caller = new OkHttpClient();
-        Request request = new Request.Builder().url("http://random.cat/meow").build();
+        Request request = new Request.Builder().url("http://aws.random.cat/meow").build();
         try {
             Response response = caller.newCall(request).execute();
             JSONObject json = new JSONObject(response.body().string());

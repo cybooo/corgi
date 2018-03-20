@@ -82,6 +82,21 @@ public class SQLManager {
         }
     }
 
+    public final void deleteAllIgnoredChannels(final String guildId) {
+        Connection conn = null;
+        PreparedStatement ps = null;
+        try {
+            conn = pool.getConnection();
+            ps = conn.prepareStatement("DELETE FROM corgibot.ignored_channels WHERE guild_id = ?");
+            ps.setString(1, guildId);
+            ps.executeUpdate();
+        } catch (Exception e) {
+            e.printStackTrace();
+        } finally {
+            pool.close(conn, ps, null);
+        }
+    }
+
     public final void addReminder(final String userId, final long remindTime, final String message) {
         Connection conn = null;
         PreparedStatement ps = null;

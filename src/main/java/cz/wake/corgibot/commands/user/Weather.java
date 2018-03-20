@@ -4,6 +4,7 @@ import com.github.fedy2.weather.YahooWeatherService;
 import com.github.fedy2.weather.data.Channel;
 import com.github.fedy2.weather.data.unit.DegreeUnit;
 import com.jagrosh.jdautilities.waiter.EventWaiter;
+import cz.wake.corgibot.annotations.SinceCorgi;
 import cz.wake.corgibot.commands.CommandType;
 import cz.wake.corgibot.commands.ICommand;
 import cz.wake.corgibot.commands.Rank;
@@ -22,6 +23,7 @@ import java.io.IOException;
 import java.time.Instant;
 import java.util.List;
 
+@SinceCorgi(version = "1.3.1")
 public class Weather implements ICommand {
 
     @Override

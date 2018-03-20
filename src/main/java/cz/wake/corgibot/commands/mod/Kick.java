@@ -28,7 +28,7 @@ public class Kick implements ICommand {
             return;
         }
         if (message.getMentionedUsers().isEmpty()) {
-            MessageUtils.sendErrorMessage("Musíš nejdříve někoho označit!", channel);
+            MessageUtils.sendErrorMessage("Musíš nejdříve někoho označit! Př. `" + gw.getPrefix() + "kick @User`", channel);
             return;
         }
         if (message.getMentionedUsers().size() > 20) {

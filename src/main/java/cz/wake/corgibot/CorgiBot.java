@@ -2,6 +2,7 @@ package cz.wake.corgibot;
 
 import com.jagrosh.jdautilities.waiter.EventWaiter;
 import cz.wake.corgibot.commands.CommandHandler;
+import cz.wake.corgibot.listener.ChannelDeleteEvent;
 import cz.wake.corgibot.listener.ChatListener;
 import cz.wake.corgibot.listener.JoinEvent;
 import cz.wake.corgibot.listener.LeaveEvent;
@@ -74,6 +75,7 @@ public class CorgiBot {
                 .addEventListener(new ChatListener(waiter))
                 .addEventListener(new LeaveEvent())
                 .addEventListener(new JoinEvent())
+                .addEventListener(new ChannelDeleteEvent())
                 .addEventListener(waiter)
                 .setGame(Game.playing("Starting..."))
                 .setStatus(OnlineStatus.IDLE)
@@ -89,7 +91,7 @@ public class CorgiBot {
         // Startup timer
         Timer timer = new Timer();
         timer.scheduleAtFixedRate(new StatusChanger(), 10, 120000);
-        timer.scheduleAtFixedRate(new SpamHandler(), 10, 1200); // 1.2s clear, higher = disaster
+        timer.scheduleAtFixedRate(new SpamHandler(), 10, 1500); // 1.5s clear, higher = disaster
 
         // Is Corgi beta?
         if (!isBeta) {

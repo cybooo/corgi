@@ -11,15 +11,18 @@ import cz.wake.corgibot.utils.Constants;
 import cz.wake.corgibot.utils.MessageUtils;
 import net.dv8tion.jda.core.entities.*;
 
+import java.util.Arrays;
+
 @SinceCorgi(version = "0.5")
 public class Giveaway implements ICommand {
 
+
+    //TODO: Kompletně předělat...
+
     @Override
     public void onCommand(User sender, MessageChannel channel, Message message, String[] args, Member member, EventWaiter w, GuildWrapper gw) {
-        String str = message.getContentRaw().substring(9).trim();
-        String[] parts = str.split("\\s+", 2);
         try {
-            int sec = Integer.parseInt(parts[0]);
+            int sec = Integer.parseInt(args[0]);
             if(sec < 30){
                 message.delete().queue();
                 MessageUtils.sendAutoDeletedMessage("Čas giveawaye je příliš krátký, nejkratší možný čas je 30s", 20000, channel);
@@ -27,11 +30,11 @@ public class Giveaway implements ICommand {
             }
             channel.sendMessage(MessageUtils.getEmbed(Constants.GRAY).setDescription("Generuji...").build()).queue(m -> {
                 m.addReaction("\uD83C\uDF89").queue();
-                new cz.wake.corgibot.managers.Giveaway(sec, m, parts.length > 1 ? parts[1] : null).start();
+                new cz.wake.corgibot.managers.Giveaway(sec, m, args.length > 1 ? args[1] : null).start();
             });
             message.delete().queue();
         } catch (NumberFormatException ex) {
-            MessageUtils.sendAutoDeletedMessage("Nelze zadat vteřiny v tomto tvaru `" + parts[0] + "`", 15000, channel);
+            MessageUtils.sendAutoDeletedMessage("Nelze zadat vteřiny v tomto tvaru `" + args[0] + "`", 15000, channel);
         } catch (Exception em){
             CorgiBot.LOGGER.error("Chyba při provádení příkazu " + gw.getPrefix() + "giveaway!", em);
         }

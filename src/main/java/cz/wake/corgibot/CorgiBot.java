@@ -89,7 +89,7 @@ public class CorgiBot {
         // Startup timer
         Timer timer = new Timer();
         timer.scheduleAtFixedRate(new StatusChanger(), 10, 120000);
-        timer.scheduleAtFixedRate(new SpamHandler(), 10, 1200); // 1.2s clear, higher = disaster
+        timer.scheduleAtFixedRate(new SpamHandler(), 10, 1500); // 1.5s clear, higher = disaster
 
         // Is Corgi beta?
         if (!isBeta) {

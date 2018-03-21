@@ -20,7 +20,7 @@ public class About implements ICommand {
     @Override
     public void onCommand(User sender, MessageChannel channel, Message message, String[] args, Member member, EventWaiter w, GuildWrapper gw) {
         channel.sendMessage(MessageUtils.getEmbed(ColorSelector.getRandomColor()).setTitle("Představení Corgiho")
-                .setDescription("Ahoj já jsem Corgi, jsem bot pro Discord servery.\nJsem určený pro široké spektrum funkčnosti od administrace, získávání statistik z her až k klasickým příkazům pro Discord!\n\n" +
+                .setDescription("Ahoj já jsem Corgi, jsem bot pro Discord servery.\nJsem určený pro široké spektrum funkčnosti od administrace, získávání statistik z her až ke klasickým příkazům pro Discord!\n\n" +
                         "**Web**: [https://corgibot.xyz](https://corgibot.xyz)\n" +
                         "**Invite na tvůj server**: [Odkaz](https://discordapp.com/oauth2/authorize?client_id=294952122582302720&scope=bot&permissions=104197334)\n" +
                         "**Vytvořil**: " + channel.getJDA().getUserById("177516608778928129").getAsMention() + "\n" +

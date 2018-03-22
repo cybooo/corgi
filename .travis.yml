@@ -26,9 +26,9 @@ jobs:
   include:
 
     # Pull requests
-    - stage: pull-build
+    stage: pull-build
     script:
-     - mvn clean install
+      - mvn clean install
     branches:
       except:
       - master
@@ -36,7 +36,7 @@ jobs:
       - feature/*
 
     # Normal build for dev/master
-    - stage: build
+    stage: build
     script:
     - mv clean install
     - IMAGE_TAG=$(echo ${TRAVIS_BRANCH} | sed -e 's/\//_/g')
@@ -48,7 +48,7 @@ jobs:
       - dev*
 
     # Deploy build for dev/master
-    - stage: deploy
+    stage: deploy
     script:
     - docker login -u="$DOCKER_USERNAME" -p="$DOCKER_PASSWORD"
     - docker push mrwakecz/corgibot:$IMAGE_TAG

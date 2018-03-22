@@ -1,8 +1,19 @@
-### Popis
-Zde napiš, proč nebo co obsahuje tvůj Pull Request.
-
 ### Požadavky
-- [ ] Branch název začíná s `feature/`
+- [ ] Pull Request je dokončený, obsahuje tedy všechny opravy, změny a jiné úpravy.
+- [ ] Vše odpovídá požadavkům stylu programování - [ZDE]().
 - [ ] Vše jsem odzkoušel/a a vše fungovalo.
 
-------------------------
+### Přidáno
+- N/A
+
+### Změněno
+- N/A
+
+### Odebráno
+- N/A
+
+### Opraveno
+- N/A
+
+### Bezpečnostní oprava
+- N/A

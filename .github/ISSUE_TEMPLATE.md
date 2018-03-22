@@ -1,4 +1,5 @@
 ### Popis chyby
+N/A
 
 ### Postupné kroky k replikování chyby
 1.
@@ -10,4 +11,5 @@
 * Typ serveru:
 * Počet uživatelů:
 
-### Dodatečné informace a screeny 
+### Dodatečné informace a screeny
+N/A

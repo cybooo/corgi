@@ -11,7 +11,10 @@ import cz.wake.corgibot.runnable.ReminderTask;
 import cz.wake.corgibot.runnable.SpamHandler;
 import cz.wake.corgibot.runnable.StatusChanger;
 import cz.wake.corgibot.sql.SQLManager;
-import cz.wake.corgibot.utils.LoadingProperties;
+import cz.wake.corgibot.utils.Constants;
+import cz.wake.corgibot.utils.CorgiLogger;
+import cz.wake.corgibot.utils.config.Config;
+import cz.wake.corgibot.utils.config.ConfigUtils;
 import cz.wake.corgibot.utils.statuses.Checker;
 import net.dv8tion.jda.core.AccountType;
 import net.dv8tion.jda.core.JDA;
@@ -19,6 +22,7 @@ import net.dv8tion.jda.core.JDABuilder;
 import net.dv8tion.jda.core.OnlineStatus;
 import net.dv8tion.jda.core.entities.Game;
 import net.dv8tion.jda.core.entities.Guild;
+import net.dv8tion.jda.core.entities.Icon;
 import net.dv8tion.jda.core.entities.TextChannel;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
@@ -26,6 +30,7 @@ import org.slf4j.LoggerFactory;
 import javax.security.auth.login.LoginException;
 import java.io.File;
 import java.io.IOException;
+import java.net.URL;
 import java.text.SimpleDateFormat;
 import java.time.LocalDateTime;
 import java.time.format.DateTimeFormatter;
@@ -47,6 +52,8 @@ public class CorgiBot {
     public static final Logger LOGGER;
     public static int commands = 0;
     private static boolean isBeta = true;
+    public static boolean sqlEnabled;
+    public static final Config config = new ConfigUtils().loadConfig();
 
     static {
         new File("logs/latest.log").renameTo(new File("logs/log-" + getCurrentTimeStamp() + ".log"));
@@ -56,12 +63,11 @@ public class CorgiBot {
 
     public static void main(String[] args) throws LoginException, InterruptedException {
 
+        // Inform
+        CorgiLogger.infoMessage("Probehne spusteni Corgiho!");
+
         // Logo on start
         bootLogo();
-
-        // Properties from config
-        LoadingProperties config = new LoadingProperties();
-        isBeta = config.isBeta();
 
         // JDA Event Waiter
         EventWaiter waiter = new EventWaiter();
@@ -70,8 +76,9 @@ public class CorgiBot {
         startUp = System.currentTimeMillis();
 
         // JDA Build
+        CorgiLogger.infoMessage("Probehne pripojeni na Discord API.");
         jda = new JDABuilder(AccountType.BOT)
-                .setToken(config.getBotToken())
+                .setToken(config.getString("discord.token"))
                 .addEventListener(new ChatListener(waiter))
                 .addEventListener(new LeaveEvent())
                 .addEventListener(new JoinEvent())
@@ -83,10 +90,35 @@ public class CorgiBot {
 
         // Instances
         (instance = new CorgiBot()).init();
-        (instance = new CorgiBot()).initDatabase();
 
-        // Load configuration for guilds
-        BotManager.loadGuilds();
+        // Properties from config
+        isBeta = config.getBoolean("beta");
+
+        // MySQL
+        if(config.getBoolean("use_database")){
+            CorgiLogger.infoMessage("Probehne pripojeni na MySQL.");
+            try {
+                // MySQL Instance
+                (instance = new CorgiBot()).initDatabase();
+                CorgiLogger.greatMessage("Corgi je pripojeny na MySQL.");
+
+                // Load configuration for guilds
+                BotManager.loadGuilds();
+
+                // Setup
+                sqlEnabled = true;
+
+            } catch (Exception ex){
+                CorgiLogger.dangerMessage("Pri pripojovani na MySQL, nastala chyba:");
+                ex.printStackTrace();
+                System.exit(-1);
+            }
+        } else {
+            sqlEnabled = false;
+            isBeta = true;
+            CorgiLogger.warnMessage("Jsou vypnute databaze, Corgi nebude nic ukladat ani nacitat!");
+            CorgiLogger.infoMessage("Zakladni prefix nastaven na: " + Constants.PREFIX);
+        }
 
         // Startup timer
         Timer timer = new Timer();
@@ -95,15 +127,21 @@ public class CorgiBot {
 
         // Is Corgi beta?
         if (!isBeta) {
+            CorgiLogger.infoMessage("Corgi bude spusten jako bot v PRODUCTION.");
             timer.scheduleAtFixedRate(new Checker(), 10, 60000);
             timer.scheduleAtFixedRate(new ReminderTask(getInstance()), 10, 20000);
         } else {
-            LOGGER.info("Corgi spuštěn jako BETA! Některé funkce budou vypnuty!");
+            CorgiLogger.warnMessage("Corgi spuštěn jako BETA! Některé funkce budou vypnuty!");
         }
 
-        /* NASTAVENI NOVY PROFILOVKY
-        jda.getSelfUser().getManager().setAvatar(Icon.from(
-                new URL("https://i.imgur.com/N9wftHn.jpg").openStream())).complete();*/
+        // NASTAVENI NOVY PROFILOVKY
+        //TODO: CONFIG
+        /*try {
+            jda.getSelfUser().getManager().setAvatar(Icon.from(
+                    new URL("https://i.imgur.com/196rv8D.png").openStream())).complete();
+        } catch (IOException e) {
+            e.printStackTrace();
+        }*/
     }
 
     public static CorgiBot getInstance() {
@@ -155,7 +193,6 @@ public class CorgiBot {
     }
 
     private static void bootLogo() {
-        LOGGER.info("Spousteni bota...");
         LOGGER.info("");
         LOGGER.info("   ______                 _ ");
         LOGGER.info("  / ____/___  _________ _(_)");
@@ -170,5 +207,9 @@ public class CorgiBot {
         SimpleDateFormat sdfDate = new SimpleDateFormat("yyyy-MM-dd-HH-mm-ss");
         Date now = new Date();
         return sdfDate.format(now);
+    }
+
+    public static Config getConfig() {
+        return config;
     }
 }

@@ -52,7 +52,6 @@ public class CorgiBot {
     public static final Logger LOGGER;
     public static int commands = 0;
     private static boolean isBeta = true;
-    public static boolean sqlEnabled;
     public static final Config config = new ConfigUtils().loadConfig();
 
     static {
@@ -95,7 +94,7 @@ public class CorgiBot {
         isBeta = config.getBoolean("beta");
 
         // MySQL
-        if(config.getBoolean("use_database")){
+        if(!isBeta){
             CorgiLogger.infoMessage("Probehne pripojeni na MySQL.");
             try {
                 // MySQL Instance
@@ -106,7 +105,7 @@ public class CorgiBot {
                 BotManager.loadGuilds();
 
                 // Setup
-                sqlEnabled = true;
+                isBeta = false;
 
             } catch (Exception ex){
                 CorgiLogger.dangerMessage("Pri pripojovani na MySQL, nastala chyba:");
@@ -114,8 +113,6 @@ public class CorgiBot {
                 System.exit(-1);
             }
         } else {
-            sqlEnabled = false;
-            isBeta = true;
             CorgiLogger.warnMessage("Jsou vypnute databaze, Corgi nebude nic ukladat ani nacitat!");
             CorgiLogger.infoMessage("Zakladni prefix nastaven na: " + Constants.PREFIX);
         }
@@ -134,14 +131,18 @@ public class CorgiBot {
             CorgiLogger.warnMessage("Corgi spuštěn jako BETA! Některé funkce budou vypnuty!");
         }
 
-        // NASTAVENI NOVY PROFILOVKY
-        //TODO: CONFIG
-        /*try {
-            jda.getSelfUser().getManager().setAvatar(Icon.from(
-                    new URL("https://i.imgur.com/196rv8D.png").openStream())).complete();
-        } catch (IOException e) {
-            e.printStackTrace();
-        }*/
+        // Setup new profile image from config.json
+        if(config.getBoolean("advanced.profile-picture.enabled")){
+            try {
+                String url = config.getString("advanced.profile-picture.url");
+                jda.getSelfUser().getManager().setAvatar(Icon.from(
+                        new URL(url).openStream())).complete();
+                CorgiLogger.greatMessage("Novy profilovy obrazek Corgiho byl nastaven z URL: " + url);
+            } catch (IOException e) {
+                CorgiLogger.dangerMessage("Chyba pri nastavovani noveho profiloveho obrazku:");
+                e.printStackTrace();
+            }
+        }
     }
 
     public static CorgiBot getInstance() {
@@ -211,5 +212,12 @@ public class CorgiBot {
 
     public static Config getConfig() {
         return config;
+    }
+
+    /*
+        Whatever is Corgi in BETA state!
+     */
+    public static boolean isIsBeta() {
+        return isBeta;
     }
 }

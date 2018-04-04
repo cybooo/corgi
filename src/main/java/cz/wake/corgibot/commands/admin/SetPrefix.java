@@ -1,6 +1,7 @@
 package cz.wake.corgibot.commands.admin;
 
 import com.jagrosh.jdautilities.waiter.EventWaiter;
+import cz.wake.corgibot.CorgiBot;
 import cz.wake.corgibot.annotations.SinceCorgi;
 import cz.wake.corgibot.commands.CommandType;
 import cz.wake.corgibot.commands.ICommand;
@@ -19,6 +20,10 @@ public class SetPrefix implements ICommand {
     @Override
     public void onCommand(User sender, MessageChannel channel, Message message, String[] args, Member member, EventWaiter w, GuildWrapper gw) {
         if (args.length == 1) {
+            if (!CorgiBot.isIsBeta()){
+                channel.sendMessage("Corgi je spuštění v režimu BETA! Nelze upravovat prefix!").queue();
+                return;
+            }
             if (args[0].equalsIgnoreCase("reset")) {
                 gw.setPrefix("c!", true);
                 channel.sendMessage(MessageUtils.getEmbed(Constants.GREEN).setDescription("Prefix byl vyresetován zpět na `c!`").build()).queue();

@@ -3,7 +3,7 @@ package cz.wake.corgibot.sql;
 import com.zaxxer.hikari.HikariConfig;
 import com.zaxxer.hikari.HikariDataSource;
 import cz.wake.corgibot.CorgiBot;
-import cz.wake.corgibot.utils.LoadingProperties;
+import cz.wake.corgibot.utils.config.Config;
 
 import java.sql.Connection;
 import java.sql.PreparedStatement;
@@ -15,13 +15,13 @@ public class ConnectionPoolManager {
     private final CorgiBot plugin;
     private HikariDataSource dataSource;
     private String host;
-    private String port;
+    private int port;
     private String database;
     private String username;
     private String password;
     private int minimumConnections;
     private int maximumConnections;
-    private long connectionTimeout;
+    private int connectionTimeout;
 
     public ConnectionPoolManager(CorgiBot plugin, String name) {
         this.plugin = plugin;
@@ -30,15 +30,15 @@ public class ConnectionPoolManager {
     }
 
     private void init() {
-        LoadingProperties config = new LoadingProperties();
-        host = config.getDatabaseHost();
-        port = config.getDatabasePort();
-        database = config.getDatabaseName();
-        username = config.getDatabaseUser();
-        password = config.getDatabasePassword();
-        minimumConnections = config.getMinConnections();
-        maximumConnections = config.getMaxConnections();
-        connectionTimeout = config.getTimeout();
+        Config config = CorgiBot.getConfig();
+        host = config.getString("mysql.hostname");
+        port = config.getInt("mysql.port");
+        database = config.getString("mysql.database");
+        username = config.getString("mysql.username");
+        password = config.getString("mysql.password");
+        minimumConnections = config.getInt("mysql.minimum_connections");
+        maximumConnections = config.getInt("mysql.maximum_connections");
+        connectionTimeout = config.getInt("mysql.timeout");
     }
 
     private void setupPool(String name) {

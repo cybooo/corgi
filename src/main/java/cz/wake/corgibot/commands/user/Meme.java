@@ -10,8 +10,8 @@ import cz.wake.corgibot.commands.ICommand;
 import cz.wake.corgibot.commands.Rank;
 import cz.wake.corgibot.objects.GuildWrapper;
 import cz.wake.corgibot.utils.Constants;
-import cz.wake.corgibot.utils.LoadingProperties;
 import cz.wake.corgibot.utils.MessageUtils;
+import cz.wake.corgibot.utils.config.Config;
 import net.dv8tion.jda.core.entities.Member;
 import net.dv8tion.jda.core.entities.Message;
 import net.dv8tion.jda.core.entities.MessageChannel;
@@ -108,12 +108,12 @@ public class Meme implements ICommand {
                     }
                 }
 
-                LoadingProperties properties = new LoadingProperties();
+                Config config = CorgiBot.getConfig();
 
                 JSONObject response = Unirest.get("https://api.imgflip.com/caption_image")
                         .queryString("template_id", id)
                         .queryString("username", "Corgi")
-                        .queryString("password", properties.getImgFlipToken())
+                        .queryString("password", config.getString("apis.imgflip"))
                         .queryString("text0", arguments[1].trim())
                         .queryString("text1", arguments[2].trim())
                         .asJson()

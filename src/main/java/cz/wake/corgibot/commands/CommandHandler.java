@@ -11,6 +11,7 @@ import cz.wake.corgibot.commands.owner.GuildList;
 import cz.wake.corgibot.commands.owner.Log;
 import cz.wake.corgibot.commands.owner.Stop;
 import cz.wake.corgibot.commands.user.*;
+import cz.wake.corgibot.utils.CorgiLogger;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -23,9 +24,9 @@ public class CommandHandler {
     public void registerCommand(ICommand c) {
         try {
             commands.add(c);
-            CorgiBot.LOGGER.info("Příkaz ." + c.getCommand() + " byl úspěšně zaregistrován!");
         } catch (Exception e) {
-            CorgiBot.LOGGER.info("Chyba při registraci příkazu ." + c.getCommand());
+            CorgiLogger.warnMessage("Chyba pri registraci prikazu - " + c.getCommand() + ":");
+            e.printStackTrace();
         }
     }
 
@@ -42,6 +43,7 @@ public class CommandHandler {
     }
 
     public void register() {
+        CorgiLogger.infoMessage("Probehne registrace prikazu!");
         registerCommand(new EightBall());
         registerCommand(new Help());
         registerCommand(new Ping());
@@ -85,6 +87,7 @@ public class CommandHandler {
         registerCommand(new Svatek());
         registerCommand(new Color());
         registerCommand(new Weather());
+        CorgiLogger.greatMessage("Corgi zaregistroval (" + commands.size() + ") prikazu.");
     }
 
 

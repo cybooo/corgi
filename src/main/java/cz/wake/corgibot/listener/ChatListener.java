@@ -46,9 +46,18 @@ public class ChatListener extends ListenerAdapter {
 
         if (BotManager.getListGuilds() == null) return;
 
-        // Custom Guild prefix
-        GuildWrapper guildWrapper = BotManager.getCustomGuild(e.getMember().getGuild().getId());
-        String prefix = guildWrapper.getPrefix();
+        String prefix;
+        GuildWrapper guildWrapper;
+
+        if(!CorgiBot.isIsBeta()){
+            // Custom Guild prefix from SQL
+            guildWrapper = BotManager.getCustomGuild(e.getMember().getGuild().getId());
+            prefix = guildWrapper.getPrefix();
+        } else {
+            // Fake guild
+            prefix = Constants.PREFIX;
+            guildWrapper = new GuildWrapper(e.getGuild().getId()).setPrefix(prefix, false);
+        }
 
         try {
             if (e.getMessage().getContentRaw().substring(0, 2).contains(Constants.PREFIX) || e.getMessage().getContentRaw().startsWith(prefix)

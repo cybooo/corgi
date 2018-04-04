@@ -1,0 +1,27 @@
+{
+  "beta": false,
+  "discord": {
+    "token": "",
+    "prefix": "",
+    "total_shards": 1
+  },
+  "mysql": {
+    "hostname": "localhost",
+    "port": 3306,
+    "database": "",
+    "username": "",
+    "password": "",
+    "minimum_connections": 5,
+    "maximum_connections": 10,
+    "timeout": 10000
+  },
+  "apis": {
+    "imgflip": "super-secret-key"
+  },
+  "advanced": {
+    "profile-picture": {
+      "enabled": false,
+      "url": "url-to-image"
+    }
+  }
+}

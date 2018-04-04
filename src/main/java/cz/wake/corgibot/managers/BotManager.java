@@ -3,6 +3,7 @@ package cz.wake.corgibot.managers;
 import cz.wake.corgibot.CorgiBot;
 import cz.wake.corgibot.objects.GuildWrapper;
 import cz.wake.corgibot.utils.Constants;
+import cz.wake.corgibot.utils.CorgiLogger;
 import net.dv8tion.jda.core.entities.Guild;
 import net.dv8tion.jda.core.entities.TextChannel;
 
@@ -17,16 +18,23 @@ public class BotManager {
 
     public static void loadGuilds(){
         for(Guild guild : CorgiBot.getJda().getGuilds()){
-            System.out.println("Registrace: " + guild.getName() + "(" + guild.getId() + ")");
+            try {
+                // Setup ignored channels
+                Set<TextChannel> ignoredChannels = CorgiBot.getInstance().getSql().getIgnoredChannels(guild.getId());
 
-            Set<TextChannel> ignoredChannels = CorgiBot.getInstance().getSql().getIgnoredChannels(guild.getId());
+                // Setup guild wrapper with ignored channels
+                GuildWrapper gw = CorgiBot.getInstance().getSql().createGuildWrappers(guild.getId());
+                gw.setIgnoredChannels(ignoredChannels);
 
-            System.out.println("Ignorovany channely: " + Arrays.toString(ignoredChannels.toArray()));
-            GuildWrapper gw = CorgiBot.getInstance().getSql().createGuildWrappers(guild.getId());
-            gw.setIgnoredChannels(ignoredChannels);
-
-            listGuilds.add(gw);
+                // Register in bot
+                listGuilds.add(gw);
+            } catch (NullPointerException ex){
+                CorgiLogger.dangerMessage("Nastala chyba pri registraci serveru! Zprava:");
+                ex.printStackTrace();
+                System.exit(-1);
+            }
         }
+        CorgiLogger.greatMessage("Pripojeno na (" + listGuilds.size() + ") serveru!");
     }
 
     public static HashSet<GuildWrapper> getListGuilds() {

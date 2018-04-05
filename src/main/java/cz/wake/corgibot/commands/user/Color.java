@@ -1,9 +1,8 @@
 package cz.wake.corgibot.commands.user;
 
 import com.jagrosh.jdautilities.waiter.EventWaiter;
-import cz.wake.corgibot.commands.CommandType;
-import cz.wake.corgibot.commands.ICommand;
-import cz.wake.corgibot.commands.Rank;
+import cz.wake.corgibot.commands.CommandCategory;
+import cz.wake.corgibot.commands.Command;
 import cz.wake.corgibot.objects.GuildWrapper;
 import cz.wake.corgibot.utils.Constants;
 import cz.wake.corgibot.utils.MessageUtils;
@@ -23,10 +22,10 @@ import java.util.Timer;
 import java.util.TimerTask;
 import java.util.regex.Pattern;
 
-public class Color implements ICommand {
+public class Color implements Command {
 
     @Override
-    public void onCommand(User sender, MessageChannel channel, Message message, String[] args, Member member, EventWaiter w, GuildWrapper gw) {
+    public void onCommand(MessageChannel channel, Message message, String[] args, Member member, EventWaiter w, GuildWrapper gw) {
         if (args.length < 1) {
             channel.sendMessage(MessageUtils.getEmbed(Constants.GRAY).setTitle("Nápověda k příkazu color").setDescription(getHelp().replace("%", gw.getPrefix())).build()).queue();
         } else {
@@ -67,13 +66,8 @@ public class Color implements ICommand {
     }
 
     @Override
-    public CommandType getType() {
-        return CommandType.FUN;
-    }
-
-    @Override
-    public Rank getRank() {
-        return Rank.USER;
+    public CommandCategory getCategory() {
+        return CommandCategory.FUN;
     }
 
     /**

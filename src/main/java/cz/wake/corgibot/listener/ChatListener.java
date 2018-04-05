@@ -2,8 +2,7 @@ package cz.wake.corgibot.listener;
 
 import com.jagrosh.jdautilities.waiter.EventWaiter;
 import cz.wake.corgibot.CorgiBot;
-import cz.wake.corgibot.commands.ICommand;
-import cz.wake.corgibot.commands.Rank;
+import cz.wake.corgibot.commands.Command;
 import cz.wake.corgibot.managers.BotManager;
 import cz.wake.corgibot.objects.GuildWrapper;
 import cz.wake.corgibot.utils.Constants;
@@ -59,6 +58,23 @@ public class ChatListener extends ListenerAdapter {
             guildWrapper = new GuildWrapper(e.getGuild().getId()).setPrefix(prefix, false);
         }
 
+        String raw = e.getMessage().getContentRaw();
+
+        try {
+            if(raw.startsWith(Constants.PREFIX.toLowerCase()) || raw.startsWith(guildWrapper.getPrefix().toLowerCase())
+                    || raw.startsWith(e.getGuild().getSelfMember().getAsMention())){
+
+            }
+        } catch (Exception ex){
+            ex.printStackTrace();
+        }
+
+
+
+
+/*
+
+        // OLD
         try {
             if (e.getMessage().getContentRaw().substring(0, 2).contains(Constants.PREFIX) || e.getMessage().getContentRaw().startsWith(prefix)
                     || e.getMessage().getContentRaw().substring(0, prefix.length()).contains(prefix)) {
@@ -74,7 +90,7 @@ public class ChatListener extends ListenerAdapter {
                     command = command.substring(0, message.indexOf(" ") - prefix.length());
                     args = message.substring(message.indexOf(" ") + 1).split(" ");
                 }
-                for (ICommand cmd : CorgiBot.getInstance().getCommandHandler().getCommands()) {
+                for (Command cmd : CorgiBot.getInstance().getCommandHandler().getCommands()) {
                     if (cmd.getCommand().equalsIgnoreCase(command) || Arrays.asList(cmd.getAliases()).contains(command)) {
 
                         // Spam detection
@@ -124,7 +140,7 @@ public class ChatListener extends ListenerAdapter {
             } else {
                 ex2.printStackTrace();
             }
-        }
+        }*/
     }
 
     @Override

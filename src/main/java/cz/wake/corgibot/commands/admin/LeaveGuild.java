@@ -2,25 +2,23 @@ package cz.wake.corgibot.commands.admin;
 
 import com.jagrosh.jdautilities.waiter.EventWaiter;
 import cz.wake.corgibot.annotations.SinceCorgi;
-import cz.wake.corgibot.commands.CommandType;
-import cz.wake.corgibot.commands.ICommand;
-import cz.wake.corgibot.commands.Rank;
+import cz.wake.corgibot.commands.Command;
+import cz.wake.corgibot.commands.CommandCategory;
 import cz.wake.corgibot.objects.GuildWrapper;
 import cz.wake.corgibot.utils.Constants;
 import cz.wake.corgibot.utils.MessageUtils;
 import net.dv8tion.jda.core.entities.Member;
 import net.dv8tion.jda.core.entities.Message;
 import net.dv8tion.jda.core.entities.MessageChannel;
-import net.dv8tion.jda.core.entities.User;
 import net.dv8tion.jda.core.events.message.react.MessageReactionAddEvent;
 
 import java.util.concurrent.TimeUnit;
 
 @SinceCorgi(version = "1.2.0")
-public class LeaveGuild implements ICommand {
+public class LeaveGuild implements Command {
 
     @Override
-    public void onCommand(User sender, MessageChannel channel, Message message, String[] args, Member member, EventWaiter w, GuildWrapper gw) {
+    public void onCommand(MessageChannel channel, Message message, String[] args, Member member, EventWaiter w, GuildWrapper gw) {
         if (args.length < 1) {
             channel.sendMessage(MessageUtils.getEmbed(Constants.ORANGE).setTitle("\u26A0 Potvrzení opuštění serveru \u26A0")
                     .setDescription("**VAROVÁNÍ**: Potvrzením následující akce Corgi opustí tento server!\nOpravdu chceš provést následující akci?").setFooter("Na potvrzení máš 60 vteřin.", null).build()).queue((Message m) -> {
@@ -29,7 +27,7 @@ public class LeaveGuild implements ICommand {
                 message.delete().queue();
 
                 w.waitForEvent(MessageReactionAddEvent.class, (MessageReactionAddEvent e) -> { //Potvrzení
-                    return e.getUser().equals(sender) && e.getMessageId().equals(m.getId()) && (e.getReaction().getReactionEmote().getName().equals("\u2705"));
+                    return e.getUser().equals(member.getUser()) && e.getMessageId().equals(m.getId()) && (e.getReaction().getReactionEmote().getName().equals("\u2705"));
                 }, (MessageReactionAddEvent ev) -> {
                     m.clearReactions().queue();
                     m.editMessage(MessageUtils.getEmbed(Constants.RED).setTitle("Potvrzení o opuštění!").setDescription("Corgi nyní opustí tento server! :sob:").build()).queue();
@@ -37,7 +35,7 @@ public class LeaveGuild implements ICommand {
                 }, 60, TimeUnit.SECONDS, null);
 
                 w.waitForEvent(MessageReactionAddEvent.class, (MessageReactionAddEvent e) -> { //Zrušení
-                    return e.getUser().equals(sender) && e.getMessageId().equals(m.getId()) && (e.getReaction().getReactionEmote().getName().equals("\u26D4"));
+                    return e.getUser().equals(member.getUser()) && e.getMessageId().equals(m.getId()) && (e.getReaction().getReactionEmote().getName().equals("\u26D4"));
                 }, (MessageReactionAddEvent ev) -> {
                     m.editMessage(MessageUtils.getEmbed(Constants.GREEN).setTitle("Opuštění zrušeno!").setDescription("Juchůůů! Corgi zde zůstane! :hugging:").build()).queue();
                     m.clearReactions().queue();
@@ -62,12 +60,7 @@ public class LeaveGuild implements ICommand {
     }
 
     @Override
-    public CommandType getType() {
-        return CommandType.ADMINISTARTOR;
-    }
-
-    @Override
-    public Rank getRank() {
-        return Rank.ADMINISTRATOR;
+    public CommandCategory getCategory() {
+        return CommandCategory.ADMINISTARTOR;
     }
 }

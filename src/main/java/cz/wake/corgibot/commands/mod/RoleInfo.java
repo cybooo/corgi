@@ -3,19 +3,18 @@ package cz.wake.corgibot.commands.mod;
 import com.jagrosh.jdautilities.waiter.EventWaiter;
 import cz.wake.corgibot.CorgiBot;
 import cz.wake.corgibot.annotations.SinceCorgi;
-import cz.wake.corgibot.commands.CommandType;
-import cz.wake.corgibot.commands.ICommand;
-import cz.wake.corgibot.commands.Rank;
+import cz.wake.corgibot.commands.CommandCategory;
+import cz.wake.corgibot.commands.Command;
 import cz.wake.corgibot.objects.GuildWrapper;
 import cz.wake.corgibot.utils.MessageUtils;
 import net.dv8tion.jda.core.EmbedBuilder;
 import net.dv8tion.jda.core.entities.*;
 
 @SinceCorgi(version = "1.2")
-public class RoleInfo implements ICommand {
+public class RoleInfo implements Command {
 
     @Override
-    public void onCommand(User sender, MessageChannel channel, Message message, String[] args, Member member, EventWaiter w, GuildWrapper gw) {
+    public void onCommand(MessageChannel channel, Message message, String[] args, Member member, EventWaiter w, GuildWrapper gw) {
         Role role = null;
         long id = 0;
         try {
@@ -65,13 +64,8 @@ public class RoleInfo implements ICommand {
     }
 
     @Override
-    public CommandType getType() {
-        return CommandType.MODERATION;
-    }
-
-    @Override
-    public Rank getRank() {
-        return Rank.MODERATOR;
+    public CommandCategory getCategory() {
+        return CommandCategory.MODERATION;
     }
 
     @Override

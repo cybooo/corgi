@@ -3,9 +3,8 @@ package cz.wake.corgibot.commands.user;
 import com.jagrosh.jdautilities.waiter.EventWaiter;
 import cz.wake.corgibot.CorgiBot;
 import cz.wake.corgibot.annotations.SinceCorgi;
-import cz.wake.corgibot.commands.CommandType;
-import cz.wake.corgibot.commands.ICommand;
-import cz.wake.corgibot.commands.Rank;
+import cz.wake.corgibot.commands.CommandCategory;
+import cz.wake.corgibot.commands.Command;
 import cz.wake.corgibot.objects.GuildWrapper;
 import cz.wake.corgibot.utils.Constants;
 import cz.wake.corgibot.utils.EmoteList;
@@ -21,10 +20,10 @@ import okhttp3.Response;
 import org.json.JSONObject;
 
 @SinceCorgi(version = "1.3.0")
-public class Svatek implements ICommand {
+public class Svatek implements Command {
 
     @Override
-    public void onCommand(User sender, MessageChannel channel, Message message, String[] args, Member member, EventWaiter w, GuildWrapper gw) {
+    public void onCommand(MessageChannel channel, Message message, String[] args, Member member, EventWaiter w, GuildWrapper gw) {
         if(args.length < 1){
 
             String czechName, slovakName;
@@ -95,12 +94,7 @@ public class Svatek implements ICommand {
     }
 
     @Override
-    public CommandType getType() {
-        return CommandType.FUN;
-    }
-
-    @Override
-    public Rank getRank() {
-        return Rank.USER;
+    public CommandCategory getCategory() {
+        return CommandCategory.FUN;
     }
 }

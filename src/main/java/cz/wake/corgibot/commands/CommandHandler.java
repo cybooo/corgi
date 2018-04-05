@@ -1,6 +1,5 @@
 package cz.wake.corgibot.commands;
 
-import cz.wake.corgibot.CorgiBot;
 import cz.wake.corgibot.commands.admin.Ignore;
 import cz.wake.corgibot.commands.admin.LeaveGuild;
 import cz.wake.corgibot.commands.admin.Say;
@@ -12,6 +11,7 @@ import cz.wake.corgibot.commands.owner.Log;
 import cz.wake.corgibot.commands.owner.Stop;
 import cz.wake.corgibot.commands.user.*;
 import cz.wake.corgibot.utils.CorgiLogger;
+import net.dv8tion.jda.core.entities.User;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -19,9 +19,9 @@ import java.util.stream.Collectors;
 
 public class CommandHandler {
 
-    public static List<ICommand> commands = new ArrayList<>();
+    public static List<Command> commands = new ArrayList<>();
 
-    public void registerCommand(ICommand c) {
+    public void registerCommand(Command c) {
         try {
             commands.add(c);
         } catch (Exception e) {
@@ -30,16 +30,16 @@ public class CommandHandler {
         }
     }
 
-    public void unregisterCommand(ICommand c) {
+    public void unregisterCommand(Command c) {
         commands.remove(c);
     }
 
-    public List<ICommand> getCommands() {
+    public List<Command> getCommands() {
         return commands;
     }
 
-    public List<ICommand> getCommandsByType(CommandType type) {
-        return commands.stream().filter(command -> command.getType() == type).collect(Collectors.toList());
+    public List<Command> getCommandsByType(CommandCategory type) {
+        return commands.stream().filter(command -> command.getCategory() == type).collect(Collectors.toList());
     }
 
     public void register() {

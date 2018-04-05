@@ -2,9 +2,8 @@ package cz.wake.corgibot.commands.mod;
 
 import com.jagrosh.jdautilities.waiter.EventWaiter;
 import cz.wake.corgibot.annotations.SinceCorgi;
-import cz.wake.corgibot.commands.CommandType;
-import cz.wake.corgibot.commands.ICommand;
-import cz.wake.corgibot.commands.Rank;
+import cz.wake.corgibot.commands.CommandCategory;
+import cz.wake.corgibot.commands.Command;
 import cz.wake.corgibot.objects.GuildWrapper;
 import cz.wake.corgibot.utils.Constants;
 import cz.wake.corgibot.utils.EmoteList;
@@ -16,15 +15,13 @@ import net.dv8tion.jda.core.entities.MessageChannel;
 import net.dv8tion.jda.core.entities.User;
 import net.dv8tion.jda.core.utils.PermissionUtil;
 
-import java.util.ArrayList;
 import java.util.LinkedList;
-import java.util.List;
 
 @SinceCorgi(version = "1.3.1.1")
-public class Warn implements ICommand {
+public class Warn implements Command {
 
     @Override
-    public void onCommand(User sender, MessageChannel channel, Message message, String[] args, Member member, EventWaiter w, GuildWrapper gw) {
+    public void onCommand(MessageChannel channel, Message message, String[] args, Member member, EventWaiter w, GuildWrapper gw) {
         if (args.length < 1){
             MessageUtils.sendErrorMessage("Špatně napsaný příkaz! Př. `" + gw.getPrefix() + "warn @User1 @User2 | <duvod>", channel);
             return;
@@ -111,12 +108,7 @@ public class Warn implements ICommand {
     }
 
     @Override
-    public CommandType getType() {
-        return CommandType.MODERATION;
-    }
-
-    @Override
-    public Rank getRank() {
-        return Rank.MODERATOR;
+    public CommandCategory getCategory() {
+        return CommandCategory.MODERATION;
     }
 }

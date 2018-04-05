@@ -5,21 +5,23 @@ import cz.wake.corgibot.utils.EmoteList;
 
 import java.util.List;
 
-public enum CommandType {
+public enum CommandCategory {
 
     GENERAL(EmoteList.CLIPBOARD),
     MODERATION(EmoteList.MODERATION),
+    GAMES,
     FUN(EmoteList.VIDEO_GAME),
     MUSIC,
     ADMINISTARTOR(EmoteList.PLAYING_CARD),
+    HIDDEN,
     BOT_OWNER;
 
     private String emote;
 
-    CommandType() {
+    CommandCategory() {
     }
 
-    CommandType(String e) {
+    CommandCategory(String e) {
         this.emote = e;
     }
 
@@ -27,11 +29,11 @@ public enum CommandType {
         return name().charAt(0) + name().substring(1).toLowerCase();
     }
 
-    public static CommandType[] getTypes() {
-        return new CommandType[]{GENERAL, FUN, MODERATION, ADMINISTARTOR, MUSIC, BOT_OWNER};
+    public static CommandCategory[] getTypes() {
+        return new CommandCategory[]{GENERAL, FUN, MODERATION, ADMINISTARTOR, MUSIC, BOT_OWNER};
     }
 
-    public List<ICommand> getCommands() {
+    public List<Command> getCommands() {
         return CorgiBot.getInstance().getCommandHandler().getCommandsByType(this);
     }
 

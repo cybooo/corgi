@@ -3,24 +3,21 @@ package cz.wake.corgibot.commands.mod;
 import com.jagrosh.jdautilities.waiter.EventWaiter;
 import cz.wake.corgibot.CorgiBot;
 import cz.wake.corgibot.annotations.SinceCorgi;
-import cz.wake.corgibot.commands.ICommand;
-import cz.wake.corgibot.commands.CommandType;
-import cz.wake.corgibot.commands.Rank;
+import cz.wake.corgibot.commands.Command;
+import cz.wake.corgibot.commands.CommandCategory;
 import cz.wake.corgibot.objects.GuildWrapper;
 import cz.wake.corgibot.utils.Constants;
 import cz.wake.corgibot.utils.MessageUtils;
 import net.dv8tion.jda.core.entities.*;
 
-import java.util.Arrays;
-
 @SinceCorgi(version = "0.5")
-public class Giveaway implements ICommand {
+public class Giveaway implements Command {
 
 
     //TODO: Kompletně předělat...
 
     @Override
-    public void onCommand(User sender, MessageChannel channel, Message message, String[] args, Member member, EventWaiter w, GuildWrapper gw) {
+    public void onCommand(MessageChannel channel, Message message, String[] args, Member member, EventWaiter w, GuildWrapper gw) {
         try {
             int sec = Integer.parseInt(args[0]);
             if(sec < 30){
@@ -56,13 +53,8 @@ public class Giveaway implements ICommand {
     }
 
     @Override
-    public CommandType getType() {
-        return CommandType.MODERATION;
-    }
-
-    @Override
-    public Rank getRank() {
-        return Rank.MODERATOR;
+    public CommandCategory getCategory() {
+        return CommandCategory.MODERATION;
     }
 }
 

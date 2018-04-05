@@ -3,9 +3,8 @@ package cz.wake.corgibot.commands.mod;
 import com.jagrosh.jdautilities.waiter.EventWaiter;
 import cz.wake.corgibot.CorgiBot;
 import cz.wake.corgibot.annotations.SinceCorgi;
-import cz.wake.corgibot.commands.CommandType;
-import cz.wake.corgibot.commands.ICommand;
-import cz.wake.corgibot.commands.Rank;
+import cz.wake.corgibot.commands.CommandCategory;
+import cz.wake.corgibot.commands.Command;
 import cz.wake.corgibot.objects.GuildWrapper;
 import cz.wake.corgibot.utils.Constants;
 import cz.wake.corgibot.utils.EmoteList;
@@ -18,13 +17,12 @@ import net.dv8tion.jda.core.exceptions.PermissionException;
 import java.time.OffsetDateTime;
 import java.util.ArrayList;
 import java.util.List;
-import java.util.concurrent.TimeUnit;
 
 @SinceCorgi(version = "1.3.0")
-public class Purge implements ICommand {
+public class Purge implements Command {
 
     @Override
-    public void onCommand(User sender, MessageChannel channel, Message message, String[] args, Member member, EventWaiter w, GuildWrapper gw) {
+    public void onCommand(MessageChannel channel, Message message, String[] args, Member member, EventWaiter w, GuildWrapper gw) {
         if (args.length >= 1) {
             User targetUser = null;
             int amount;
@@ -121,13 +119,8 @@ public class Purge implements ICommand {
     }
 
     @Override
-    public CommandType getType() {
-        return CommandType.MODERATION;
-    }
-
-    @Override
-    public Rank getRank() {
-        return Rank.MODERATOR;
+    public CommandCategory getCategory() {
+        return CommandCategory.MODERATION;
     }
 
     @Override

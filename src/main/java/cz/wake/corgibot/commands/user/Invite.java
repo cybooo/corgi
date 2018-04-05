@@ -2,9 +2,8 @@ package cz.wake.corgibot.commands.user;
 
 import com.jagrosh.jdautilities.waiter.EventWaiter;
 import cz.wake.corgibot.annotations.SinceCorgi;
-import cz.wake.corgibot.commands.CommandType;
-import cz.wake.corgibot.commands.ICommand;
-import cz.wake.corgibot.commands.Rank;
+import cz.wake.corgibot.commands.CommandCategory;
+import cz.wake.corgibot.commands.Command;
 import cz.wake.corgibot.objects.GuildWrapper;
 import cz.wake.corgibot.utils.Constants;
 import cz.wake.corgibot.utils.MessageUtils;
@@ -14,10 +13,10 @@ import net.dv8tion.jda.core.entities.MessageChannel;
 import net.dv8tion.jda.core.entities.User;
 
 @SinceCorgi(version = "1.0")
-public class Invite implements ICommand {
+public class Invite implements Command {
 
     @Override
-    public void onCommand(User sender, MessageChannel channel, Message message, String[] args, Member member, EventWaiter w, GuildWrapper gw) {
+    public void onCommand(MessageChannel channel, Message message, String[] args, Member member, EventWaiter w, GuildWrapper gw) {
         channel.sendMessage(MessageUtils.getEmbed(Constants.GREEN).setTitle("Přidání Corgiho na server")
                 .setDescription("K pozvání použij následující [**ODKAZ**](https://discordapp.com/oauth2/authorize?client_id=294952122582302720&scope=bot&permissions=104197334)").build()).queue();
     }
@@ -38,13 +37,8 @@ public class Invite implements ICommand {
     }
 
     @Override
-    public CommandType getType() {
-        return CommandType.GENERAL;
-    }
-
-    @Override
-    public Rank getRank() {
-        return Rank.USER;
+    public CommandCategory getCategory() {
+        return CommandCategory.GENERAL;
     }
 
     @Override

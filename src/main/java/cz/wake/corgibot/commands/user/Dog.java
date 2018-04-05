@@ -2,9 +2,8 @@ package cz.wake.corgibot.commands.user;
 
 import com.jagrosh.jdautilities.waiter.EventWaiter;
 import cz.wake.corgibot.annotations.SinceCorgi;
-import cz.wake.corgibot.commands.CommandType;
-import cz.wake.corgibot.commands.ICommand;
-import cz.wake.corgibot.commands.Rank;
+import cz.wake.corgibot.commands.CommandCategory;
+import cz.wake.corgibot.commands.Command;
 import cz.wake.corgibot.objects.GuildWrapper;
 import cz.wake.corgibot.utils.Constants;
 import cz.wake.corgibot.utils.MessageUtils;
@@ -19,10 +18,10 @@ import org.json.JSONArray;
 import org.json.JSONObject;
 
 @SinceCorgi(version = "1.2.1")
-public class Dog implements ICommand {
+public class Dog implements Command {
 
     @Override
-    public void onCommand(User sender, MessageChannel channel, Message message, String[] args, Member member, EventWaiter w, GuildWrapper gw) {
+    public void onCommand(MessageChannel channel, Message message, String[] args, Member member, EventWaiter w, GuildWrapper gw) {
         String url = "";
         OkHttpClient caller = new OkHttpClient();
         Request request = new Request.Builder().url("https://api.thedogapi.co.uk/v2/dog.php").build();
@@ -54,13 +53,8 @@ public class Dog implements ICommand {
     }
 
     @Override
-    public CommandType getType() {
-        return CommandType.FUN;
-    }
-
-    @Override
-    public Rank getRank() {
-        return Rank.USER;
+    public CommandCategory getCategory() {
+        return CommandCategory.FUN;
     }
 
     @Override

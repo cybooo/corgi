@@ -195,12 +195,12 @@ public class CorgiBot {
 
     private static void bootLogo() {
         LOGGER.info("");
-        LOGGER.info("   ______                 _ ");
-        LOGGER.info("  / ____/___  _________ _(_)");
-        LOGGER.info(" / /   / __ \\/ ___/ __ `/ / ");
-        LOGGER.info("/ /___/ /_/ / /  / /_/ / /  ");
-        LOGGER.info("\\____/\\____/_/   \\__, /_/   ");
-        LOGGER.info("                /____/      ");
+        LOGGER.info("       ______                 _ ");
+        LOGGER.info("      / ____/___  _________ _(_)");
+        LOGGER.info("     / /   / __ \\/ ___/ __ `/ / ");
+        LOGGER.info("    / /___/ /_/ / /  / /_/ / /  ");
+        LOGGER.info("    \\____/\\____/_/   \\__, /_/   ");
+        LOGGER.info("                    /____/      ");
         LOGGER.info("");
     }
 

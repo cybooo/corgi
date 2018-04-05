@@ -102,4 +102,9 @@ public class Ban implements Command {
     public CommandCategory getCategory() {
         return CommandCategory.MODERATION;
     }
+
+    @Override
+    public Permission[] botPermission() {
+        return new Permission[]{Permission.BAN_MEMBERS};
+    }
 }

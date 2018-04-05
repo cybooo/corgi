@@ -98,8 +98,17 @@ public class MessageUtils {
                 .complete();
     }
 
+    public static Message sendErrorMessage(String title, String message, MessageChannel channel) {
+        return channel.sendMessage(MessageUtils.getEmbed().setColor(Constants.RED).setTitle(title).setDescription(message).build())
+                .complete();
+    }
+
     public static void sendAutoDeletedMessage(String message, long delay, MessageChannel channel) {
         sendAutoDeletedMessage(new MessageBuilder().setEmbed(MessageUtils.getEmbed().setColor(Constants.RED).setDescription(message).build()).build(), delay, channel);
+    }
+
+    public static void sendAutoDeletedMessage(String title, String message, long delay, MessageChannel channel) {
+        sendAutoDeletedMessage(new MessageBuilder().setEmbed(MessageUtils.getEmbed().setTitle(title).setColor(Constants.RED).setDescription(message).build()).build(), delay, channel);
     }
 
     public static void sendAutoDeletedMessage(String message, long delay, MessageChannel channel, Color c) {

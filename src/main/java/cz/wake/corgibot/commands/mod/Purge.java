@@ -3,8 +3,8 @@ package cz.wake.corgibot.commands.mod;
 import com.jagrosh.jdautilities.waiter.EventWaiter;
 import cz.wake.corgibot.CorgiBot;
 import cz.wake.corgibot.annotations.SinceCorgi;
-import cz.wake.corgibot.commands.CommandCategory;
 import cz.wake.corgibot.commands.Command;
+import cz.wake.corgibot.commands.CommandCategory;
 import cz.wake.corgibot.objects.GuildWrapper;
 import cz.wake.corgibot.utils.Constants;
 import cz.wake.corgibot.utils.EmoteList;
@@ -92,7 +92,7 @@ public class Purge implements Command {
             }
             if (i > 0) {
                 channel.sendMessage(MessageUtils.getEmbed(Constants.GREEN)
-                                .setDescription(String.format(EmoteList.GREEN_OK + " | Smazáno `%s` zpráv!", i)).build()).queue();
+                        .setDescription(String.format(EmoteList.GREEN_OK + " | Smazáno `%s` zpráv!", i)).build()).queue();
             } else {
                 MessageUtils.sendErrorMessage("Nemohu najít zprávy, které mám smazat!", channel);
             }

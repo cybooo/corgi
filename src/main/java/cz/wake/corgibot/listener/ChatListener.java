@@ -21,9 +21,7 @@ import net.dv8tion.jda.core.exceptions.ErrorResponseException;
 import net.dv8tion.jda.core.hooks.ListenerAdapter;
 
 import java.util.Arrays;
-import java.util.List;
 import java.util.Map;
-import java.util.Optional;
 import java.util.concurrent.ConcurrentHashMap;
 import java.util.concurrent.TimeUnit;
 import java.util.regex.Pattern;
@@ -37,7 +35,8 @@ public class ChatListener extends ListenerAdapter {
         this.w = w;
     }
 
-    public ChatListener() {}
+    public ChatListener() {
+    }
 
     @Override
     public void onGuildMessageReceived(GuildMessageReceivedEvent e) {
@@ -51,7 +50,7 @@ public class ChatListener extends ListenerAdapter {
         String prefix;
         GuildWrapper guildWrapper;
 
-        if(!CorgiBot.isIsBeta()){
+        if (!CorgiBot.isIsBeta()) {
             // Custom Guild prefix from SQL
             guildWrapper = BotManager.getCustomGuild(e.getMember().getGuild().getId());
             prefix = guildWrapper.getPrefix();
@@ -64,8 +63,8 @@ public class ChatListener extends ListenerAdapter {
         String raw = e.getMessage().getContentRaw();
 
         try {
-            if(raw.startsWith(Constants.PREFIX.toLowerCase()) || raw.startsWith(guildWrapper.getPrefix().toLowerCase())
-                    || raw.startsWith(e.getGuild().getSelfMember().getAsMention())){
+            if (raw.startsWith(Constants.PREFIX.toLowerCase()) || raw.startsWith(guildWrapper.getPrefix().toLowerCase())
+                    || raw.startsWith(e.getGuild().getSelfMember().getAsMention())) {
                 final String[] split = e.getMessage().getContentRaw().replaceFirst(
                         "(?i)" + Pattern.quote(Constants.PREFIX) + "|" + Pattern.quote(guildWrapper.getPrefix()), "").split("\\s+");
                 final String invoke = split[0].toLowerCase();
@@ -74,7 +73,7 @@ public class ChatListener extends ListenerAdapter {
                 Command cmd = CorgiBot.getInstance().getCommandHandler().getCommand(invoke);
 
                 // If Corgi does not own basic permission will do nothing
-                if(!e.getGuild().getSelfMember().hasPermission(getBasicPerms())){
+                if (!e.getGuild().getSelfMember().hasPermission(getBasicPerms())) {
                     return;
                 }
 
@@ -99,7 +98,7 @@ public class ChatListener extends ListenerAdapter {
                 CorgiLogger.commandMessage("'" + cmd.getCommand() + " " + Arrays.toString(Arrays.copyOfRange(split, 1, split.length)) + "', (Guild: " + e.getGuild().getName() + ", Channel: " + (e.getChannel().getName()) + "), Sender: " + e.getAuthor());
 
                 // Check bot permissions if are required
-                if(!e.getGuild().getSelfMember().hasPermission(cmd.botPermission())){
+                if (!e.getGuild().getSelfMember().hasPermission(cmd.botPermission())) {
                     StringBuilder sb = new StringBuilder();
                     Arrays.stream(cmd.botPermission()).forEach(c -> sb.append(c.name()).append(", "));
                     MessageUtils.sendErrorMessage("Chyba práv", "Akci nelze provést, jelikož nemám dostatečná práva!\nChybí mi: `" + sb.toString().substring(0, sb.length() - 2) + "`", e.getChannel());
@@ -107,7 +106,7 @@ public class ChatListener extends ListenerAdapter {
                 }
 
                 // Check user permissions if are required
-                if(!e.getMember().hasPermission(cmd.userPermission())){
+                if (!e.getMember().hasPermission(cmd.userPermission())) {
                     StringBuilder sb = new StringBuilder();
                     Arrays.stream(cmd.botPermission()).forEach(c -> sb.append(c.name()).append(", "));
                     MessageUtils.sendAutoDeletedMessage("Nemáš dostatečná práva", "Akci nelze provést, jelikož nemáš dostatečná práva!\nChybí ti: `" + sb.toString().substring(0, sb.length() - 2) + "`", 5000, e.getChannel());
@@ -117,13 +116,13 @@ public class ChatListener extends ListenerAdapter {
                 // Run command
                 try {
                     cmd.onCommand(e.getChannel(), e.getMessage(), Arrays.copyOfRange(split, 1, split.length), e.getMember(), w, guildWrapper);
-                } catch (Exception ex){
+                } catch (Exception ex) {
                     MessageUtils.sendAutoDeletedMessage("Interní chyba při provádění příkazu!", 10000, e.getChannel());
                     ex.printStackTrace();
                 }
 
                 // Delete message after
-                if(cmd.deleteMessage()){
+                if (cmd.deleteMessage()) {
                     delete(e.getMessage());
                 }
 
@@ -197,7 +196,7 @@ public class ChatListener extends ListenerAdapter {
         spamMap.clear();
     }
 
-    private Permission[] getBasicPerms(){
+    private Permission[] getBasicPerms() {
         return new Permission[]{Permission.MESSAGE_EMBED_LINKS, Permission.MESSAGE_WRITE};
     }
 }

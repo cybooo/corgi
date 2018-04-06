@@ -2,8 +2,8 @@ package cz.wake.corgibot.commands.user;
 
 import com.jagrosh.jdautilities.waiter.EventWaiter;
 import cz.wake.corgibot.annotations.SinceCorgi;
-import cz.wake.corgibot.commands.CommandCategory;
 import cz.wake.corgibot.commands.Command;
+import cz.wake.corgibot.commands.CommandCategory;
 import cz.wake.corgibot.objects.GuildWrapper;
 import cz.wake.corgibot.utils.Constants;
 import cz.wake.corgibot.utils.EmoteList;
@@ -11,7 +11,6 @@ import cz.wake.corgibot.utils.MessageUtils;
 import net.dv8tion.jda.core.entities.Member;
 import net.dv8tion.jda.core.entities.Message;
 import net.dv8tion.jda.core.entities.MessageChannel;
-import net.dv8tion.jda.core.entities.User;
 
 @SinceCorgi(version = "0.1")
 public class Ping implements Command {
@@ -37,7 +36,7 @@ public class Ping implements Command {
                 }
                 start = System.currentTimeMillis();
             }
-            m.editMessage(MessageUtils.getEmbed(Constants.GREEN).setDescription(String.format(EmoteList.LOUDSPEAKER + " | **Průměrný ping je:** %dms (min: %d, max: %d)", (int)Math.ceil(sum / 5f), min, max)).build()).complete();
+            m.editMessage(MessageUtils.getEmbed(Constants.GREEN).setDescription(String.format(EmoteList.LOUDSPEAKER + " | **Průměrný ping je:** %dms (min: %d, max: %d)", (int) Math.ceil(sum / 5f), min, max)).build()).complete();
         });
     }
 

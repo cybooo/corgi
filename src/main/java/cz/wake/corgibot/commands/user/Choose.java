@@ -2,15 +2,14 @@ package cz.wake.corgibot.commands.user;
 
 import com.jagrosh.jdautilities.waiter.EventWaiter;
 import cz.wake.corgibot.annotations.SinceCorgi;
-import cz.wake.corgibot.commands.CommandCategory;
 import cz.wake.corgibot.commands.Command;
+import cz.wake.corgibot.commands.CommandCategory;
 import cz.wake.corgibot.objects.GuildWrapper;
 import cz.wake.corgibot.utils.EmoteList;
 import cz.wake.corgibot.utils.MessageUtils;
 import net.dv8tion.jda.core.entities.Member;
 import net.dv8tion.jda.core.entities.Message;
 import net.dv8tion.jda.core.entities.MessageChannel;
-import net.dv8tion.jda.core.entities.User;
 
 import java.util.Random;
 
@@ -29,7 +28,7 @@ public class Choose implements Command {
                 MessageUtils.sendErrorMessage("Musíš zadat víc než 1 volbu!", channel);
                 return;
             }
-            if (arguments[0].equalsIgnoreCase("choose") || arguments[0].equalsIgnoreCase("volba")){
+            if (arguments[0].equalsIgnoreCase("choose") || arguments[0].equalsIgnoreCase("volba")) {
                 MessageUtils.sendErrorMessage("První možnost byla zadána špatně. Zkus to znova...", channel);
                 return;
             }

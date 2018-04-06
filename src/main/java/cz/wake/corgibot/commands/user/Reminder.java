@@ -3,15 +3,14 @@ package cz.wake.corgibot.commands.user;
 import com.jagrosh.jdautilities.waiter.EventWaiter;
 import cz.wake.corgibot.CorgiBot;
 import cz.wake.corgibot.annotations.SinceCorgi;
-import cz.wake.corgibot.commands.CommandCategory;
 import cz.wake.corgibot.commands.Command;
+import cz.wake.corgibot.commands.CommandCategory;
 import cz.wake.corgibot.objects.GuildWrapper;
 import cz.wake.corgibot.objects.TemporaryReminder;
 import cz.wake.corgibot.utils.*;
 import net.dv8tion.jda.core.entities.Member;
 import net.dv8tion.jda.core.entities.Message;
 import net.dv8tion.jda.core.entities.MessageChannel;
-import net.dv8tion.jda.core.entities.User;
 import org.joda.time.DateTime;
 import org.joda.time.Period;
 import org.joda.time.format.PeriodFormatter;
@@ -33,10 +32,10 @@ public class Reminder implements Command {
     public void onCommand(MessageChannel channel, Message message, String[] args, Member member, EventWaiter w, GuildWrapper gw) {
         if (args.length < 1) {
             channel.sendMessage(MessageUtils.getEmbed(Constants.GRAY).setTitle("Nápověda k reminderu").setDescription(getHelp().replace("%", gw.getPrefix())).build()).queue();
-        } else if (args[0].contains("list")){
+        } else if (args[0].contains("list")) {
             HashSet<TemporaryReminder> list = CorgiBot.getInstance().getSql().getRemindersByUser(member.getUser().getId());
 
-            if(list.isEmpty()){
+            if (list.isEmpty()) {
                 MessageUtils.sendErrorMessage("Nemáš nastavené žádné upozornění!", channel);
                 return;
             }
@@ -46,28 +45,28 @@ public class Reminder implements Command {
             mess.append("\n```markdown\n");
             mess.append("# ID | ZBÝVAJÍCÍ ČAS | TEXT\n\n");
 
-            for (TemporaryReminder tr : list){
+            for (TemporaryReminder tr : list) {
                 mess.append(tr.getReminderId() + " | " + TimeUtils.toShortTime(tr.getDate() - System.currentTimeMillis()) + " | " + tr.getMessage() + "\n");
             }
 
             mess.append("```");
             channel.sendMessage(mess.toString()).queue();
-        } else if (args[0].contains("delete")){
-            if(args.length == 1){
+        } else if (args[0].contains("delete")) {
+            if (args.length == 1) {
                 MessageUtils.sendErrorMessage("Nezadal jsi ID. Zkus to znova!", channel);
                 return;
             }
             String id = args[1];
-            if(id == null){
+            if (id == null) {
                 MessageUtils.sendErrorMessage("Nezadal jsi ID. Zkus to znova!", channel);
                 return;
             }
-            if(FormatUtil.isStringInt(id)){
+            if (FormatUtil.isStringInt(id)) {
                 int convertedId = Integer.valueOf(id);
                 try {
                     CorgiBot.getInstance().getSql().deleteReminderById(member.getUser().getId(), convertedId);
                     channel.sendMessage(MessageUtils.getEmbed(Constants.GREEN).setDescription("Upozornění s ID **" + convertedId + "** bylo smazáno!").build()).queue();
-                } catch (Exception e){
+                } catch (Exception e) {
                     MessageUtils.sendErrorMessage("Zadané ID neexistuje nebo se jedná o interní chybu!", channel);
                 }
             } else {

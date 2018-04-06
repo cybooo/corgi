@@ -3,8 +3,8 @@ package cz.wake.corgibot.commands.user;
 import com.jagrosh.jdautilities.waiter.EventWaiter;
 import cz.wake.corgibot.CorgiBot;
 import cz.wake.corgibot.annotations.SinceCorgi;
-import cz.wake.corgibot.commands.CommandCategory;
 import cz.wake.corgibot.commands.Command;
+import cz.wake.corgibot.commands.CommandCategory;
 import cz.wake.corgibot.objects.GuildWrapper;
 import cz.wake.corgibot.utils.Constants;
 import cz.wake.corgibot.utils.EmoteList;
@@ -13,7 +13,6 @@ import cz.wake.corgibot.utils.ValuesUtil;
 import net.dv8tion.jda.core.entities.Member;
 import net.dv8tion.jda.core.entities.Message;
 import net.dv8tion.jda.core.entities.MessageChannel;
-import net.dv8tion.jda.core.entities.User;
 import okhttp3.OkHttpClient;
 import okhttp3.Request;
 import okhttp3.Response;
@@ -24,7 +23,7 @@ public class Svatek implements Command {
 
     @Override
     public void onCommand(MessageChannel channel, Message message, String[] args, Member member, EventWaiter w, GuildWrapper gw) {
-        if(args.length < 1){
+        if (args.length < 1) {
 
             String czechName, slovakName;
 
@@ -36,14 +35,14 @@ public class Svatek implements Command {
                 JSONObject json = new JSONObject(response.body().string());
                 JSONObject name = json.getJSONObject("data");
 
-                czechName = (String)name.get("name_cz");
-                slovakName = (String)name.get("name_sk");
+                czechName = (String) name.get("name_cz");
+                slovakName = (String) name.get("name_sk");
 
                 channel.sendMessage(MessageUtils.getEmbed(Constants.BLUE).setTitle("Kdo má dnes svátek?")
-                    .setDescription(EmoteList.CZECH_FLAG + " " + czechName + "\n" +
-                            EmoteList.SLOVAK_FLAG + " " + slovakName).build()).queue();
+                        .setDescription(EmoteList.CZECH_FLAG + " " + czechName + "\n" +
+                                EmoteList.SLOVAK_FLAG + " " + slovakName).build()).queue();
 
-            } catch (Exception e){
+            } catch (Exception e) {
                 MessageUtils.sendErrorMessage("Zřejmě chyba v API! Zkus to zachvilku :(", channel);
                 CorgiBot.LOGGER.error(e.getStackTrace().toString());
             }
@@ -51,8 +50,8 @@ public class Svatek implements Command {
             String day = args[0];
             String month = args[1];
 
-            if(!(ValuesUtil.isInt(day) || (ValuesUtil.isInt(month)))){
-                MessageUtils.sendErrorMessage("Zadal jsi špatně číslo! Zkus to znova...",channel);
+            if (!(ValuesUtil.isInt(day) || (ValuesUtil.isInt(month)))) {
+                MessageUtils.sendErrorMessage("Zadal jsi špatně číslo! Zkus to znova...", channel);
             }
 
             OkHttpClient caller = new OkHttpClient();
@@ -62,14 +61,14 @@ public class Svatek implements Command {
                 JSONObject json = new JSONObject(response.body().string());
                 JSONObject name = json.getJSONObject("data");
 
-                String czechName = (String)name.get("name_cz");
-                String slovakName = (String)name.get("name_sk");
+                String czechName = (String) name.get("name_cz");
+                String slovakName = (String) name.get("name_sk");
 
                 channel.sendMessage(MessageUtils.getEmbed(Constants.BLUE).setTitle("Dne " + day + "." + month + ". má svátek:")
                         .setDescription(EmoteList.CZECH_FLAG + " " + czechName + "\n" +
                                 EmoteList.SLOVAK_FLAG + " " + slovakName).build()).queue();
 
-            } catch (Exception e){
+            } catch (Exception e) {
                 MessageUtils.sendErrorMessage("Chyba v API nebo špatně zadaný datum!", channel);
                 CorgiBot.LOGGER.error(e.getStackTrace().toString());
             }

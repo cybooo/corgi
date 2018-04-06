@@ -8,7 +8,9 @@ import cz.wake.corgibot.commands.CommandCategory;
 import cz.wake.corgibot.objects.GuildWrapper;
 import cz.wake.corgibot.utils.Constants;
 import cz.wake.corgibot.utils.MessageUtils;
-import net.dv8tion.jda.core.entities.*;
+import net.dv8tion.jda.core.entities.Member;
+import net.dv8tion.jda.core.entities.Message;
+import net.dv8tion.jda.core.entities.MessageChannel;
 
 @SinceCorgi(version = "0.5")
 public class Giveaway implements Command {
@@ -20,7 +22,7 @@ public class Giveaway implements Command {
     public void onCommand(MessageChannel channel, Message message, String[] args, Member member, EventWaiter w, GuildWrapper gw) {
         try {
             int sec = Integer.parseInt(args[0]);
-            if(sec < 30){
+            if (sec < 30) {
                 message.delete().queue();
                 MessageUtils.sendAutoDeletedMessage("Čas giveawaye je příliš krátký, nejkratší možný čas je 30s", 20000, channel);
                 return;
@@ -32,7 +34,7 @@ public class Giveaway implements Command {
             message.delete().queue();
         } catch (NumberFormatException ex) {
             MessageUtils.sendAutoDeletedMessage("Nelze zadat vteřiny v tomto tvaru `" + args[0] + "`", 15000, channel);
-        } catch (Exception em){
+        } catch (Exception em) {
             CorgiBot.LOGGER.error("Chyba při provádení příkazu " + gw.getPrefix() + "giveaway!", em);
         }
     }

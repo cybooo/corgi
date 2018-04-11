@@ -72,6 +72,10 @@ public class ChatListener extends ListenerAdapter {
                 // Get command
                 Command cmd = CorgiBot.getInstance().getCommandHandler().getCommand(invoke);
 
+                if(cmd == null){
+                    return;
+                }
+
                 // If Corgi does not own basic permission will do nothing
                 if (!e.getGuild().getSelfMember().hasPermission(getBasicPerms())) {
                     return;

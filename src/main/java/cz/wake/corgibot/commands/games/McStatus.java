@@ -1,4 +1,4 @@
-package cz.wake.corgibot.commands.user;
+package cz.wake.corgibot.commands.games;
 
 import com.jagrosh.jdautilities.waiter.EventWaiter;
 import cz.wake.corgibot.annotations.SinceCorgi;
@@ -62,7 +62,7 @@ public class McStatus implements Command {
 
     @Override
     public CommandCategory getCategory() {
-        return CommandCategory.GENERAL;
+        return CommandCategory.GAMES;
     }
 
     @Override

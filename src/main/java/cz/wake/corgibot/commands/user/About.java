@@ -7,6 +7,7 @@ import cz.wake.corgibot.commands.CommandCategory;
 import cz.wake.corgibot.objects.GuildWrapper;
 import cz.wake.corgibot.utils.ColorSelector;
 import cz.wake.corgibot.utils.MessageUtils;
+import net.dv8tion.jda.core.EmbedBuilder;
 import net.dv8tion.jda.core.entities.Member;
 import net.dv8tion.jda.core.entities.Message;
 import net.dv8tion.jda.core.entities.MessageChannel;
@@ -23,7 +24,6 @@ public class About implements Command {
                         "**Vytvořil**: " + channel.getJDA().getUserById("177516608778928129").getAsMention() + "\n" +
                         "**Suppport Guild**: [Odkaz](https://discordapp.com/invite/eaEFCYX)")
                 .setThumbnail(channel.getJDA().getSelfUser().getAvatarUrl()).build()).queue();
-
     }
 
     @Override

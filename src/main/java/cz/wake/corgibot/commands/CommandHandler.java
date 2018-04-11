@@ -4,6 +4,7 @@ import cz.wake.corgibot.commands.admin.Ignore;
 import cz.wake.corgibot.commands.admin.LeaveGuild;
 import cz.wake.corgibot.commands.admin.Say;
 import cz.wake.corgibot.commands.admin.SetPrefix;
+import cz.wake.corgibot.commands.games.McStatus;
 import cz.wake.corgibot.commands.mod.*;
 import cz.wake.corgibot.commands.owner.Eval;
 import cz.wake.corgibot.commands.owner.GuildList;

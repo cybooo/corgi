@@ -74,9 +74,13 @@ public class Help implements Command {
     private StringBuilder getContext(Member member) {
         StringBuilder builder = new StringBuilder();
         CommandHandler ch = new CommandHandler();
-        builder.append("Prefix pro příkazy na tvém serveru je `" + BotManager.getCustomGuild(member.getGuild().getId()).getPrefix() + "`\nDodatečné informace o příkazu `" + BotManager.getCustomGuild(member.getGuild().getId()).getPrefix() + "help <příkaz>`");
+        try {
+            builder.append("Prefix pro příkazy na tvém serveru je `" + BotManager.getCustomGuild(member.getGuild().getId()).getPrefix() + "`\nDodatečné informace o příkazu `" + BotManager.getCustomGuild(member.getGuild().getId()).getPrefix() + "help <příkaz>`");
+        } catch (NullPointerException ex){
+            builder.append("Prefix pro příkazy je `c!`\nDodatečné informace zobrazíš pomocí `c!help <příkaz>`");
+        }
         for (CommandCategory type : CommandCategory.getTypes()) {
-            if (type == CommandCategory.MUSIC || type == CommandCategory.BOT_OWNER) { // Neexistujici kategorie (zatim)
+            if (type == CommandCategory.MUSIC || type == CommandCategory.BOT_OWNER || type == CommandCategory.HIDDEN) { // Neexistujici kategorie (zatim)
                 return builder.append("");
             }
             builder.append("\n\n");

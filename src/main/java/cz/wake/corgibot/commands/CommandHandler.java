@@ -65,7 +65,6 @@ public class CommandHandler {
         registerCommand(new Stats());
         registerCommand(new Warn());
         registerCommand(new About());
-        registerCommand(new FullWidth());
         registerCommand(new Invite());
         registerCommand(new Changelog());
         registerCommand(new GuildList());

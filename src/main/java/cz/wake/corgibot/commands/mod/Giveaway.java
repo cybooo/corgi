@@ -7,10 +7,14 @@ import cz.wake.corgibot.commands.Command;
 import cz.wake.corgibot.commands.CommandCategory;
 import cz.wake.corgibot.objects.GuildWrapper;
 import cz.wake.corgibot.utils.Constants;
+import cz.wake.corgibot.utils.CorgiLogger;
 import cz.wake.corgibot.utils.MessageUtils;
+import net.dv8tion.jda.core.Permission;
 import net.dv8tion.jda.core.entities.Member;
 import net.dv8tion.jda.core.entities.Message;
 import net.dv8tion.jda.core.entities.MessageChannel;
+
+import java.util.Arrays;
 
 @SinceCorgi(version = "0.5")
 public class Giveaway implements Command {
@@ -21,6 +25,8 @@ public class Giveaway implements Command {
     @Override
     public void onCommand(MessageChannel channel, Message message, String[] args, Member member, EventWaiter w, GuildWrapper gw) {
         try {
+            //TODO: Rozsekat podle |
+            //TODO: Corgi pokazdy nastavuje default prefix?!
             int sec = Integer.parseInt(args[0]);
             if (sec < 30) {
                 message.delete().queue();
@@ -29,7 +35,9 @@ public class Giveaway implements Command {
             }
             channel.sendMessage(MessageUtils.getEmbed(Constants.GRAY).setDescription("Generuji...").build()).queue(m -> {
                 m.addReaction("\uD83C\uDF89").queue();
-                new cz.wake.corgibot.managers.Giveaway(sec, m, args.length > 1 ? args[1] : null).start();
+                StringBuilder odmena = new StringBuilder();
+                Arrays.asList(args).forEach(odmena::append);
+                new cz.wake.corgibot.managers.Giveaway(sec, m, odmena.toString().length() > 1 ? odmena.toString() : null).start();
             });
             message.delete().queue();
         } catch (NumberFormatException ex) {

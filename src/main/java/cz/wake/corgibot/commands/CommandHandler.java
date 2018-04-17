@@ -61,7 +61,7 @@ public class CommandHandler {
         registerCommand(new Archive());
         //registerCommand(new Purge());
         registerCommand(new TextToBlock());
-        registerCommand(new Giveaway());
+        //registerCommand(new Giveaway());
         registerCommand(new Stats());
         registerCommand(new Warn());
         registerCommand(new About());

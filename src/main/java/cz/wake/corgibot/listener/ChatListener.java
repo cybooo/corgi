@@ -81,6 +81,11 @@ public class ChatListener extends ListenerAdapter {
                     return;
                 }
 
+                // Check bot owner
+                if (cmd.isOwner() && !e.getAuthor().getId().equals("177516608778928129")){
+                    return;
+                }
+
                 // Spam detection
                 handleSpamDetection(e, guildWrapper, e.getChannel());
 

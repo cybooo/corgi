@@ -2,11 +2,11 @@ package cz.wake.corgibot.listener;
 
 import com.jagrosh.jdautilities.waiter.EventWaiter;
 import cz.wake.corgibot.CorgiBot;
-import cz.wake.corgibot.commands.ICommand;
-import cz.wake.corgibot.commands.Rank;
+import cz.wake.corgibot.commands.Command;
 import cz.wake.corgibot.managers.BotManager;
 import cz.wake.corgibot.objects.GuildWrapper;
 import cz.wake.corgibot.utils.Constants;
+import cz.wake.corgibot.utils.CorgiLogger;
 import cz.wake.corgibot.utils.EmoteList;
 import cz.wake.corgibot.utils.MessageUtils;
 import net.dv8tion.jda.core.Permission;
@@ -21,10 +21,10 @@ import net.dv8tion.jda.core.exceptions.ErrorResponseException;
 import net.dv8tion.jda.core.hooks.ListenerAdapter;
 
 import java.util.Arrays;
-import java.util.List;
 import java.util.Map;
 import java.util.concurrent.ConcurrentHashMap;
 import java.util.concurrent.TimeUnit;
+import java.util.regex.Pattern;
 
 public class ChatListener extends ListenerAdapter {
 
@@ -35,7 +35,8 @@ public class ChatListener extends ListenerAdapter {
         this.w = w;
     }
 
-    public ChatListener() {}
+    public ChatListener() {
+    }
 
     @Override
     public void onGuildMessageReceived(GuildMessageReceivedEvent e) {
@@ -49,7 +50,7 @@ public class ChatListener extends ListenerAdapter {
         String prefix;
         GuildWrapper guildWrapper;
 
-        if(!CorgiBot.isIsBeta()){
+        if (!CorgiBot.isIsBeta()) {
             // Custom Guild prefix from SQL
             guildWrapper = BotManager.getCustomGuild(e.getMember().getGuild().getId());
             prefix = guildWrapper.getPrefix();
@@ -59,62 +60,81 @@ public class ChatListener extends ListenerAdapter {
             guildWrapper = new GuildWrapper(e.getGuild().getId()).setPrefix(prefix, false);
         }
 
+        String raw = e.getMessage().getContentRaw();
+
         try {
-            if (e.getMessage().getContentRaw().substring(0, 2).contains(Constants.PREFIX) || e.getMessage().getContentRaw().startsWith(prefix)
-                    || e.getMessage().getContentRaw().substring(0, prefix.length()).contains(prefix)) {
-                String message = e.getMessage().getContentRaw();
-                String command;
-                if (e.getMessage().getContentRaw().substring(0, 2).contains(Constants.PREFIX)) {
-                    command = message.substring(2);
-                } else {
-                    command = message.substring(prefix.length());
+            if (raw.startsWith(Constants.PREFIX.toLowerCase()) || raw.startsWith(guildWrapper.getPrefix().toLowerCase())
+                    || raw.startsWith(e.getGuild().getSelfMember().getAsMention())) {
+                final String[] split = e.getMessage().getContentRaw().replaceFirst(
+                        "(?i)" + Pattern.quote(Constants.PREFIX) + "|" + Pattern.quote(guildWrapper.getPrefix()), "").split("\\s+");
+                final String invoke = split[0].toLowerCase();
+
+                // Get command
+                Command cmd = CorgiBot.getInstance().getCommandHandler().getCommand(invoke);
+
+                if(cmd == null){
+                    return;
                 }
-                String[] args = new String[0];
-                if (message.contains(" ")) {
-                    command = command.substring(0, message.indexOf(" ") - prefix.length());
-                    args = message.substring(message.indexOf(" ") + 1).split(" ");
+
+                // If Corgi does not own basic permission will do nothing
+                if (!e.getGuild().getSelfMember().hasPermission(getBasicPerms())) {
+                    return;
                 }
-                for (ICommand cmd : CorgiBot.getInstance().getCommandHandler().getCommands()) {
-                    if (cmd.getCommand().equalsIgnoreCase(command) || Arrays.asList(cmd.getAliases()).contains(command)) {
 
-                        // Spam detection
-                        handleSpamDetection(e, guildWrapper, e.getChannel());
+                // Check bot owner
+                if (cmd.isOwner() && !e.getAuthor().getId().equals("177516608778928129")){
+                    return;
+                }
 
-                        // Blocking guild
-                        if (guildWrapper.isBlocked()) {
-                            if (System.currentTimeMillis() > guildWrapper.getUnBlockTime() && guildWrapper.getUnBlockTime() != -1) {
-                                guildWrapper.revokeBlock();
-                            } else {
-                                return; // Ignoring blocked guild
-                            }
-                        }
+                // Spam detection
+                handleSpamDetection(e, guildWrapper, e.getChannel());
 
-                        // Ignored channel
-                        if (guildWrapper.getIgnoredChannels().contains(e.getChannel()) && !cmd.getCommand().equalsIgnoreCase("ignore")) {
-                            return;
-                        }
-
-                        String[] finalArgs = args;
-                        CorgiBot.LOGGER.info("Command - '" + cmd.getCommand() + " " + String.join(" ", finalArgs) + "', (Guild: " + e.getGuild().getName() + ", Channel: " + (e.getChannel().getName()) + "), Sender: " + e.getAuthor());
-                        List<Permission> perms = e.getGuild().getSelfMember().getPermissions(e.getChannel());
-                        if (!perms.contains(Permission.MESSAGE_EMBED_LINKS)) {
-                            e.getChannel().sendMessage(":warning: | Nemám dostatečná práva na používání EMBED odkazů! Přiděl mi právo: `Vkládání odkazů` nebo `Embed Links`.").queue();
-                            return;
-                        }
-                        if (Rank.getPermLevelForUser(e.getAuthor(), e.getChannel()).isAtLeast(cmd.getRank())) {
-                            try {
-                                cmd.onCommand(e.getAuthor(), e.getChannel(), e.getMessage(), finalArgs, e.getMember(), w, guildWrapper);
-                            } catch (Exception ex) {
-                                MessageUtils.sendAutoDeletedMessage("Interní chyba při provádění příkazu!", 10000, e.getChannel());
-                                ex.printStackTrace();
-                            }
-                            if (cmd.deleteMessage()) {
-                                delete(e.getMessage());
-                            }
-                        }
-                        CorgiBot.commands++;
+                // Blocking guild
+                if (guildWrapper.isBlocked()) {
+                    if (System.currentTimeMillis() > guildWrapper.getUnBlockTime() && guildWrapper.getUnBlockTime() != -1) {
+                        guildWrapper.revokeBlock();
+                    } else {
+                        return; // Ignoring blocked guild
                     }
                 }
+
+                // Ignored channel
+                if (guildWrapper.getIgnoredChannels().contains(e.getChannel()) && !cmd.getCommand().equalsIgnoreCase("ignore")) {
+                    return;
+                }
+
+                // Info about sended command
+                CorgiLogger.commandMessage("'" + cmd.getCommand() + " " + Arrays.toString(Arrays.copyOfRange(split, 1, split.length)) + "', (Guild: " + e.getGuild().getName() + ", Channel: " + (e.getChannel().getName()) + "), Sender: " + e.getAuthor());
+
+                // Check bot permissions if are required
+                if (!e.getGuild().getSelfMember().hasPermission(cmd.botPermission())) {
+                    StringBuilder sb = new StringBuilder();
+                    Arrays.stream(cmd.botPermission()).forEach(c -> sb.append(c.name()).append(", "));
+                    MessageUtils.sendErrorMessage("Chyba práv", "Akci nelze provést, jelikož nemám dostatečná práva!\nChybí mi: `" + sb.toString().substring(0, sb.length() - 2) + "`", e.getChannel());
+                    return;
+                }
+
+                // Check user permissions if are required
+                if (!e.getMember().hasPermission(cmd.userPermission())) {
+                    CorgiLogger.warnMessage("Prikaz zastaven - " + e.getAuthor().getName() + " nema dostatecna prava!");
+                    return;
+                }
+
+                // Run command
+                try {
+                    cmd.onCommand(e.getChannel(), e.getMessage(), Arrays.copyOfRange(split, 1, split.length), e.getMember(), w, guildWrapper);
+                } catch (Exception ex) {
+                    MessageUtils.sendAutoDeletedMessage("Interní chyba při provádění příkazu!", 10000, e.getChannel());
+                    ex.printStackTrace();
+                }
+
+                // Delete message after
+                if (cmd.deleteMessage()) {
+                    delete(e.getMessage());
+                }
+
+                // Statictics
+                CorgiBot.commands++;
             }
         } catch (StringIndexOutOfBoundsException ex) {
             // ¯\_(ツ)_/¯
@@ -169,7 +189,7 @@ public class ChatListener extends ListenerAdapter {
         }
     }
 
-    public static int getGuildUserCount(Guild guild) {
+    private static int getGuildUserCount(Guild guild) {
         int i = 0;
         for (Member member : guild.getMembers()) {
             if (!member.getUser().isBot()) {
@@ -181,5 +201,9 @@ public class ChatListener extends ListenerAdapter {
 
     public void clearSpamMap() {
         spamMap.clear();
+    }
+
+    private Permission[] getBasicPerms() {
+        return new Permission[]{Permission.MESSAGE_EMBED_LINKS, Permission.MESSAGE_WRITE};
     }
 }

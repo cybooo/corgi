@@ -2,25 +2,23 @@ package cz.wake.corgibot.commands.user;
 
 import com.jagrosh.jdautilities.waiter.EventWaiter;
 import cz.wake.corgibot.annotations.SinceCorgi;
-import cz.wake.corgibot.commands.CommandType;
-import cz.wake.corgibot.commands.ICommand;
-import cz.wake.corgibot.commands.Rank;
+import cz.wake.corgibot.commands.Command;
+import cz.wake.corgibot.commands.CommandCategory;
 import cz.wake.corgibot.objects.GuildWrapper;
 import cz.wake.corgibot.utils.Constants;
 import cz.wake.corgibot.utils.MessageUtils;
 import net.dv8tion.jda.core.entities.Member;
 import net.dv8tion.jda.core.entities.Message;
 import net.dv8tion.jda.core.entities.MessageChannel;
-import net.dv8tion.jda.core.entities.User;
 
 @SinceCorgi(version = "0.8.1")
-public class Emote implements ICommand {
+public class Emote implements Command {
 
     @Override
-    public void onCommand(User sender, MessageChannel channel, Message message, String[] args, Member member, EventWaiter w, GuildWrapper gw) {
+    public void onCommand(MessageChannel channel, Message message, String[] args, Member member, EventWaiter w, GuildWrapper gw) {
         if (args.length < 1) {
             channel.sendMessage(MessageUtils.getEmbed().setTitle("Nápověda k příkazu - emote :question:")
-                    .setDescription(getDescription() + "\n\n**Použití**\n" + getHelp()).build()).queue();
+                    .setDescription(getDescription() + "\n\n**Použití**\n" + getHelp().replace("%", gw.getPrefix())).build()).queue();
         } else if (args[0].equalsIgnoreCase("list")) {
             if (member.getGuild().getEmotes().isEmpty()) {
                 MessageUtils.sendAutoDeletedMessage("Na tomto serveru nejsou žádné Emotes!", 15000, channel);
@@ -36,14 +34,14 @@ public class Emote implements ICommand {
                 String id = str.replaceAll("<:.*:(\\d+)>", "$1");
                 net.dv8tion.jda.core.entities.Emote emote = channel.getJDA().getEmoteById(id);
                 if (emote == null) {
-                    channel.sendMessage(MessageUtils.getEmbed(sender, Constants.RED).setTitle("**Neznámý Emote**")
+                    channel.sendMessage(MessageUtils.getEmbed(member.getUser(), Constants.RED).setTitle("**Neznámý Emote**")
                             .setDescription("**ID:** " + id + "\n" +
                                     "**Guild:** Neznamý\n" +
                                     "**Odkaz:** https://discordcdn.com/emojis/" + id + ".png")
                             .setThumbnail("https://discordcdn.com/emojis/" + id + ".png").build()).queue();
                     return;
                 } else {
-                    channel.sendMessage(MessageUtils.getEmbed(sender, Constants.GREEN).setTitle("**Info o Emote** (" + emote.getName() + ")")
+                    channel.sendMessage(MessageUtils.getEmbed(member.getUser(), Constants.GREEN).setTitle("**Info o Emote** (" + emote.getName() + ")")
                             .setDescription("**ID:** " + emote.getId() + "\n" +
                                     "**Guild:** " + (emote.getGuild() == null ? "Neznámý" : "" + emote.getGuild().getName() + "\n") +
                                     "**Odkaz:** " + emote.getImageUrl()).setThumbnail(emote.getImageUrl()).build()).queue();
@@ -72,7 +70,7 @@ public class Emote implements ICommand {
                 }
                 builder.append(String.valueOf(chars)).append("   _").append(Character.getName(code)).append("_");
             });
-            channel.sendMessage(MessageUtils.getEmbed(sender, Constants.GREEN).setTitle("**Info o Emote**")
+            channel.sendMessage(MessageUtils.getEmbed(member.getUser(), Constants.GREEN).setTitle("**Info o Emote**")
                     .setDescription(builder.toString()).build()).queue();
         }
     }
@@ -94,13 +92,8 @@ public class Emote implements ICommand {
     }
 
     @Override
-    public CommandType getType() {
-        return CommandType.GENERAL;
-    }
-
-    @Override
-    public Rank getRank() {
-        return Rank.USER;
+    public CommandCategory getCategory() {
+        return CommandCategory.GENERAL;
     }
 
     @Override

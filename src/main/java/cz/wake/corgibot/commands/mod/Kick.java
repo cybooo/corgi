@@ -2,9 +2,8 @@ package cz.wake.corgibot.commands.mod;
 
 import com.jagrosh.jdautilities.waiter.EventWaiter;
 import cz.wake.corgibot.annotations.SinceCorgi;
-import cz.wake.corgibot.commands.CommandType;
-import cz.wake.corgibot.commands.ICommand;
-import cz.wake.corgibot.commands.Rank;
+import cz.wake.corgibot.commands.Command;
+import cz.wake.corgibot.commands.CommandCategory;
 import cz.wake.corgibot.objects.GuildWrapper;
 import cz.wake.corgibot.utils.EmoteList;
 import cz.wake.corgibot.utils.FormatUtil;
@@ -13,17 +12,16 @@ import net.dv8tion.jda.core.Permission;
 import net.dv8tion.jda.core.entities.Member;
 import net.dv8tion.jda.core.entities.Message;
 import net.dv8tion.jda.core.entities.MessageChannel;
-import net.dv8tion.jda.core.entities.User;
 import net.dv8tion.jda.core.utils.PermissionUtil;
 
 import java.util.LinkedList;
 
 @SinceCorgi(version = "0.7")
-public class Kick implements ICommand {
+public class Kick implements Command {
 
     @Override
-    public void onCommand(User sender, MessageChannel channel, Message message, String[] args, Member member, EventWaiter w, GuildWrapper gw) {
-        if (!PermissionUtil.checkPermission(message.getGuild().getSelfMember(), Permission.KICK_MEMBERS)){
+    public void onCommand(MessageChannel channel, Message message, String[] args, Member member, EventWaiter w, GuildWrapper gw) {
+        if (!PermissionUtil.checkPermission(message.getGuild().getSelfMember(), Permission.KICK_MEMBERS)) {
             MessageUtils.sendErrorMessage("Nemám dostatečná práva na vyhazování uživatelů! Přidej mi právo na `KICK_MEMBERS` nebo `ADMINISTRATOR`", channel);
             return;
         }
@@ -46,7 +44,7 @@ public class Kick implements ICommand {
                         .append(" | ")
                         .append(u.getAsMention())
                         .append(" nemůže být vyhozen, jelikož není evidován na serveru!");
-            }  else if (!PermissionUtil.canInteract(message.getMember(), m)) {
+            } else if (!PermissionUtil.canInteract(message.getMember(), m)) {
                 builder.append("\n")
                         .append(EmoteList.RED_DENY)
                         .append(" | Nemáš dostatečná práva na vyhození ")
@@ -100,12 +98,12 @@ public class Kick implements ICommand {
     }
 
     @Override
-    public CommandType getType() {
-        return CommandType.MODERATION;
+    public CommandCategory getCategory() {
+        return CommandCategory.MODERATION;
     }
 
     @Override
-    public Rank getRank() {
-        return Rank.MODERATOR;
+    public Permission[] userPermission() {
+        return new Permission[]{Permission.KICK_MEMBERS};
     }
 }

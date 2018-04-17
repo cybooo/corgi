@@ -1,10 +1,10 @@
 package cz.wake.corgibot.commands;
 
-import cz.wake.corgibot.CorgiBot;
 import cz.wake.corgibot.commands.admin.Ignore;
 import cz.wake.corgibot.commands.admin.LeaveGuild;
 import cz.wake.corgibot.commands.admin.Say;
 import cz.wake.corgibot.commands.admin.SetPrefix;
+import cz.wake.corgibot.commands.games.McStatus;
 import cz.wake.corgibot.commands.mod.*;
 import cz.wake.corgibot.commands.owner.Eval;
 import cz.wake.corgibot.commands.owner.GuildList;
@@ -14,14 +14,16 @@ import cz.wake.corgibot.commands.user.*;
 import cz.wake.corgibot.utils.CorgiLogger;
 
 import java.util.ArrayList;
+import java.util.Arrays;
 import java.util.List;
+import java.util.Optional;
 import java.util.stream.Collectors;
 
 public class CommandHandler {
 
-    public static List<ICommand> commands = new ArrayList<>();
+    public static List<Command> commands = new ArrayList<>();
 
-    public void registerCommand(ICommand c) {
+    public void registerCommand(Command c) {
         try {
             commands.add(c);
         } catch (Exception e) {
@@ -30,16 +32,16 @@ public class CommandHandler {
         }
     }
 
-    public void unregisterCommand(ICommand c) {
+    public void unregisterCommand(Command c) {
         commands.remove(c);
     }
 
-    public List<ICommand> getCommands() {
+    public List<Command> getCommands() {
         return commands;
     }
 
-    public List<ICommand> getCommandsByType(CommandType type) {
-        return commands.stream().filter(command -> command.getType() == type).collect(Collectors.toList());
+    public List<Command> getCommandsByType(CommandCategory type) {
+        return commands.stream().filter(command -> command.getCategory() == type).collect(Collectors.toList());
     }
 
     public void register() {
@@ -59,12 +61,10 @@ public class CommandHandler {
         registerCommand(new Archive());
         //registerCommand(new Purge());
         registerCommand(new TextToBlock());
-        registerCommand(new Giveaway());
+        //registerCommand(new Giveaway());
         registerCommand(new Stats());
         registerCommand(new Warn());
-        registerCommand(new Perms());
         registerCommand(new About());
-        registerCommand(new FullWidth());
         registerCommand(new Invite());
         registerCommand(new Changelog());
         registerCommand(new GuildList());
@@ -88,6 +88,15 @@ public class CommandHandler {
         registerCommand(new Color());
         registerCommand(new Weather());
         CorgiLogger.greatMessage("Corgi zaregistroval (" + commands.size() + ") prikazu.");
+    }
+
+    public Command getCommand(String name) {
+        Optional<Command> cmd = commands.stream().filter(c -> c.getCommand().equals(name)).findFirst();
+        if (cmd.isPresent()) {
+            return cmd.get();
+        }
+        cmd = commands.stream().filter(c -> Arrays.asList(c.getAliases()).contains(name)).findFirst();
+        return cmd.orElse(null);
     }
 
 

@@ -3,39 +3,46 @@ package cz.wake.corgibot.commands.mod;
 import com.jagrosh.jdautilities.waiter.EventWaiter;
 import cz.wake.corgibot.CorgiBot;
 import cz.wake.corgibot.annotations.SinceCorgi;
-import cz.wake.corgibot.commands.ICommand;
-import cz.wake.corgibot.commands.CommandType;
-import cz.wake.corgibot.commands.Rank;
+import cz.wake.corgibot.commands.Command;
+import cz.wake.corgibot.commands.CommandCategory;
 import cz.wake.corgibot.objects.GuildWrapper;
 import cz.wake.corgibot.utils.Constants;
+import cz.wake.corgibot.utils.CorgiLogger;
 import cz.wake.corgibot.utils.MessageUtils;
-import net.dv8tion.jda.core.entities.*;
+import net.dv8tion.jda.core.Permission;
+import net.dv8tion.jda.core.entities.Member;
+import net.dv8tion.jda.core.entities.Message;
+import net.dv8tion.jda.core.entities.MessageChannel;
 
 import java.util.Arrays;
 
 @SinceCorgi(version = "0.5")
-public class Giveaway implements ICommand {
+public class Giveaway implements Command {
 
 
     //TODO: Kompletně předělat...
 
     @Override
-    public void onCommand(User sender, MessageChannel channel, Message message, String[] args, Member member, EventWaiter w, GuildWrapper gw) {
+    public void onCommand(MessageChannel channel, Message message, String[] args, Member member, EventWaiter w, GuildWrapper gw) {
         try {
+            //TODO: Rozsekat podle |
+            //TODO: Corgi pokazdy nastavuje default prefix?!
             int sec = Integer.parseInt(args[0]);
-            if(sec < 30){
+            if (sec < 30) {
                 message.delete().queue();
                 MessageUtils.sendAutoDeletedMessage("Čas giveawaye je příliš krátký, nejkratší možný čas je 30s", 20000, channel);
                 return;
             }
             channel.sendMessage(MessageUtils.getEmbed(Constants.GRAY).setDescription("Generuji...").build()).queue(m -> {
                 m.addReaction("\uD83C\uDF89").queue();
-                new cz.wake.corgibot.managers.Giveaway(sec, m, args.length > 1 ? args[1] : null).start();
+                StringBuilder odmena = new StringBuilder();
+                Arrays.asList(args).forEach(odmena::append);
+                new cz.wake.corgibot.managers.Giveaway(sec, m, odmena.toString().length() > 1 ? odmena.toString() : null).start();
             });
             message.delete().queue();
         } catch (NumberFormatException ex) {
             MessageUtils.sendAutoDeletedMessage("Nelze zadat vteřiny v tomto tvaru `" + args[0] + "`", 15000, channel);
-        } catch (Exception em){
+        } catch (Exception em) {
             CorgiBot.LOGGER.error("Chyba při provádení příkazu " + gw.getPrefix() + "giveaway!", em);
         }
     }
@@ -56,13 +63,13 @@ public class Giveaway implements ICommand {
     }
 
     @Override
-    public CommandType getType() {
-        return CommandType.MODERATION;
+    public CommandCategory getCategory() {
+        return CommandCategory.MODERATION;
     }
 
     @Override
-    public Rank getRank() {
-        return Rank.MODERATOR;
+    public Permission[] userPermission() {
+        return new Permission[]{Permission.MANAGE_CHANNEL};
     }
 }
 

@@ -3,25 +3,24 @@ package cz.wake.corgibot.commands.admin;
 import com.jagrosh.jdautilities.waiter.EventWaiter;
 import cz.wake.corgibot.CorgiBot;
 import cz.wake.corgibot.annotations.SinceCorgi;
-import cz.wake.corgibot.commands.CommandType;
-import cz.wake.corgibot.commands.ICommand;
-import cz.wake.corgibot.commands.Rank;
+import cz.wake.corgibot.commands.Command;
+import cz.wake.corgibot.commands.CommandCategory;
 import cz.wake.corgibot.objects.GuildWrapper;
 import cz.wake.corgibot.utils.Constants;
 import cz.wake.corgibot.utils.MessageUtils;
+import net.dv8tion.jda.core.Permission;
 import net.dv8tion.jda.core.entities.Member;
 import net.dv8tion.jda.core.entities.Message;
 import net.dv8tion.jda.core.entities.MessageChannel;
-import net.dv8tion.jda.core.entities.User;
 
 @SinceCorgi(version = "1.2.0")
-public class SetPrefix implements ICommand {
+public class SetPrefix implements Command {
 
     @Override
-    public void onCommand(User sender, MessageChannel channel, Message message, String[] args, Member member, EventWaiter w, GuildWrapper gw) {
+    public void onCommand(MessageChannel channel, Message message, String[] args, Member member, EventWaiter w, GuildWrapper gw) {
         if (args.length == 1) {
-            if (!CorgiBot.isIsBeta()){
-                channel.sendMessage("Corgi je spuštění v režimu BETA! Nelze upravovat prefix!").queue();
+            if (CorgiBot.isIsBeta()) {
+                channel.sendMessage("Corgi je spuštěn v režimu BETA! Nelze upravovat prefix!").queue();
                 return;
             }
             if (args[0].equalsIgnoreCase("reset")) {
@@ -54,17 +53,17 @@ public class SetPrefix implements ICommand {
     }
 
     @Override
-    public CommandType getType() {
-        return CommandType.ADMINISTARTOR;
-    }
-
-    @Override
-    public Rank getRank() {
-        return Rank.ADMINISTRATOR;
+    public CommandCategory getCategory() {
+        return CommandCategory.ADMINISTARTOR;
     }
 
     @Override
     public String[] getAliases() {
         return new String[]{"setprefix"};
+    }
+
+    @Override
+    public Permission[] userPermission() {
+        return new Permission[]{Permission.MANAGE_SERVER};
     }
 }

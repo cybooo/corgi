@@ -3,16 +3,18 @@ package cz.wake.corgibot.commands.admin;
 import com.jagrosh.jdautilities.menu.pagination.Paginator;
 import com.jagrosh.jdautilities.menu.pagination.PaginatorBuilder;
 import com.jagrosh.jdautilities.waiter.EventWaiter;
-import cz.wake.corgibot.CorgiBot;
 import cz.wake.corgibot.annotations.SinceCorgi;
-import cz.wake.corgibot.commands.CommandType;
-import cz.wake.corgibot.commands.ICommand;
-import cz.wake.corgibot.commands.Rank;
+import cz.wake.corgibot.commands.Command;
+import cz.wake.corgibot.commands.CommandCategory;
 import cz.wake.corgibot.objects.GuildWrapper;
 import cz.wake.corgibot.utils.Constants;
 import cz.wake.corgibot.utils.EmoteList;
 import cz.wake.corgibot.utils.MessageUtils;
-import net.dv8tion.jda.core.entities.*;
+import net.dv8tion.jda.core.Permission;
+import net.dv8tion.jda.core.entities.Member;
+import net.dv8tion.jda.core.entities.Message;
+import net.dv8tion.jda.core.entities.MessageChannel;
+import net.dv8tion.jda.core.entities.TextChannel;
 import net.dv8tion.jda.core.events.message.react.MessageReactionAddEvent;
 import net.dv8tion.jda.core.exceptions.PermissionException;
 
@@ -20,10 +22,10 @@ import java.util.List;
 import java.util.concurrent.TimeUnit;
 
 @SinceCorgi(version = "1.2.0")
-public class Ignore implements ICommand {
+public class Ignore implements Command {
 
     @Override
-    public void onCommand(User sender, MessageChannel channel, Message message, String[] args, Member member, EventWaiter w, GuildWrapper gw) {
+    public void onCommand(MessageChannel channel, Message message, String[] args, Member member, EventWaiter w, GuildWrapper gw) {
         if (args.length < 1) {
             channel.sendMessage(MessageUtils.getEmbed(Constants.GREEN).setTitle("Ignorování channelu: " + channel.getName())
                     .setDescription("Zakáže používání Corgiho příkazů v tomto channelu.\nPokuď budeš chtít ignorování zrušit, stačí napsat opět příkaz `" + gw.getPrefix() + "ignore` a ignorování zrušit.\n\n" +
@@ -32,14 +34,14 @@ public class Ignore implements ICommand {
                 m.addReaction(EmoteList.TWO).queue();
 
                 w.waitForEvent(MessageReactionAddEvent.class, (MessageReactionAddEvent e) -> { // 1
-                    return e.getUser().equals(sender) && e.getMessageId().equals(m.getId()) && (e.getReaction().getReactionEmote().getName().equals(EmoteList.ONE));
+                    return e.getUser().equals(member.getUser()) && e.getMessageId().equals(m.getId()) && (e.getReaction().getReactionEmote().getName().equals(EmoteList.ONE));
                 }, (MessageReactionAddEvent ev) -> {
                     m.delete().queue();
                     ignoreChannel(channel, member, gw.getPrefix(), gw);
-                }, 60, TimeUnit.SECONDS, () -> m.editMessage(MessageUtils.getEmbed(Constants.RED).setDescription("Čas vypršel!").build()));
+                }, 60, TimeUnit.SECONDS, () -> m.editMessage(MessageUtils.getEmbed(Constants.RED).setDescription("Čas vypršel!").build()).queue());
 
                 w.waitForEvent(MessageReactionAddEvent.class, (MessageReactionAddEvent e) -> { // 2
-                    return e.getUser().equals(sender) && e.getMessageId().equals(m.getId()) && (e.getReaction().getReactionEmote().getName().equals(EmoteList.TWO));
+                    return e.getUser().equals(member.getUser()) && e.getMessageId().equals(m.getId()) && (e.getReaction().getReactionEmote().getName().equals(EmoteList.TWO));
                 }, (MessageReactionAddEvent ev) -> {
                     m.delete().queue();
                     shopIgnoredChannels(channel, member, w, gw);
@@ -64,13 +66,13 @@ public class Ignore implements ICommand {
     }
 
     @Override
-    public CommandType getType() {
-        return CommandType.ADMINISTARTOR;
+    public CommandCategory getCategory() {
+        return CommandCategory.ADMINISTARTOR;
     }
 
     @Override
-    public Rank getRank() {
-        return Rank.ADMINISTRATOR;
+    public Permission[] userPermission() {
+        return new Permission[]{Permission.MANAGE_CHANNEL};
     }
 
     private boolean getTruth(MessageChannel channel, GuildWrapper gw) {

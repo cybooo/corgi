@@ -2,9 +2,8 @@ package cz.wake.corgibot.commands.user;
 
 import com.jagrosh.jdautilities.waiter.EventWaiter;
 import cz.wake.corgibot.annotations.SinceCorgi;
-import cz.wake.corgibot.commands.CommandType;
-import cz.wake.corgibot.commands.ICommand;
-import cz.wake.corgibot.commands.Rank;
+import cz.wake.corgibot.commands.Command;
+import cz.wake.corgibot.commands.CommandCategory;
 import cz.wake.corgibot.objects.GuildWrapper;
 import cz.wake.corgibot.utils.Constants;
 import cz.wake.corgibot.utils.EmoteList;
@@ -12,19 +11,12 @@ import cz.wake.corgibot.utils.MessageUtils;
 import net.dv8tion.jda.core.entities.Member;
 import net.dv8tion.jda.core.entities.Message;
 import net.dv8tion.jda.core.entities.MessageChannel;
-import net.dv8tion.jda.core.entities.User;
-
-import java.awt.*;
-import java.time.temporal.ChronoUnit;
 
 @SinceCorgi(version = "0.1")
-public class Ping implements ICommand {
+public class Ping implements Command {
 
     @Override
-    public void onCommand(User sender, MessageChannel channel, Message message, String[] args, Member member, EventWaiter w, GuildWrapper gw) {
-        /*channel.sendMessage(MessageUtils.getEmbed(Color.GRAY).setDescription("Vypočítávám ping...").build()).queue(m -> {
-            m.editMessage(MessageUtils.getEmbed(Constants.GREEN).setDescription(EmoteList.PONG + " Pong! `" + message.getCreationTime().until(m.getCreationTime(), ChronoUnit.MILLIS) + " ms`").build()).queue();
-        });*/
+    public void onCommand(MessageChannel channel, Message message, String[] args, Member member, EventWaiter w, GuildWrapper gw) {
 
         channel.sendMessage(MessageUtils.getEmbed(Constants.GRAY).setDescription("Vypočítávám ping...").build()).queue(m -> {
             int pings = 5;
@@ -44,7 +36,7 @@ public class Ping implements ICommand {
                 }
                 start = System.currentTimeMillis();
             }
-            m.editMessage(MessageUtils.getEmbed(Constants.GREEN).setDescription(String.format(EmoteList.LOUDSPEAKER + " | **Průměrný ping je:** %dms (min: %d, max: %d)", (int)Math.ceil(sum / 5f), min, max)).build()).complete();
+            m.editMessage(MessageUtils.getEmbed(Constants.GREEN).setDescription(String.format(EmoteList.LOUDSPEAKER + " | **Průměrný ping je:** %dms (min: %d, max: %d)", (int) Math.ceil(sum / 5f), min, max)).build()).complete();
         });
     }
 
@@ -64,13 +56,8 @@ public class Ping implements ICommand {
     }
 
     @Override
-    public CommandType getType() {
-        return CommandType.GENERAL;
-    }
-
-    @Override
-    public Rank getRank() {
-        return Rank.USER;
+    public CommandCategory getCategory() {
+        return CommandCategory.GENERAL;
     }
 
     private static final String[] pingMessages = new String[]{

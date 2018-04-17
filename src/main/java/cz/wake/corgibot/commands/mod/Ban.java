@@ -103,7 +103,7 @@ public class Ban implements Command {
     }
 
     @Override
-    public Permission[] botPermission() {
+    public Permission[] userPermission() {
         return new Permission[]{Permission.BAN_MEMBERS};
     }
 }

@@ -25,11 +25,12 @@ public class Svatek implements Command {
     public void onCommand(MessageChannel channel, Message message, String[] args, Member member, EventWaiter w, GuildWrapper gw) {
         if (args.length < 1) {
 
+            //TODO: Vcera, dneska, zitra, datum
             String czechName, slovakName;
 
             // API
             OkHttpClient caller = new OkHttpClient();
-            Request request = new Request.Builder().url("https://api.abalin.net/today").build();
+            Request request = new Request.Builder().url("https://api.abalin.net/get/today").build();
             try {
                 Response response = caller.newCall(request).execute();
                 JSONObject json = new JSONObject(response.body().string());
@@ -44,7 +45,7 @@ public class Svatek implements Command {
 
             } catch (Exception e) {
                 MessageUtils.sendErrorMessage("Zřejmě chyba v API! Zkus to zachvilku :(", channel);
-                CorgiBot.LOGGER.error(e.getStackTrace().toString());
+                e.getStackTrace();
             }
         } else {
             String day = args[0];
@@ -70,7 +71,7 @@ public class Svatek implements Command {
 
             } catch (Exception e) {
                 MessageUtils.sendErrorMessage("Chyba v API nebo špatně zadaný datum!", channel);
-                CorgiBot.LOGGER.error(e.getStackTrace().toString());
+                e.getStackTrace();
             }
 
         }

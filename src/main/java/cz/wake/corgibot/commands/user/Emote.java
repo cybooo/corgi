@@ -18,7 +18,7 @@ public class Emote implements Command {
     public void onCommand(MessageChannel channel, Message message, String[] args, Member member, EventWaiter w, GuildWrapper gw) {
         if (args.length < 1) {
             channel.sendMessage(MessageUtils.getEmbed().setTitle("Nápověda k příkazu - emote :question:")
-                    .setDescription(getDescription() + "\n\n**Použití**\n" + getHelp()).build()).queue();
+                    .setDescription(getDescription() + "\n\n**Použití**\n" + getHelp().replace("%", gw.getPrefix())).build()).queue();
         } else if (args[0].equalsIgnoreCase("list")) {
             if (member.getGuild().getEmotes().isEmpty()) {
                 MessageUtils.sendAutoDeletedMessage("Na tomto serveru nejsou žádné Emotes!", 15000, channel);

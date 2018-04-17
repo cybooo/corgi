@@ -116,9 +116,7 @@ public class ChatListener extends ListenerAdapter {
 
                 // Check user permissions if are required
                 if (!e.getMember().hasPermission(cmd.userPermission())) {
-                    StringBuilder sb = new StringBuilder();
-                    Arrays.stream(cmd.botPermission()).forEach(c -> sb.append(c.name()).append(", "));
-                    MessageUtils.sendAutoDeletedMessage("Nemáš dostatečná práva", "Akci nelze provést, jelikož nemáš dostatečná práva!\nChybí ti: `" + sb.toString().substring(0, sb.length() - 2) + "`", 5000, e.getChannel());
+                    CorgiLogger.warnMessage("Prikaz zastaven - " + e.getAuthor().getName() + " nema dostatecna prava!");
                     return;
                 }
 

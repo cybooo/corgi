@@ -7,6 +7,7 @@ import cz.wake.corgibot.commands.CommandCategory;
 import cz.wake.corgibot.objects.GuildWrapper;
 import cz.wake.corgibot.utils.Constants;
 import cz.wake.corgibot.utils.MessageUtils;
+import net.dv8tion.jda.core.Permission;
 import net.dv8tion.jda.core.entities.Member;
 import net.dv8tion.jda.core.entities.Message;
 import net.dv8tion.jda.core.entities.MessageChannel;
@@ -62,5 +63,10 @@ public class LeaveGuild implements Command {
     @Override
     public CommandCategory getCategory() {
         return CommandCategory.ADMINISTARTOR;
+    }
+
+    @Override
+    public Permission[] userPermission() {
+        return new Permission[]{Permission.MANAGE_SERVER};
     }
 }

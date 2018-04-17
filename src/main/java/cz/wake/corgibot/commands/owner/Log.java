@@ -48,4 +48,9 @@ public class Log implements Command {
     public CommandCategory getCategory() {
         return CommandCategory.BOT_OWNER;
     }
+
+    @Override
+    public boolean isOwner() {
+        return true;
+    }
 }

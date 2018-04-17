@@ -10,6 +10,7 @@ import cz.wake.corgibot.objects.GuildWrapper;
 import cz.wake.corgibot.utils.Constants;
 import cz.wake.corgibot.utils.EmoteList;
 import cz.wake.corgibot.utils.MessageUtils;
+import net.dv8tion.jda.core.Permission;
 import net.dv8tion.jda.core.entities.Member;
 import net.dv8tion.jda.core.entities.Message;
 import net.dv8tion.jda.core.entities.MessageChannel;
@@ -67,6 +68,11 @@ public class Ignore implements Command {
     @Override
     public CommandCategory getCategory() {
         return CommandCategory.ADMINISTARTOR;
+    }
+
+    @Override
+    public Permission[] userPermission() {
+        return new Permission[]{Permission.MANAGE_CHANNEL};
     }
 
     private boolean getTruth(MessageChannel channel, GuildWrapper gw) {

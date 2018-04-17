@@ -124,6 +124,11 @@ public class Purge implements Command {
     }
 
     @Override
+    public Permission[] userPermission() {
+        return new Permission[]{Permission.MANAGE_CHANNEL};
+    }
+
+    @Override
     public String[] getAliases() {
         return new String[]{"clean"};
     }

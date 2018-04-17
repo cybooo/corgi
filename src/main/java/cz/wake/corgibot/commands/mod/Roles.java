@@ -5,6 +5,7 @@ import cz.wake.corgibot.annotations.SinceCorgi;
 import cz.wake.corgibot.commands.Command;
 import cz.wake.corgibot.commands.CommandCategory;
 import cz.wake.corgibot.objects.GuildWrapper;
+import net.dv8tion.jda.core.Permission;
 import net.dv8tion.jda.core.entities.Member;
 import net.dv8tion.jda.core.entities.Message;
 import net.dv8tion.jda.core.entities.MessageChannel;
@@ -43,5 +44,10 @@ public class Roles implements Command {
     @Override
     public CommandCategory getCategory() {
         return CommandCategory.MODERATION;
+    }
+
+    @Override
+    public Permission[] userPermission() {
+        return new Permission[]{Permission.MANAGE_SERVER};
     }
 }

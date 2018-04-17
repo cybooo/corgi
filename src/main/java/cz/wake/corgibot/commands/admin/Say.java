@@ -6,6 +6,7 @@ import cz.wake.corgibot.commands.Command;
 import cz.wake.corgibot.commands.CommandCategory;
 import cz.wake.corgibot.objects.GuildWrapper;
 import cz.wake.corgibot.utils.MessageUtils;
+import net.dv8tion.jda.core.Permission;
 import net.dv8tion.jda.core.entities.Member;
 import net.dv8tion.jda.core.entities.Message;
 import net.dv8tion.jda.core.entities.MessageChannel;
@@ -45,5 +46,10 @@ public class Say implements Command {
     @Override
     public boolean deleteMessage() {
         return true;
+    }
+
+    @Override
+    public Permission[] userPermission() {
+        return new Permission[]{Permission.MANAGE_CHANNEL};
     }
 }

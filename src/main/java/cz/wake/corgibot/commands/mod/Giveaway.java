@@ -58,5 +58,10 @@ public class Giveaway implements Command {
     public CommandCategory getCategory() {
         return CommandCategory.MODERATION;
     }
+
+    @Override
+    public Permission[] userPermission() {
+        return new Permission[]{Permission.MANAGE_CHANNEL};
+    }
 }
 

@@ -8,6 +8,7 @@ import cz.wake.corgibot.commands.CommandCategory;
 import cz.wake.corgibot.objects.GuildWrapper;
 import cz.wake.corgibot.utils.Constants;
 import cz.wake.corgibot.utils.MessageUtils;
+import net.dv8tion.jda.core.Permission;
 import net.dv8tion.jda.core.entities.Member;
 import net.dv8tion.jda.core.entities.Message;
 import net.dv8tion.jda.core.entities.MessageChannel;
@@ -18,8 +19,8 @@ public class SetPrefix implements Command {
     @Override
     public void onCommand(MessageChannel channel, Message message, String[] args, Member member, EventWaiter w, GuildWrapper gw) {
         if (args.length == 1) {
-            if (!CorgiBot.isIsBeta()) {
-                channel.sendMessage("Corgi je spuštění v režimu BETA! Nelze upravovat prefix!").queue();
+            if (CorgiBot.isIsBeta()) {
+                channel.sendMessage("Corgi je spuštěn v režimu BETA! Nelze upravovat prefix!").queue();
                 return;
             }
             if (args[0].equalsIgnoreCase("reset")) {
@@ -59,5 +60,10 @@ public class SetPrefix implements Command {
     @Override
     public String[] getAliases() {
         return new String[]{"setprefix"};
+    }
+
+    @Override
+    public Permission[] userPermission() {
+        return new Permission[]{Permission.MANAGE_SERVER};
     }
 }

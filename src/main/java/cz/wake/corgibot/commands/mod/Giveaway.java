@@ -23,7 +23,7 @@ import org.joda.time.format.PeriodFormatterBuilder;
 
 import java.util.Arrays;
 
-@SinceCorgi(version = "0.5")
+@SinceCorgi(version = "1.3.2")
 public class Giveaway implements Command {
 
     private static final PeriodFormatter periodParser = new PeriodFormatterBuilder()

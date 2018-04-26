@@ -24,7 +24,7 @@ public class Giveaway2 {
     private Color color;
     private Message message;
     private long seconds;
-    private boolean running = true;
+    private volatile boolean exit = false;
 
     public Giveaway2(Message message, long endTime, String prize, int maxWinners, String emoji, String color) {
         this.endTime = endTime;
@@ -37,15 +37,13 @@ public class Giveaway2 {
         this.giveawayId = 0; //TODO: Z SQL
     }
 
-    //TODO Zastaveni threadu pri chybe
-
     public void start(){
         new Thread(() -> {
             try {
-                if(!running){
+                if (exit){
                     return;
                 }
-                while (seconds > 10) {
+                while (seconds > 10 && !exit) {
                     message.editMessage(new EmbedBuilder().setTitle(":confetti_ball:  **GIVEAWAY!**  :confetti_ball:", null).setDescription((prize != null ? "\n**" + prize + "**" : "\n") + "\nKlikni na " + emoji + " ke vstupu!\nZbývající čas: " + secondsToTime(seconds)).setColor(color).setFooter("Výherci: " + maxWinners, null).setTimestamp(Instant.ofEpochMilli(endTime)).build()).queue(m -> {}, this::exceptionHandler);
                     seconds -= 5;
                     if(!message.getReactions().equals(emoji)){
@@ -53,7 +51,7 @@ public class Giveaway2 {
                     }
                     Thread.sleep(5000);
                 }
-                while (seconds > 0) {
+                while (seconds > 0 && !exit) {
                     message.editMessage(new EmbedBuilder().setTitle(":confetti_ball:  **GIVEAWAY BRZO SKONCI!**  :confetti_ball:", null).setDescription((prize != null ? "\n**" + prize + "**" : "\n") + "\nKlikni na " + emoji + " ke vstupu!\nZbývající čas: " + secondsToTime(seconds)).setColor(Constants.RED).setFooter("Výherci: " + maxWinners, null).setTimestamp(Instant.ofEpochMilli(endTime)).build()).queue(m -> {}, this::exceptionHandler);
                     seconds--;
                     if(!message.getReactions().equals(emoji)){
@@ -96,7 +94,7 @@ public class Giveaway2 {
                     message.clearReactions().queue();
                 }
             } catch (Exception ex) {
-                ex.printStackTrace();
+                Thread.currentThread().interrupt();
             }
         }).start();
     }
@@ -148,7 +146,8 @@ public class Giveaway2 {
                 case 10003: // channel not found
                     CorgiLogger.fatalMessage("Giveaway byl smazán! Corgi zastavil thread a odebral data.");
                     //TODO: Odebrat z SQL
-                    running = false;
+                    requestExit();
+                    Thread.currentThread().interrupt();
                     break;
 
                 // Missing permissions for editing message
@@ -156,11 +155,16 @@ public class Giveaway2 {
                 case 50013: // missing permissions
                     CorgiLogger.fatalMessage("Corgi nemuze upravit Giveaway, byl proto zastaven a odebrla z SQL.");
                     //TODO: Odebrat z SQL
-                    running = false;
+                    requestExit();
+                    Thread.currentThread().interrupt();
                     break;
 
             }
         }
+    }
+
+    private void requestExit(){
+        exit = true;
     }
 
 

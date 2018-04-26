@@ -396,7 +396,6 @@ public class SQLManager {
             conn = pool.getConnection();
             ps = conn.prepareStatement("DELETE FROM corgibot.giveaways WHERE message_id = ?");
             ps.setString(1, messageId);
-            CorgiLogger.debugMessage("MessageID: " + messageId);
             ps.executeUpdate();
         } catch (Exception e) {
             e.printStackTrace();

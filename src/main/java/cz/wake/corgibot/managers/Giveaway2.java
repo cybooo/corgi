@@ -35,7 +35,7 @@ public class Giveaway2 {
         this.color = color != null ? java.awt.Color.decode(color) : Constants.GIVEAWAY_BLUE;
         this.message = message;
         this.seconds = (endTime - System.currentTimeMillis())/1000;
-        this.giveawayId = 0; //TODO: Z SQL
+        this.giveawayId = 0;
     }
 
     public void start(){
@@ -148,7 +148,6 @@ public class Giveaway2 {
                 case 10008: // message not found
                 case 10003: // channel not found
                     CorgiLogger.fatalMessage("Giveaway byl smazán! Corgi zastavil thread a odebral data.");
-                    //TODO: Odebrat z SQL
                     requestExit();
                     Thread.currentThread().interrupt();
                     break;
@@ -157,7 +156,6 @@ public class Giveaway2 {
                 case 50001: // missing access
                 case 50013: // missing permissions
                     CorgiLogger.fatalMessage("Corgi nemuze upravit Giveaway, byl proto zastaven a odebrla z SQL.");
-                    //TODO: Odebrat z SQL
                     requestExit();
                     Thread.currentThread().interrupt();
                     break;

@@ -5,6 +5,7 @@ import cz.wake.corgibot.CorgiBot;
 import cz.wake.corgibot.objects.ChangeLog;
 import cz.wake.corgibot.objects.GuildWrapper;
 import cz.wake.corgibot.objects.TemporaryReminder;
+import cz.wake.corgibot.utils.CorgiLogger;
 import net.dv8tion.jda.core.entities.Guild;
 import net.dv8tion.jda.core.entities.TextChannel;
 import net.dv8tion.jda.core.entities.User;
@@ -363,6 +364,45 @@ public class SQLManager {
             pool.close(conn, ps, null);
         }
         return null;
+    }
+
+    public final void registerGiveawayInSQL(final String guildId, final String messageId, final long startTime, final long endTime,
+                                            final String prize, final int maxWinners, final String emojiCode, final String embedColor) {
+        Connection conn = null;
+        PreparedStatement ps = null;
+        try {
+            conn = pool.getConnection();
+            ps = conn.prepareStatement("SET NAMES utf8mb4;INSERT INTO corgibot.giveaways (guild_id, message_id, start_time, end_time, prize, max_winners, emoji, embed_color) VALUES (?,?,?,?,?,?,?,?);");
+            ps.setString(1, guildId);
+            ps.setString(2, messageId);
+            ps.setLong(3, startTime);
+            ps.setLong(4, endTime);
+            ps.setString(5, prize);
+            ps.setInt(6, maxWinners);
+            ps.setString(7, emojiCode);
+            ps.setString(8, embedColor);
+            ps.executeUpdate();
+        } catch (Exception e) {
+            e.printStackTrace();
+        } finally {
+            pool.close(conn, ps, null);
+        }
+    }
+
+    public final void deleteGiveawayFromSQL(final String guildId, final String messageId) {
+        Connection conn = null;
+        PreparedStatement ps = null;
+        try {
+            conn = pool.getConnection();
+            ps = conn.prepareStatement("DELETE FROM corgibot.giveaways WHERE message_id = ?");
+            ps.setString(1, messageId);
+            CorgiLogger.debugMessage("MessageID: " + messageId);
+            ps.executeUpdate();
+        } catch (Exception e) {
+            e.printStackTrace();
+        } finally {
+            pool.close(conn, ps, null);
+        }
     }
 
 

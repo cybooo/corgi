@@ -1,5 +1,6 @@
 package cz.wake.corgibot.managers;
 
+import cz.wake.corgibot.CorgiBot;
 import cz.wake.corgibot.utils.Constants;
 import cz.wake.corgibot.utils.CorgiLogger;
 import net.dv8tion.jda.core.EmbedBuilder;
@@ -87,14 +88,16 @@ public class Giveaway2 {
                             }
                         });
                         message.editMessage(new EmbedBuilder().setTitle(":confetti_ball:  **GIVEAWAY SKONČIL!**  :confetti_ball:", null).setDescription((prize != null ? "\n**" + prize + "**" : "\n") + "\n" + finalWinners.toString()).setColor(Constants.GREEN).setFooter("Ukončeno ", null).setTimestamp(Instant.ofEpochMilli(System.currentTimeMillis())).build()).queue(m -> {}, this::exceptionHandler);
-
+                        CorgiBot.getInstance().getSql().deleteGiveawayFromSQL(message.getGuild().getId(), message.getId());
                     });
                 } catch (Exception ex){
                     message.editMessage(new EmbedBuilder().setTitle(":fire:  **GIVEAWAY CHYBA!**  :fire:", null).setDescription("Vítěz nemohl být vyhodnocen, jelikož se nikdo nezúčastnil!").setColor(Constants.ORANGE).build()).queue();
                     message.clearReactions().queue();
+                    CorgiBot.getInstance().getSql().deleteGiveawayFromSQL(message.getGuild().getId(), message.getId());
                 }
             } catch (Exception ex) {
                 Thread.currentThread().interrupt();
+                CorgiBot.getInstance().getSql().deleteGiveawayFromSQL(message.getGuild().getId(), message.getId());
             }
         }).start();
     }

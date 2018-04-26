@@ -101,6 +101,7 @@ public class Giveaway implements Command {
             channel.sendMessage(MessageUtils.getEmbed(Constants.GRAY).setDescription("Generuji...").build()).queue(m -> {
                 m.addReaction(finalEmoji).queue();
                 new Giveaway2(m, end.getMillis(), finalPrize, finalWinners, finalEmoji, finalColor).start();
+                CorgiBot.getInstance().getSql().registerGiveawayInSQL(member.getGuild().getId(), m.getId(), start.getMillis(),end.getMillis(),finalPrize,finalWinners,finalEmoji, finalColor);
             });
 
         }

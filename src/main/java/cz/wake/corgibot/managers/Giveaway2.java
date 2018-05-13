@@ -155,7 +155,7 @@ public class Giveaway2 {
                 // Missing permissions for editing message
                 case 50001: // missing access
                 case 50013: // missing permissions
-                    CorgiLogger.fatalMessage("Corgi nemuze upravit Giveaway, byl proto zastaven a odebrla z SQL.");
+                    CorgiLogger.fatalMessage("Corgi nemuze upravit Giveaway, byl proto zastaven a odebral z SQL.");
                     requestExit();
                     Thread.currentThread().interrupt();
                     break;

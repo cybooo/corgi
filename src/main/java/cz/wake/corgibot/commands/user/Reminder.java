@@ -8,6 +8,8 @@ import cz.wake.corgibot.commands.CommandCategory;
 import cz.wake.corgibot.objects.GuildWrapper;
 import cz.wake.corgibot.objects.TemporaryReminder;
 import cz.wake.corgibot.utils.*;
+import cz.wake.corgibot.utils.pagination.PagedTableBuilder;
+import cz.wake.corgibot.utils.pagination.PaginationUtil;
 import net.dv8tion.jda.core.entities.Member;
 import net.dv8tion.jda.core.entities.Message;
 import net.dv8tion.jda.core.entities.MessageChannel;
@@ -16,7 +18,9 @@ import org.joda.time.Period;
 import org.joda.time.format.PeriodFormatter;
 import org.joda.time.format.PeriodFormatterBuilder;
 
+import java.util.ArrayList;
 import java.util.HashSet;
+import java.util.List;
 
 @SinceCorgi(version = "1.3.0")
 public class Reminder implements Command {
@@ -40,7 +44,7 @@ public class Reminder implements Command {
                 return;
             }
 
-            StringBuilder mess = new StringBuilder();
+            /*StringBuilder mess = new StringBuilder();
             mess.append(EmoteList.ALARM_CLOCK + " | **Seznam budoucích upozornění pro " + member.getUser().getName() + "**:");
             mess.append("\n```markdown\n");
             mess.append("# ID | ZBÝVAJÍCÍ ČAS | TEXT\n\n");
@@ -50,7 +54,24 @@ public class Reminder implements Command {
             }
 
             mess.append("```");
-            channel.sendMessage(mess.toString()).queue();
+            channel.sendMessage(mess.toString()).queue();*/
+
+            //NEW
+            PagedTableBuilder tb = new PagedTableBuilder();
+            tb.addColumn("ID");
+            tb.addColumn("Zbývající čas");
+            tb.addColumn("Text upozornění");
+
+            for (TemporaryReminder tr : list) {
+                List<String> row = new ArrayList<>();
+                row.add(String.valueOf(tr.getReminderId()));
+                row.add(TimeUtils.toShortTime(tr.getDate() - System.currentTimeMillis()));
+                row.add(tr.getMessage());
+                tb.addRow(row);
+            }
+
+            PaginationUtil.sendPagedMessage(channel, tb.build(), 0, message.getAuthor(), "kek");
+
         } else if (args[0].contains("delete")) {
             if (args.length == 1) {
                 MessageUtils.sendErrorMessage("Nezadal jsi ID. Zkus to znova!", channel);

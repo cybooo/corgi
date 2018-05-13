@@ -3,9 +3,7 @@ package cz.wake.corgibot.utils.buttons;
 import cz.wake.corgibot.objects.ButtonGroup;
 import cz.wake.corgibot.utils.MessageUtils;
 import net.dv8tion.jda.core.Permission;
-import net.dv8tion.jda.core.entities.Message;
-import net.dv8tion.jda.core.entities.MessageEmbed;
-import net.dv8tion.jda.core.entities.TextChannel;
+import net.dv8tion.jda.core.entities.*;
 
 import java.util.Map;
 import java.util.concurrent.ConcurrentHashMap;
@@ -21,7 +19,7 @@ public class ButtonUtil {
      * @param embed   The embed to send.
      * @param buttons The buttons to display.
      */
-    public static void sendButtonedMessage(TextChannel channel, MessageEmbed embed, ButtonGroup buttons) {
+    public static void sendButtonedMessage(MessageChannel channel, MessageEmbed embed, ButtonGroup buttons) {
         channel.sendMessage(embed).queue(message -> handleSuccessConsumer(channel, message, buttons));
     }
 
@@ -34,7 +32,7 @@ public class ButtonUtil {
      * @param embed   The {@link MessageEmbed} to send.
      * @param buttons The buttons to display.
      */
-    public static Message sendReturnedButtonedMessage(TextChannel channel, MessageEmbed embed, ButtonGroup buttons) {
+    public static Message sendReturnedButtonedMessage(MessageChannel channel, MessageEmbed embed, ButtonGroup buttons) {
         Message message = channel.sendMessage(embed).complete();
         handleSuccessConsumer(channel, message, buttons);
         return message;
@@ -47,17 +45,17 @@ public class ButtonUtil {
      * @param text    The message to send.
      * @param buttons The buttons to display.
      */
-    public static void sendButtonedMessage(TextChannel channel, String text, ButtonGroup buttons) {
+    public static void sendButtonedMessage(MessageChannel channel, String text, ButtonGroup buttons) {
         channel.sendMessage(text).queue(message -> handleSuccessConsumer(channel, message, buttons));
     }
 
-    private static void handleSuccessConsumer(TextChannel channel, Message message, ButtonGroup buttonGroup) {
-        if (!channel.getGuild().getSelfMember().hasPermission(Permission.MESSAGE_ADD_REACTION)) {
+    private static void handleSuccessConsumer(MessageChannel channel, Message message, ButtonGroup buttonGroup) {
+        if (!message.getGuild().getSelfMember().hasPermission(Permission.MESSAGE_ADD_REACTION)) {
             MessageUtils.sendErrorMessage("We don't have permission to add reactions to messages so buttons have been " +
                     "disabled", channel);
             return;
         }
-        if (!channel.getGuild().getSelfMember().hasPermission(channel, Permission.MESSAGE_MANAGE)) {
+        if (!message.getGuild().getSelfMember().hasPermission((Channel) channel, Permission.MESSAGE_MANAGE)) {
             MessageUtils.sendErrorMessage("We don't have permission to manage reactions so you won't be getting the best experience with buttons", channel);
         }
         for (ButtonGroup.Button button : buttonGroup.getButtons()) {

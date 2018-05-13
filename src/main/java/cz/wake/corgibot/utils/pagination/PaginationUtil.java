@@ -4,6 +4,7 @@ import cz.wake.corgibot.objects.ButtonGroup;
 import cz.wake.corgibot.utils.MessageUtils;
 import cz.wake.corgibot.utils.buttons.ButtonUtil;
 import net.dv8tion.jda.core.Permission;
+import net.dv8tion.jda.core.entities.MessageChannel;
 import net.dv8tion.jda.core.entities.TextChannel;
 import net.dv8tion.jda.core.entities.User;
 import org.apache.commons.lang3.ArrayUtils;
@@ -58,7 +59,7 @@ public class PaginationUtil {
      * @param page        The starting page
      * @param sender      The member who requested the button
      */
-    public static void sendPagedMessage(TextChannel textChannel, PaginationList list, int page, User sender, String group) {
+    public static void sendPagedMessage(MessageChannel textChannel, PaginationList list, int page, User sender, String group) {
         if (page < 0 || page > list.getPages() - 1) {
             MessageUtils.sendErrorMessage("Invalid page: " + (page + 1) + " Total Pages: " + list.getPages(), textChannel);
             return;

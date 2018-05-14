@@ -78,6 +78,13 @@
                     </execution>
                 </executions>
             </plugin>
+            <plugin>
+                <artifactId>maven-surefire-plugin</artifactId> <!-- Java 9+ -->
+                <version>2.20.1</version>
+                <configuration>
+                    <argLine>--add-modules java.xml.bind</argLine>
+                </configuration>
+            </plugin>
         </plugins>
     </build>
 

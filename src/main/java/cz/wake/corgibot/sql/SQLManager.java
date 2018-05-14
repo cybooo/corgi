@@ -3,8 +3,10 @@ package cz.wake.corgibot.sql;
 import com.zaxxer.hikari.HikariDataSource;
 import cz.wake.corgibot.CorgiBot;
 import cz.wake.corgibot.objects.ChangeLog;
+import cz.wake.corgibot.objects.GiveawayObject;
 import cz.wake.corgibot.objects.GuildWrapper;
 import cz.wake.corgibot.objects.TemporaryReminder;
+import cz.wake.corgibot.utils.CorgiLogger;
 import net.dv8tion.jda.core.entities.Guild;
 import net.dv8tion.jda.core.entities.TextChannel;
 import net.dv8tion.jda.core.entities.User;
@@ -363,6 +365,72 @@ public class SQLManager {
             pool.close(conn, ps, null);
         }
         return null;
+    }
+
+    public final void registerGiveawayInSQL(final String guildId, final String textChannelId, final String messageId, final long startTime, final long endTime,
+                                            final String prize, final int maxWinners, final String emojiCode, final String embedColor) {
+        Connection conn = null;
+        PreparedStatement ps = null;
+        try {
+            conn = pool.getConnection();
+            ps = conn.prepareStatement("SET NAMES utf8mb4;INSERT INTO corgibot.giveaways (guild_id,textchannel_id, message_id, start_time, end_time, prize, max_winners, emoji, embed_color) VALUES (?,?,?,?,?,?,?,?,?);");
+            ps.setString(1, guildId);
+            ps.setString(2, textChannelId);
+            ps.setString(3, messageId);
+            ps.setLong(4, startTime);
+            ps.setLong(5, endTime);
+            ps.setString(6, prize);
+            ps.setInt(7, maxWinners);
+            ps.setString(8, emojiCode);
+            ps.setString(9, embedColor);
+            ps.executeUpdate();
+        } catch (Exception e) {
+            e.printStackTrace();
+        } finally {
+            pool.close(conn, ps, null);
+        }
+    }
+
+    public final void deleteGiveawayFromSQL(final String guildId, final String messageId) {
+        Connection conn = null;
+        PreparedStatement ps = null;
+        try {
+            conn = pool.getConnection();
+            ps = conn.prepareStatement("DELETE FROM corgibot.giveaways WHERE message_id = ?");
+            ps.setString(1, messageId);
+            ps.executeUpdate();
+        } catch (Exception e) {
+            e.printStackTrace();
+        } finally {
+            pool.close(conn, ps, null);
+        }
+    }
+
+    public HashSet<GiveawayObject> getAllGiveaways(){
+        HashSet<GiveawayObject> list = new HashSet<>();
+        Connection conn = null;
+        PreparedStatement ps = null;
+        try {
+            conn = pool.getConnection();
+            ps = conn.prepareStatement("SELECT * FROM corgibot.giveaways;");
+            ps.executeQuery();
+            while (ps.getResultSet().next()) {
+                list.add(new GiveawayObject(ps.getResultSet().getInt("id"),
+                                            ps.getResultSet().getString("guild_id"),
+                                            ps.getResultSet().getString("textchannel_id"),
+                                            ps.getResultSet().getString("message_id"),
+                                            ps.getResultSet().getLong("end_time"),
+                                            ps.getResultSet().getString("prize"),
+                                            ps.getResultSet().getInt("max_winners"),
+                                            ps.getResultSet().getString("emoji"),
+                                            ps.getResultSet().getString("embed_color")));
+            }
+        } catch (Exception e) {
+            e.printStackTrace();
+        } finally {
+            pool.close(conn, ps, null);
+        }
+        return list;
     }
 
 

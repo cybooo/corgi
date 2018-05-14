@@ -11,6 +11,7 @@ import cz.wake.corgibot.commands.owner.GuildList;
 import cz.wake.corgibot.commands.owner.Log;
 import cz.wake.corgibot.commands.owner.Stop;
 import cz.wake.corgibot.commands.user.*;
+import cz.wake.corgibot.managers.Giveaway2;
 import cz.wake.corgibot.utils.CorgiLogger;
 
 import java.util.ArrayList;
@@ -61,7 +62,7 @@ public class CommandHandler {
         registerCommand(new Archive());
         //registerCommand(new Purge());
         registerCommand(new TextToBlock());
-        //registerCommand(new Giveaway());
+        registerCommand(new Giveaway());
         registerCommand(new Stats());
         registerCommand(new Warn());
         registerCommand(new About());

@@ -6,11 +6,11 @@ import cz.wake.corgibot.annotations.SinceCorgi;
 import cz.wake.corgibot.commands.Command;
 import cz.wake.corgibot.commands.CommandCategory;
 import cz.wake.corgibot.managers.Giveaway2;
+import cz.wake.corgibot.objects.GiveawayObject;
 import cz.wake.corgibot.objects.GuildWrapper;
-import cz.wake.corgibot.utils.Constants;
-import cz.wake.corgibot.utils.CorgiLogger;
-import cz.wake.corgibot.utils.FormatUtil;
-import cz.wake.corgibot.utils.MessageUtils;
+import cz.wake.corgibot.utils.*;
+import cz.wake.corgibot.utils.pagination.PagedTableBuilder;
+import cz.wake.corgibot.utils.pagination.PaginationUtil;
 import net.dv8tion.jda.core.Permission;
 import net.dv8tion.jda.core.entities.Emote;
 import net.dv8tion.jda.core.entities.Member;
@@ -21,7 +21,10 @@ import org.joda.time.Period;
 import org.joda.time.format.PeriodFormatter;
 import org.joda.time.format.PeriodFormatterBuilder;
 
+import java.util.ArrayList;
 import java.util.Arrays;
+import java.util.HashSet;
+import java.util.List;
 
 @SinceCorgi(version = "1.3.2")
 public class Giveaway implements Command {
@@ -42,13 +45,30 @@ public class Giveaway implements Command {
         /**
          * c!giveaway 1h30m | Výhra v loterii | 2 | :smile: | #fffff
          * c!giveaway list
-         * c!giveaway stop [ID]
-         * c!giveaway reroll [MSG_ID]
-         * c!giveaway builder
          */
 
-        if(args.length < 1){
+        if(args.length < 1) {
             //HELP
+        } if(args[0].equalsIgnoreCase("list")) {
+
+            PagedTableBuilder pb = new PagedTableBuilder();
+            pb.addColumn("ID");
+            pb.addColumn("Výhra");
+            pb.addColumn("Počet");
+            pb.addColumn("Konec za");
+
+            CorgiBot.getInstance().getSql().getAllGiveaways().forEach(g -> {
+                if(g.getGuildId().equals(message.getGuild().getId())){
+                    List<String> row = new ArrayList<>();
+                    row.add(String.valueOf(g.getGiveawayId()));
+                    row.add(g.getPrize());
+                    row.add(String.valueOf(g.getMaxWinners()));
+                    row.add(TimeUtils.toShortTime(g.getEndTime() - System.currentTimeMillis()));
+                    pb.addRow(row);
+                }
+            });
+
+            PaginationUtil.sendPagedMessage(channel, pb.build(), 0, message.getAuthor(), "giveaway list");
         } else {
             // Format message
             String request = message.getContentRaw().replaceAll("\\s+\\|", "|").replaceAll("\\|\\s+", "|").replaceAll("\\|", "|").replace("giveaway ", "").replace("gw ", "").replace(gw.getPrefix(), "");

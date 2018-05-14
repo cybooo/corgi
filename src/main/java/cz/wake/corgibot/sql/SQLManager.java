@@ -415,7 +415,8 @@ public class SQLManager {
             ps = conn.prepareStatement("SELECT * FROM corgibot.giveaways;");
             ps.executeQuery();
             while (ps.getResultSet().next()) {
-                list.add(new GiveawayObject(ps.getResultSet().getString("guild_id"),
+                list.add(new GiveawayObject(ps.getResultSet().getInt("id"),
+                                            ps.getResultSet().getString("guild_id"),
                                             ps.getResultSet().getString("textchannel_id"),
                                             ps.getResultSet().getString("message_id"),
                                             ps.getResultSet().getLong("end_time"),

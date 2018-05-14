@@ -10,10 +10,7 @@ import cz.wake.corgibot.objects.GuildWrapper;
 import cz.wake.corgibot.utils.Constants;
 import cz.wake.corgibot.utils.EmoteList;
 import cz.wake.corgibot.utils.MessageUtils;
-import net.dv8tion.jda.core.entities.ChannelType;
-import net.dv8tion.jda.core.entities.Member;
-import net.dv8tion.jda.core.entities.Message;
-import net.dv8tion.jda.core.entities.MessageChannel;
+import net.dv8tion.jda.core.entities.*;
 
 @SinceCorgi(version = "0.1")
 public class Help implements Command {
@@ -27,7 +24,7 @@ public class Help implements Command {
             }
             member.getUser().openPrivateChannel().queue(msg -> msg.sendMessage(MessageUtils.getEmbed(Constants.BLUE)
                     .setAuthor("Nápověda k CorgiBot", null, channel.getJDA().getSelfUser().getAvatarUrl())
-                    .setDescription(getContext(member)).setFooter("Podrobnější popis nalezneš na: https://corgibot.xyz/prikazy", null)
+                    .setDescription(getContext(member, message.getGuild())).setFooter("Podrobnější popis nalezneš na: https://corgibot.xyz/prikazy", null)
                     .build()).queue());
         } else {
             String commandName = args[0];
@@ -71,17 +68,17 @@ public class Help implements Command {
         return new String[]{"pomoc", "prikazy", "commands"};
     }
 
-    private StringBuilder getContext(Member member) {
+    private StringBuilder getContext(Member member, Guild guild) {
         StringBuilder builder = new StringBuilder();
         CommandHandler ch = new CommandHandler();
         try {
-            builder.append("Prefix pro příkazy na tvém serveru je `" + BotManager.getCustomGuild(member.getGuild().getId()).getPrefix() + "`\nDodatečné informace o příkazu `" + BotManager.getCustomGuild(member.getGuild().getId()).getPrefix() + "help <příkaz>`");
+            builder.append("Prefix pro příkazy na " + guild.getName() + " je `" + BotManager.getCustomGuild(member.getGuild().getId()).getPrefix() + "`\nDodatečné informace o příkazu `" + BotManager.getCustomGuild(member.getGuild().getId()).getPrefix() + "help <příkaz>`");
         } catch (NullPointerException ex){
             builder.append("Prefix pro příkazy je `c!`\nDodatečné informace zobrazíš pomocí `c!help <příkaz>`");
         }
         for (CommandCategory type : CommandCategory.getTypes()) {
             if (type == CommandCategory.MUSIC || type == CommandCategory.BOT_OWNER || type == CommandCategory.HIDDEN) { // Neexistujici kategorie (zatim)
-                return builder.append("");
+                return builder;
             }
             builder.append("\n\n");
             builder.append(type.getEmote() + " | **" + type.formattedName() + "** - " + ch.getCommandsByType(type).size() + "\n");

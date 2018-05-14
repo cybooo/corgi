@@ -38,21 +38,6 @@ public class SQLManager {
         return pool;
     }
 
-    public final void deletePrefix(final String guildId) {
-        Connection conn = null;
-        PreparedStatement ps = null;
-        try {
-            conn = pool.getConnection();
-            ps = conn.prepareStatement("DELETE FROM corgibot.prefixes WHERE guild_id = ?");
-            ps.setString(1, guildId);
-            ps.executeUpdate();
-        } catch (Exception e) {
-            e.printStackTrace();
-        } finally {
-            pool.close(conn, ps, null);
-        }
-    }
-
     public final void updatePrefix(final String guildId, final String prefix) {
         Connection conn = null;
         PreparedStatement ps = null;
@@ -209,24 +194,6 @@ public class SQLManager {
         } finally {
             pool.close(conn, ps, null);
         }
-    }
-
-    public final String getPrefixOverSQL(final String guildId) {
-        Connection conn = null;
-        PreparedStatement ps = null;
-        try {
-            conn = pool.getConnection();
-            ps = conn.prepareStatement("SELECT prefix FROM corgibot.prefixes WHERE guild_id = " + guildId + ";");
-            ps.executeQuery();
-            if (ps.getResultSet().next()) {
-                return ps.getResultSet().getString("prefix");
-            }
-        } catch (Exception e) {
-            e.printStackTrace();
-        } finally {
-            pool.close(conn, ps, null);
-        }
-        return null;
     }
 
     public final HashSet<TextChannel> getIgnoredChannels(final String guildId) {
@@ -433,6 +400,23 @@ public class SQLManager {
         return list;
     }
 
+    public String getRandomFact(){
+        Connection conn = null;
+        PreparedStatement ps = null;
+        try {
+            conn = pool.getConnection();
+            ps = conn.prepareStatement("SELECT fact FROM corgibot.fakty ORDER BY RAND() LIMIT 1;");
+            ps.executeQuery();
+            if (ps.getResultSet().next()) {
+                return ps.getResultSet().getString("fact");
+            }
+        } catch (Exception e) {
+            e.printStackTrace();
+        } finally {
+            pool.close(conn, ps, null);
+        }
+        return null;
+    }
 
 
 

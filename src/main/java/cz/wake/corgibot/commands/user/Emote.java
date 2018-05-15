@@ -37,8 +37,8 @@ public class Emote implements Command {
                     channel.sendMessage(MessageUtils.getEmbed(member.getUser(), Constants.RED).setTitle("**Neznámý Emote**")
                             .setDescription("**ID:** " + id + "\n" +
                                     "**Guild:** Neznamý\n" +
-                                    "**Odkaz:** https://discordcdn.com/emojis/" + id + ".png")
-                            .setThumbnail("https://discordcdn.com/emojis/" + id + ".png").build()).queue();
+                                    "**Odkaz:** [ZDE](https://cdn.discordapp.com/emojis/" + id + ".png)")
+                            .setThumbnail("https://cdn.discordapp.com/emojis/" + id + ".png").build()).queue();
                     return;
                 } else {
                     channel.sendMessage(MessageUtils.getEmbed(member.getUser(), Constants.GREEN).setTitle("**Info o Emote** (" + emote.getName() + ")")

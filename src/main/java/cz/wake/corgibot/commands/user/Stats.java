@@ -36,7 +36,7 @@ public class Stats implements Command {
             embed.addField(EmoteList.COMPRESS + " Zatížení", ((int) (CPUDaemon.get() * 10000)) / 100d + "%", true);
             embed.addField(EmoteList.FLOPY_DISC + " Paměť", usedMb + "MB / " + totalMb + "MB", true);
             embed.addField(EmoteList.COMET + " Threads", String.valueOf(Thread.getAllStackTraces().size()), true);
-            embed.addField(EmoteList.JAVA + " Java", Runtime.class.getPackage().getImplementationVersion(), true);
+            embed.addField(EmoteList.JAVA + " Java", /*Runtime.class.getPackage().getImplementationVersion() */ "10.0", true);
             embed.setAuthor("Corgiho statistiky", null, CorgiBot.getJda().getSelfUser().getAvatarUrl());
             embed.setColor(Constants.BLUE);
             channel.sendMessage(embed.build()).queue();

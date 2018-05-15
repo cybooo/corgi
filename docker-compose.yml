@@ -9,8 +9,8 @@ services:
       ports:
         - 5000:5000
       volumes:
-        - /srv/corgibot/config.yml:/config.yml
-        - /srv/corgibot/logs:/logs
+        - /srv/corgibot/config.yml:/srv/config.yml
+        - /srv/corgibot/logs:/srv/logs
       stop_grace_period: 7200s
       entrypoint:
         - java

@@ -15,29 +15,37 @@ import net.dv8tion.jda.core.entities.MessageChannel;
 @SinceCorgi(version = "0.1")
 public class Ping implements Command {
 
+    private static boolean running = false;
+
     @Override
     public void onCommand(MessageChannel channel, Message message, String[] args, Member member, EventWaiter w, GuildWrapper gw) {
 
-        channel.sendMessage(MessageUtils.getEmbed(Constants.GRAY).setDescription("Vypočítávám ping...").build()).queue(m -> {
-            int pings = 5;
-            int lastResult;
-            int sum = 0, min = 999, max = 0;
-            long start = System.currentTimeMillis();
-            for (int j = 0; j < pings; j++) {
-                m.editMessage(MessageUtils.getEmbed(Constants.ORANGE).setDescription(pingMessages[j % pingMessages.length]).build()).complete();
-                lastResult = (int) (System.currentTimeMillis() - start);
-                sum += lastResult;
-                min = Math.min(min, lastResult);
-                max = Math.max(max, lastResult);
-                try {
-                    Thread.sleep(1_500L);
-                } catch (InterruptedException e) {
-                    e.printStackTrace();
+        if(!running){
+            running = true;
+            channel.sendMessage(MessageUtils.getEmbed(Constants.GRAY).setDescription("Vypočítávám ping...").build()).queue(m -> {
+                int pings = 5;
+                int lastResult;
+                int sum = 0, min = 999, max = 0;
+                long start = System.currentTimeMillis();
+                for (int j = 0; j < pings; j++) {
+                    m.editMessage(MessageUtils.getEmbed(Constants.ORANGE).setDescription(pingMessages[j % pingMessages.length]).build()).complete();
+                    lastResult = (int) (System.currentTimeMillis() - start);
+                    sum += lastResult;
+                    min = Math.min(min, lastResult);
+                    max = Math.max(max, lastResult);
+                    try {
+                        Thread.sleep(1_500L);
+                    } catch (InterruptedException e) {
+                        e.printStackTrace();
+                    }
+                    start = System.currentTimeMillis();
                 }
-                start = System.currentTimeMillis();
-            }
-            m.editMessage(MessageUtils.getEmbed(Constants.GREEN).setDescription(String.format(EmoteList.LOUDSPEAKER + " | **Průměrný ping je:** %dms (min: %d, max: %d)", (int) Math.ceil(sum / 5f), min, max)).build()).complete();
-        });
+                m.editMessage(MessageUtils.getEmbed(Constants.GREEN).setDescription(String.format(EmoteList.LOUDSPEAKER + " | **Průměrný ping je:** %dms (min: %d, max: %d)", (int) Math.ceil(sum / 5f), min, max)).build()).complete();
+                running = false;
+            });
+        } else {
+            MessageUtils.sendErrorMessage("Aktuálně nelze zjistit ping, jelikož již probíhá sken. Zkus to zachvilku!", channel);
+        }
     }
 
     @Override

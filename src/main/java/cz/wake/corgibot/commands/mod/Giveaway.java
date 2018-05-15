@@ -119,6 +119,13 @@ public class Giveaway implements Command {
                 Period p = getTimeFromInput(time, channel);
                 DateTime start = new DateTime();  //NOW
                 DateTime end = start.plus(p);
+                long kekTime = end.getMillis() - start.getMillis();
+
+                if(kekTime <= 1200000){
+                    MessageUtils.sendErrorMessage("Minimalni čas na vytvoření Giveawaye je 20 minut!", channel);
+                    message.delete().queue();
+                    return;
+                }
 
                 int finalWinners = winners;
                 String finalPrize = prize;

@@ -60,7 +60,7 @@ public class CommandHandler {
         registerCommand(new McStatus());
         registerCommand(new Meme());
         registerCommand(new Archive());
-        //registerCommand(new Purge());
+        registerCommand(new Purge());
         registerCommand(new TextToBlock());
         registerCommand(new Giveaway());
         registerCommand(new Stats());

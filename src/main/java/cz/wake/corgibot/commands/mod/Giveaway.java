@@ -129,7 +129,7 @@ public class Giveaway implements Command {
                     new Giveaway2(m, end.getMillis(), finalPrize, finalWinners, finalEmoji, finalColor).start();
                     CorgiBot.getInstance().getSql().registerGiveawayInSQL(member.getGuild().getId(), channel.getId(), m.getId(), start.getMillis(), end.getMillis(), finalPrize, finalWinners, finalEmoji, finalColor);
                 });
-
+                message.delete().reason("Start giveawaye").queue();
             }
         }
     }

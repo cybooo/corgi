@@ -3,9 +3,8 @@ package cz.wake.corgibot.commands.user;
 import com.jagrosh.jdautilities.waiter.EventWaiter;
 import cz.wake.corgibot.CorgiBot;
 import cz.wake.corgibot.annotations.SinceCorgi;
-import cz.wake.corgibot.commands.CommandType;
-import cz.wake.corgibot.commands.ICommand;
-import cz.wake.corgibot.commands.Rank;
+import cz.wake.corgibot.commands.Command;
+import cz.wake.corgibot.commands.CommandCategory;
 import cz.wake.corgibot.objects.GuildWrapper;
 import cz.wake.corgibot.utils.CPUDaemon;
 import cz.wake.corgibot.utils.Constants;
@@ -15,15 +14,14 @@ import net.dv8tion.jda.core.JDAInfo;
 import net.dv8tion.jda.core.entities.Member;
 import net.dv8tion.jda.core.entities.Message;
 import net.dv8tion.jda.core.entities.MessageChannel;
-import net.dv8tion.jda.core.entities.User;
 
 import java.lang.management.ManagementFactory;
 
 @SinceCorgi(version = "1.3.0")
-public class Stats implements ICommand {
+public class Stats implements Command {
 
     @Override
-    public void onCommand(User sender, MessageChannel channel, Message message, String[] args, Member member, EventWaiter w, GuildWrapper gw) {
+    public void onCommand(MessageChannel channel, Message message, String[] args, Member member, EventWaiter w, GuildWrapper gw) {
         if (args.length < 1) {
             long totalMb = Runtime.getRuntime().totalMemory() / (1024 * 1024);
             long usedMb = (Runtime.getRuntime().totalMemory() - Runtime.getRuntime().freeMemory()) / (1024 * 1024);
@@ -38,7 +36,7 @@ public class Stats implements ICommand {
             embed.addField(EmoteList.COMPRESS + " Zatížení", ((int) (CPUDaemon.get() * 10000)) / 100d + "%", true);
             embed.addField(EmoteList.FLOPY_DISC + " Paměť", usedMb + "MB / " + totalMb + "MB", true);
             embed.addField(EmoteList.COMET + " Threads", String.valueOf(Thread.getAllStackTraces().size()), true);
-            embed.addField(EmoteList.JAVA + " Java", Runtime.class.getPackage().getImplementationVersion(), true);
+            embed.addField(EmoteList.JAVA + " Java", System.getProperty("java.version"), true);
             embed.setAuthor("Corgiho statistiky", null, CorgiBot.getJda().getSelfUser().getAvatarUrl());
             embed.setColor(Constants.BLUE);
             channel.sendMessage(embed.build()).queue();
@@ -62,13 +60,8 @@ public class Stats implements ICommand {
     }
 
     @Override
-    public CommandType getType() {
-        return CommandType.GENERAL;
-    }
-
-    @Override
-    public Rank getRank() {
-        return Rank.USER;
+    public CommandCategory getCategory() {
+        return CommandCategory.GENERAL;
     }
 
     private String getUptime() {

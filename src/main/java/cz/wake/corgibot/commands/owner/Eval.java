@@ -3,15 +3,13 @@ package cz.wake.corgibot.commands.owner;
 import com.jagrosh.jdautilities.waiter.EventWaiter;
 import cz.wake.corgibot.CorgiBot;
 import cz.wake.corgibot.annotations.SinceCorgi;
-import cz.wake.corgibot.commands.CommandType;
-import cz.wake.corgibot.commands.ICommand;
-import cz.wake.corgibot.commands.Rank;
+import cz.wake.corgibot.commands.Command;
+import cz.wake.corgibot.commands.CommandCategory;
 import cz.wake.corgibot.objects.GuildWrapper;
 import cz.wake.corgibot.utils.MessageUtils;
 import net.dv8tion.jda.core.entities.Member;
 import net.dv8tion.jda.core.entities.Message;
 import net.dv8tion.jda.core.entities.MessageChannel;
-import net.dv8tion.jda.core.entities.User;
 
 import javax.script.ScriptEngine;
 import javax.script.ScriptEngineManager;
@@ -22,7 +20,7 @@ import java.util.concurrent.Executors;
 import java.util.stream.Collectors;
 
 @SinceCorgi(version = "1.2.2")
-public class Eval implements ICommand {
+public class Eval implements Command {
 
     private ScriptEngineManager manager = new ScriptEngineManager();
     private static final ThreadGroup EVALS = new ThreadGroup("EvalCommand Thread Pool");
@@ -54,15 +52,15 @@ public class Eval implements ICommand {
             "java.util.stream");
 
     @Override
-    public void onCommand(User sender, MessageChannel channel, Message message, String[] args, Member member, EventWaiter w, GuildWrapper gw) {
+    public void onCommand(MessageChannel channel, Message message, String[] args, Member member, EventWaiter w, GuildWrapper gw) {
         String imports =
                 IMPORTS.stream().map(s -> "Packages." + s).collect(Collectors.joining(", ", "var imports = new JavaImporter(", ");\n"));
         ScriptEngine engine = manager.getEngineByName("nashorn");
         engine.put("channel", channel);
         engine.put("guild", member.getGuild());
         engine.put("message", message);
-        engine.put("jda", sender.getJDA());
-        engine.put("sender", sender);
+        engine.put("jda", member.getUser().getJDA());
+        engine.put("sender", member.getUser());
         String code;
         boolean silent = args.length > 0 && args[0].equalsIgnoreCase("-s");
         if (silent)
@@ -76,12 +74,12 @@ public class Eval implements ICommand {
                     eResult = String.format("[Result](%s)", MessageUtils.hastebin(eResult));
                 } else eResult = "```js\n" + eResult + "\n```";
                 if (!silent)
-                    channel.sendMessage(MessageUtils.getEmbed(sender)
+                    channel.sendMessage(MessageUtils.getEmbed(member.getUser())
                             .addField("Code:", "```js\n" + code + "```", false)
                             .addField("Result: ", eResult, false).build()).queue();
             } catch (Exception e) {
                 CorgiBot.LOGGER.error("Error occured in the evaluator thread pool!", e);
-                channel.sendMessage(MessageUtils.getEmbed(sender)
+                channel.sendMessage(MessageUtils.getEmbed(member.getUser())
                         .addField("Code:", "```js\n" + code + "```", false)
                         .addField("Result: ", "```bf\n" + e.getMessage() + "```", false).build()).queue();
             }
@@ -104,12 +102,12 @@ public class Eval implements ICommand {
     }
 
     @Override
-    public CommandType getType() {
-        return CommandType.BOT_OWNER;
+    public CommandCategory getCategory() {
+        return CommandCategory.BOT_OWNER;
     }
 
     @Override
-    public Rank getRank() {
-        return Rank.BOT_OWNER;
+    public boolean isOwner() {
+        return true;
     }
 }

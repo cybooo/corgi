@@ -62,7 +62,7 @@ public class EmoteList {
      */
     final public static String THINKING_1 = "<:ThinkKing:400376336276783104>";
     final public static String THINKING_2 = "<:ThinkingPlant:306503645040607234>";
-    final public static String THINKING_3 = "<:ThinkingPear:314437723219951617>";
+    final public static String THINKING_3 = "<:thinkingPeach:326776879581233152>";
 
     /*
         Flags

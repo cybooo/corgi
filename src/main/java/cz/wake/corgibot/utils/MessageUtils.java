@@ -11,6 +11,7 @@ import net.dv8tion.jda.core.entities.MessageChannel;
 import net.dv8tion.jda.core.entities.MessageEmbed;
 import net.dv8tion.jda.core.entities.User;
 import net.dv8tion.jda.core.exceptions.ErrorResponseException;
+import org.apache.commons.lang3.StringUtils;
 
 import java.awt.*;
 import java.io.ByteArrayInputStream;
@@ -98,8 +99,17 @@ public class MessageUtils {
                 .complete();
     }
 
+    public static Message sendErrorMessage(String title, String message, MessageChannel channel) {
+        return channel.sendMessage(MessageUtils.getEmbed().setColor(Constants.RED).setTitle(title).setDescription(message).build())
+                .complete();
+    }
+
     public static void sendAutoDeletedMessage(String message, long delay, MessageChannel channel) {
         sendAutoDeletedMessage(new MessageBuilder().setEmbed(MessageUtils.getEmbed().setColor(Constants.RED).setDescription(message).build()).build(), delay, channel);
+    }
+
+    public static void sendAutoDeletedMessage(String title, String message, long delay, MessageChannel channel) {
+        sendAutoDeletedMessage(new MessageBuilder().setEmbed(MessageUtils.getEmbed().setTitle(title).setColor(Constants.RED).setDescription(message).build()).build(), delay, channel);
     }
 
     public static void sendAutoDeletedMessage(String message, long delay, MessageChannel channel, Color c) {
@@ -178,5 +188,33 @@ public class MessageUtils {
         } catch (ErrorResponseException e) {
             channel.sendMessage(message.build()).queue();
         }
+    }
+
+    public static String appendSeparatorLine(String left, String middle, String right, int padding, int... sizes) {
+        boolean first = true;
+        StringBuilder ret = new StringBuilder();
+        for (int size : sizes) {
+            if (first) {
+                first = false;
+                ret.append(left).append(StringUtils.repeat("-", size + padding * 2));
+            } else {
+                ret.append(middle).append(StringUtils.repeat("-", size + padding * 2));
+            }
+        }
+        return ret.append(right).append("\n").toString();
+    }
+
+    public static String getFooter(String footer, int padding, int... sizes) {
+        StringBuilder sb = new StringBuilder();
+        sb.append("|");
+        int total = 0;
+        for (int i = 0; i < sizes.length; i++) {
+            int size = sizes[i];
+            total += size + (i == sizes.length - 1 ? 0 : 1) + padding * 2;
+        }
+        sb.append(footer);
+        sb.append(StringUtils.repeat(" ", total - footer.length()));
+        sb.append("|\n");
+        return sb.toString();
     }
 }

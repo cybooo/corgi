@@ -3,11 +3,9 @@ package cz.wake.corgibot.commands.user;
 import com.jagrosh.jdautilities.waiter.EventWaiter;
 import cz.wake.corgibot.CorgiBot;
 import cz.wake.corgibot.annotations.SinceCorgi;
-import cz.wake.corgibot.commands.CommandType;
-import cz.wake.corgibot.commands.ICommand;
-import cz.wake.corgibot.commands.Rank;
+import cz.wake.corgibot.commands.Command;
+import cz.wake.corgibot.commands.CommandCategory;
 import cz.wake.corgibot.objects.GuildWrapper;
-import cz.wake.corgibot.utils.Constants;
 import cz.wake.corgibot.utils.EmoteList;
 import cz.wake.corgibot.utils.MessageUtils;
 import net.dv8tion.jda.core.OnlineStatus;
@@ -19,13 +17,13 @@ import java.util.List;
 import java.util.stream.Collectors;
 
 @SinceCorgi(version = "1.2.3.2")
-public class UserInfo implements ICommand {
+public class UserInfo implements Command {
 
     @Override
-    public void onCommand(User sender, MessageChannel channel, Message message, String[] args, Member member, EventWaiter w, GuildWrapper gw) {
+    public void onCommand(MessageChannel channel, Message message, String[] args, Member member, EventWaiter w, GuildWrapper gw) {
         String id;
         if (args.length != 1) {
-            id = sender.getId();
+            id = member.getUser().getId();
         } else {
             id = args[0].replaceAll("[^0-9]", "");
         }
@@ -63,7 +61,7 @@ public class UserInfo implements ICommand {
         }
 
 
-        channel.sendMessage(MessageUtils.getEmbed(sender, member.getGuild().getMember(user).getColor())
+        channel.sendMessage(MessageUtils.getEmbed(member.getUser(), member.getGuild().getMember(user).getColor())
                 .setThumbnail(user.getEffectiveAvatarUrl())
                 .addField("Jméno", user.getName() + "#" + user.getDiscriminator() + " " + getDiscordRank(user), true)
                 .addField("ID", user.getId(), true)
@@ -100,13 +98,8 @@ public class UserInfo implements ICommand {
     }
 
     @Override
-    public CommandType getType() {
-        return CommandType.GENERAL;
-    }
-
-    @Override
-    public Rank getRank() {
-        return Rank.USER;
+    public CommandCategory getCategory() {
+        return CommandCategory.GENERAL;
     }
 
     private String getRoles(Member user, Guild guid) {

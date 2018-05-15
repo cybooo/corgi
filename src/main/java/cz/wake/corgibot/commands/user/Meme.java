@@ -5,17 +5,15 @@ import com.mashape.unirest.http.Unirest;
 import com.mashape.unirest.http.exceptions.UnirestException;
 import cz.wake.corgibot.CorgiBot;
 import cz.wake.corgibot.annotations.SinceCorgi;
-import cz.wake.corgibot.commands.CommandType;
-import cz.wake.corgibot.commands.ICommand;
-import cz.wake.corgibot.commands.Rank;
+import cz.wake.corgibot.commands.Command;
+import cz.wake.corgibot.commands.CommandCategory;
 import cz.wake.corgibot.objects.GuildWrapper;
 import cz.wake.corgibot.utils.Constants;
-import cz.wake.corgibot.utils.LoadingProperties;
 import cz.wake.corgibot.utils.MessageUtils;
+import cz.wake.corgibot.utils.config.Config;
 import net.dv8tion.jda.core.entities.Member;
 import net.dv8tion.jda.core.entities.Message;
 import net.dv8tion.jda.core.entities.MessageChannel;
-import net.dv8tion.jda.core.entities.User;
 import org.apache.commons.lang3.StringUtils;
 import org.json.JSONArray;
 import org.json.JSONObject;
@@ -25,7 +23,7 @@ import java.util.Set;
 import java.util.TreeMap;
 
 @SinceCorgi(version = "0.9")
-public class Meme implements ICommand {
+public class Meme implements Command {
 
     private static final Map<String, String> map = new TreeMap<>();
 
@@ -47,7 +45,7 @@ public class Meme implements ICommand {
     }
 
     @Override
-    public void onCommand(User sender, MessageChannel channel, Message message, String[] args, Member member, EventWaiter w, GuildWrapper gw) {
+    public void onCommand(MessageChannel channel, Message message, String[] args, Member member, EventWaiter w, GuildWrapper gw) {
         if (args.length < 1) {
             channel.sendMessage(MessageUtils.getEmbed(Constants.BLUE).setTitle("**Použítí příkazu " + gw.getPrefix() + "meme**")
                     .setDescription("**" + gw.getPrefix() + "meme** - Zobrazí tuto nápovědu\n" +
@@ -108,12 +106,12 @@ public class Meme implements ICommand {
                     }
                 }
 
-                LoadingProperties properties = new LoadingProperties();
+                Config config = CorgiBot.getConfig();
 
                 JSONObject response = Unirest.get("https://api.imgflip.com/caption_image")
                         .queryString("template_id", id)
                         .queryString("username", "Corgi")
-                        .queryString("password", properties.getImgFlipToken())
+                        .queryString("password", config.getString("apis.imgflip"))
                         .queryString("text0", arguments[1].trim())
                         .queryString("text1", arguments[2].trim())
                         .asJson()
@@ -146,12 +144,7 @@ public class Meme implements ICommand {
     }
 
     @Override
-    public CommandType getType() {
-        return CommandType.FUN;
-    }
-
-    @Override
-    public Rank getRank() {
-        return Rank.USER;
+    public CommandCategory getCategory() {
+        return CommandCategory.FUN;
     }
 }

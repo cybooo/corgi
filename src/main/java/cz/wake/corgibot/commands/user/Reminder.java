@@ -3,25 +3,27 @@ package cz.wake.corgibot.commands.user;
 import com.jagrosh.jdautilities.waiter.EventWaiter;
 import cz.wake.corgibot.CorgiBot;
 import cz.wake.corgibot.annotations.SinceCorgi;
-import cz.wake.corgibot.commands.CommandType;
-import cz.wake.corgibot.commands.ICommand;
-import cz.wake.corgibot.commands.Rank;
+import cz.wake.corgibot.commands.Command;
+import cz.wake.corgibot.commands.CommandCategory;
 import cz.wake.corgibot.objects.GuildWrapper;
 import cz.wake.corgibot.objects.TemporaryReminder;
 import cz.wake.corgibot.utils.*;
+import cz.wake.corgibot.utils.pagination.PagedTableBuilder;
+import cz.wake.corgibot.utils.pagination.PaginationUtil;
 import net.dv8tion.jda.core.entities.Member;
 import net.dv8tion.jda.core.entities.Message;
 import net.dv8tion.jda.core.entities.MessageChannel;
-import net.dv8tion.jda.core.entities.User;
 import org.joda.time.DateTime;
 import org.joda.time.Period;
 import org.joda.time.format.PeriodFormatter;
 import org.joda.time.format.PeriodFormatterBuilder;
 
+import java.util.ArrayList;
 import java.util.HashSet;
+import java.util.List;
 
 @SinceCorgi(version = "1.3.0")
-public class Reminder implements ICommand {
+public class Reminder implements Command {
 
     private static final PeriodFormatter periodParser = new PeriodFormatterBuilder()
             .appendDays().appendSuffix("d")
@@ -31,44 +33,61 @@ public class Reminder implements ICommand {
             .toFormatter();
 
     @Override
-    public void onCommand(User sender, MessageChannel channel, Message message, String[] args, Member member, EventWaiter w, GuildWrapper gw) {
+    public void onCommand(MessageChannel channel, Message message, String[] args, Member member, EventWaiter w, GuildWrapper gw) {
         if (args.length < 1) {
             channel.sendMessage(MessageUtils.getEmbed(Constants.GRAY).setTitle("Nápověda k reminderu").setDescription(getHelp().replace("%", gw.getPrefix())).build()).queue();
-        } else if (args[0].contains("list")){
-            HashSet<TemporaryReminder> list = CorgiBot.getInstance().getSql().getRemindersByUser(sender.getId());
+        } else if (args[0].contains("list")) {
+            HashSet<TemporaryReminder> list = CorgiBot.getInstance().getSql().getRemindersByUser(member.getUser().getId());
 
-            if(list.isEmpty()){
+            if (list.isEmpty()) {
                 MessageUtils.sendErrorMessage("Nemáš nastavené žádné upozornění!", channel);
                 return;
             }
 
-            StringBuilder mess = new StringBuilder();
-            mess.append(EmoteList.ALARM_CLOCK + " | **Seznam budoucích upozornění pro " + sender.getName() + "**:");
+            /*StringBuilder mess = new StringBuilder();
+            mess.append(EmoteList.ALARM_CLOCK + " | **Seznam budoucích upozornění pro " + member.getUser().getName() + "**:");
             mess.append("\n```markdown\n");
             mess.append("# ID | ZBÝVAJÍCÍ ČAS | TEXT\n\n");
 
-            for (TemporaryReminder tr : list){
+            for (TemporaryReminder tr : list) {
                 mess.append(tr.getReminderId() + " | " + TimeUtils.toShortTime(tr.getDate() - System.currentTimeMillis()) + " | " + tr.getMessage() + "\n");
             }
 
             mess.append("```");
-            channel.sendMessage(mess.toString()).queue();
-        } else if (args[0].contains("delete")){
-            if(args.length == 1){
+            channel.sendMessage(mess.toString()).queue();*/
+
+            //NEW
+            PagedTableBuilder tb = new PagedTableBuilder();
+            tb.addColumn("ID");
+            tb.addColumn("Zbývající čas");
+            tb.addColumn("Text upozornění");
+
+            for (TemporaryReminder tr : list) {
+                List<String> row = new ArrayList<>();
+                row.add(String.valueOf(tr.getReminderId()));
+                row.add(TimeUtils.toShortTime(tr.getDate() - System.currentTimeMillis()));
+                row.add(tr.getMessage());
+                tb.addRow(row);
+            }
+
+            PaginationUtil.sendPagedMessage(channel, tb.build(), 0, message.getAuthor(), "kek");
+
+        } else if (args[0].contains("delete")) {
+            if (args.length == 1) {
                 MessageUtils.sendErrorMessage("Nezadal jsi ID. Zkus to znova!", channel);
                 return;
             }
             String id = args[1];
-            if(id == null){
+            if (id == null) {
                 MessageUtils.sendErrorMessage("Nezadal jsi ID. Zkus to znova!", channel);
                 return;
             }
-            if(FormatUtil.isStringInt(id)){
+            if (FormatUtil.isStringInt(id)) {
                 int convertedId = Integer.valueOf(id);
                 try {
-                    CorgiBot.getInstance().getSql().deleteReminderById(sender.getId(), convertedId);
+                    CorgiBot.getInstance().getSql().deleteReminderById(member.getUser().getId(), convertedId);
                     channel.sendMessage(MessageUtils.getEmbed(Constants.GREEN).setDescription("Upozornění s ID **" + convertedId + "** bylo smazáno!").build()).queue();
-                } catch (Exception e){
+                } catch (Exception e) {
                     MessageUtils.sendErrorMessage("Zadané ID neexistuje nebo se jedná o interní chybu!", channel);
                 }
             } else {
@@ -110,7 +129,7 @@ public class Reminder implements ICommand {
 
             try {
                 // SQL
-                CorgiBot.getInstance().getSql().addReminder(sender.getId(), end.getMillis(), reminderMessage);
+                CorgiBot.getInstance().getSql().addReminder(member.getUser().getId(), end.getMillis(), reminderMessage);
             } catch (Exception e) {
                 e.printStackTrace();
                 MessageUtils.sendErrorMessage("Interní chyba při provádění operace, zkus to zachvilku!", channel);
@@ -143,13 +162,8 @@ public class Reminder implements ICommand {
     }
 
     @Override
-    public CommandType getType() {
-        return CommandType.GENERAL;
-    }
-
-    @Override
-    public Rank getRank() {
-        return Rank.USER;
+    public CommandCategory getCategory() {
+        return CommandCategory.GENERAL;
     }
 
     @Override

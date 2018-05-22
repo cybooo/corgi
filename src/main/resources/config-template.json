@@ -23,5 +23,13 @@
       "enabled": false,
       "url": "url-to-image"
     }
+  },
+  "feeds": {
+    "twitter": {
+      "appkey": "",
+      "appsecret": "",
+      "tokenkey": "",
+      "tokensecret": ""
+    }
   }
 }

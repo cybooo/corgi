@@ -2,6 +2,7 @@ package cz.wake.corgibot;
 
 import com.jagrosh.jdautilities.waiter.EventWaiter;
 import cz.wake.corgibot.commands.CommandHandler;
+import cz.wake.corgibot.feeds.TwitterEventListener;
 import cz.wake.corgibot.listener.ChannelDeleteEvent;
 import cz.wake.corgibot.listener.ChatListener;
 import cz.wake.corgibot.listener.JoinEvent;
@@ -58,6 +59,7 @@ public class CorgiBot {
         new File("logs/latest.log").renameTo(new File("logs/log-" + getCurrentTimeStamp() + ".log"));
         LOGGERS = new ConcurrentHashMap<>();
         LOGGER = getLog(CorgiBot.class);
+        new File("resources/feeds").mkdirs();
     }
 
     public static void main(String[] args) throws LoginException, InterruptedException {
@@ -127,6 +129,7 @@ public class CorgiBot {
             CorgiLogger.infoMessage("Corgi bude spusten jako bot v PRODUCTION.");
             timer.scheduleAtFixedRate(new Checker(), 10, 60000);
             timer.scheduleAtFixedRate(new ReminderTask(getInstance()), 10, 20000);
+            TwitterEventListener.initTwitter();
         } else {
             CorgiLogger.warnMessage("Corgi spuštěn jako BETA! Některé funkce budou vypnuty!");
         }

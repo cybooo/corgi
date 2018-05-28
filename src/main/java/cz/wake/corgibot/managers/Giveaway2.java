@@ -32,7 +32,11 @@ public class Giveaway2 {
         this.prize = prize;
         this.maxWinners = maxWinners;
         this.emoji = emoji != null ? emoji : "\uD83C\uDF89";
-        this.color = color != null ? java.awt.Color.decode(color) : Constants.GIVEAWAY_BLUE;
+        try {
+            this.color = color != null ? java.awt.Color.decode(color) : Constants.GIVEAWAY_BLUE;
+        } catch (NumberFormatException e) {
+            this.color = Constants.GIVEAWAY_BLUE;
+        }
         this.message = message;
         this.seconds = (endTime - System.currentTimeMillis())/1000;
         this.giveawayId = 0;

@@ -91,7 +91,7 @@ public class Weather implements Command {
 
                 channel.sendMessage(builder.build()).queue();
             } catch (JAXBException ex) {
-                MessageUtils.sendErrorMessage("Nastala chyba při hledání města, hm...", channel);
+                // Nic
             } catch (IOException ex2) {
                 MessageUtils.sendErrorMessage("Chyba v API! Zkus to zachvilku...", channel);
             } catch (IndexOutOfBoundsException ex3) {

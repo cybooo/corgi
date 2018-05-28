@@ -58,7 +58,7 @@ public class TwitterFeedObserver implements Serializable {
         if(status.getMediaEntities().length > 0 && url == null || status.getMediaEntities().length > 1) {
             em.setFooter("Tweet obsahuje víc medií", null);
         } else {
-            em.setFooter("Nyní", null);
+            em.setFooter("Tweet", null);
         }
         em.setTimestamp(Instant.now());
         getDiscoChannel().sendMessage(em.build()).queue();

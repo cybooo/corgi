@@ -11,7 +11,6 @@ import cz.wake.corgibot.commands.owner.GuildList;
 import cz.wake.corgibot.commands.owner.Log;
 import cz.wake.corgibot.commands.owner.Stop;
 import cz.wake.corgibot.commands.user.*;
-import cz.wake.corgibot.managers.Giveaway2;
 import cz.wake.corgibot.utils.CorgiLogger;
 
 import java.util.ArrayList;
@@ -58,7 +57,6 @@ public class CommandHandler {
         registerCommand(new Uptime());
         registerCommand(new Emote());
         registerCommand(new McStatus());
-        registerCommand(new Meme());
         registerCommand(new Archive());
         registerCommand(new Purge());
         registerCommand(new TextToBlock());
@@ -88,6 +86,7 @@ public class CommandHandler {
         registerCommand(new Svatek());
         registerCommand(new Color());
         registerCommand(new Weather());
+        registerCommand(new Twitter());
         CorgiLogger.greatMessage("Corgi zaregistroval (" + commands.size() + ") prikazu.");
     }
 

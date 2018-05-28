@@ -108,12 +108,13 @@ public class Giveaway implements Command {
                 // Color
                 String color = null;
                 if (arguments.length >= 5) {
-                    if (Pattern.compile("#?([A-Fa-f\\d]){6}").matcher(color).find()) {
-                        color = arguments[4].replaceAll("\\s+", "");
+                    color = arguments[4].replaceAll("\\s+", "");
+                    /*if (Pattern.compile("#?([A-Fa-f\\d]){6}").matcher(color).find()) {
+                        color = color.startsWith("#") ? color : "#" + color;
                     } else {
                         MessageUtils.sendErrorMessage("Špatně zadaný formát barvy! Správný formát: #00000", channel);
                         return;
-                    }
+                    }*/
                 }
 
                 Period p = getTimeFromInput(time, channel);
@@ -121,8 +122,8 @@ public class Giveaway implements Command {
                 DateTime end = start.plus(p);
                 long kekTime = end.getMillis() - start.getMillis();
 
-                if(kekTime <= 1200000){
-                    MessageUtils.sendErrorMessage("Minimalni čas na vytvoření Giveawaye je 20 minut!", channel);
+                if(kekTime < 150000){
+                    MessageUtils.sendErrorMessage("Minimalni čas na vytvoření Giveawaye jsou 3 minuty!", channel);
                     message.delete().queue();
                     return;
                 }

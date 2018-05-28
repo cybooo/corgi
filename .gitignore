@@ -6,6 +6,7 @@ dependency-reduced-pom.xml
 
 config\.yml
 target/*
+resources/feeds/*
 
 logs/*
 \.idea/

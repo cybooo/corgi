@@ -58,15 +58,11 @@ public class EmoteList {
     final public static String EMOTE_BOT = "<:bot:314899056335781891>";
 
     /*
-        Random Emote
+        Random Thinking Emote
      */
     final public static String THINKING_1 = "<:ThinkKing:400376336276783104>";
     final public static String THINKING_2 = "<:ThinkingPlant:306503645040607234>";
     final public static String THINKING_3 = "<:thinkingPeach:326776879581233152>";
-    final public static String VERIIM = "<:FeelsVeriimMan:375590972350005259>";
-    final public static String FEELSSEXMAN = "<:FeelsSexMan:375590779940241409>";
-    final public static String FEELSOMGYOU = "<:FeelsYouOMG:273874783320539146>";
-    final public static String FEELSSTALKERMAN = "<:FeelsStalkerMan:321226482771034112>";
 
     /*
         Flags

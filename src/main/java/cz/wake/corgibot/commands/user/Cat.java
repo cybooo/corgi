@@ -22,11 +22,10 @@ public class Cat implements Command {
     public void onCommand(MessageChannel channel, Message message, String[] args, Member member, EventWaiter w, GuildWrapper gw) {
         String url = "";
         OkHttpClient caller = new OkHttpClient();
-        Request request = new Request.Builder().url("http://aws.random.cat/meow").build();
+        Request request = new Request.Builder().url("http://thecatapi.com/api/images/get").build();
         try {
             Response response = caller.newCall(request).execute();
-            JSONObject json = new JSONObject(response.body().string());
-            url = (String) json.get("file");
+            url = response.request().url().toString();
         } catch (Exception e) {
             MessageUtils.sendErrorMessage("Nastala chyba při provádění příkazu. Zkus to znova zachvilku!", channel);
         }

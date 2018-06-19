@@ -1,16 +1,15 @@
 version: "3"
 services:
   bot:
-      image: mrwakecz/corgibot:latest
+      image: mrwakecz/corgibot:stable
       restart: on-failure:3
       network_mode: "host"
       user: root
       container_name: corgibot
-      ports:
-        - 5000:5000
       volumes:
-        - /srv/corgibot/config.yml:/srv/config.yml
+        - /srv/corgibot/config.json:/srv/config.json
         - /srv/corgibot/logs:/srv/logs
+        - /srv/corgibot/resources:/srv/resources
       stop_grace_period: 7200s
       entrypoint:
         - java

@@ -1,0 +1,10 @@
+{
+  "settings": {
+      "language": {
+        "title": "Nastavení jazyka",
+        "description": "Seznam všech jazyků, které Corgi umí a ovládá je.",
+        "selected": "Vybráno",
+        "footer": "Pro změnu jazyka klikni na reakci."
+      }
+  }
+}

@@ -1,0 +1,10 @@
+{
+  "settings": {
+    "language": {
+      "title": "Language settings",
+      "description": "List of all languages that Corgi knowns.",
+      "selected": "Selected",
+      "footer": "For change language click on reaction."
+    }
+  }
+}

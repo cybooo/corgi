@@ -16,6 +16,7 @@ import cz.wake.corgibot.utils.Constants;
 import cz.wake.corgibot.utils.CorgiLogger;
 import cz.wake.corgibot.utils.config.Config;
 import cz.wake.corgibot.utils.config.ConfigUtils;
+import cz.wake.corgibot.utils.lang.I18n;
 import cz.wake.corgibot.utils.statuses.Checker;
 import net.dv8tion.jda.core.AccountType;
 import net.dv8tion.jda.core.JDA;
@@ -123,6 +124,10 @@ public class CorgiBot {
         Timer timer = new Timer();
         timer.scheduleAtFixedRate(new StatusChanger(), 10, 120000);
         timer.scheduleAtFixedRate(new SpamHandler(), 10, 1500); // 1.5s clear, higher = disaster
+
+        // Languages
+        CorgiLogger.infoMessage("Probehne nacteni jazyku!");
+        I18n.start();
 
         // Is Corgi beta?
         if (!isBeta) {

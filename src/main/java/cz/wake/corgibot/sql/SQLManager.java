@@ -418,6 +418,22 @@ public class SQLManager {
         return null;
     }
 
+    public final void updateLanguage(final String guildId, final String language) {
+        Connection conn = null;
+        PreparedStatement ps = null;
+        try {
+            conn = pool.getConnection();
+            ps = conn.prepareStatement("UPDATE corgibot.guild_data SET language = ? WHERE guild_id = ?;");
+            ps.setString(1, language);
+            ps.setString(2, guildId);
+            ps.executeUpdate();
+        } catch (Exception e) {
+            e.printStackTrace();
+        } finally {
+            pool.close(conn, ps, null);
+        }
+    }
+
 
 
 }

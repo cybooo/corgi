@@ -21,7 +21,7 @@ public class BotManager {
 
                 // Setup guild wrapper with ignored channels
                 GuildWrapper gw = CorgiBot.getInstance().getSql().createGuildWrappers(guild.getId());
-                if(ignoredChannels != null){
+                if(ignoredChannels != null && gw != null){
                     gw.setIgnoredChannels(ignoredChannels);
                     listGuilds.add(gw);
                 }

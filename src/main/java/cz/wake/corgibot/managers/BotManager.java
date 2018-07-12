@@ -21,11 +21,11 @@ public class BotManager {
 
                 // Setup guild wrapper with ignored channels
                 GuildWrapper gw = CorgiBot.getInstance().getSql().createGuildWrappers(guild.getId());
-                gw.setIgnoredChannels(ignoredChannels);
-                gw.setLanguage("cz", false); //TODO: SQL
-
-                // Register in bot
-                listGuilds.add(gw);
+                if(ignoredChannels != null && gw != null){
+                    gw.setIgnoredChannels(ignoredChannels);
+                    gw.setLanguage("cz", false); //TODO: SQL
+                    listGuilds.add(gw);
+                }
             } catch (NullPointerException ex) {
                 CorgiLogger.dangerMessage("Nastala chyba pri registraci serveru! Zprava:");
                 ex.printStackTrace();

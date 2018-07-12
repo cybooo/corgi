@@ -27,13 +27,13 @@ public class BotManager {
                     listGuilds.add(gw);
                 }
             } catch (NullPointerException ex) {
-                CorgiLogger.dangerMessage("Nastala chyba pri registraci serveru! Zprava:");
+                CorgiLogger.dangerMessage("Error when Corgi register Guild (ID: " + guild.getId() + "). Error:\n");
                 ex.printStackTrace();
                 System.exit(-1);
             }
         });
-        CorgiLogger.greatMessage("Pripojeno na (" + listGuilds.size() + ") serveru!");
-        CorgiLogger.infoMessage("Probehne nacteni Giveawayu...");
+        CorgiLogger.greatMessage("Connected on (" + listGuilds.size() + ") serveru!");
+        CorgiLogger.infoMessage("Loading Giveaways on guilds.");
         CorgiBot.getInstance().getSql().getAllGiveaways().forEach(go -> {
             try {
                 new Giveaway2(CorgiBot.getJda().getGuildById(go.getGuildId()).getTextChannelById(go.getTextchannelId()).getMessageById(go.getMessageId()).complete(true), go.getEndTime(), go.getPrize(), go.getMaxWinners(), go.getEmoji(), go.getColor()).start();
@@ -61,7 +61,7 @@ public class BotManager {
                 return w;
             }
         }
-        return null; // Neni v cachce?
+        return null; // Is not in cache?
     }
 
     private static void exceptionHandler(Throwable ex, String guildId, String messageId) {
@@ -72,14 +72,14 @@ public class BotManager {
                 // Giveaway deleted.. Corgi do not have access to message
                 case 10008: // message not found
                 case 10003: // channel not found
-                    CorgiLogger.fatalMessage("Detekce smazaneho Giveawaye (G:" + guildId + "|M:" + messageId + "). Giveaway zastaven!");
+                    CorgiLogger.fatalMessage("Detection deleted Giveaway (G:" + guildId + " | M:" + messageId + "). Giveaway stopped!");
                     CorgiBot.getInstance().getSql().deleteGiveawayFromSQL(guildId, messageId);
                     break;
 
                 // Missing permissions for editing message
                 case 50001: // missing access
                 case 50013: // missing permissions
-                    CorgiLogger.fatalMessage("Detekce chybnych prav (G:" + guildId + "|M:" + messageId + "). Giveaway zastaven!");
+                    CorgiLogger.fatalMessage("Detection wrong permissions (G:" + guildId + " | M:" + messageId + "). Giveaway stopped!");
                     CorgiBot.getInstance().getSql().deleteGiveawayFromSQL(guildId, messageId);
                     break;
 

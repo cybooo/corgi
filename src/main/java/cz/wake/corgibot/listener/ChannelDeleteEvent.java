@@ -8,9 +8,9 @@ import net.dv8tion.jda.core.hooks.ListenerAdapter;
 public class ChannelDeleteEvent extends ListenerAdapter {
 
     @Override
-    public void onTextChannelDelete(TextChannelDeleteEvent e){
+    public void onTextChannelDelete(TextChannelDeleteEvent e) {
 
-        if(e.getChannel() == null){
+        if (e.getChannel() == null) {
             return;
         }
 
@@ -20,7 +20,7 @@ public class ChannelDeleteEvent extends ListenerAdapter {
 
             // Smazani z SQL
             CorgiBot.getInstance().getSql().deleteIgnoredChannel(e.getChannel().getId());
-        } catch (Exception ex){
+        } catch (Exception ex) {
             ex.printStackTrace();
         }
 

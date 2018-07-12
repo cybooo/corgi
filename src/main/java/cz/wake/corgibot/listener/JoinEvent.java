@@ -5,6 +5,7 @@ import cz.wake.corgibot.managers.BotManager;
 import cz.wake.corgibot.objects.GuildWrapper;
 import cz.wake.corgibot.utils.ColorSelector;
 import cz.wake.corgibot.utils.Constants;
+import cz.wake.corgibot.utils.CorgiLogger;
 import cz.wake.corgibot.utils.MessageUtils;
 import net.dv8tion.jda.core.JDA;
 import net.dv8tion.jda.core.entities.TextChannel;
@@ -23,14 +24,14 @@ public class JoinEvent extends ListenerAdapter {
             Initial setup
          */
         if (CorgiBot.getInstance().getSql().existsGuildData(event.getGuild().getId())) {
-            // Load dat z SQL + load do BotManageru
+            // Load dat from SQL + load into BotManager
             Set<TextChannel> ignoredChannels = CorgiBot.getInstance().getSql().getIgnoredChannels(event.getGuild().getId());
             GuildWrapper gw = CorgiBot.getInstance().getSql().createGuildWrappers(event.getGuild().getId());
             gw.setIgnoredChannels(ignoredChannels);
             gw.setPrefix("c!", true); // Reset prefixu na c!
             BotManager.addGuild(gw);
         } else {
-            // INSERT DAT + insert do botmanageru
+            // INSERT DAT + insert into BotManager
             CorgiBot.getInstance().getSql().insertDefaultServerData(event.getGuild().getId(), "c!");
             GuildWrapper gw = new GuildWrapper(event.getGuild().getId());
             gw.setPrefix("c!", false);
@@ -38,7 +39,7 @@ public class JoinEvent extends ListenerAdapter {
         }
 
         // Logger
-        CorgiBot.LOGGER.info("GuildJoinEvent - " + event.getGuild().getName() + "(" + event.getGuild().getId() + ")");
+        CorgiLogger.infoMessage("GuildJoinEvent - " + event.getGuild().getName() + "(" + event.getGuild().getId() + ")");
 
         // Informal message
         MessageUtils.sendAutoDeletedMessage(MessageUtils.getEmbed(ColorSelector.getRandomColor()).setTitle("Corgi je připojen! :heart_eyes: ")

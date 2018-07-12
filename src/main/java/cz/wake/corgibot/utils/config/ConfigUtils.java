@@ -16,11 +16,11 @@ public class ConfigUtils {
      */
     public ConfigUtils() {
         try {
-            logger.info(AnsiColor.BLUE.applyTo("ℹ info") + "     " + "Nacitani config.json");
+            logger.info(AnsiColor.BLUE.applyTo("ℹ info") + "     " + "Loading config.json");
             this.config = ConfigLoader.getConfig(new File("config.json"));
-            logger.info(AnsiColor.GREEN.applyTo("✔ success") + "  " + "Konfigurace z config.json byla uspesne nactena.");
+            logger.info(AnsiColor.GREEN.applyTo("✔ success") + "  " + "Configuration from config.json has been successfully loaded.");
         } catch (Exception e) {
-            logger.info(AnsiColor.RED.applyTo("✖ fatal") + "    " + "Chyba pri nacitani config.json");
+            logger.info(AnsiColor.RED.applyTo("✖ fatal") + "    " + "Error during loading config.json");
             e.printStackTrace();
             System.exit(-1);
         }

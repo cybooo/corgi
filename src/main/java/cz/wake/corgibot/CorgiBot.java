@@ -66,7 +66,7 @@ public class CorgiBot {
     public static void main(String[] args) throws LoginException, InterruptedException {
 
         // Inform
-        CorgiLogger.infoMessage("Probehne spusteni Corgiho!");
+        CorgiLogger.infoMessage("Now wil Corgi wake up!");
 
         // Logo on start
         bootLogo();
@@ -78,7 +78,7 @@ public class CorgiBot {
         startUp = System.currentTimeMillis();
 
         // JDA Build
-        CorgiLogger.infoMessage("Probehne pripojeni na Discord API.");
+        CorgiLogger.infoMessage("Connecting to Discord API.");
         jda = new JDABuilder(AccountType.BOT)
                 .setToken(config.getString("discord.token"))
                 .addEventListener(new ChatListener(waiter))
@@ -98,11 +98,11 @@ public class CorgiBot {
 
         // MySQL
         if(!isBeta){
-            CorgiLogger.infoMessage("Probehne pripojeni na MySQL.");
+            CorgiLogger.infoMessage("Connection to MySQL...");
             try {
                 // MySQL Instance
                 (instance = new CorgiBot()).initDatabase();
-                CorgiLogger.greatMessage("Corgi je pripojeny na MySQL.");
+                CorgiLogger.greatMessage("Corgi is successful connected to MySQL.");
 
                 // Load configuration for guilds
                 BotManager.loadGuilds();
@@ -111,13 +111,13 @@ public class CorgiBot {
                 isBeta = false;
 
             } catch (Exception ex){
-                CorgiLogger.dangerMessage("Pri pripojovani na MySQL, nastala chyba:");
+                CorgiLogger.dangerMessage("During connection to MySQL, error has occurred:");
                 ex.printStackTrace();
                 System.exit(-1);
             }
         } else {
-            CorgiLogger.warnMessage("Jsou vypnute databaze, Corgi nebude nic ukladat ani nacitat!");
-            CorgiLogger.infoMessage("Zakladni prefix nastaven na: " + Constants.PREFIX);
+            CorgiLogger.warnMessage("Database is off, Corgi will not load and save anything!");
+            CorgiLogger.infoMessage("Basic prefix is: " + Constants.PREFIX);
         }
 
         // Startup timer
@@ -126,17 +126,17 @@ public class CorgiBot {
         timer.scheduleAtFixedRate(new SpamHandler(), 10, 1500); // 1.5s clear, higher = disaster
 
         // Languages
-        CorgiLogger.infoMessage("Probehne nacteni jazyku!");
+        CorgiLogger.infoMessage("Loading language files...");
         I18n.start();
 
         // Is Corgi beta?
         if (!isBeta) {
-            CorgiLogger.infoMessage("Corgi bude spusten jako bot v PRODUCTION.");
+            CorgiLogger.infoMessage("Corgi will run as PRODUCTION bot.");
             timer.scheduleAtFixedRate(new Checker(), 10, 60000);
             timer.scheduleAtFixedRate(new ReminderTask(getInstance()), 10, 20000);
             TwitterEventListener.initTwitter();
         } else {
-            CorgiLogger.warnMessage("Corgi spuštěn jako BETA! Některé funkce budou vypnuty!");
+            CorgiLogger.warnMessage("Corgi is running as BETA bot! Some functions will not work!");
         }
 
         // Setup new profile image from config.json
@@ -145,9 +145,9 @@ public class CorgiBot {
                 String url = config.getString("advanced.profile-picture.url");
                 jda.getSelfUser().getManager().setAvatar(Icon.from(
                         new URL(url).openStream())).complete();
-                CorgiLogger.greatMessage("Novy profilovy obrazek Corgiho byl nastaven z URL: " + url);
+                CorgiLogger.greatMessage("New profile image has been set from: " + url);
             } catch (IOException e) {
-                CorgiLogger.dangerMessage("Chyba pri nastavovani noveho profiloveho obrazku:");
+                CorgiLogger.dangerMessage("Error when Corgi setup image:");
                 e.printStackTrace();
             }
         }

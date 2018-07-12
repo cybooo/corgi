@@ -3,6 +3,7 @@ package cz.wake.corgibot.listener;
 import cz.wake.corgibot.CorgiBot;
 import cz.wake.corgibot.managers.BotManager;
 import cz.wake.corgibot.utils.Constants;
+import cz.wake.corgibot.utils.CorgiLogger;
 import cz.wake.corgibot.utils.MessageUtils;
 import net.dv8tion.jda.core.events.guild.GuildLeaveEvent;
 import net.dv8tion.jda.core.hooks.ListenerAdapter;
@@ -25,7 +26,7 @@ public class LeaveEvent extends ListenerAdapter {
                         : "Neexistuje, nebo nelze zjistit!")).build()).queue();
 
         // Logger
-        CorgiBot.LOGGER.info("GuildLeveEvent - " + event.getGuild().getName() + "(" + event.getGuild().getId() + ")");
+        CorgiLogger.infoMessage("GuildLeaveEvent - " + event.getGuild().getName() + "(" + event.getGuild().getId() + ")");
 
         // Smazani vsech ignored channelu z guildy
         CorgiBot.getInstance().getSql().deleteAllIgnoredChannels(event.getGuild().getId());

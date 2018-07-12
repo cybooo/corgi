@@ -27,7 +27,7 @@ public class I18n {
             }
             LANGS.add(new LanguageObject(language));
         }
-        CorgiLogger.infoMessage("Nacteny " + LANGS.size() + " jazyky: " + LANGS);
+        CorgiLogger.infoMessage("Loaded (" + LANGS.size() + ") languages: " + LANGS);
     }
 
     public static String getString(@Nonnull Guild guild, String string, Object... args) {
@@ -108,7 +108,6 @@ public class I18n {
         try {
             return MessageFormat.format(message.replace("'", "''"), arguments);
         } catch (IllegalArgumentException ex) {
-            //CorgiLogger.dangerMessage("An exception was through while formatting \"{}\", error: {}", message, ex.getMessage(), ex);
             return message;
         }
     }

@@ -27,7 +27,7 @@ public class CommandHandler {
         try {
             commands.add(c);
         } catch (Exception e) {
-            CorgiLogger.warnMessage("Chyba pri registraci prikazu - " + c.getCommand() + ":");
+            CorgiLogger.warnMessage("Error during register command - " + c.getCommand() + " :");
             e.printStackTrace();
         }
     }
@@ -45,7 +45,7 @@ public class CommandHandler {
     }
 
     public void register() {
-        CorgiLogger.infoMessage("Probehne registrace prikazu!");
+        CorgiLogger.infoMessage("Loading all commands.");
         registerCommand(new EightBall());
         registerCommand(new Help());
         registerCommand(new Ping());
@@ -89,7 +89,7 @@ public class CommandHandler {
         registerCommand(new Twitter());
         registerCommand(new Love());
         registerCommand(new Lang());
-        CorgiLogger.greatMessage("Corgi zaregistroval (" + commands.size() + ") prikazu.");
+        CorgiLogger.greatMessage("Corgi will respond to (" + commands.size() + ") commands.");
     }
 
     public Command getCommand(String name) {

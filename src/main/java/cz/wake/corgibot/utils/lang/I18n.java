@@ -71,6 +71,11 @@ public class I18n {
     }
 
     @Nonnull
+    public static String getLoc(@Nonnull GuildWrapper guid, String route) {
+        return getLocale(guid).getConfig().getString(route);
+    }
+
+    @Nonnull
     public static LanguageObject getLocale(@Nonnull GuildWrapper guild) {
         try {
             for (LanguageObject locale : LANGS) {

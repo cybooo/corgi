@@ -442,6 +442,7 @@ public class GuildWrapper {
 
     @Override
     public String toString(){
-        return getClass().getSimpleName() + "[id=" + guildId + ",prefix=" + prefix + ",ignoredChannels=" + ignoredChannels.toString() + "]";
+        return getClass().getSimpleName() + "[id=" + guildId + ",prefix=" + prefix + ",ignoredChannels=" + ignoredChannels.toString() +
+                ",language=" + language + "]";
     }
 }

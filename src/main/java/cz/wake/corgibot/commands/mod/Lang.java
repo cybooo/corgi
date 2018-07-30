@@ -22,18 +22,18 @@ public class Lang implements Command {
     public void onCommand(MessageChannel channel, Message message, String[] args, Member member, EventWaiter w, GuildWrapper gw) {
 
         StringBuilder text = new StringBuilder();
-        text.append("{1}\n\n".replace("{1}", I18n.getLocale(gw).getConfig().getString("settings.language.description")));
+        text.append("{1}\n\n".replace("{1}", I18n.getLoc(gw, "commands.language.description")));
 
         for(Language language : Language.values()) {
             if(language.getCode().equalsIgnoreCase(gw.getLanguage())){
-                text.append("• " + language.getFlag() + " **" + language.getNativeName() + "** [{1}]\n".replace("{1}", I18n.getLocale(gw).getConfig().getString("settings.language.selected")));
+                text.append("• " + language.getFlag() + " **" + language.getNativeName() + "** [{1}]\n".replace("{1}", I18n.getLoc(gw, "commands.language.selected")));
             } else {
                 text.append("• " + language.getFlag() + " " + language.getNativeName() + "\n");
             }
         }
 
-        channel.sendMessage(MessageUtils.getEmbed(Color.BLACK).setTitle(I18n.getLocale(gw).getConfig().getString("settings.language.title")).setDescription(text)
-                .setFooter(I18n.getLocale(gw).getConfig().getString("settings.language.footer"), null).build()).queue((Message m) -> {
+        channel.sendMessage(MessageUtils.getEmbed(Color.BLACK).setTitle(I18n.getLoc(gw,"commands.language.title")).setDescription(text)
+                .setFooter(I18n.getLoc(gw,"commands.language.footer"), null).build()).queue((Message m) -> {
             m.addReaction(EmoteList.ENGLISH_FLAG).queue();
             m.addReaction(EmoteList.CZECH_FLAG).queue();
             m.addReaction(EmoteList.SLOVAK_FLAG).queue();
@@ -42,7 +42,7 @@ public class Lang implements Command {
 
     @Override
     public String getCommand() {
-        return "lang";
+        return "language";
     }
 
     @Override

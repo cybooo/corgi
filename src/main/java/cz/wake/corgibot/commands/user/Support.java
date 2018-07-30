@@ -6,6 +6,7 @@ import cz.wake.corgibot.commands.CommandCategory;
 import cz.wake.corgibot.objects.GuildWrapper;
 import cz.wake.corgibot.utils.Constants;
 import cz.wake.corgibot.utils.MessageUtils;
+import cz.wake.corgibot.utils.lang.I18n;
 import net.dv8tion.jda.core.entities.Member;
 import net.dv8tion.jda.core.entities.Message;
 import net.dv8tion.jda.core.entities.MessageChannel;
@@ -14,8 +15,8 @@ public class Support implements Command {
 
     @Override
     public void onCommand(MessageChannel channel, Message message, String[] args, Member member, EventWaiter w, GuildWrapper gw) {
-        channel.sendMessage(MessageUtils.getEmbed(Constants.WHITE).setTitle("Odkaz na server podpory pro Corgiho!")
-                .setDescription("K připojení na Discord podpory pro Corgiho použij následující [**ODKAZ**](https://discordapp.com/invite/eaEFCYX)").build()).queue();
+        channel.sendMessage(MessageUtils.getEmbed(Constants.WHITE).setTitle(I18n.getLoc(gw, "commands.support.title"))
+                .setDescription(I18n.getLoc(gw, "commands.support.description".replace("{1}", "https://discordapp.com/invite/eaEFCYX"))).build()).queue();
     }
 
     @Override

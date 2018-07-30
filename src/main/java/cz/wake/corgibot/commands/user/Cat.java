@@ -7,6 +7,7 @@ import cz.wake.corgibot.commands.CommandCategory;
 import cz.wake.corgibot.objects.GuildWrapper;
 import cz.wake.corgibot.utils.Constants;
 import cz.wake.corgibot.utils.MessageUtils;
+import cz.wake.corgibot.utils.lang.I18n;
 import net.dv8tion.jda.core.entities.Member;
 import net.dv8tion.jda.core.entities.Message;
 import net.dv8tion.jda.core.entities.MessageChannel;
@@ -27,9 +28,9 @@ public class Cat implements Command {
             Response response = caller.newCall(request).execute();
             url = response.request().url().toString();
         } catch (Exception e) {
-            MessageUtils.sendErrorMessage("Nastala chyba při provádění příkazu. Zkus to znova zachvilku!", channel);
+            MessageUtils.sendErrorMessage(I18n.getLoc(gw, "internal.error.command-failed"), channel);
         }
-        channel.sendMessage(MessageUtils.getEmbed(Constants.ORANGE).setTitle("Náhodný obrázek kočky:").setImage(url).build()).queue();
+        channel.sendMessage(MessageUtils.getEmbed(Constants.ORANGE).setTitle(I18n.getLoc(gw, "commands.cat.title")).setImage(url).build()).queue();
     }
 
     @Override

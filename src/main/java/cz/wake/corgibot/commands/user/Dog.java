@@ -7,6 +7,7 @@ import cz.wake.corgibot.commands.CommandCategory;
 import cz.wake.corgibot.objects.GuildWrapper;
 import cz.wake.corgibot.utils.Constants;
 import cz.wake.corgibot.utils.MessageUtils;
+import cz.wake.corgibot.utils.lang.I18n;
 import net.dv8tion.jda.core.entities.Member;
 import net.dv8tion.jda.core.entities.Message;
 import net.dv8tion.jda.core.entities.MessageChannel;
@@ -31,9 +32,9 @@ public class Dog implements Command {
             JSONObject jsonObject = jsonArray.getJSONObject(0);
             url = jsonObject.getString("url");
         } catch (Exception e) {
-            MessageUtils.sendErrorMessage("Nastala chyba při provádění příkazu. Zkus to znova zachvilku!", channel);
+            MessageUtils.sendErrorMessage(I18n.getLoc(gw, "internal.error.api-failed"), channel);
         }
-        channel.sendMessage(MessageUtils.getEmbed(Constants.BLUE).setTitle("Náhodný obrázek psa:").setImage(url).build()).queue();
+        channel.sendMessage(MessageUtils.getEmbed(Constants.BLUE).setTitle(I18n.getLoc(gw, "commands.dog.title")).setImage(url).build()).queue();
     }
 
     @Override

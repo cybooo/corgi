@@ -6,6 +6,7 @@ import cz.wake.corgibot.commands.Command;
 import cz.wake.corgibot.commands.CommandCategory;
 import cz.wake.corgibot.objects.GuildWrapper;
 import cz.wake.corgibot.utils.MessageUtils;
+import cz.wake.corgibot.utils.lang.I18n;
 import net.dv8tion.jda.core.Permission;
 import net.dv8tion.jda.core.entities.Member;
 import net.dv8tion.jda.core.entities.Message;
@@ -17,7 +18,7 @@ public class Say implements Command {
     @Override
     public void onCommand(MessageChannel channel, Message message, String[] args, Member member, EventWaiter w, GuildWrapper gw) {
         if (args.length < 1) {
-            MessageUtils.sendErrorMessage("Nelze poslat zprávu, která nemá text!", channel);
+            MessageUtils.sendErrorMessage(I18n.getLoc(gw, "internal.error.no-context"), channel);
             return;
         }
         channel.sendMessage(message.getContentRaw().replace(gw.getPrefix() + "say", "")).queue();

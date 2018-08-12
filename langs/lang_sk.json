@@ -1,5 +1,5 @@
 {
-  "settings": {
+  "commands": {
     "language": {
       "title": "Nastavení jazyka",
       "description": "Seznam všech jazyků, které Corgi umí a ovládá je.",

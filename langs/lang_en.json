@@ -1,5 +1,5 @@
 {
-  "settings": {
+  "commands": {
     "language": {
       "title": "Language settings",
       "description": "List of all languages that Corgi knowns.",

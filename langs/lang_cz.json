@@ -1,10 +1,57 @@
 {
-  "settings": {
-      "language": {
-        "title": "Nastavení jazyka",
-        "description": "Seznam všech jazyků, které Corgi umí a ovládá je.",
-        "selected": "Vybráno",
-        "footer": "Pro změnu jazyka klikni na reakci."
-      }
+  "commands": {
+    "language": {
+      "title": "Nastavení jazyka",
+      "description": "Seznam všech jazyků, které Corgi umí a ovládá je.",
+      "selected": "Vybráno",
+      "footer": "Pro změnu jazyka klikni na reakci."
+    },
+    "prefix": {
+      "corgi-is-beta-prefix": "Corgi je spuštěn v režimu BETA! Nelze upravovat prefix!",
+      "reset-back": "Prefix byl vyresetován zpět na `c!`",
+      "prefix-sets-to": "Prefix byl nastaven na `%s`",
+      "actual-prefix-is": "Aktuální prefix pro server je `%s`",
+      "cannot-three-chars": "Nelze nastavit prefix, který má víc než tři znaky!",
+      "help": "Nastavení vlastního prefixu pro server."
+    },
+    "stats": {
+      "awake": "Aktuálně jsem vzhůru již",
+      "guilds": "Guilds",
+      "users": "Počet uživatelů",
+      "text-channels": "Text channelů",
+      "voice-channels": "Voice channelů",
+      "commands-run": "Provedeno příkazů",
+      "jda-version": "JDA verze",
+      "load-cpu": "Zatížení",
+      "memory": "Paměť",
+      "threads": "Threads",
+      "java": "Java",
+      "title": "Corgiho statistiky"
+    },
+    "support": {
+      "title": "Odkaz na server podpory pro Corgiho!",
+      "description": "K připojení na Discord podpory pro Corgiho použij následující [**ODKAZ**]({1})"
+    },
+    "cat": {
+      "title": "Náhodný obrázek kočky:"
+    },
+    "dog": {
+      "title": "Náhodný obrázek psa:"
+    },
+    "changelog": {
+      "news": "Novinky",
+      "fixes": "Opravy & změny",
+      "announce": "Upozornění",
+      "footer": "Pro zobrazení starších změn nakoukni do našeho kanálu oznámení v "
+    }
+  },
+  "internal": {
+    "error": {
+      "no-context": "Nelze poslat zprávu, která nemá text!",
+      "command-failed": "Nastala chyba při provádění příkazu. Zkus to znova zachvilku!",
+      "api-failed": "Chyba v requestu API! Zkus to zachvilku..."
+    },
+    "warning": {
+    }
   }
 }

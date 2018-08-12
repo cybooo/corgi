@@ -3,6 +3,7 @@ package cz.wake.corgibot.commands;
 import cz.wake.corgibot.commands.admin.Ignore;
 import cz.wake.corgibot.commands.admin.LeaveGuild;
 import cz.wake.corgibot.commands.admin.Say;
+import cz.wake.corgibot.commands.admin.Embed;
 import cz.wake.corgibot.commands.admin.SetPrefix;
 import cz.wake.corgibot.commands.games.McStatus;
 import cz.wake.corgibot.commands.mod.*;
@@ -53,6 +54,7 @@ public class CommandHandler {
         registerCommand(new UserInfo());
         registerCommand(new Stop());
         registerCommand(new Say());
+        registerCommand(new Embed());
         registerCommand(new Fact());
         registerCommand(new Uptime());
         registerCommand(new Emote());

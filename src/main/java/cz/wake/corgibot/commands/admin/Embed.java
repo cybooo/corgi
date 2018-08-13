@@ -23,7 +23,7 @@ public class Embed implements Command {
         }
 
         String str[] = message.getContentRaw().replace(gw.getPrefix() + "embed", "").split("\\|");
-        if (args.length < 3) {
+        if (str.length < 3) {
             MessageUtils.sendErrorMessage("Špatně napsaný příkaz! Př. `" + gw.getPrefix() + "embed <title> | <text> | #B0171F", channel);
             return;
         }

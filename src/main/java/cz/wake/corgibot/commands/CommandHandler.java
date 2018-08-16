@@ -89,6 +89,7 @@ public class CommandHandler {
         registerCommand(new Twitter());
         registerCommand(new Love());
         registerCommand(new Lang());
+        registerCommand(new Pin());
         CorgiLogger.greatMessage("Corgi will respond to (" + commands.size() + ") commands.");
     }
 

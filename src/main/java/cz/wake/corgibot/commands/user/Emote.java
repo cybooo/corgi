@@ -30,8 +30,8 @@ public class Emote implements Command {
             channel.sendMessage(builder.toString()).queue();
         } else {
             String str = args[0];
-            if (str.matches("<:.*:\\d+>")) { //Server Emotes
-                String id = str.replaceAll("<:.*:(\\d+)>", "$1");
+            if (str.matches("<:.*:\\d+>") || str.matches("<a:.*:\\d+>")) { //Server Emotes
+                String id = str.replaceAll("<a:.*:(\\d+)>", "$1");
                 net.dv8tion.jda.core.entities.Emote emote = channel.getJDA().getEmoteById(id);
                 if (emote == null) {
                     channel.sendMessage(MessageUtils.getEmbed(member.getUser(), Constants.RED).setTitle("**Neznámý Emote**")
@@ -44,11 +44,11 @@ public class Emote implements Command {
                     channel.sendMessage(MessageUtils.getEmbed(member.getUser(), Constants.GREEN).setTitle("**Info o Emote** (" + emote.getName() + ")")
                             .setDescription("**ID:** " + emote.getId() + "\n" +
                                     "**Guild:** " + (emote.getGuild() == null ? "Neznámý" : "" + emote.getGuild().getName() + "\n") +
-                                    "**Odkaz:** " + emote.getImageUrl()).setThumbnail(emote.getImageUrl()).build()).queue();
+                                    "**Odkaz:** " + "[ZDE](" + emote.getImageUrl() + ")").setThumbnail(emote.getImageUrl()).build()).queue();
                     return;
                 }
             }
-            if (str.codePoints().count() > 10) {
+            if (str.codePoints().count() > 11) {
                 MessageUtils.sendAutoDeletedMessage("Neplatný emote nebo ID je moc dlouhý!", 15000, channel);
                 return;
             }

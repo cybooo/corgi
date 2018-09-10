@@ -2,9 +2,8 @@ package cz.wake.corgibot.commands.user;
 
 import com.jagrosh.jdautilities.waiter.EventWaiter;
 import cz.wake.corgibot.annotations.SinceCorgi;
-import cz.wake.corgibot.commands.Command;
 import cz.wake.corgibot.commands.CommandCategory;
-import cz.wake.corgibot.commands.CommandHandler;
+import cz.wake.corgibot.commands.CommandRegister;
 import cz.wake.corgibot.managers.BotManager;
 import cz.wake.corgibot.objects.GuildWrapper;
 import cz.wake.corgibot.utils.Constants;
@@ -28,7 +27,7 @@ public class Help implements Command {
                     .build()).queue());
         } else {
             String commandName = args[0];
-            CommandHandler ch = new CommandHandler();
+            CommandRegister ch = new CommandRegister();
             StringBuilder sb = new StringBuilder();
             //Normal
             ch.getCommands().stream().filter(c -> c.getCommand().equalsIgnoreCase(commandName)).forEach(c -> {
@@ -70,7 +69,7 @@ public class Help implements Command {
 
     private StringBuilder getContext(Member member, Guild guild) {
         StringBuilder builder = new StringBuilder();
-        CommandHandler ch = new CommandHandler();
+        CommandRegister ch = new CommandRegister();
         try {
             builder.append("Prefix pro příkazy na " + guild.getName() + " je `" + BotManager.getCustomGuild(member.getGuild().getId()).getPrefix() + "`\nDodatečné informace o příkazu `" + BotManager.getCustomGuild(member.getGuild().getId()).getPrefix() + "help <příkaz>`");
         } catch (NullPointerException ex){

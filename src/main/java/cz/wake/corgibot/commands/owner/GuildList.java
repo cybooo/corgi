@@ -4,7 +4,6 @@ import com.jagrosh.jdautilities.menu.pagination.Paginator;
 import com.jagrosh.jdautilities.menu.pagination.PaginatorBuilder;
 import com.jagrosh.jdautilities.waiter.EventWaiter;
 import cz.wake.corgibot.annotations.SinceCorgi;
-import cz.wake.corgibot.commands.Command;
 import cz.wake.corgibot.commands.CommandCategory;
 import cz.wake.corgibot.objects.GuildWrapper;
 import cz.wake.corgibot.utils.MessageUtils;

@@ -3,7 +3,6 @@ package cz.wake.corgibot.commands.mod;
 import com.jagrosh.jdautilities.waiter.EventWaiter;
 import cz.wake.corgibot.CorgiBot;
 import cz.wake.corgibot.annotations.SinceCorgi;
-import cz.wake.corgibot.commands.Command;
 import cz.wake.corgibot.commands.CommandCategory;
 import cz.wake.corgibot.managers.Giveaway2;
 import cz.wake.corgibot.objects.GuildWrapper;
@@ -24,7 +23,6 @@ import org.joda.time.format.PeriodFormatterBuilder;
 
 import java.util.ArrayList;
 import java.util.List;
-import java.util.regex.Pattern;
 
 @SinceCorgi(version = "2.3.2")
 public class Giveaway implements Command {

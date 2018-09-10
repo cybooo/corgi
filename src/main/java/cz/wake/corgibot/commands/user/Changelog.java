@@ -3,7 +3,6 @@ package cz.wake.corgibot.commands.user;
 import com.jagrosh.jdautilities.waiter.EventWaiter;
 import cz.wake.corgibot.CorgiBot;
 import cz.wake.corgibot.annotations.SinceCorgi;
-import cz.wake.corgibot.commands.Command;
 import cz.wake.corgibot.commands.CommandCategory;
 import cz.wake.corgibot.objects.ChangeLog;
 import cz.wake.corgibot.objects.GuildWrapper;

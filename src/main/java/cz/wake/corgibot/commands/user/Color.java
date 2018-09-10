@@ -1,7 +1,6 @@
 package cz.wake.corgibot.commands.user;
 
 import com.jagrosh.jdautilities.waiter.EventWaiter;
-import cz.wake.corgibot.commands.Command;
 import cz.wake.corgibot.commands.CommandCategory;
 import cz.wake.corgibot.objects.GuildWrapper;
 import cz.wake.corgibot.utils.Constants;

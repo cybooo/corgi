@@ -224,14 +224,13 @@ public class SQLManager {
         return list;
     }
 
-    public final void insertDefaultServerData(final String guildId, final String prefix) {
+    public final void insertDefaultServerData(final String guildId) {
         Connection conn = null;
         PreparedStatement ps = null;
         try {
             conn = pool.getConnection();
-            ps = conn.prepareStatement("INSERT INTO corgibot.guild_data (guild_id, prefix) VALUES (?,?);");
+            ps = conn.prepareStatement("INSERT INTO corgibot.guild_data (guild_id) VALUES (?);");
             ps.setString(1, guildId);
-            ps.setString(2, prefix);
             ps.executeUpdate();
         } catch (Exception e) {
             e.printStackTrace();

@@ -1,6 +1,7 @@
 package cz.wake.corgibot.managers;
 
 import cz.wake.corgibot.CorgiBot;
+import cz.wake.corgibot.commands.CommandClient;
 import cz.wake.corgibot.objects.GuildWrapper;
 import cz.wake.corgibot.utils.CorgiLogger;
 import net.dv8tion.jda.core.entities.TextChannel;
@@ -13,7 +14,7 @@ public class BotManager {
 
     private static HashSet<GuildWrapper> listGuilds = new HashSet<>();
 
-    public static void loadGuilds() {
+    public static void loadGuilds() { //TODO: Remove..
         CorgiBot.getJda().getGuilds().forEach(guild -> {
             try {
                 // Setup ignored channels

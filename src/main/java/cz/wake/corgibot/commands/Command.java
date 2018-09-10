@@ -1,116 +1,309 @@
 package cz.wake.corgibot.commands;
 
-import com.jagrosh.jdautilities.waiter.EventWaiter;
-import cz.wake.corgibot.objects.GuildWrapper;
+import cz.wake.corgibot.CorgiBot;
+import net.dv8tion.jda.core.MessageBuilder;
 import net.dv8tion.jda.core.Permission;
-import net.dv8tion.jda.core.entities.Member;
-import net.dv8tion.jda.core.entities.Message;
-import net.dv8tion.jda.core.entities.MessageChannel;
+import net.dv8tion.jda.core.entities.ChannelType;
+import net.dv8tion.jda.core.entities.VoiceChannel;
+import net.dv8tion.jda.core.utils.PermissionUtil;
 
-@SuppressWarnings("SameParameterValue")
-public interface Command {
+import java.io.UnsupportedEncodingException;
+import java.util.ArrayList;
+import java.util.Arrays;
+import java.util.Objects;
+import java.util.function.Predicate;
 
-    /**
-     * Excecuted when command was relized by {@link CommandHandler}
-     *
-     * @param channel {@link MessageChannel} where message was sended.
-     * @param message Complete message with prefix.
-     * @param args    Arguments from message in array.
-     * @param member  {@link Member] who executed a command.
-     * @param w       {@link EventWaiter} for furure actions.
-     * @param gw      {@link GuildWrapper} for getting settings etc.
-     */
-    void onCommand(MessageChannel channel, Message message, String[] args, Member member, EventWaiter w, GuildWrapper gw);
+public abstract class Command {
 
-    /**
-     * Name of the command.
-     *
-     * @return name
-     */
-    String getCommand();
+    protected String name = "null";
+    protected String description = "No description available.";
+    protected String extendedDescription = null;
+    protected Category category = new Category("unassigned");
+    protected CommandPermission commandPermission = CommandPermission.USER;
+    protected CommandState commandState = CommandState.GUILD;
+    protected ArrayList<String> usage = new ArrayList<>();
+    protected int cooldown = 0;
+    protected CooldownScope cooldownScope = CooldownScope.USER;
+    protected Permission[] requiredUserPerms = new Permission[0];
+    protected Permission[] requiredBotPerms = new Permission[0];
+    protected String[] aliases = new String[0];
+    protected Command[] subcommands = new Command[0];
 
-    /**
-     * Basic description of a command.
-     *
-     * @return description
-     */
-    String getDescription();
+    public abstract void onExecuted(CommandEvent event) throws Throwable;
 
-    /**
-     * Advanced help for command <bold>c!help <command></bold>
-     *
-     * @return help
-     */
-    String getHelp();
+    public final void run(CommandEvent event) {
+        if (event.getArgs().length > 0) {
+            String[] args = event.getArgs();
+            for (Command cmd : subcommands) {
+                if (cmd.isCommandFor(args[0])) {
+                    event.setArgs(args.length > 1 ? Arrays.copyOfRange(args, 1, args.length) : new String[0]);
+                    cmd.run(event);
+                    return;
+                }
+            }
+        }
 
-    /**
-     * Category where command will be displayed in help menu.
-     *
-     * @return {@link CommandCategory}
-     */
-    CommandCategory getCategory();
+        if (commandPermission == CommandPermission.OWNER && !(event.isBotOwner())) {
+            terminate(event, "Unfortunately, only the bot owner can use this command.");
+            return;
+        }
 
-    /**
-     * Array of aliases for commands.
-     *
-     * @return {@link java.lang.reflect.Array}
-     */
-    default String[] getAliases() {
-        return new String[]{};
+        if (commandPermission == CommandPermission.ADMIN && !(event.isBotAdmin())) {
+            terminate(event, "Unfortunately, only a bot admin can use this command.");
+            return;
+        }
+
+        if (commandPermission == CommandPermission.MOD && !(event.isBotMod())) {
+            terminate(event, "Unfortunately, only a bot mod can use this command.");
+            return;
+        }
+
+        if (category != null && !category.test(event)) {
+            terminate(event, category.getFailMessage());
+            return;
+        }
+
+
+        if (commandState.equals(CommandState.DM) && event.isFromType(ChannelType.TEXT)) {
+            terminate(event, "This command can't be used outside of DMs.");
+            return;
+        } else if (event.isFromType(ChannelType.TEXT)) {
+            for (Permission p : requiredBotPerms) {
+                if (p.isChannel()) {
+                    if (p.name().startsWith("VOICE")) {
+                        VoiceChannel vc = event.getMember().getVoiceState().getChannel();
+                        if (vc == null) {
+                            terminate(event, CorgiBot.respond(Action.GET_IN_VOICE_CHANNEL, event.getLocale()));
+                            return;
+                        } else if (!PermissionUtil.checkPermission(vc, event.getSelfMember(), p)) {
+                            terminate(event, CorgiBot.respond(Action.NOPERM_BOT, event.getLocale(), "`" + p.getName() + "` (Voice Channel Permission)"));
+                            return;
+                        }
+                    } else {
+                        if (!PermissionUtil.checkPermission(event.getTextChannel(), event.getSelfMember(), p)) {
+                            terminate(event, CorgiBot.respond(Action.NOPERM_BOT, event.getLocale(), "`" + p.getName() + "` (Channel Permission)"));
+                            return;
+                        }
+                    }
+                } else {
+                    if (!PermissionUtil.checkPermission(event.getTextChannel(), event.getSelfMember(), p)) {
+                        terminate(event, CorgiBot.respond(Action.NOPERM_BOT, event.getLocale(), "`" + p.getName() + "`"));
+                        return;
+                    }
+                }
+            }
+
+            for (Permission p : requiredUserPerms) {
+                if (p.isChannel()) {
+                    if (!PermissionUtil.checkPermission(event.getTextChannel(), event.getMember(), p)) {
+                        terminate(event, CorgiBot.respond(Action.NOPERM_USER, event.getLocale(), "`" + p.getName() + " (Channel Permission)`"));
+                        return;
+                    }
+                } else {
+                    if (!PermissionUtil.checkPermission(event.getTextChannel(), event.getMember(), p)) {
+                        terminate(event, CorgiBot.respond(Action.NOPERM_USER, event.getLocale(), "`" + p.getName() + "`"));
+                        return;
+                    }
+                }
+            }
+        } else if (commandState.equals(CommandState.GUILD)) {
+            terminate(event, "This command can't be used in DMs.");
+            return;
+        }
+
+        if (cooldown > 0) {
+            String key = getCooldownKey(event);
+            int remaining = event.getClient().getRemainingCooldown(key);
+            if (remaining > 0) {
+                String error = getCooldownError(remaining);
+                if (error != null) {
+                    terminate(event, error);
+                    return;
+                }
+            } else event.getClient().applyCooldown(key, cooldown);
+        }
+
+        try {
+            onExecuted(event);
+        } catch (Throwable t) {
+            throwException(t, event);
+        }
     }
 
-    /**
-     * If true Corgi will delete original message from user.
-     *
-     * @return {@link Boolean}
-     */
-    default boolean deleteMessage() {
+    public String getCooldownKey(CommandEvent event) {
+        switch (cooldownScope) {
+            case USER:
+                return cooldownScope.genKey(name, event.getAuthor().getIdLong());
+            case USER_GUILD:
+                return event.getGuild() != null ? cooldownScope.genKey(name, event.getAuthor().getIdLong(), event.getGuild().getIdLong()) :
+                        CooldownScope.USER_CHANNEL.genKey(name, event.getAuthor().getIdLong(), event.getChannel().getIdLong());
+            case USER_CHANNEL:
+                return cooldownScope.genKey(name, event.getAuthor().getIdLong(), event.getChannel().getIdLong());
+            default:
+                return "";
+        }
+    }
+
+    public String getCooldownError(int remaining) {
+        if (remaining <= 0)
+            return null;
+        String front = "That command is on cooldown for " + remaining + " more seconds";
+        if (cooldownScope.equals(CooldownScope.USER))
+            return front + "!";
+        else if (cooldownScope.equals(CooldownScope.USER_GUILD))
+            return front + " " + CooldownScope.USER_CHANNEL.errorSpecfication + "!";
+        else return front + " " + cooldownScope.errorSpecfication + "!";
+    }
+
+    public String getName() {
+        return name;
+    }
+
+    public String getDescription() {
+        return description;
+    }
+
+    public CommandCategory getCategory() {
+        return category;
+    }
+
+    public String[] getAliases() {
+        return aliases;
+    }
+
+    public ArrayList<String> getUsage() {
+        return usage;
+    }
+
+    public boolean isCommandFor(String input) {
+        if (name.equalsIgnoreCase(input)) return true;
+        for (String alias : aliases)
+            if (alias.equalsIgnoreCase(input))
+                return true;
         return false;
     }
 
-    /**
-     * If is this command in beta stage (not public)
-     *
-     * @return {@link Boolean}
-     */
-    default boolean isBeta() {
-        return false;
+    private void terminate(CommandEvent event, String message) {
+        if (message != null)
+            event.getChannel().sendMessage(message).queue();
     }
 
-    /**
-     * Command that can use only owner (MrWakeCZ#0001)
-     *
-     * @return {@link Boolean}
-     */
-    default boolean isOwner() {
-        return false;
+    protected void addUsage(String usage) {
+        this.usage.add("%s" + usage);
     }
 
-    /**
-     * If has command specific cooldown other than normal.
-     *
-     * @return count of cooldown, -1 if is used default (counted by users in guild)
-     */
-    default int specificCooldown() {
-        return -1;
+    protected boolean isMention(String s) {
+        return s.matches("<@!?(\\d+)>");
     }
 
-    /**
-     * Array of permissions that sender must have for use this command.
-     *
-     * @return {@link java.lang.reflect.Array} of {@link Permission}
-     */
-    default Permission[] userPermission() {
-        return new Permission[]{};
+    protected void throwException(Throwable t, CommandEvent event) {
+        throwException(t, event, "No Description Provided.");
     }
 
-    /**
-     * Array of permission that mush have Corgi
-     *
-     * @return {@link java.lang.reflect.Array} of {@link Permission}
-     */
-    default Permission[] botPermission() {
-        return new Permission[]{};
+    protected void throwException(Throwable t, CommandEvent event, String description) {
+        String endl = System.getProperty("line.separator");
+        String s = CorgiBot.respond(Action.EXCEPTION_THROWN, event.getLocale()) + endl + endl + "Description: " + description + endl + "Command: " + this.name + endl + endl + ExceptionUtils.getStackTrace(t);
+        try {
+            byte[] b = s.getBytes("UTF-8");
+            event.getChannel().sendFile(b, "traceback.txt", new MessageBuilder("An error has occurred! This should be reported to the dev right away! Use the `" + event.getPrefix() + "ticket` command to do so, don't forget to show this file, too.").build()).queue();
+        } catch (UnsupportedEncodingException e1) {
+            e1.printStackTrace();
+        }
+    }
+
+    protected enum CommandState {
+
+        DM, GUILD, BOTH;
+
+        CommandState() {
+        }
+
+        ;
+    }
+
+    protected enum CommandPermission {
+        USER, MOD, ADMIN, OWNER;
+
+        CommandPermission() {
+        }
+
+        ;
+    }
+
+    protected enum CooldownScope {
+        USER("U:%d", ""),
+        USER_CHANNEL("U:%d|C:%d", "in this channel"),
+        USER_GUILD("U:%d|G:%d", "in this server");
+
+        private final String format;
+        final String errorSpecfication;
+
+        CooldownScope(String format, String errorSpecification) {
+            this.format = format;
+            this.errorSpecfication = errorSpecification;
+        }
+
+        String genKey(String name, long id) {
+            return genKey(name, id, -1);
+        }
+
+        String genKey(String name, long id1, long id2) {
+            if (id2 == -1)
+                return name + "|" + String.format(format, id1);
+            else return name + "|" + String.format(format, id1, id2);
+        }
+    }
+
+    public static class Category {
+        private final String name;
+        private String failMessage;
+        private final Predicate<CommandEvent> predicate;
+
+        public Category(String name) {
+            this.name = name;
+            this.failMessage = null;
+            this.predicate = null;
+        }
+
+        public Category(String name, String failMessage, Predicate<CommandEvent> predicate) {
+            this.name = name;
+            this.failMessage = failMessage;
+            this.predicate = predicate;
+        }
+
+        public String getName() {
+            return name;
+        }
+
+        public Predicate<CommandEvent> getPredicate() {
+            return predicate;
+        }
+
+        public boolean test(CommandEvent event) {
+            return predicate == null || predicate.test(event);
+        }
+
+        public String getFailMessage() {
+            return failMessage;
+        }
+
+        @Override
+        public boolean equals(Object o) {
+            if (!(o instanceof Category))
+                return false;
+
+            Category other = (Category) o;
+            return Objects.equals(name, other.name) && Objects.equals(predicate, other.predicate) && Objects.equals(failMessage, other.failMessage);
+        }
+
+        @Override
+        public int hashCode() {
+            int hash = 7;
+            hash = 17 * hash + Objects.hashCode(this.name);
+            hash = 17 * hash + Objects.hashCode(this.failMessage);
+            hash = 17 * hash + Objects.hashCode(this.predicate);
+            return hash;
+        }
     }
 
 

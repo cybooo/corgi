@@ -2,7 +2,6 @@ package cz.wake.corgibot.listener;
 
 import com.jagrosh.jdautilities.waiter.EventWaiter;
 import cz.wake.corgibot.CorgiBot;
-import cz.wake.corgibot.commands.Command;
 import cz.wake.corgibot.managers.BotManager;
 import cz.wake.corgibot.objects.GuildWrapper;
 import cz.wake.corgibot.utils.Constants;
@@ -53,7 +52,7 @@ public class ChatListener extends ListenerAdapter {
         if (!CorgiBot.isIsBeta()) {
             // Custom Guild prefix from SQL
             guildWrapper = BotManager.getCustomGuild(e.getMember().getGuild().getId());
-            if(guildWrapper.getPrefix() != null) {
+            if (guildWrapper.getPrefix() != null) {
                 prefix = guildWrapper.getPrefix();
             }
         } else {
@@ -74,7 +73,7 @@ public class ChatListener extends ListenerAdapter {
                 // Get command
                 Command cmd = CorgiBot.getInstance().getCommandHandler().getCommand(invoke);
 
-                if(cmd == null){
+                if (cmd == null) {
                     return;
                 }
 
@@ -84,7 +83,7 @@ public class ChatListener extends ListenerAdapter {
                 }
 
                 // Check bot owner
-                if (cmd.isOwner() && !e.getAuthor().getId().equals("177516608778928129")){
+                if (cmd.isOwner() && !e.getAuthor().getId().equals("177516608778928129")) {
                     return;
                 }
 

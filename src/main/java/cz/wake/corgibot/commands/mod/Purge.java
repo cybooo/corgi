@@ -1,9 +1,7 @@
 package cz.wake.corgibot.commands.mod;
 
 import com.jagrosh.jdautilities.waiter.EventWaiter;
-import cz.wake.corgibot.CorgiBot;
 import cz.wake.corgibot.annotations.SinceCorgi;
-import cz.wake.corgibot.commands.Command;
 import cz.wake.corgibot.commands.CommandCategory;
 import cz.wake.corgibot.objects.GuildWrapper;
 import cz.wake.corgibot.utils.Constants;
@@ -11,8 +9,6 @@ import cz.wake.corgibot.utils.EmoteList;
 import cz.wake.corgibot.utils.MessageUtils;
 import net.dv8tion.jda.core.Permission;
 import net.dv8tion.jda.core.entities.*;
-import net.dv8tion.jda.core.exceptions.ErrorResponseException;
-import net.dv8tion.jda.core.exceptions.PermissionException;
 import org.apache.commons.lang3.StringUtils;
 
 import java.time.OffsetDateTime;

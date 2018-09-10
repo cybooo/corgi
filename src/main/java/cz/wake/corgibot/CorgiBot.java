@@ -1,7 +1,8 @@
 package cz.wake.corgibot;
 
 import com.jagrosh.jdautilities.waiter.EventWaiter;
-import cz.wake.corgibot.commands.CommandHandler;
+import cz.wake.corgibot.commands.CommandClient;
+import cz.wake.corgibot.commands.CommandRegister;
 import cz.wake.corgibot.feeds.TwitterEventListener;
 import cz.wake.corgibot.listener.ChannelDeleteEvent;
 import cz.wake.corgibot.listener.ChatListener;
@@ -12,7 +13,6 @@ import cz.wake.corgibot.runnable.ReminderTask;
 import cz.wake.corgibot.runnable.SpamHandler;
 import cz.wake.corgibot.runnable.StatusChanger;
 import cz.wake.corgibot.sql.SQLManager;
-import cz.wake.corgibot.utils.Constants;
 import cz.wake.corgibot.utils.CorgiLogger;
 import cz.wake.corgibot.utils.config.Config;
 import cz.wake.corgibot.utils.config.ConfigUtils;
@@ -44,9 +44,10 @@ public class CorgiBot {
 
     private static CorgiBot instance;
     private static JDA jda;
-    private CommandHandler ch = new CommandHandler();
+    private CommandRegister ch = new CommandRegister();
     private SQLManager sql;
     private ChatListener chatListener;
+    private static final CommandClient client = new CommandClient();
     private DateTimeFormatter timeFormat = DateTimeFormatter.ofPattern("MMMM yyyy HH:mm:ss");
     public static long startUp;
     private static final Map<String, Logger> LOGGERS;
@@ -116,7 +117,8 @@ public class CorgiBot {
             }
         } else {
             CorgiLogger.warnMessage("Jsou vypnute databaze, Corgi nebude nic ukladat ani nacitat!");
-            CorgiLogger.infoMessage("Zakladni prefix nastaven na: " + Constants.PREFIX);
+            client.setPrefix("c!");
+            CorgiLogger.infoMessage("Zakladni prefix nastaven na: c!");
         }
 
         // Startup timer
@@ -160,7 +162,7 @@ public class CorgiBot {
         return chatListener;
     }
 
-    public CommandHandler getCommandHandler() {
+    public CommandRegister getCommandHandler() {
         return ch;
     }
 
@@ -169,8 +171,7 @@ public class CorgiBot {
     }
 
     private void init() {
-        ch.register();
-    }
+        ch.start(); }
 
     private void initDatabase() {
         sql = new SQLManager(this);
@@ -222,5 +223,22 @@ public class CorgiBot {
      */
     public static boolean isIsBeta() {
         return isBeta;
+    }
+
+    public static CommandClient getCommandClient() {
+        return client;
+    }
+
+    /**
+     * Only used when a certain area of code can't reach the command event.
+     * @param guild The guild.
+     * @return The guild's prefix.
+     */
+    public static String getGuildPrefix(Guild guild) {
+        return client.getPrefix(guild.getId());
+    }
+
+    public static String getGuildLocale(Guild guild) {
+        return client.getLocale(guild.getId());
     }
 }

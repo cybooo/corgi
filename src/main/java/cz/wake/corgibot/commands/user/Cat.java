@@ -2,7 +2,6 @@ package cz.wake.corgibot.commands.user;
 
 import com.jagrosh.jdautilities.waiter.EventWaiter;
 import cz.wake.corgibot.annotations.SinceCorgi;
-import cz.wake.corgibot.commands.Command;
 import cz.wake.corgibot.commands.CommandCategory;
 import cz.wake.corgibot.objects.GuildWrapper;
 import cz.wake.corgibot.utils.Constants;
@@ -13,7 +12,6 @@ import net.dv8tion.jda.core.entities.MessageChannel;
 import okhttp3.OkHttpClient;
 import okhttp3.Request;
 import okhttp3.Response;
-import org.json.JSONObject;
 
 @SinceCorgi(version = "1.2.2")
 public class Cat implements Command {

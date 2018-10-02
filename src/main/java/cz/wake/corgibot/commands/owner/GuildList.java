@@ -16,7 +16,7 @@ import net.dv8tion.jda.core.exceptions.PermissionException;
 import java.awt.*;
 import java.util.concurrent.TimeUnit;
 
-@SinceCorgi(version = "1.0")
+/*@SinceCorgi(version = "1.0")
 public class GuildList implements Command {
 
     private PaginatorBuilder pBuilder;
@@ -85,4 +85,4 @@ public class GuildList implements Command {
     public boolean isOwner() {
         return true;
     }
-}
+}*/

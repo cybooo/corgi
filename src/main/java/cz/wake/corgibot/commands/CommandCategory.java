@@ -33,9 +33,9 @@ public enum CommandCategory {
         return new CommandCategory[]{GENERAL, GAMES, FUN, MODERATION, ADMINISTARTOR, MUSIC, HIDDEN, BOT_OWNER};
     }
 
-    public List<Command> getCommands() {
-        return CorgiBot.getInstance().getCommandHandler().getCommandsByType(this);
-    }
+//    public List<Command> getCommands() {
+//        return CorgiBot.getInstance().getCommandHandler().getCommandsByType(this);
+//    }
 
     public String formattedName() {
         return toString();

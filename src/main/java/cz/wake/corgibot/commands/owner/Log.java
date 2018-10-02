@@ -12,7 +12,7 @@ import net.dv8tion.jda.core.entities.MessageChannel;
 
 import java.io.File;
 
-@SinceCorgi(version = "1.0")
+/*@SinceCorgi(version = "1.0")
 public class Log implements Command {
 
     @Override
@@ -52,4 +52,4 @@ public class Log implements Command {
     public boolean isOwner() {
         return true;
     }
-}
+}*/

@@ -18,7 +18,7 @@ import java.util.concurrent.ExecutorService;
 import java.util.concurrent.Executors;
 import java.util.stream.Collectors;
 
-@SinceCorgi(version = "1.2.2")
+/*@SinceCorgi(version = "1.2.2")
 public class Eval implements Command {
 
     private ScriptEngineManager manager = new ScriptEngineManager();
@@ -109,4 +109,4 @@ public class Eval implements Command {
     public boolean isOwner() {
         return true;
     }
-}
+}*/

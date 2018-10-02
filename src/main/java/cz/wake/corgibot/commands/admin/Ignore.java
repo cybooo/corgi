@@ -20,7 +20,7 @@ import net.dv8tion.jda.core.exceptions.PermissionException;
 import java.util.List;
 import java.util.concurrent.TimeUnit;
 
-@SinceCorgi(version = "1.2.0")
+/*@SinceCorgi(version = "1.2.0")
 public class Ignore implements Command {
 
     @Override
@@ -137,4 +137,4 @@ public class Ignore implements Command {
         p.paginate(channel, 1);
 
     }
-}
+}*/

@@ -16,7 +16,7 @@ import net.dv8tion.jda.core.entities.MessageChannel;
 
 import java.lang.management.ManagementFactory;
 
-@SinceCorgi(version = "1.3.0")
+/*@SinceCorgi(version = "1.3.0")
 public class Stats implements Command {
 
     @Override
@@ -71,4 +71,4 @@ public class Stats implements Command {
         long days = hours / 24;
         return String.format("%d dní, %02d hodin, %02d minut", days, hours % 24, minutes % 60);
     }
-}
+}*/

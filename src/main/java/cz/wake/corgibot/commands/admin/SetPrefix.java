@@ -12,7 +12,7 @@ import net.dv8tion.jda.core.entities.Member;
 import net.dv8tion.jda.core.entities.Message;
 import net.dv8tion.jda.core.entities.MessageChannel;
 
-@SinceCorgi(version = "1.2.0")
+/*@SinceCorgi(version = "1.2.0")
 public class SetPrefix implements Command {
 
     @Override
@@ -65,4 +65,4 @@ public class SetPrefix implements Command {
     public Permission[] userPermission() {
         return new Permission[]{Permission.MANAGE_SERVER};
     }
-}
+}*/

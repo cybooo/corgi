@@ -15,7 +15,7 @@ import java.util.Comparator;
 import java.util.List;
 import java.util.stream.Collectors;
 
-@SinceCorgi(version = "1.2.3.2")
+/*@SinceCorgi(version = "1.2.3.2")
 public class UserInfo implements Command {
 
     @Override
@@ -166,4 +166,4 @@ public class UserInfo implements Command {
         String gameName = g.getName();
         return gameType + " " + gameName;
     }
-}
+}*/

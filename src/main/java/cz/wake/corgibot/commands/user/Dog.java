@@ -15,7 +15,7 @@ import okhttp3.Response;
 import org.json.JSONArray;
 import org.json.JSONObject;
 
-@SinceCorgi(version = "1.2.1")
+/*@SinceCorgi(version = "1.2.1")
 public class Dog implements Command {
 
     @Override
@@ -59,4 +59,4 @@ public class Dog implements Command {
     public String[] getAliases() {
         return new String[]{"pes", "rdog"};
     }
-}
+}*/

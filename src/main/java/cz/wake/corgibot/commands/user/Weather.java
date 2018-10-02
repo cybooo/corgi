@@ -20,7 +20,7 @@ import java.io.IOException;
 import java.time.Instant;
 import java.util.List;
 
-@SinceCorgi(version = "1.3.1")
+/*@SinceCorgi(version = "1.3.1")
 public class Weather implements Command {
 
     @Override
@@ -234,4 +234,4 @@ public class Weather implements Command {
         }
         return condition;
     }
-}
+}*/

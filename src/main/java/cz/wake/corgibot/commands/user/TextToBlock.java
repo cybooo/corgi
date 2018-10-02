@@ -11,7 +11,7 @@ import net.dv8tion.jda.core.entities.Message;
 import net.dv8tion.jda.core.entities.MessageChannel;
 import org.apache.commons.lang3.StringUtils;
 
-@SinceCorgi(version = "0.9")
+/*@SinceCorgi(version = "0.9")
 public class TextToBlock implements Command {
 
 
@@ -55,4 +55,4 @@ public class TextToBlock implements Command {
     public CommandCategory getCategory() {
         return CommandCategory.FUN;
     }
-}
+}*/

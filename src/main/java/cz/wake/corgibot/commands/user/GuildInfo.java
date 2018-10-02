@@ -12,7 +12,7 @@ import net.dv8tion.jda.core.entities.*;
 import java.time.format.DateTimeFormatter;
 import java.util.stream.Collectors;
 
-@SinceCorgi(version = "1.0")
+/*@SinceCorgi(version = "1.0")
 public class GuildInfo implements Command {
 
     @Override
@@ -69,4 +69,4 @@ public class GuildInfo implements Command {
     public String[] getAliases() {
         return new String[]{"serverinfo"};
     }
-}
+}*/

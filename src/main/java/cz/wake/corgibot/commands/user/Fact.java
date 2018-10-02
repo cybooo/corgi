@@ -11,7 +11,7 @@ import net.dv8tion.jda.core.entities.Member;
 import net.dv8tion.jda.core.entities.Message;
 import net.dv8tion.jda.core.entities.MessageChannel;
 
-@SinceCorgi(version = "2.3.2")
+/*@SinceCorgi(version = "2.3.2")
 public class Fact implements Command {
 
     @Override
@@ -43,4 +43,4 @@ public class Fact implements Command {
     public String[] getAliases() {
         return new String[]{"fakt"};
     }
-}
+}*/

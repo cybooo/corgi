@@ -1,5 +1,6 @@
 package cz.wake.corgibot.commands;
 
+import cz.wake.corgibot.CorgiBot;
 import cz.wake.corgibot.managers.Settings;
 import net.dv8tion.jda.core.JDA;
 import net.dv8tion.jda.core.entities.ChannelType;
@@ -10,36 +11,37 @@ import net.dv8tion.jda.core.hooks.ListenerAdapter;
 import java.time.OffsetDateTime;
 import java.time.temporal.ChronoUnit;
 import java.util.ArrayList;
+import java.util.Arrays;
 import java.util.HashMap;
 import java.util.List;
 import java.util.stream.Collectors;
 
 public class CommandClient extends ListenerAdapter {
 
-    private final OffsetDateTime start;
+    private static OffsetDateTime start;
 
-    private final String botOwner;
-    private final List<String> botAdmins;
-    private final List<String> botMods;
+    private static String botOwner;
+    private static List<String> botAdmins;
+    private static List<String> botMods;
 
     private String prefix = "c!";
-    private final HashMap<String, String> customPrefixes;
+    private static HashMap<String, String> customPrefixes;
 
     private String defaultLocale = "en_US";
-    private final HashMap<String, String> customLocales;
+    private static HashMap<String, String> customLocales;
 
-    private final ArrayList<Command> commands;
-    private final HashMap<String, Integer> commandIndex;
-    private final HashMap<String, OffsetDateTime> cooldowns;
+    private static ArrayList<Command> commands;
+    private static HashMap<String, Integer> commandIndex;
+    private static HashMap<String, OffsetDateTime> cooldowns;
 
     //Key = User ID, Value = Disable Type. (0 = Tickets only, 1 = Commands only, 2 = Blocked entirely.)
-    private final HashMap<String, Integer> disabledUsers;
+    private static HashMap<String, Integer> disabledUsers;
 
     //Key = Guild ID, Value = List of User IDs.
-    private final HashMap<String, List<String>> disabledMembers;
+    private static HashMap<String, List<String>> disabledMembers;
 
     //Key = Channel ID, Value = List of User IDs.
-    private final HashMap<String, List<String>> activeQuestionnaires;
+    private static HashMap<String, List<String>> activeQuestionnaires;
 
     public CommandClient() {
         start = OffsetDateTime.now();
@@ -97,8 +99,11 @@ public class CommandClient extends ListenerAdapter {
             }
             commandIndex.put(name, commands.size());
         }
-
         commands.add(command);
+    }
+
+    public HashMap<String, Integer> getCommandIndex() {
+        return commandIndex;
     }
 
     public String getDefaultLocale() {
@@ -218,6 +223,12 @@ public class CommandClient extends ListenerAdapter {
         JDA jda = event.getJDA();
         jda.getGuilds().forEach(guild -> {
 
+            if (CorgiBot.isIsBeta()) { // Beta bot
+                setCustomPrefix(guild.getId(), prefix);
+                setCustomLocale(guild.getId(), defaultLocale);
+                return;
+            }
+
             // Start
             Settings settings = Settings.getSettingsOrNull(guild.getId());
             if (settings == null) {
@@ -234,6 +245,45 @@ public class CommandClient extends ListenerAdapter {
             }
 
         });
+    }
+
+    @Override
+    public void onMessageReceived(MessageReceivedEvent event) {
+        if(event.getAuthor().isBot())
+            return;
+
+        String parts[] = null;
+        String rawContent = event.getMessage().getContentRaw().replace("@everyone", "@\u200Beveryone").replace("@here", "@\u200Bhere");
+        if (event.isFromType(ChannelType.TEXT)) {
+            if (rawContent.startsWith(event.getGuild().getSelfMember().getAsMention()))
+                parts = Arrays.copyOf(rawContent.substring(rawContent.indexOf(">")+1).trim().split("\\s+", 2), 2);
+        }
+        if (event.isFromType(ChannelType.PRIVATE)) {
+            parts = Arrays.copyOf(rawContent.split("\\s+", 2), 2);
+        }
+
+        if (parts == null && customPrefixes.containsKey(event.getGuild().getId()) && rawContent.startsWith(customPrefixes.get(event.getGuild().getId())))
+            parts = Arrays.copyOf(rawContent.substring(customPrefixes.get(event.getGuild().getId()).length()).trim().split("\\s+", 2), 2);
+        if (parts == null && !customPrefixes.containsKey(event.getGuild().getId())&& rawContent.startsWith(prefix))
+            parts = Arrays.copyOf(rawContent.substring(prefix.length()).trim().split("\\s+", 2), 2);
+
+        if (parts != null && !isUserDisabled(event.getAuthor().getId()) && !isMemberDisabled(event)) {
+            if (event.isFromType(ChannelType.PRIVATE) || event.getTextChannel().canTalk()) {
+                String name = parts[0];
+                String[] args = parts[1] == null ? new String[0] : parts[1].split("\\s+");
+
+                final Command command;
+                synchronized (commandIndex) {
+                    int i = commandIndex.getOrDefault(name.toLowerCase(), -1);
+                    command = i != -1 ? commands.get(i) : null;
+                }
+
+                if (command != null) {
+                    CommandEvent cevent = new CommandEvent(event, args, this);
+                    command.run(cevent);
+                }
+            }
+        }
     }
 
 }

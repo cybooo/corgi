@@ -1,27 +1,28 @@
 package cz.wake.corgibot.commands.user;
 
-import com.jagrosh.jdautilities.waiter.EventWaiter;
-import cz.wake.corgibot.annotations.SinceCorgi;
+import cz.wake.corgibot.commands.Command;
 import cz.wake.corgibot.commands.CommandCategory;
-import cz.wake.corgibot.objects.GuildWrapper;
+import cz.wake.corgibot.commands.CommandEvent;
 import cz.wake.corgibot.utils.Constants;
 import cz.wake.corgibot.utils.EmoteList;
 import cz.wake.corgibot.utils.MessageUtils;
-import net.dv8tion.jda.core.entities.Member;
-import net.dv8tion.jda.core.entities.Message;
-import net.dv8tion.jda.core.entities.MessageChannel;
 
-@SinceCorgi(version = "0.1")
-public class Ping implements Command {
+public class Ping extends Command {
 
     private static boolean running = false;
 
-    @Override
-    public void onCommand(MessageChannel channel, Message message, String[] args, Member member, EventWaiter w, GuildWrapper gw) {
+    public Ping() {
+        this.name = "ping";
+        this.description = "Zjištění rychlosti odezvy.";
+        this.category = new Category(CommandCategory.GENERAL);
+        this.usage.add("ping");
+    }
 
-        if(!running){
+    @Override
+    public void onExecuted(CommandEvent event) throws Throwable {
+        if (!running) {
             running = true;
-            channel.sendMessage(MessageUtils.getEmbed(Constants.GRAY).setDescription("Vypočítávám ping...").build()).queue(m -> {
+            event.getChannel().sendMessage(MessageUtils.getEmbed(Constants.GRAY).setDescription("Vypočítávám ping...").build()).queue(m -> {
                 int pings = 5;
                 int lastResult;
                 int sum = 0, min = 999, max = 0;
@@ -43,28 +44,8 @@ public class Ping implements Command {
                 running = false;
             });
         } else {
-            MessageUtils.sendErrorMessage("Aktuálně nelze zjistit ping, jelikož již probíhá sken. Zkus to zachvilku!", channel);
+            MessageUtils.sendErrorMessage("Aktuálně nelze zjistit ping, jelikož již probíhá sken. Zkus to zachvilku!", event.getChannel());
         }
-    }
-
-    @Override
-    public String getCommand() {
-        return "ping";
-    }
-
-    @Override
-    public String getDescription() {
-        return "Zjištění rychlosti odezvy.";
-    }
-
-    @Override
-    public String getHelp() {
-        return "%ping";
-    }
-
-    @Override
-    public CommandCategory getCategory() {
-        return CommandCategory.GENERAL;
     }
 
     private static final String[] pingMessages = new String[]{

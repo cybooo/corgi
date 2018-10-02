@@ -10,6 +10,6 @@ public class SpamHandler extends TimerTask {
 
     @Override
     public void run() {
-        ch.clearSpamMap();
+        //ch.clearSpamMap();
     }
 }

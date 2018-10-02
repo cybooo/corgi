@@ -14,7 +14,7 @@ import net.dv8tion.jda.core.events.message.react.MessageReactionAddEvent;
 
 import java.util.concurrent.TimeUnit;
 
-@SinceCorgi(version = "1.2.0")
+/*@SinceCorgi(version = "1.2.0")
 public class LeaveGuild implements Command {
 
     @Override
@@ -68,4 +68,4 @@ public class LeaveGuild implements Command {
     public Permission[] userPermission() {
         return new Permission[]{Permission.MANAGE_SERVER};
     }
-}
+}*/

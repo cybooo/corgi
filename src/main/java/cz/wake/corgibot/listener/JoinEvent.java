@@ -31,7 +31,7 @@ public class JoinEvent extends ListenerAdapter {
             BotManager.addGuild(gw);
         } else {
             // INSERT DAT + insert do botmanageru
-            CorgiBot.getInstance().getSql().insertDefaultServerData(event.getGuild().getId(), "c!");
+            //CorgiBot.getInstance().getSql().insertDefaultServerData(event.getGuild().getId(), "c!");
             GuildWrapper gw = new GuildWrapper(event.getGuild().getId());
             gw.setPrefix("c!", false);
             BotManager.addGuild(gw);

@@ -12,7 +12,7 @@ import net.dv8tion.jda.core.entities.MessageChannel;
 
 import java.util.Random;
 
-@SinceCorgi(version = "3.3.0")
+/*@SinceCorgi(version = "3.3.0")
 public class Choose implements Command {
 
     @Override
@@ -74,4 +74,4 @@ public class Choose implements Command {
                 return EmoteList.THINKING_1;
         }
     }
-}
+}*/

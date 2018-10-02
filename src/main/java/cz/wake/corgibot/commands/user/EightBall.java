@@ -13,7 +13,7 @@ import net.dv8tion.jda.core.entities.MessageChannel;
 
 import java.util.concurrent.ThreadLocalRandom;
 
-@SinceCorgi(version = "0.3")
+/*@SinceCorgi(version = "0.3")
 public class EightBall implements Command {
 
     private static String outcomes[] = {"Ano.", "Ne.", "S největší pravděpodobností ANO!", "Možná.", "Počkej zamyslím se, ANO!", "Pravděpodobně ne!", "Nepravděpodobně...", "Když se nad tím zamyšlíš, je to možné!", "Je to jistý.", "Je to rozhodně tak", "Definitivně ano", "Něco mi říká, že ne"};
@@ -56,4 +56,4 @@ public class EightBall implements Command {
     public String[] getAliases() {
         return new String[]{"8b", "dotaz"};
     }
-}
+}*/

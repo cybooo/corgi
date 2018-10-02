@@ -15,7 +15,7 @@ import net.dv8tion.jda.core.entities.MessageChannel;
 import java.text.SimpleDateFormat;
 import java.util.Calendar;
 
-@SinceCorgi(version = "1.3.0")
+/*@SinceCorgi(version = "1.3.0")
 public class Changelog implements Command {
 
     @Override
@@ -82,4 +82,4 @@ public class Changelog implements Command {
         calendar.setTimeInMillis(Long.parseLong(milliSeconds));
         return simpleDateFormat.format(calendar.getTime());
     }
-}
+}*/

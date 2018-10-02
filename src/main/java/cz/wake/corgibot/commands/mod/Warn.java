@@ -17,7 +17,7 @@ import net.dv8tion.jda.core.utils.PermissionUtil;
 
 import java.util.LinkedList;
 
-@SinceCorgi(version = "1.3.1.1")
+/*@SinceCorgi(version = "1.3.1.1")
 public class Warn implements Command {
 
     @Override
@@ -116,4 +116,4 @@ public class Warn implements Command {
     public Permission[] userPermission() {
         return new Permission[]{Permission.KICK_MEMBERS};
     }
-}
+}*/

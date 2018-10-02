@@ -13,7 +13,7 @@ import okhttp3.OkHttpClient;
 import okhttp3.Request;
 import okhttp3.Response;
 
-@SinceCorgi(version = "1.2.2")
+/*@SinceCorgi(version = "1.2.2")
 public class Cat implements Command {
 
     @Override
@@ -54,4 +54,4 @@ public class Cat implements Command {
     public String[] getAliases() {
         return new String[]{"kocka", "rcat"};
     }
-}
+}*/

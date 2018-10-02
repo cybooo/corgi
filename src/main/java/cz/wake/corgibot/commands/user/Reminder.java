@@ -21,7 +21,7 @@ import java.util.ArrayList;
 import java.util.HashSet;
 import java.util.List;
 
-@SinceCorgi(version = "1.3.0")
+/*@SinceCorgi(version = "1.3.0")
 public class Reminder implements Command {
 
     private static final PeriodFormatter periodParser = new PeriodFormatterBuilder()
@@ -43,7 +43,7 @@ public class Reminder implements Command {
                 return;
             }
 
-            /*StringBuilder mess = new StringBuilder();
+            *//*StringBuilder mess = new StringBuilder();
             mess.append(EmoteList.ALARM_CLOCK + " | **Seznam budoucích upozornění pro " + member.getUser().getName() + "**:");
             mess.append("\n```markdown\n");
             mess.append("# ID | ZBÝVAJÍCÍ ČAS | TEXT\n\n");
@@ -53,7 +53,7 @@ public class Reminder implements Command {
             }
 
             mess.append("```");
-            channel.sendMessage(mess.toString()).queue();*/
+            channel.sendMessage(mess.toString()).queue();*//*
 
             //NEW
             PagedTableBuilder tb = new PagedTableBuilder();
@@ -179,4 +179,4 @@ public class Reminder implements Command {
             return null;
         }
     }
-}
+}*/

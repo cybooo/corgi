@@ -10,7 +10,7 @@ import net.dv8tion.jda.core.entities.Member;
 import net.dv8tion.jda.core.entities.Message;
 import net.dv8tion.jda.core.entities.MessageChannel;
 
-@SinceCorgi(version = "0.8")
+/*@SinceCorgi(version = "0.8")
 public class Say implements Command {
 
     @Override
@@ -51,4 +51,4 @@ public class Say implements Command {
     public Permission[] userPermission() {
         return new Permission[]{Permission.MANAGE_CHANNEL};
     }
-}
+}*/

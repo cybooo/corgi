@@ -9,6 +9,7 @@ import net.dv8tion.jda.core.entities.Member;
 import net.dv8tion.jda.core.entities.Message;
 import net.dv8tion.jda.core.entities.MessageChannel;
 
+/*
 public class Support implements Command {
 
     @Override
@@ -42,3 +43,4 @@ public class Support implements Command {
         return new String[]{"podpora"};
     }
 }
+*/

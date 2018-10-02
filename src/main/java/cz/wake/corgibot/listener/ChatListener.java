@@ -27,7 +27,7 @@ import java.util.regex.Pattern;
 
 public class ChatListener extends ListenerAdapter {
 
-    private EventWaiter w;
+    /*private EventWaiter w;
     private static Map<String, Integer> spamMap = new ConcurrentHashMap<>();
 
     public ChatListener(EventWaiter w) {
@@ -146,7 +146,7 @@ public class ChatListener extends ListenerAdapter {
                 ex2.printStackTrace();
             }
         }
-    }
+    } */
 
     @Override
     public void onShutdown(ShutdownEvent event) {
@@ -172,6 +172,7 @@ public class ChatListener extends ListenerAdapter {
         }
     }
 
+    /*
     private void handleSpamDetection(GuildMessageReceivedEvent event, GuildWrapper guild, TextChannel ch) {
         if (spamMap.containsKey(event.getGuild().getId())) {
             int messages = spamMap.get(event.getGuild().getId());
@@ -188,7 +189,7 @@ public class ChatListener extends ListenerAdapter {
         } else {
             spamMap.put(event.getGuild().getId(), 1);
         }
-    }
+    } */
 
     private static int getGuildUserCount(Guild guild) {
         int i = 0;
@@ -200,9 +201,10 @@ public class ChatListener extends ListenerAdapter {
         return i;
     }
 
+    /*
     public void clearSpamMap() {
         spamMap.clear();
-    }
+    } */
 
     private Permission[] getBasicPerms() {
         return new Permission[]{Permission.MESSAGE_EMBED_LINKS, Permission.MESSAGE_WRITE};

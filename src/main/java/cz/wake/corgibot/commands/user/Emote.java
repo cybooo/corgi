@@ -10,7 +10,7 @@ import net.dv8tion.jda.core.entities.Member;
 import net.dv8tion.jda.core.entities.Message;
 import net.dv8tion.jda.core.entities.MessageChannel;
 
-@SinceCorgi(version = "0.8.1")
+/*@SinceCorgi(version = "0.8.1")
 public class Emote implements Command {
 
     @Override
@@ -99,4 +99,4 @@ public class Emote implements Command {
     public String[] getAliases() {
         return new String[]{"emoji"};
     }
-}
+}*/

@@ -18,7 +18,7 @@ public abstract class Command {
     protected String name = "null";
     protected String description = "No description available.";
     protected String extendedDescription = null;
-    protected Category category = new Category("unassigned");
+    protected Category category = new Category(CommandCategory.GENERAL);
     protected CommandPermission commandPermission = CommandPermission.USER;
     protected CommandState commandState = CommandState.GUILD;
     protected ArrayList<String> usage = new ArrayList<>();
@@ -73,21 +73,21 @@ public abstract class Command {
                     if (p.name().startsWith("VOICE")) {
                         VoiceChannel vc = event.getMember().getVoiceState().getChannel();
                         if (vc == null) {
-                            terminate(event, CorgiBot.respond(Action.GET_IN_VOICE_CHANNEL, event.getLocale()));
+                            //terminate(event, CorgiBot.respond(Action.GET_IN_VOICE_CHANNEL, event.getLocale()));
                             return;
                         } else if (!PermissionUtil.checkPermission(vc, event.getSelfMember(), p)) {
-                            terminate(event, CorgiBot.respond(Action.NOPERM_BOT, event.getLocale(), "`" + p.getName() + "` (Voice Channel Permission)"));
+                            //terminate(event, CorgiBot.respond(Action.NOPERM_BOT, event.getLocale(), "`" + p.getName() + "` (Voice Channel Permission)"));
                             return;
                         }
                     } else {
                         if (!PermissionUtil.checkPermission(event.getTextChannel(), event.getSelfMember(), p)) {
-                            terminate(event, CorgiBot.respond(Action.NOPERM_BOT, event.getLocale(), "`" + p.getName() + "` (Channel Permission)"));
+                            //terminate(event, CorgiBot.respond(Action.NOPERM_BOT, event.getLocale(), "`" + p.getName() + "` (Channel Permission)"));
                             return;
                         }
                     }
                 } else {
                     if (!PermissionUtil.checkPermission(event.getTextChannel(), event.getSelfMember(), p)) {
-                        terminate(event, CorgiBot.respond(Action.NOPERM_BOT, event.getLocale(), "`" + p.getName() + "`"));
+                        //terminate(event, CorgiBot.respond(Action.NOPERM_BOT, event.getLocale(), "`" + p.getName() + "`"));
                         return;
                     }
                 }
@@ -96,12 +96,12 @@ public abstract class Command {
             for (Permission p : requiredUserPerms) {
                 if (p.isChannel()) {
                     if (!PermissionUtil.checkPermission(event.getTextChannel(), event.getMember(), p)) {
-                        terminate(event, CorgiBot.respond(Action.NOPERM_USER, event.getLocale(), "`" + p.getName() + " (Channel Permission)`"));
+                        //terminate(event, CorgiBot.respond(Action.NOPERM_USER, event.getLocale(), "`" + p.getName() + " (Channel Permission)`"));
                         return;
                     }
                 } else {
                     if (!PermissionUtil.checkPermission(event.getTextChannel(), event.getMember(), p)) {
-                        terminate(event, CorgiBot.respond(Action.NOPERM_USER, event.getLocale(), "`" + p.getName() + "`"));
+                        //terminate(event, CorgiBot.respond(Action.NOPERM_USER, event.getLocale(), "`" + p.getName() + "`"));
                         return;
                     }
                 }
@@ -163,7 +163,7 @@ public abstract class Command {
         return description;
     }
 
-    public CommandCategory getCategory() {
+    public Category getCategory() {
         return category;
     }
 
@@ -201,14 +201,15 @@ public abstract class Command {
     }
 
     protected void throwException(Throwable t, CommandEvent event, String description) {
-        String endl = System.getProperty("line.separator");
+        /*String endl = System.getProperty("line.separator");
         String s = CorgiBot.respond(Action.EXCEPTION_THROWN, event.getLocale()) + endl + endl + "Description: " + description + endl + "Command: " + this.name + endl + endl + ExceptionUtils.getStackTrace(t);
         try {
             byte[] b = s.getBytes("UTF-8");
             event.getChannel().sendFile(b, "traceback.txt", new MessageBuilder("An error has occurred! This should be reported to the dev right away! Use the `" + event.getPrefix() + "ticket` command to do so, don't forget to show this file, too.").build()).queue();
         } catch (UnsupportedEncodingException e1) {
             e1.printStackTrace();
-        }
+        }*/
+        t.printStackTrace();
     }
 
     protected enum CommandState {
@@ -255,24 +256,24 @@ public abstract class Command {
     }
 
     public static class Category {
-        private final String name;
+        private final CommandCategory name;
         private String failMessage;
         private final Predicate<CommandEvent> predicate;
 
-        public Category(String name) {
+        public Category(CommandCategory name) {
             this.name = name;
             this.failMessage = null;
             this.predicate = null;
         }
 
-        public Category(String name, String failMessage, Predicate<CommandEvent> predicate) {
+        public Category(CommandCategory name, String failMessage, Predicate<CommandEvent> predicate) {
             this.name = name;
             this.failMessage = failMessage;
             this.predicate = predicate;
         }
 
         public String getName() {
-            return name;
+            return name.formattedName();
         }
 
         public Predicate<CommandEvent> getPredicate() {

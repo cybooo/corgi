@@ -16,7 +16,7 @@ import okhttp3.Request;
 import okhttp3.Response;
 import org.json.JSONObject;
 
-@SinceCorgi(version = "1.3.0")
+/*@SinceCorgi(version = "1.3.0")
 public class Svatek implements Command {
 
     //TODO: Zjednodusit API calls
@@ -140,4 +140,4 @@ public class Svatek implements Command {
     public CommandCategory getCategory() {
         return CommandCategory.FUN;
     }
-}
+}*/

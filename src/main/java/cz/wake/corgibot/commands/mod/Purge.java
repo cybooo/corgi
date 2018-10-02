@@ -19,7 +19,7 @@ import java.util.regex.Matcher;
 import java.util.regex.Pattern;
 import java.util.stream.Collectors;
 
-@SinceCorgi(version = "2.3.2")
+/*@SinceCorgi(version = "2.3.2")
 public class Purge implements Command {
 
     @Override
@@ -138,4 +138,4 @@ public class Purge implements Command {
         if (end > args.length) throw new IllegalArgumentException("End value specified is longer than the arguments provided.");
         return StringUtils.join(Arrays.copyOfRange(args, start, end), " ");
     }
-}
+}*/

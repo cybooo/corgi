@@ -10,7 +10,7 @@ import net.dv8tion.jda.core.entities.Member;
 import net.dv8tion.jda.core.entities.Message;
 import net.dv8tion.jda.core.entities.MessageChannel;
 
-@SinceCorgi(version = "0.1")
+/*@SinceCorgi(version = "0.1")
 public class Stop implements Command {
 
     @Override
@@ -45,4 +45,4 @@ public class Stop implements Command {
     public boolean isOwner() {
         return true;
     }
-}
+}*/

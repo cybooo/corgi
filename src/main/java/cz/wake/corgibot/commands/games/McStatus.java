@@ -15,7 +15,7 @@ import net.dv8tion.jda.core.entities.MessageChannel;
 
 import java.util.concurrent.ConcurrentMap;
 
-@SinceCorgi(version = "0.4")
+/*@SinceCorgi(version = "0.4")
 public class McStatus implements Command {
 
     private ConcurrentMap map = Checker.getServiceStatus();
@@ -68,4 +68,4 @@ public class McStatus implements Command {
     public String[] getAliases() {
         return new String[]{"mcs", "mojang"};
     }
-}
+}*/

@@ -15,7 +15,7 @@ import net.dv8tion.jda.core.utils.PermissionUtil;
 
 import java.util.LinkedList;
 
-@SinceCorgi(version = "0.7")
+/*@SinceCorgi(version = "0.7")
 public class Ban implements Command {
 
     @Override
@@ -105,4 +105,4 @@ public class Ban implements Command {
     public Permission[] userPermission() {
         return new Permission[]{Permission.BAN_MEMBERS};
     }
-}
+}*/

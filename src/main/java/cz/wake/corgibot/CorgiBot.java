@@ -3,6 +3,7 @@ package cz.wake.corgibot;
 import com.jagrosh.jdautilities.waiter.EventWaiter;
 import cz.wake.corgibot.commands.CommandClient;
 import cz.wake.corgibot.commands.CommandRegister;
+import cz.wake.corgibot.commands.user.Ping;
 import cz.wake.corgibot.feeds.TwitterEventListener;
 import cz.wake.corgibot.listener.ChannelDeleteEvent;
 import cz.wake.corgibot.listener.ChatListener;
@@ -46,7 +47,6 @@ public class CorgiBot {
     private static JDA jda;
     private CommandRegister ch = new CommandRegister();
     private SQLManager sql;
-    private ChatListener chatListener;
     private static final CommandClient client = new CommandClient();
     private DateTimeFormatter timeFormat = DateTimeFormatter.ofPattern("MMMM yyyy HH:mm:ss");
     public static long startUp;
@@ -77,14 +77,18 @@ public class CorgiBot {
         // Startup time
         startUp = System.currentTimeMillis();
 
+        // Properties from config
+        isBeta = config.getBoolean("beta");
+
         // JDA Build
         CorgiLogger.infoMessage("Probehne pripojeni na Discord API.");
         jda = new JDABuilder(AccountType.BOT)
                 .setToken(config.getString("discord.token"))
-                .addEventListener(new ChatListener(waiter))
-                .addEventListener(new LeaveEvent())
-                .addEventListener(new JoinEvent())
-                .addEventListener(new ChannelDeleteEvent())
+                //.addEventListener(new ChatListener(waiter))
+                //.addEventListener(new LeaveEvent())
+                //.addEventListener(new JoinEvent())
+                //.addEventListener(new ChannelDeleteEvent())
+                .addEventListener(new CommandClient())
                 .addEventListener(waiter)
                 .setGame(Game.playing("Starting..."))
                 .setStatus(OnlineStatus.IDLE)
@@ -92,9 +96,6 @@ public class CorgiBot {
 
         // Instances
         (instance = new CorgiBot()).init();
-
-        // Properties from config
-        isBeta = config.getBoolean("beta");
 
         // MySQL
         if(!isBeta){
@@ -158,20 +159,13 @@ public class CorgiBot {
         return jda;
     }
 
-    public ChatListener getChatListener(){
-        return chatListener;
-    }
-
-    public CommandRegister getCommandHandler() {
-        return ch;
-    }
-
     public SQLManager getSql() {
         return sql;
     }
 
     private void init() {
-        ch.start(); }
+        ch.start();
+    }
 
     private void initDatabase() {
         sql = new SQLManager(this);

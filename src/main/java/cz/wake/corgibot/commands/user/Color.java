@@ -20,7 +20,7 @@ import java.util.Timer;
 import java.util.TimerTask;
 import java.util.regex.Pattern;
 
-public class Color implements Command {
+/*public class Color implements Command {
 
     @Override
     public void onCommand(MessageChannel channel, Message message, String[] args, Member member, EventWaiter w, GuildWrapper gw) {
@@ -68,12 +68,12 @@ public class Color implements Command {
         return CommandCategory.FUN;
     }
 
-    /**
+    *//**
      * @param red   - red (0 - 255)
      * @param green - green (0 - 255)
      * @param blue  - blue (0 - 255)
      * @return CMYK-color converted from RGB
-     */
+     *//*
     public static String rgbToCmyk(int red, int green, int blue) {
         float r = red / 255f;
         float g = green / 255f;
@@ -87,13 +87,13 @@ public class Color implements Command {
         return cmyk;
     }
 
-    /**
+    *//**
      * Sends the embed message, in which the quality of the attachment is a specified color image
      *
      * @param c       - color
      * @param channel - MessageReceivedEvent
      * @param builder - embed, which adds an image
-     */
+     *//*
     public static void colorCommand(java.awt.Color c, MessageChannel channel, EmbedBuilder builder) {
         int width = 150;
         int height = 150;
@@ -119,4 +119,4 @@ public class Color implements Command {
             }
         }, 7500);
     }
-}
+}*/

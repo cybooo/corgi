@@ -11,7 +11,7 @@ import net.dv8tion.jda.core.entities.Member;
 import net.dv8tion.jda.core.entities.Message;
 import net.dv8tion.jda.core.entities.MessageChannel;
 
-@SinceCorgi(version = "1.3.0")
+/*@SinceCorgi(version = "1.3.0")
 public class Donate implements Command {
 
     @Override
@@ -46,4 +46,4 @@ public class Donate implements Command {
     public String[] getAliases() {
         return new String[]{"donator"};
     }
-}
+}*/

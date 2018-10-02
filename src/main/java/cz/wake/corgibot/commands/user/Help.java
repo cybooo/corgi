@@ -11,7 +11,7 @@ import cz.wake.corgibot.utils.EmoteList;
 import cz.wake.corgibot.utils.MessageUtils;
 import net.dv8tion.jda.core.entities.*;
 
-@SinceCorgi(version = "0.1")
+/*@SinceCorgi(version = "0.1")
 public class Help implements Command {
 
     @Override
@@ -90,4 +90,4 @@ public class Help implements Command {
         return builder;
     }
 
-}
+}*/

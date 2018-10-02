@@ -11,7 +11,7 @@ import net.dv8tion.jda.core.entities.Member;
 import net.dv8tion.jda.core.entities.Message;
 import net.dv8tion.jda.core.entities.MessageChannel;
 import net.dv8tion.jda.core.entities.User;
-
+/*
 @SinceCorgi(version = "1.2")
 public class Avatar implements Command {
 
@@ -56,4 +56,4 @@ public class Avatar implements Command {
     public CommandCategory getCategory() {
         return CommandCategory.GENERAL;
     }
-}
+}*/

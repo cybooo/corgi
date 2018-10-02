@@ -24,7 +24,7 @@ import org.joda.time.format.PeriodFormatterBuilder;
 import java.util.ArrayList;
 import java.util.List;
 
-@SinceCorgi(version = "2.3.2")
+/*@SinceCorgi(version = "2.3.2")
 public class Giveaway implements Command {
 
     private static final PeriodFormatter periodParser = new PeriodFormatterBuilder()
@@ -38,10 +38,10 @@ public class Giveaway implements Command {
     @Override
     public void onCommand(MessageChannel channel, Message message, String[] args, Member member, EventWaiter w, GuildWrapper gw) {
 
-        /**
+        *//**
          * c!giveaway 1h30m | Výhra v loterii | 2 | :smile: | #fffff
          * c!giveaway list
-         */
+         *//*
 
         if (args.length < 1) {
             channel.sendMessage(MessageUtils.getEmbed(Constants.GIVEAWAY_BLUE).setTitle("Jak na Giveaway")
@@ -107,12 +107,12 @@ public class Giveaway implements Command {
                 String color = null;
                 if (arguments.length >= 5) {
                     color = arguments[4].replaceAll("\\s+", "");
-                    /*if (Pattern.compile("#?([A-Fa-f\\d]){6}").matcher(color).find()) {
+                    *//*if (Pattern.compile("#?([A-Fa-f\\d]){6}").matcher(color).find()) {
                         color = color.startsWith("#") ? color : "#" + color;
                     } else {
                         MessageUtils.sendErrorMessage("Špatně zadaný formát barvy! Správný formát: #00000", channel);
                         return;
-                    }*/
+                    }*//*
                 }
 
                 Period p = getTimeFromInput(time, channel);
@@ -179,5 +179,5 @@ public class Giveaway implements Command {
             return null;
         }
     }
-}
+}*/
 

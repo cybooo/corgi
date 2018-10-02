@@ -15,7 +15,7 @@ import net.dv8tion.jda.core.utils.PermissionUtil;
 import java.time.format.DateTimeFormatter;
 import java.util.List;
 
-@SinceCorgi(version = "1.0")
+/*@SinceCorgi(version = "1.0")
 public class Archive implements Command {
 
     @Override
@@ -81,4 +81,4 @@ public class Archive implements Command {
     public Permission[] userPermission() {
         return new Permission[]{Permission.MANAGE_CHANNEL};
     }
-}
+}*/

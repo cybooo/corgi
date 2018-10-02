@@ -13,7 +13,7 @@ import net.dv8tion.jda.core.entities.Message;
 import net.dv8tion.jda.core.entities.MessageChannel;
 import net.dv8tion.jda.core.entities.Role;
 
-@SinceCorgi(version = "1.2")
+/*@SinceCorgi(version = "1.2")
 public class RoleInfo implements Command {
 
     @Override
@@ -80,4 +80,4 @@ public class RoleInfo implements Command {
     public Permission[] userPermission() {
         return new Permission[]{Permission.MANAGE_SERVER};
     }
-}
+}*/

@@ -73,7 +73,7 @@ public class Settings {
      * @return a {@link Settings} object containing data related to the guild.
      */
     public static Settings getSettings(String guildID) {
-
+        return null;
     }
 
     /**
@@ -83,7 +83,7 @@ public class Settings {
      * @return a {@link Settings} object containing data related to the guild, or null if no settings exist.
      */
     public static Settings getSettingsOrNull(String guildID) {
-
+        return null;
     }
 
     public Settings setAntiAd(boolean antiAd) {

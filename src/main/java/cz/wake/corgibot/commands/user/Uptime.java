@@ -12,7 +12,7 @@ import net.dv8tion.jda.core.entities.MessageChannel;
 
 import java.lang.management.ManagementFactory;
 
-@SinceCorgi(version = "0.2")
+/*@SinceCorgi(version = "0.2")
 public class Uptime implements Command {
 
     @Override
@@ -44,4 +44,4 @@ public class Uptime implements Command {
     public CommandCategory getCategory() {
         return CommandCategory.GENERAL;
     }
-}
+}*/

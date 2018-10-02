@@ -13,7 +13,7 @@ import net.dv8tion.jda.core.entities.User;
 import java.awt.Color;
 import java.util.List;
 
-public class Love implements Command {
+/*public class Love implements Command {
 
     @Override
     public void onCommand(MessageChannel channel, Message message, String[] args, Member member, EventWaiter w, GuildWrapper gw) {
@@ -72,4 +72,4 @@ public class Love implements Command {
     public String[] getAliases() {
         return new String[]{"laska","loveme"};
     }
-}
+}*/

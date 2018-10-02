@@ -10,7 +10,7 @@ import net.dv8tion.jda.core.entities.Member;
 import net.dv8tion.jda.core.entities.Message;
 import net.dv8tion.jda.core.entities.MessageChannel;
 
-@SinceCorgi(version = "1.0")
+/*@SinceCorgi(version = "1.0")
 public class Invite implements Command {
 
     @Override
@@ -43,4 +43,4 @@ public class Invite implements Command {
     public String[] getAliases() {
         return new String[]{"pozvat"};
     }
-}
+}*/

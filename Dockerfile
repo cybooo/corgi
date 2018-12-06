@@ -1,4 +1,4 @@
-FROM openjdk:10-slim
+FROM openjdk:11-slim
 
 # Oooo KWAK!
 MAINTAINER "MrWakeCZ"

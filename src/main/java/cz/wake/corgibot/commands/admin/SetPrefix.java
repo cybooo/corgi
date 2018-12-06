@@ -34,7 +34,7 @@ public class SetPrefix implements Command {
                 MessageUtils.sendErrorMessage(I18n.getLoc(gw, "commands.prefix.cannot-three-chars"), channel);
             }
         } else {
-            channel.sendMessage(MessageUtils.getEmbed(Constants.BLUE).setDescription(String.format(I18n.getLoc(gw, "commands.prefix.actual-prefix-is"), gw.getPrefix())).build()).queue();
+            channel.sendMessage(MessageUtils.getEmbed(Constants.LIGHT_BLUE).setDescription(String.format(I18n.getLoc(gw, "commands.prefix.actual-prefix-is"), gw.getPrefix())).build()).queue();
         }
     }
 

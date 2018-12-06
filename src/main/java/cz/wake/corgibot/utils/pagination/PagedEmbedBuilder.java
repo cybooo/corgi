@@ -138,7 +138,7 @@ public class PagedEmbedBuilder<T> {
          * @return the {@link MessageEmbed} page.
          */
         public MessageEmbed getEmbed(int page) {
-            EmbedBuilder pageEmbed = new EmbedBuilder().setColor(Constants.BLUE);
+            EmbedBuilder pageEmbed = new EmbedBuilder().setColor(Constants.LIGHT_BLUE);
             if (title != null)
                 pageEmbed.setTitle(title);
             if(useGroups) {

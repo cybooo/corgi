@@ -19,7 +19,7 @@ public class About implements Command {
     @Override
     public void onCommand(MessageChannel channel, Message message, String[] args, Member member, EventWaiter w, GuildWrapper gw) {
         if(message.getContentRaw().contains("corgi")) {
-            channel.sendMessage(MessageUtils.getEmbed(Constants.BLUE).setTitle("Představení Corgiho")
+            channel.sendMessage(MessageUtils.getEmbed(Constants.LIGHT_BLUE).setTitle("Představení Corgiho")
                     .setDescription("Ahoj já jsem Corgi, jsem bot pro Discord servery.\nJsem určený pro široké spektrum funkčnosti od administrace, získávání statistik z her až ke klasickým příkazům pro Discord!\n\n" +
                             "**Web**: [https://corgibot.xyz](https://corgibot.xyz)\n" +
                             "**Invite na tvůj server**: [Odkaz](https://discordapp.com/oauth2/authorize?client_id=294952122582302720&scope=bot&permissions=104197334)\n" +

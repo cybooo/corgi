@@ -34,7 +34,7 @@ public class Dog implements Command {
         } catch (Exception e) {
             MessageUtils.sendErrorMessage(I18n.getLoc(gw, "internal.error.api-failed"), channel);
         }
-        channel.sendMessage(MessageUtils.getEmbed(Constants.BLUE).setTitle(I18n.getLoc(gw, "commands.dog.title")).setImage(url).build()).queue();
+        channel.sendMessage(MessageUtils.getEmbed(Constants.LIGHT_BLUE).setTitle(I18n.getLoc(gw, "commands.dog.title")).setImage(url).build()).queue();
     }
 
     @Override

@@ -39,7 +39,7 @@ public class Stats implements Command {
             embed.addField(EmoteList.COMET + " " + I18n.getLoc(gw, "commands.stats.threads"), String.valueOf(Thread.getAllStackTraces().size()), true);
             embed.addField(EmoteList.JAVA + " " + I18n.getLoc(gw, "commands.stats.java"), System.getProperty("java.version"), true);
             embed.setAuthor(I18n.getLoc(gw, "commands.stats.title"), null, CorgiBot.getJda().getSelfUser().getAvatarUrl());
-            embed.setColor(Constants.BLUE);
+            embed.setColor(Constants.BLACK);
             channel.sendMessage(embed.build()).queue();
         }
 

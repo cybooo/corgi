@@ -78,7 +78,7 @@ public class Weather implements Command {
 
                 EmbedBuilder builder = new EmbedBuilder();
                 builder.setAuthor("Počasí pro " + title, link, null);
-                builder.setColor(Constants.BLUE);
+                builder.setColor(Constants.LIGHT_BLUE);
                 builder.setThumbnail(null);
                 builder.setTimestamp(Instant.now());
 

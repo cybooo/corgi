@@ -31,7 +31,7 @@ public class GuildInfo implements Command {
 
         channel.sendMessage(new EmbedBuilder()
                 .setAuthor("Informace o serveru", null, guild.getIconUrl())
-                .setColor(guild.getOwner().getColor() == null ? Constants.BLUE : guild.getOwner().getColor())
+                .setColor(guild.getOwner().getColor() == null ? Constants.LIGHT_BLUE : guild.getOwner().getColor())
                 .setDescription("Informace pro server " + guild.getName())
                 .setThumbnail(guild.getIconUrl())
                 .addField("Uživatelé (Online/Unikátní)", (int) guild.getMembers().stream().filter(u -> !u.getOnlineStatus().equals(OnlineStatus.OFFLINE)).count() + "/" + guild.getMembers().size(), true)

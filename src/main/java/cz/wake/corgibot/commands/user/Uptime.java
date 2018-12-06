@@ -23,7 +23,7 @@ public class Uptime implements Command {
         long minutes = seconds / 60;
         long hours = minutes / 60;
         long days = hours / 24;
-        channel.sendMessage(MessageUtils.getEmbed(Constants.BLUE).setTitle("Uptime", null).setDescription(":stopwatch: | " + String.format("%d dní, %02d hodin, %02d minut", days, hours % 24, minutes % 60)).build()).queue();
+        channel.sendMessage(MessageUtils.getEmbed(Constants.LIGHT_BLUE).setTitle("Uptime", null).setDescription(":stopwatch: | " + String.format("%d dní, %02d hodin, %02d minut", days, hours % 24, minutes % 60)).build()).queue();
     }
 
     @Override

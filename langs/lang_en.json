@@ -5,6 +5,53 @@
       "description": "List of all languages that Corgi knowns.",
       "selected": "Selected",
       "footer": "For change language click on reaction."
+    },
+    "prefix": {
+      "corgi-is-beta-prefix": "Corgi is running as BETA! You can not edit prefix now!",
+      "reset-back": "Prefix has been reset to `c!`",
+      "prefix-sets-to": "Prefix has been set on `%s`",
+      "actual-prefix-is": "Prefix for this server is `%s`",
+      "cannot-three-chars": "You can not set prefix that has more then three characters!",
+      "help": "Bot prefix for this guild."
+    },
+    "stats": {
+      "awake": "Actually I am awake up for",
+      "guilds": "Guilds",
+      "users": "Users",
+      "text-channels": "Text Channels",
+      "voice-channels": "Voice Channels",
+      "commands-run": "Ran commands",
+      "jda-version": "JDA version",
+      "load-cpu": "CPU",
+      "memory": "Memory",
+      "threads": "Threads",
+      "java": "Java",
+      "title": "Corgi's Statistics"
+    },
+    "support": {
+      "title": "Link on Corgi's support guild.",
+      "description": "To join Corgi's support guild use [**THIS**]({1}) link."
+    },
+    "cat": {
+      "title": "Random image of cat:"
+    },
+    "dog": {
+      "title": "Random image of dog:"
+    },
+    "changelog": {
+      "news": "News",
+      "fixes": "Fixes & Changes",
+      "announce": "Warning",
+      "footer": "Do you want see old changes? Look at our changelog channel on support guild! "
+    }
+  },
+  "internal": {
+    "error": {
+      "no-context": "Can not send empty message!",
+      "command-failed": "Error has occurred during executing of command! Try it again...",
+      "api-failed": "Error in API! Please wait..."
+    },
+    "warning": {
     }
   }
 }

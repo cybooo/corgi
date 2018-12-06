@@ -12,3 +12,6 @@ logs/*
 \.idea/
 
 config\.json
+
+.gradle
+/build

@@ -4,7 +4,7 @@ FROM openjdk:10-slim
 MAINTAINER "MrWakeCZ"
 
 # Add basic files
-COPY /target/CorgiBot-*.*.jar /srv/corgibot.jar
+COPY /build/libs/corgibot.jar /srv/corgibot.jar
 
 WORKDIR /srv
 

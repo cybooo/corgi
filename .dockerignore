@@ -3,7 +3,7 @@
 
 ### Except this
 !Dockerfile
-!target/CorgiBot-*.jar
 !src/main/resources
 !facts.txt
+!build/libs/
 

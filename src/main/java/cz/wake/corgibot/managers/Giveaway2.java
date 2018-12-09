@@ -88,7 +88,7 @@ public class Giveaway2 {
                             if(w == null){
                                 finalWinners.append(c + ". `Nikdo`\n");
                             } else {
-                                finalWinners.append(winners.size() > 1 ? c + ". " : "Vítěz ").append("<@").append(w).append(">\n");
+                                finalWinners.append(winners.size() > 1 ? c + ". " : "Vítěz ").append(message.getJDA().getUserById(w).getAsMention()).append("\n");
                             }
                         });
                         message.editMessage(new EmbedBuilder().setTitle(":confetti_ball:  **GIVEAWAY SKONČIL!**  :confetti_ball:", null).setDescription((prize != null ? "\n**" + prize + "**" : "\n") + "\n" + finalWinners.toString()).setColor(Constants.GREEN).setFooter("Ukončeno ", null).setTimestamp(Instant.ofEpochMilli(System.currentTimeMillis())).build()).queue(m -> {}, this::exceptionHandler);

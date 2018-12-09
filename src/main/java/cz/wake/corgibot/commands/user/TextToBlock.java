@@ -33,7 +33,7 @@ public class TextToBlock implements Command {
                 sb.append(a);
             }
         }
-        channel.sendMessage(MessageUtils.getEmbed(Constants.BLUE).setDescription(sb.toString()).build()).queue();
+        channel.sendMessage(MessageUtils.getEmbed(Constants.LIGHT_BLUE).setDescription(sb.toString()).build()).queue();
 
     }
 

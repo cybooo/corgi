@@ -65,6 +65,11 @@ public class Love implements Command {
     }
 
     @Override
+    public boolean deleteMessage() {
+        return true;
+    }
+
+    @Override
     public CommandCategory getCategory() {
         return CommandCategory.FUN;
     }

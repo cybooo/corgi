@@ -2,6 +2,7 @@ package cz.wake.corgibot.objects;
 
 import cz.wake.corgibot.CorgiBot;
 import cz.wake.corgibot.utils.Constants;
+import cz.wake.corgibot.utils.CorgiLogger;
 import net.dv8tion.jda.core.entities.Member;
 import net.dv8tion.jda.core.entities.TextChannel;
 
@@ -76,6 +77,11 @@ public class GuildWrapper {
         If guild has permission to use beta commands
      */
     private boolean isBeta = false;
+
+    /*
+        Default language for guild.
+     */
+    private String language = "en";
 
 
     /**
@@ -224,6 +230,10 @@ public class GuildWrapper {
      */
     public boolean isBeta() {
         return isBeta;
+    }
+
+    public String getLanguage() {
+        return language;
     }
 
     /**
@@ -414,8 +424,25 @@ public class GuildWrapper {
         return this;
     }
 
+    public void setLanguage(String language, boolean updateSQL) {
+        if(updateSQL) {
+            if(!this.language.equalsIgnoreCase(language)) {
+                this.language = language;
+                try {
+                    CorgiBot.getInstance().getSql().updateLanguage(this.guildId, this.language);
+                } catch (Exception e) {
+                    CorgiLogger.fatalMessage("Nepodarilo se zupdatovat jazyk! Guild: " + this.guildId + ", jazyk: " + this.language);
+                }
+            }
+        } else {
+            this.language = language;
+        }
+
+    }
+
     @Override
     public String toString(){
-        return getClass().getSimpleName() + "[id=" + guildId + ",prefix=" + prefix + ",ignoredChannels=" + ignoredChannels.toString() + "]";
+        return getClass().getSimpleName() + "[id=" + guildId + ",prefix=" + prefix + ",ignoredChannels=" + ignoredChannels.toString() +
+                ",language=" + language + "]";
     }
 }

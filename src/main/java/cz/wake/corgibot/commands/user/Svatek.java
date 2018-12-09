@@ -40,7 +40,7 @@ public class Svatek implements Command {
                 czechName = (String) name.get("name_cz");
                 slovakName = (String) name.get("name_sk");
 
-                channel.sendMessage(MessageUtils.getEmbed(Constants.BLUE).setTitle("Kdo má dnes svátek?")
+                channel.sendMessage(MessageUtils.getEmbed(Constants.LIGHT_BLUE).setTitle("Kdo má dnes svátek?")
                         .setDescription(EmoteList.CZECH_FLAG + " " + czechName + "\n" +
                                 EmoteList.SLOVAK_FLAG + " " + slovakName).build()).queue();
 
@@ -61,7 +61,7 @@ public class Svatek implements Command {
                     czechName = (String) name.get("name_cz");
                     slovakName = (String) name.get("name_sk");
 
-                    channel.sendMessage(MessageUtils.getEmbed(Constants.BLUE).setTitle("Kdo má zítra svátek?")
+                    channel.sendMessage(MessageUtils.getEmbed(Constants.LIGHT_BLUE).setTitle("Kdo má zítra svátek?")
                             .setDescription(EmoteList.CZECH_FLAG + " " + czechName + "\n" +
                                     EmoteList.SLOVAK_FLAG + " " + slovakName).build()).queue();
 
@@ -81,7 +81,7 @@ public class Svatek implements Command {
                     czechName = (String) name.get("name_cz");
                     slovakName = (String) name.get("name_sk");
 
-                    channel.sendMessage(MessageUtils.getEmbed(Constants.BLUE).setTitle("Kdo měl včera svátek?")
+                    channel.sendMessage(MessageUtils.getEmbed(Constants.LIGHT_BLUE).setTitle("Kdo měl včera svátek?")
                             .setDescription(EmoteList.CZECH_FLAG + " " + czechName + "\n" +
                                     EmoteList.SLOVAK_FLAG + " " + slovakName).build()).queue();
 
@@ -107,7 +107,7 @@ public class Svatek implements Command {
                     String czechName = (String) name.get("name_cz");
                     String slovakName = (String) name.get("name_sk");
 
-                    channel.sendMessage(MessageUtils.getEmbed(Constants.BLUE).setTitle("Dne " + day + "." + month + ". má svátek:")
+                    channel.sendMessage(MessageUtils.getEmbed(Constants.LIGHT_BLUE).setTitle("Dne " + day + "." + month + ". má svátek:")
                             .setDescription(EmoteList.CZECH_FLAG + " " + czechName + "\n" +
                                     EmoteList.SLOVAK_FLAG + " " + slovakName).build()).queue();
 

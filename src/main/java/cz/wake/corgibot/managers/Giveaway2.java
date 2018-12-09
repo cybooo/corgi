@@ -88,10 +88,15 @@ public class Giveaway2 {
                             if(w == null){
                                 finalWinners.append(c + ". `Nikdo`\n");
                             } else {
-                                finalWinners.append(winners.size() > 1 ? c + ". " : "Vítěz ").append("<@").append(w).append(">\n");
+                                finalWinners.append(winners.size() > 1 ? c + ". " : "Vítěz ").append(message.getJDA().getUserById(w).getAsMention()).append("\n");
                             }
                         });
                         message.editMessage(new EmbedBuilder().setTitle(":confetti_ball:  **GIVEAWAY SKONČIL!**  :confetti_ball:", null).setDescription((prize != null ? "\n**" + prize + "**" : "\n") + "\n" + finalWinners.toString()).setColor(Constants.GREEN).setFooter("Ukončeno ", null).setTimestamp(Instant.ofEpochMilli(System.currentTimeMillis())).build()).queue(m -> {}, this::exceptionHandler);
+                        winners.forEach(winner -> {
+                            if (winner != null) {
+                                message.getChannel().sendMessage("Gratulujeme " + message.getJDA().getUserById(winner).getAsMention() + " " + (prize != null ? "! Vyhrál/a jsi **" + prize + "**" : "k výhře!")).queue();
+                            }
+                        });
                         CorgiBot.getInstance().getSql().deleteGiveawayFromSQL(message.getGuild().getId(), message.getId());
                     });
                 } catch (Exception ex){
@@ -101,7 +106,9 @@ public class Giveaway2 {
                 }
             } catch (Exception ex) {
                 Thread.currentThread().interrupt();
+                CorgiLogger.fatalMessage("Corgi can not generate winners in giveaway in Guild (ID: " + message.getGuild().getId() + ").");
                 CorgiBot.getInstance().getSql().deleteGiveawayFromSQL(message.getGuild().getId(), message.getId());
+                CorgiLogger.infoMessage("Corgi removed corrupted giveaway.");
             }
         }).start();
     }
@@ -151,7 +158,7 @@ public class Giveaway2 {
                 // Giveaway deleted.. Corgi do not have access to message
                 case 10008: // message not found
                 case 10003: // channel not found
-                    CorgiLogger.fatalMessage("Giveaway byl smazán! Corgi zastavil thread a odebral data.");
+                    CorgiLogger.fatalMessage("Giveaway has been deleted! Corgi will stop giveaway and remove data.");
                     requestExit();
                     Thread.currentThread().interrupt();
                     break;
@@ -159,7 +166,7 @@ public class Giveaway2 {
                 // Missing permissions for editing message
                 case 50001: // missing access
                 case 50013: // missing permissions
-                    CorgiLogger.fatalMessage("Corgi nemuze upravit Giveaway, byl proto zastaven a odebral z SQL.");
+                    CorgiLogger.fatalMessage("Corgi can not edit giveaway. Thread stopped and removed.");
                     requestExit();
                     Thread.currentThread().interrupt();
                     break;

@@ -56,7 +56,7 @@ public class Twitter implements Command {
                     try {
                         // Register
                         new TwitterFeedObserver(message.getChannel().getId(), u.getName(), true, false, false).subscribe(superId);
-                        channel.sendMessage(MessageUtils.getEmbed(Constants.BLUE).setDescription("Úspěšně přidaný Twitter účet **" + u.getName() + "**. Nyní sem budou chodit novinky z tohoto účtu.").build()).queue();
+                        channel.sendMessage(MessageUtils.getEmbed(Constants.LIGHT_BLUE).setDescription("Úspěšně přidaný Twitter účet **" + u.getName() + "**. Nyní sem budou chodit novinky z tohoto účtu.").build()).queue();
                     } catch (Exception e){
                         e.printStackTrace(); //?
                     }

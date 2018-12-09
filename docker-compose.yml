@@ -2,7 +2,7 @@ version: "3"
 services:
   bot:
       image: mrwakecz/corgibot:stable
-      restart: on-failure:3
+      restart: always
       network_mode: "host"
       user: root
       container_name: corgibot

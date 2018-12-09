@@ -9,6 +9,7 @@ import cz.wake.corgibot.objects.ChangeLog;
 import cz.wake.corgibot.objects.GuildWrapper;
 import cz.wake.corgibot.utils.EmoteList;
 import cz.wake.corgibot.utils.MessageUtils;
+import cz.wake.corgibot.utils.lang.I18n;
 import net.dv8tion.jda.core.entities.Member;
 import net.dv8tion.jda.core.entities.Message;
 import net.dv8tion.jda.core.entities.MessageChannel;
@@ -26,31 +27,31 @@ public class Changelog implements Command {
         ChangeLog changes = CorgiBot.getInstance().getSql().getLastChanges();
 
         if (changes == null) {
-            MessageUtils.sendErrorMessage("Nepodařilo se zjistit poslední změny! Chyba v API.", channel);
+            MessageUtils.sendErrorMessage(I18n.getLoc(gw, "internal.error.api-failed"), channel);
             return;
         }
 
         changelog.append(EmoteList.INFO + " | **Update [" + convertMilisToDate(String.valueOf(changes.getDate())) + "]**");
         changelog.append("\n\n");
         if (changes.getNews() != null) {
-            changelog.append(EmoteList.GREEN_OK + "** | Novinky:**\n");
+            changelog.append(EmoteList.GREEN_OK + "** | " + I18n.getLoc(gw, "commands.changelog.news") + ":**\n");
             changelog.append(changes.getNews().replaceAll("-", "•"));
             changelog.append("\n\n");
         }
 
         if (changes.getFixes() != null) {
-            changelog.append(EmoteList.BUG + " ** | Opravy & změny:**\n");
+            changelog.append(EmoteList.BUG + " ** | " + I18n.getLoc(gw, "commands.changelog.fixes") + ":**\n");
             changelog.append(changes.getFixes().replaceAll("-", "•"));
             changelog.append("\n\n");
         }
 
         if (changes.getWarning() != null) {
-            changelog.append(EmoteList.WARNING + " ** | Upozornění:**\n");
+            changelog.append(EmoteList.WARNING + " ** | " + I18n.getLoc(gw, "commands.changelog.announce") + ":**\n");
             changelog.append(changes.getWarning().replaceAll("-", "•"));
             changelog.append("\n\n");
         }
 
-        changelog.append("**Pro zobrazení starších změn nakoukni do našeho kanálu oznámení v https://discord.gg/eaEFCYX **");
+        changelog.append(I18n.getLoc(gw, "commands.changelog.footer".replace("{1}", "https://discord.gg/eaEFCYX")));
 
         channel.sendMessage(changelog.toString()).queue();
     }

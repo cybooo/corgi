@@ -1,5 +1,9 @@
 package cz.wake.corgibot.utils;
 
+import cz.wake.corgibot.CorgiBot;
+import net.dv8tion.jda.core.entities.Emote;
+import net.dv8tion.jda.core.requests.Route;
+
 public class EmoteList {
 
     /*
@@ -71,8 +75,9 @@ public class EmoteList {
     /*
         Flags
      */
-    final public static String CZECH_FLAG = ":flag_cz:";
-    final public static String SLOVAK_FLAG = ":flag_sk:";
+    final public static String CZECH_FLAG = "\uD83C\uDDE8\uD83C\uDDFF";
+    final public static String SLOVAK_FLAG = "\uD83C\uDDF8\uD83C\uDDF0";
+    final public static String ENGLISH_FLAG = "\uD83C\uDDFA\uD83C\uDDF8";
 
     /*
         Weather

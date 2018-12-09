@@ -23,9 +23,13 @@ public class BotManager {
                 GuildWrapper gw = CorgiBot.getInstance().getSql().createGuildWrappers(guild.getId());
                 if(ignoredChannels != null && gw != null){
                     gw.setIgnoredChannels(ignoredChannels);
+                }
+
+                if (gw != null) {
                     gw.setLanguage("cz", false); //TODO: SQL
                     listGuilds.add(gw);
                 }
+
             } catch (NullPointerException ex) {
                 CorgiLogger.dangerMessage("Error when Corgi register Guild (ID: " + guild.getId() + "). Error:\n");
                 ex.printStackTrace();

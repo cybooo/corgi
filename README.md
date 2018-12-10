@@ -1,22 +1,28 @@
-<img align="right" src="https://i.imgur.com/N9wftHn.jpg" height="250" width="250">
 
-# CorgiBot [![buddy pipeline](https://app.buddy.works/waked/corgibot/pipelines/pipeline/70555/badge.svg?token=847e433bf9869d0037a43483d50d2741e4b86499bfb7afed6f90e60588a385be "buddy pipeline")](https://app.buddy.works/waked/corgibot/pipelines/pipeline/70555) [![License](https://img.shields.io/github/license/mashape/apistatus.svg?style=flat-square)](LICENSE) [![Maintenance](https://img.shields.io/maintenance/yes/2018.svg?style=flat-square)]() [![Chat](https://img.shields.io/badge/chat-discord-yellow.svg?style=flat-square)](https://discord.gg/rfsEqme) 
+<div align="center">
+    <img src="https://i.imgur.com/Ei9h3xg.png" height="200" width="200">
+    <h1>CorgiBot</h1>
+    <strong>Discord powerful bot for everyone!</strong><br><br>
+    <img src="https://forthebadge.com/images/badges/made-with-java.svg" height="30">&nbsp;
+    <img src="https://forthebadge.com/images/badges/built-with-love.svg" height="30">&nbsp;
+    <a href="https://discord.gg/rfsEqme"><img src="https://img.shields.io/discord/255045073887166475.svg?style=for-the-badge" height="30"></a>&nbsp;
+    <a href="https://buddy.works"><img src="https://assets.buddy.works/automated-dark.svg" alt="Automated by Buddy" height="30"></a>
+</div>
 
-**Corgi** is an open-source Discord bot written in Java, using JDA 3.
-Corgi provides various features including music playback, fun and moderation commands.
+---
+
+**Corgi** is an open-source Discord bot written in Java, using library JDA.
+Corgi provides various features like fun commands, moderation commands and some stats about games like Minecraft, Fortnite etc.
 
 ## The Official CorgiBot
-Click the following [link](https://discordapp.com/oauth2/authorize?client_id=294952122582302720&scope=bot&permissions=8) and add Corgi to a server, provided that you have the `Administrator` permission. The official website for Corgi can be founded [here](http://corgibot.xyz/).
+Click on the following [link](https://discordapp.com/oauth2/authorize?client_id=294952122582302720&scope=bot&permissions=104197334) to add Corgi on your server. After connection Corgi introduce yourself and you can start using him! 
+
+The official website for Corgi can be founded is https://corgibot.xyz/.
 
 ## Self-hosting CorgiBot
 - Though we do not disallow user-hosted versions of Corgi, we will not provide **any** support for it.
-- We are not responsible for anything that this project does to you or your server and can not be held liable 
-    for anything pertaining to it. 
+- We are not responsible for anything that this project does to you or your server and can not be held liable for anything pertaining to it. 
+- Corgi is **not** written as self-hosted bot!
 
 ## Main Contributors
-* [MrWakeCZ](https://github.com/MrWakeCZ)
-
-## Dependencies
-* [JDA 3.5](https://github.com/DV8FromTheWorld/JDA)
-* [OkHttp](https://github.com/square/okhttp)
-* [HikariCP](https://github.com/brettwooldridge/HikariCP)
+* [MrWakeCZ#0001](https://github.com/MrWakeCZ)

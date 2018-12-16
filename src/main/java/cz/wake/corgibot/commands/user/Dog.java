@@ -6,6 +6,7 @@ import cz.wake.corgibot.commands.Command;
 import cz.wake.corgibot.commands.CommandCategory;
 import cz.wake.corgibot.objects.GuildWrapper;
 import cz.wake.corgibot.utils.Constants;
+import cz.wake.corgibot.utils.EmoteList;
 import cz.wake.corgibot.utils.MessageUtils;
 import cz.wake.corgibot.utils.lang.I18n;
 import net.dv8tion.jda.core.entities.Member;
@@ -24,17 +25,17 @@ public class Dog implements Command {
     public void onCommand(MessageChannel channel, Message message, String[] args, Member member, EventWaiter w, GuildWrapper gw) {
         String url = "";
         OkHttpClient caller = new OkHttpClient();
-        Request request = new Request.Builder().url("https://api.thedogapi.co.uk/v2/dog.php").build();
+        Request request = new Request.Builder().url("https://api-to.get-a.life/dogimg").build();
         try {
             Response response = caller.newCall(request).execute();
             JSONObject json = new JSONObject(response.body().string());
-            JSONArray jsonArray = json.getJSONArray("data");
-            JSONObject jsonObject = jsonArray.getJSONObject(0);
-            url = jsonObject.getString("url");
+            //JSONArray jsonArray = json.getJSONArray("data");
+            //JSONObject jsonObject = jsonArray.getJSONObject(0);
+            url = json.getString("link");
         } catch (Exception e) {
             MessageUtils.sendErrorMessage(I18n.getLoc(gw, "internal.error.api-failed"), channel);
         }
-        channel.sendMessage(MessageUtils.getEmbed(Constants.LIGHT_BLUE).setTitle(I18n.getLoc(gw, "commands.dog.title")).setImage(url).build()).queue();
+        channel.sendMessage(MessageUtils.getEmbed(Constants.LIGHT_BLUE).setTitle(EmoteList.DOG + " | " +  I18n.getLoc(gw, "commands.dog.title")).setImage(url).build()).queue();
     }
 
     @Override

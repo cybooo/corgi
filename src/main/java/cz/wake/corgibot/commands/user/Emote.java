@@ -6,6 +6,7 @@ import cz.wake.corgibot.commands.Command;
 import cz.wake.corgibot.commands.CommandCategory;
 import cz.wake.corgibot.objects.GuildWrapper;
 import cz.wake.corgibot.utils.Constants;
+import cz.wake.corgibot.utils.CorgiLogger;
 import cz.wake.corgibot.utils.MessageUtils;
 import net.dv8tion.jda.core.entities.Member;
 import net.dv8tion.jda.core.entities.Message;
@@ -30,9 +31,10 @@ public class Emote implements Command {
             channel.sendMessage(builder.toString()).queue();
         } else {
             String str = args[0];
-            if (str.matches("<:.*:\\d+>") || str.matches("<a:.*:\\d+>")) { //Server Emotes
-                String id = str.replaceAll("<a:.*:(\\d+)>", "$1");
-                net.dv8tion.jda.core.entities.Emote emote = channel.getJDA().getEmoteById(id);
+            if (str.matches("<.*:.*:\\d+>")) { //Server Emotes
+                String id = str.replaceAll("<.*:.*:(\\d+)>", "$1");
+                Long longId = Long.valueOf(id);
+                net.dv8tion.jda.core.entities.Emote emote = channel.getJDA().getEmoteById(longId);
                 if (emote == null) {
                     channel.sendMessage(MessageUtils.getEmbed(member.getUser(), Constants.RED).setTitle("**Neznámý Emote**")
                             .setDescription("**ID:** " + id + "\n" +

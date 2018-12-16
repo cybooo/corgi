@@ -6,6 +6,7 @@ import cz.wake.corgibot.commands.Command;
 import cz.wake.corgibot.commands.CommandCategory;
 import cz.wake.corgibot.objects.GuildWrapper;
 import cz.wake.corgibot.utils.Constants;
+import cz.wake.corgibot.utils.EmoteList;
 import cz.wake.corgibot.utils.MessageUtils;
 import cz.wake.corgibot.utils.lang.I18n;
 import net.dv8tion.jda.core.entities.Member;
@@ -30,7 +31,7 @@ public class Cat implements Command {
         } catch (Exception e) {
             MessageUtils.sendErrorMessage(I18n.getLoc(gw, "internal.error.command-failed"), channel);
         }
-        channel.sendMessage(MessageUtils.getEmbed(Constants.ORANGE).setTitle(I18n.getLoc(gw, "commands.cat.title")).setImage(url).build()).queue();
+        channel.sendMessage(MessageUtils.getEmbed(Constants.ORANGE).setTitle(EmoteList.CAT + " | " +  I18n.getLoc(gw, "commands.cat.title")).setImage(url).build()).queue();
     }
 
     @Override

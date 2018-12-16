@@ -9,6 +9,7 @@ services:
       volumes:
         - /srv/corgibot/config.json:/srv/config.json
         - /srv/corgibot/logs:/srv/logs
+        - /srv/corgibot/langs:/srv/langs
         - /srv/corgibot/resources:/srv/resources
       stop_grace_period: 7200s
       entrypoint:

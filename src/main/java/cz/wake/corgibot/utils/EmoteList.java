@@ -44,6 +44,9 @@ public class EmoteList {
     final public static String JAVA = "<:java:407692830912544769>";
     final public static String INFO = "\u2139";
     final public static String BUG = "\uD83D\uDC1B";
+    final public static String DOG = "\uD83D\uDC36";
+    final public static String CAT = "\uD83D\uDC31";
+
 
     /*
         Emotes for help menu

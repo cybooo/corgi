@@ -28,7 +28,7 @@ public class Ping implements Command {
                 int sum = 0, min = 999, max = 0;
                 long start = System.currentTimeMillis();
                 for (int j = 0; j < pings; j++) {
-                    m.editMessage(MessageUtils.getEmbed(Constants.ORANGE).setDescription(pingMessages[j % pingMessages.length]).build()).complete();
+                    m.editMessage(MessageUtils.getEmbed(Constants.ORANGE).setDescription(pingMessages[j % pingMessages.length]).build()).queue();
                     lastResult = (int) (System.currentTimeMillis() - start);
                     sum += lastResult;
                     min = Math.min(min, lastResult);
@@ -40,7 +40,7 @@ public class Ping implements Command {
                     }
                     start = System.currentTimeMillis();
                 }
-                m.editMessage(MessageUtils.getEmbed(Constants.GREEN).setDescription(String.format(EmoteList.LOUDSPEAKER + " | **Průměrný ping je:** %dms (min: %d, max: %d)", (int) Math.ceil(sum / 5f), min, max)).build()).complete();
+                m.editMessage(MessageUtils.getEmbed(Constants.GREEN).setDescription(String.format(EmoteList.LOUDSPEAKER + " | **Průměrný ping je:** %dms (min: %d, max: %d)", (int) Math.ceil(sum / 5f), min, max)).build()).queue();
                 running = false;
             });
         } else {

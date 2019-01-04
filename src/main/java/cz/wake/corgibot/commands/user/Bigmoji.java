@@ -25,7 +25,7 @@ public class Bigmoji implements Command {
                 Long longId = Long.valueOf(id);
                 Emote emote = channel.getJDA().getEmoteById(longId);
                 if (emote != null) {
-                    channel.sendMessage(MessageUtils.getEmbed(Constants.LIGHT_BLUE).setImage(emote.getImageUrl()).build()).queue();
+                    channel.sendMessage(MessageUtils.getEmbed().setImage(emote.getImageUrl()).build()).queue();
                 } else {
                     MessageUtils.sendErrorMessage("Lze používat pouze emoji na tomto serveru!", channel);
                 }
@@ -58,5 +58,10 @@ public class Bigmoji implements Command {
     @Override
     public String[] getAliases() {
         return new String[]{"animoji"};
+    }
+
+    @Override
+    public boolean deleteMessage() {
+        return true;
     }
 }

@@ -1,6 +1,7 @@
 package cz.wake.corgibot.commands.user;
 
 import com.jagrosh.jdautilities.waiter.EventWaiter;
+import cz.wake.corgibot.CorgiBot;
 import cz.wake.corgibot.annotations.SinceCorgi;
 import cz.wake.corgibot.commands.Command;
 import cz.wake.corgibot.commands.CommandCategory;
@@ -40,7 +41,7 @@ public class Ping implements Command {
                     }
                     start = System.currentTimeMillis();
                 }
-                m.editMessage(MessageUtils.getEmbed(Constants.GREEN).setDescription(String.format(EmoteList.LOUDSPEAKER + " | **Průměrný ping je:** %dms (min: %d, max: %d)", (int) Math.ceil(sum / 5f), min, max)).build()).queue();
+                m.editMessage(MessageUtils.getEmbed(Constants.GREEN).setDescription(String.format(EmoteList.LOUDSPEAKER + " | **Průměrný ping je:** %dms", CorgiBot.getJda().getPing())).build()).queue();
                 running = false;
             });
         } else {

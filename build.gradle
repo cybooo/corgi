@@ -34,7 +34,7 @@ repositories {
 dependencies {
 
     // JDA
-    compile group: 'net.dv8tion', name: 'JDA', version:'3.8.1_447'
+    compile group: 'net.dv8tion', name: 'JDA', version:'3.8.1_457'
     compile group: 'com.jagrosh', name: 'JDA-Utilities', version:'1.9'
 
     // Others

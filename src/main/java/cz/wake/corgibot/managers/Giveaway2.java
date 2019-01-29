@@ -7,6 +7,7 @@ import net.dv8tion.jda.core.EmbedBuilder;
 import net.dv8tion.jda.core.entities.Message;
 import net.dv8tion.jda.core.entities.User;
 import net.dv8tion.jda.core.exceptions.ErrorResponseException;
+import org.apache.commons.lang3.StringUtils;
 
 import java.awt.*;
 import java.time.Instant;
@@ -92,11 +93,22 @@ public class Giveaway2 {
                             }
                         });
                         message.editMessage(new EmbedBuilder().setTitle(":confetti_ball:  **GIVEAWAY SKONČIL!**  :confetti_ball:", null).setDescription((prize != null ? "\n**" + prize + "**" : "\n") + "\n" + finalWinners.toString()).setColor(Constants.GREEN).setFooter("Ukončeno ", null).setTimestamp(Instant.ofEpochMilli(System.currentTimeMillis())).build()).queue(m -> {}, this::exceptionHandler);
-                        winners.forEach(winner -> {
-                            if (winner != null) {
-                                message.getChannel().sendMessage("Gratulujeme " + message.getJDA().getUserById(winner).getAsMention() + " " + (prize != null ? "! Vyhrál/a jsi **" + prize + "**" : "k výhře!")).queue();
-                            }
-                        });
+
+                        if (winners.size() > 1) {
+                            StringBuilder finalList = new StringBuilder();
+                            winners.forEach(winner -> {
+                                if (winner != null) {
+                                    finalList.append(message.getJDA().getUserById(winner).getAsMention()).append(", ");
+                                }
+                            });
+                            message.getChannel().sendMessage("Gratulujeme " + StringUtils.removeEnd(finalList.toString(), ", ") + (prize != null ? "! K výhře **" + prize + "**" : "k výhře!")).queue();
+                        } else {
+                            winners.forEach(winner -> {
+                                if (winner != null) {
+                                    message.getChannel().sendMessage("Gratulujeme " + message.getJDA().getUserById(winner).getAsMention() + (prize != null ? "! Vyhrál/a jsi **" + prize + "**" : "k výhře!")).queue();
+                                }
+                            });
+                        }
                         CorgiBot.getInstance().getSql().deleteGiveawayFromSQL(message.getGuild().getId(), message.getId());
                     });
                 } catch (Exception ex){

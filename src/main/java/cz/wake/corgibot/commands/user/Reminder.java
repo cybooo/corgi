@@ -8,6 +8,7 @@ import cz.wake.corgibot.commands.CommandCategory;
 import cz.wake.corgibot.objects.GuildWrapper;
 import cz.wake.corgibot.objects.TemporaryReminder;
 import cz.wake.corgibot.utils.*;
+import cz.wake.corgibot.utils.lang.I18n;
 import cz.wake.corgibot.utils.pagination.PagedTableBuilder;
 import cz.wake.corgibot.utils.pagination.PaginationUtil;
 import net.dv8tion.jda.core.entities.Member;
@@ -35,32 +36,21 @@ public class Reminder implements Command {
     @Override
     public void onCommand(MessageChannel channel, Message message, String[] args, Member member, EventWaiter w, GuildWrapper gw) {
         if (args.length < 1) {
-            channel.sendMessage(MessageUtils.getEmbed(Constants.GRAY).setTitle("Nápověda k reminderu").setDescription(getHelp().replace("%", gw.getPrefix())).build()).queue();
+            channel.sendMessage(MessageUtils.getEmbed(Constants.GRAY)
+                    .setTitle(I18n.getLoc(gw, "internal.general.help-command") + " - reminder").setDescription(getHelp().replace("%", gw.getPrefix())).build()).queue();
         } else if (args[0].contains("list")) {
             HashSet<TemporaryReminder> list = CorgiBot.getInstance().getSql().getRemindersByUser(member.getUser().getId());
 
             if (list.isEmpty()) {
-                MessageUtils.sendErrorMessage("Nemáš nastavené žádné upozornění!", channel);
+                MessageUtils.sendErrorMessage(I18n.getLoc(gw, "commands.reminder.no-reminder"), channel);
                 return;
             }
 
-            /*StringBuilder mess = new StringBuilder();
-            mess.append(EmoteList.ALARM_CLOCK + " | **Seznam budoucích upozornění pro " + member.getUser().getName() + "**:");
-            mess.append("\n```markdown\n");
-            mess.append("# ID | ZBÝVAJÍCÍ ČAS | TEXT\n\n");
-
-            for (TemporaryReminder tr : list) {
-                mess.append(tr.getReminderId() + " | " + TimeUtils.toShortTime(tr.getDate() - System.currentTimeMillis()) + " | " + tr.getMessage() + "\n");
-            }
-
-            mess.append("```");
-            channel.sendMessage(mess.toString()).queue();*/
-
             //NEW
             PagedTableBuilder tb = new PagedTableBuilder();
-            tb.addColumn("ID");
-            tb.addColumn("Zbývající čas");
-            tb.addColumn("Text upozornění");
+            tb.addColumn(I18n.getLoc(gw, "commands.reminder.table-id"));
+            tb.addColumn(I18n.getLoc(gw, "commands.reminder.table-time"));
+            tb.addColumn(I18n.getLoc(gw, "commands.reminder.table-text"));
 
             for (TemporaryReminder tr : list) {
                 List<String> row = new ArrayList<>();
@@ -74,41 +64,45 @@ public class Reminder implements Command {
 
         } else if (args[0].contains("delete")) {
             if (args.length == 1) {
-                MessageUtils.sendErrorMessage("Nezadal jsi ID. Zkus to znova!", channel);
+                MessageUtils.sendErrorMessage(I18n.getLoc(gw, "commands.reminder.no-id"), channel);
                 return;
             }
             String id = args[1];
             if (id == null) {
-                MessageUtils.sendErrorMessage("Nezadal jsi ID. Zkus to znova!", channel);
+                MessageUtils.sendErrorMessage(I18n.getLoc(gw, "commands.reminder.no-id"), channel);
                 return;
             }
             if (FormatUtil.isStringInt(id)) {
                 int convertedId = Integer.valueOf(id);
                 try {
                     CorgiBot.getInstance().getSql().deleteReminderById(member.getUser().getId(), convertedId);
-                    channel.sendMessage(MessageUtils.getEmbed(Constants.GREEN).setDescription("Upozornění s ID **" + convertedId + "** bylo smazáno!").build()).queue();
+                    channel.sendMessage(MessageUtils.getEmbed(Constants.GREEN)
+                            .setDescription(I18n.getLoc(gw, "commands.reminder.deleted-reminder")
+                                    .replace("{1}", String.valueOf(convertedId))).build()).queue();
                 } catch (Exception e) {
-                    MessageUtils.sendErrorMessage("Zadané ID neexistuje nebo se jedná o interní chybu!", channel);
+                    MessageUtils.sendErrorMessage(I18n.getLoc(gw, "commands.reminder.non-existing-id"), channel);
                 }
             } else {
-                MessageUtils.sendErrorMessage("Zadané ID není číslo!", channel);
+                MessageUtils.sendErrorMessage(I18n.getLoc(gw, "commands.reminder.id-is-not-number"), channel);
             }
         } else {
 
-            String request = message.getContentRaw().replace("rm", "").replace("remindme", "").replace("reminder", "").replace("upozorneni", "").replace(gw.getPrefix(), "");
+            String request = message.getContentRaw().replace("rm", "")
+                    .replace("remindme", "").replace("reminder", "")
+                    .replace("upozorneni", "").replace(gw.getPrefix(), "");
             String[] arguments = request.split("\\|");
 
             // .reminder 2d2h7m | Vypnout Corgiho!
 
             // 1 parametr?
             if (arguments.length == 1) {
-                MessageUtils.sendErrorMessage("Něco ti tam zřejmě chybí! Příklad: %reminder 2h | Vypnout Corgiho!".replace("%", gw.getPrefix()), channel);
+                MessageUtils.sendErrorMessage(I18n.getLoc(gw, "commands.reminder.incorrect-command").replace("%", gw.getPrefix()), channel);
                 return;
             }
 
             // Delsi jak 1000 znaku
             if (arguments[1].length() > 1000) {
-                MessageUtils.sendErrorMessage("Promiň, ale upozornění delší jak 1000 znaků nelze zpracovat! Tvoje žádané upozornění má délku - %d".replace("%d", String.valueOf(arguments[1].length())), channel);
+                MessageUtils.sendErrorMessage(I18n.getLoc(gw, "commands.reminder.too-long-time").replace("{1}", String.valueOf(arguments[1].length())), channel);
                 return;
             }
 
@@ -123,7 +117,7 @@ public class Reminder implements Command {
             long millis = end.getMillis() - start.getMillis(); // Rozdil na upozorneni
 
             if (millis < 60000L) {
-                MessageUtils.sendErrorMessage("Minimální čas na upozornění je 1 minuta!", channel);
+                MessageUtils.sendErrorMessage(I18n.getLoc(gw, "commands.reminder.minimal-time"), channel);
                 return;
             }
 
@@ -132,12 +126,14 @@ public class Reminder implements Command {
                 CorgiBot.getInstance().getSql().addReminder(member.getUser().getId(), end.getMillis(), reminderMessage);
             } catch (Exception e) {
                 e.printStackTrace();
-                MessageUtils.sendErrorMessage("Interní chyba při provádění operace, zkus to zachvilku!", channel);
+                MessageUtils.sendErrorMessage(I18n.getLoc(gw, "internal.error.command-failed"), channel);
                 return;
             }
 
             // Oznameni
-            channel.sendMessage(MessageUtils.getEmbed(Constants.GREEN).setDescription(EmoteList.ALARM_CLOCK + " | Jistě! Upozorním tě za **" + TimeUtils.toYYYYHHmmssS(millis) + "**").build()).queue();
+            channel.sendMessage(MessageUtils.getEmbed(Constants.GREEN)
+                    .setDescription(EmoteList.ALARM_CLOCK + " | " + I18n.getLoc(gw, "commands.reminder.final-message")
+                            .replace("{1}", TimeUtils.toYYYYHHmmssS(millis))).build()).queue();
         }
     }
 

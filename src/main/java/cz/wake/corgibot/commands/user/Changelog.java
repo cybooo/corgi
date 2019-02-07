@@ -51,7 +51,7 @@ public class Changelog implements Command {
             changelog.append("\n\n");
         }
 
-        changelog.append(I18n.getLoc(gw, "commands.changelog.footer".replace("{1}", "https://discord.gg/eaEFCYX")));
+        changelog.append(I18n.getLoc(gw, "commands.changelog.footer").replace("{1}", "https://discord.gg/eaEFCYX"));
 
         channel.sendMessage(changelog.toString()).queue();
     }

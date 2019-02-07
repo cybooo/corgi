@@ -27,7 +27,7 @@ public class Stats implements Command {
             long totalMb = Runtime.getRuntime().totalMemory() / (1024 * 1024);
             long usedMb = (Runtime.getRuntime().totalMemory() - Runtime.getRuntime().freeMemory()) / (1024 * 1024);
             EmbedBuilder embed = new EmbedBuilder();
-            embed.setDescription(I18n.getLoc(gw, "commands.stats.awake" + " ") + getUptime());
+            embed.setDescription(I18n.getLoc(gw, "commands.stats.awake") + " " + getUptime());
             embed.addField(EmoteList.HOMES + " " + I18n.getLoc(gw, "commands.stats.guilds"), String.valueOf(channel.getJDA().getGuilds().size()), true);
             embed.addField(EmoteList.USERS + " " + I18n.getLoc(gw, "commands.stats.users"), String.valueOf(channel.getJDA().getUsers().size()), true);
             embed.addField(EmoteList.PENCIL + " " + I18n.getLoc(gw, "commands.stats.text-channels"), String.valueOf(channel.getJDA().getTextChannels().size()), true);

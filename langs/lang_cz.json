@@ -42,16 +42,44 @@
       "news": "Novinky",
       "fixes": "Opravy & změny",
       "announce": "Upozornění",
-      "footer": "Pro zobrazení starších změn nakoukni do našeho kanálu oznámení v "
+      "footer": "Pro zobrazení starších změn nakoukni do našeho kanálu oznámení v {1}"
+    },
+    "avatar": {
+      "title": "Avatar uživatele"
+    },
+    "bigmoji": {
+      "only-server-emoji": "Lze používat pouze emoji na tomto serveru!",
+      "invalid-emoji-format": "Neplatný formát emoji! Zkus to znova!"
+    },
+    "reminder": {
+      "no-reminder": "Nemáš nastavené žádné upozornění!",
+      "table-id": "ID",
+      "table-time": "Zbývající čas",
+      "table-text": "Text upozornění",
+      "no-id": "Nezadal jsi ID. Zkus to znova!",
+      "deleted-reminder": "Upozornění s ID **{1}** bylo smazáno!",
+      "non-existing-id": "Zadané ID neexistuje nebo se jedná o interní chybu!",
+      "id-is-not-number": "Zadané ID není číslo!",
+      "incorrect-command": "Něco ti tam zřejmě chybí! Příklad: %reminder 2h | Vypnout Corgiho!",
+      "too-long-time": "Promiň, ale upozornění delší jak 1000 znaků nelze zpracovat! Tvoje žádané upozornění má délku - {1}",
+      "minimal-time": "Minimální čas na upozornění je 1 minuta!",
+      "final-message": "Jistě! Upozorním tě za **{1}**"
     }
   },
   "internal": {
+    "general": {
+      "help-command": "Nápověda k příkazu"
+    },
     "error": {
       "no-context": "Nelze poslat zprávu, která nemá text!",
       "command-failed": "Nastala chyba při provádění příkazu. Zkus to znova zachvilku!",
-      "api-failed": "Chyba v requestu API! Zkus to zachvilku..."
+      "api-failed": "Chyba v requestu API! Zkus to zachvilku...",
+      "user-not-found": "Nepodařilo se najít uživatele!"
     },
     "warning": {
+    },
+    "required": {
+      "mention": "Musíš použít označení s @!"
     }
   }
 }

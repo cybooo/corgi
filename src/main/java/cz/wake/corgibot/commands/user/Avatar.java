@@ -8,6 +8,7 @@ import cz.wake.corgibot.commands.CommandCategory;
 import cz.wake.corgibot.objects.GuildWrapper;
 import cz.wake.corgibot.utils.Constants;
 import cz.wake.corgibot.utils.MessageUtils;
+import cz.wake.corgibot.utils.lang.I18n;
 import net.dv8tion.jda.core.entities.Member;
 import net.dv8tion.jda.core.entities.Message;
 import net.dv8tion.jda.core.entities.MessageChannel;
@@ -25,16 +26,16 @@ public class Avatar implements Command {
             id = args[0].replaceAll("[^0-9]", "");
         }
         if (id.isEmpty()) {
-            MessageUtils.sendAutoDeletedMessage("Musíš použít označení s @!", 10000, channel);
+            MessageUtils.sendAutoDeletedMessage(I18n.getLoc(gw, "internal.required.mention"), 10000, channel);
             return;
         }
         User user = CorgiBot.getJda().getUserById(id);
         if (user == null) {
-            MessageUtils.sendAutoDeletedMessage("Nelze najít uživatele!", 10000, channel);
+            MessageUtils.sendAutoDeletedMessage(I18n.getLoc(gw, "internal.error.user-not-found"), 10000, channel);
             return;
         }
         String url = user.getEffectiveAvatarUrl() + "?size=1024";
-        channel.sendMessage(MessageUtils.getEmbed(Constants.GRAY).setTitle("Avatar uživatele " + user.getName())
+        channel.sendMessage(MessageUtils.getEmbed(Constants.GRAY).setTitle(I18n.getLoc(gw, "commands.avatar.title") + " " + user.getName())
                 .setImage(url).build()).queue();
     }
 

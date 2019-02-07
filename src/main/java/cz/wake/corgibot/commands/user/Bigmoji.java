@@ -6,6 +6,7 @@ import cz.wake.corgibot.commands.CommandCategory;
 import cz.wake.corgibot.objects.GuildWrapper;
 import cz.wake.corgibot.utils.Constants;
 import cz.wake.corgibot.utils.MessageUtils;
+import cz.wake.corgibot.utils.lang.I18n;
 import net.dv8tion.jda.core.entities.Emote;
 import net.dv8tion.jda.core.entities.Member;
 import net.dv8tion.jda.core.entities.Message;
@@ -16,8 +17,9 @@ public class Bigmoji implements Command {
     @Override
     public void onCommand(MessageChannel channel, Message message, String[] args, Member member, EventWaiter w, GuildWrapper gw) {
         if(args.length < 1) {
-            channel.sendMessage(MessageUtils.getEmbed().setTitle("Nápověda k příkazu - bigmoji :question:")
-                    .setDescription(getDescription() + "\n\n**Použití**\n" + getHelp().replace("%", gw.getPrefix())).build()).queue();
+            channel.sendMessage(MessageUtils.getEmbed().setTitle(I18n.getLoc(gw, "internal.general.help-command") + " - bigmoji :question:")
+                    .setDescription(getDescription() + "\n\n**Použití**\n" +
+                            getHelp().replace("%", gw.getPrefix())).build()).queue();
         } else {
             String str = args[0];
             if (str.matches("<.*:.*:\\d+>")) {
@@ -25,12 +27,12 @@ public class Bigmoji implements Command {
                 Long longId = Long.valueOf(id);
                 Emote emote = channel.getJDA().getEmoteById(longId);
                 if (emote != null) {
-                    channel.sendMessage(MessageUtils.getEmbed(Constants.LIGHT_BLUE).setImage(emote.getImageUrl()).build()).queue();
+                    channel.sendMessage(MessageUtils.getEmbed().setImage(emote.getImageUrl()).build()).queue();
                 } else {
-                    MessageUtils.sendErrorMessage("Lze používat pouze emoji na tomto serveru!", channel);
+                    MessageUtils.sendErrorMessage(I18n.getLoc(gw, "commands.bigmoji.only-server-emoji"), channel);
                 }
             } else {
-                MessageUtils.sendErrorMessage("Neplatný formát emoji! Zkus to znova!", channel);
+                MessageUtils.sendErrorMessage(I18n.getLoc(gw, "commands.bigmoji.invalid-emoji-format"), channel);
             }
         }
     }
@@ -47,7 +49,7 @@ public class Bigmoji implements Command {
 
     @Override
     public String getHelp() {
-        return "%bugmoji <regex|text> - K odeslání velkého emoji!";
+        return "%bigmoji <regex|text> - K odeslání velkého emoji!";
     }
 
     @Override
@@ -58,5 +60,10 @@ public class Bigmoji implements Command {
     @Override
     public String[] getAliases() {
         return new String[]{"animoji"};
+    }
+
+    @Override
+    public boolean deleteMessage() {
+        return true;
     }
 }

@@ -6,10 +6,7 @@ import cz.wake.corgibot.annotations.SinceCorgi;
 import cz.wake.corgibot.commands.Command;
 import cz.wake.corgibot.commands.CommandCategory;
 import cz.wake.corgibot.objects.GuildWrapper;
-import cz.wake.corgibot.utils.Constants;
-import cz.wake.corgibot.utils.EmoteList;
-import cz.wake.corgibot.utils.MessageUtils;
-import cz.wake.corgibot.utils.ValuesUtil;
+import cz.wake.corgibot.utils.*;
 import net.dv8tion.jda.core.entities.Member;
 import net.dv8tion.jda.core.entities.Message;
 import net.dv8tion.jda.core.entities.MessageChannel;
@@ -18,10 +15,10 @@ import okhttp3.Request;
 import okhttp3.Response;
 import org.json.JSONObject;
 
+import java.util.Arrays;
+
 @SinceCorgi(version = "1.3.0")
 public class Svatek implements Command {
-
-    //TODO: Zjednodusit API calls
 
     @Override
     public void onCommand(MessageChannel channel, Message message, String[] args, Member member, EventWaiter w, GuildWrapper gw) {
@@ -49,7 +46,7 @@ public class Svatek implements Command {
                 e.getStackTrace();
             }
         } else {
-            if(args[0].equalsIgnoreCase("zitra")){
+            if(args[0].equalsIgnoreCase("zitra") || args[0].equalsIgnoreCase("zítra")){
                 String czechName, slovakName;
                 OkHttpClient caller = new OkHttpClient();
                 Request request = new Request.Builder().url("https://api.abalin.net/get/tomorrow").build();
@@ -69,7 +66,7 @@ public class Svatek implements Command {
                     MessageUtils.sendErrorMessage("Zřejmě chyba v API! Zkus to zachvilku :(", channel);
                     e.getStackTrace();
                 }
-            } else if (args[0].equalsIgnoreCase("vcera")){
+            } else if (args[0].equalsIgnoreCase("vcera") || args[0].equalsIgnoreCase("včera")){
                 String czechName, slovakName;
                 OkHttpClient caller = new OkHttpClient();
                 Request request = new Request.Builder().url("https://api.abalin.net/get/yesterday").build();
@@ -90,15 +87,18 @@ public class Svatek implements Command {
                     e.getStackTrace();
                 }
             } else {
-                String day = args[0];
-                String month = args[1];
-
-                if (!(ValuesUtil.isInt(day) || (ValuesUtil.isInt(month)))) {
-                    MessageUtils.sendErrorMessage("Zadal jsi špatně číslo! Zkus to znova...", channel);
+                String date = args[0];
+                String[] dateArray;
+                if (date.matches("(0?[1-9]|[12]\\d|30|31).(0?[1-9]|1[0-2]).")) {
+                    dateArray = date.split("\\.");
+                    CorgiLogger.debugMessage(Arrays.toString(dateArray));
+                } else {
+                    MessageUtils.sendErrorMessage("Neplatně zadaný formát data. Zkus `1.12.`!", channel);
+                    return;
                 }
 
                 OkHttpClient caller = new OkHttpClient();
-                Request request = new Request.Builder().url("https://api.abalin.net/namedays?day=" + day + "&month=" + month).build();
+                Request request = new Request.Builder().url("https://api.abalin.net/get/namedays?day=" + dateArray[0] + "&month=" + dateArray[1]).build();
                 try {
                     Response response = caller.newCall(request).execute();
                     JSONObject json = new JSONObject(response.body().string());
@@ -107,7 +107,7 @@ public class Svatek implements Command {
                     String czechName = (String) name.get("name_cz");
                     String slovakName = (String) name.get("name_sk");
 
-                    channel.sendMessage(MessageUtils.getEmbed(Constants.LIGHT_BLUE).setTitle("Dne " + day + "." + month + ". má svátek:")
+                    channel.sendMessage(MessageUtils.getEmbed(Constants.LIGHT_BLUE).setTitle("Dne " + dateArray[0] + "." + dateArray[1] + ". má svátek:")
                             .setDescription(EmoteList.CZECH_FLAG + " " + czechName + "\n" +
                                     EmoteList.SLOVAK_FLAG + " " + slovakName).build()).queue();
 
@@ -135,7 +135,7 @@ public class Svatek implements Command {
         return "`%svatek` - Zobrazí jména, kteří mají dnes svátek\n" +
                 "`%svatek zitra` - Zobrazí kdo má zítra svátek\n" +
                 "`%svatek vcera` - Zobrazí kdo měl včera svátek\n" +
-                "`%svatek [den] [mesic]` - Svátky pro konkrétní dny";
+                "`%svatek [den].[mesic].` - Svátky pro konkrétní dny";
     }
 
     @Override

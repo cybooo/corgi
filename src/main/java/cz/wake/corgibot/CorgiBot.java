@@ -8,6 +8,8 @@ import cz.wake.corgibot.listener.ChatListener;
 import cz.wake.corgibot.listener.JoinEvent;
 import cz.wake.corgibot.listener.LeaveEvent;
 import cz.wake.corgibot.managers.BotManager;
+import cz.wake.corgibot.metrics.JdaEventMetricsListener;
+import cz.wake.corgibot.metrics.Metrics;
 import cz.wake.corgibot.runnable.ReminderTask;
 import cz.wake.corgibot.runnable.SpamHandler;
 import cz.wake.corgibot.runnable.StatusChanger;
@@ -85,6 +87,7 @@ public class CorgiBot {
                 .addEventListener(new LeaveEvent())
                 .addEventListener(new JoinEvent())
                 .addEventListener(new ChannelDeleteEvent())
+                .addEventListener(new JdaEventMetricsListener())
                 .addEventListener(waiter)
                 .setGame(Game.playing("Starting..."))
                 .setStatus(OnlineStatus.IDLE)
@@ -128,6 +131,9 @@ public class CorgiBot {
         // Languages
         CorgiLogger.infoMessage("Loading language files...");
         I18n.start();
+
+        // Metrics
+        Metrics.setup();
 
         // Is Corgi beta?
         if (!isBeta) {

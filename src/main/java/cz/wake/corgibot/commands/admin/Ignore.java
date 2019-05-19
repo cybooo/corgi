@@ -108,7 +108,7 @@ public class Ignore implements Command {
     }
 
     private void shopIgnoredChannels(MessageChannel channel, Member member, EventWaiter w, GuildWrapper gw) {
-        List<TextChannel> channels = gw.getIgnoredChannelsByMember(member);
+        List<MessageChannel> channels = gw.getIgnoredChannelsByMember(member);
 
         if (channels.isEmpty()) {
             MessageUtils.sendErrorMessage("Nemáš nastavený žádný ignorovaný channel!", channel);

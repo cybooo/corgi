@@ -1,6 +1,6 @@
 version: "3"
 services:
-  bot:
+  corgibot:
       image: mrwakecz/corgibot:stable
       restart: always
       network_mode: "host"
@@ -22,7 +22,7 @@ services:
         - corgibot.jar
 
   prometheus:
-      image: prom/prometheus
+      image: prom/prometheus:v2.5.0
       container_name: prometheus
       volumes:
         - ./prometheus.yml:/etc/prometheus/prometheus.yml
@@ -35,23 +35,30 @@ services:
         - '--web.console.templates=/etc/prometheus/consoles'
         - '--storage.tsdb.retention=120d'
         - '--web.enable-lifecycle'
-      expose:
-        - 9090
+      ports:
+        - 9090:9090
       depends_on:
         - cadvisor
         - node-exporter
-        - bot
+#        - bot
+      labels:
+        org.label-schema.group: "monitoring"
 
   node-exporter:
       container_name: node-exporter
-      image: prom/node-exporter
+      image: prom/node-exporter:v0.16.0
       volumes:
         - /proc:/host/proc:ro
         - /sys:/host/sys:ro
         - /:/rootfs:ro
-      command: '-collector.procfs=/host/proc -collector.sysfs=/host/sys -collector.filesystem.ignored-mount-points="^(/rootfs|/host|)/(sys|proc|dev|host|etc)($$|/)" collector.filesystem.ignored-fs-types="^(sys|proc|auto|cgroup|devpts|ns|au|fuse\.lxc|mqueue)(fs|)$$"'
-      expose:
-        - 9100
+      command:
+        - '--path.procfs=/host/proc'
+        - '--path.sysfs=/host/sys'
+        - '--collector.filesystem.ignored-mount-points=^/(sys|proc|dev|host|etc)($$|/)'
+      ports:
+        - 9100:9100
+      labels:
+        org.label-schema.group: "monitoring"
 
   cadvisor:
       image: google/cadvisor:latest
@@ -62,8 +69,10 @@ services:
         - /sys:/sys:ro
         - /var/lib/docker/:/var/lib/docker:ro
       restart: unless-stopped
-      expose:
-        - 8080
+      ports:
+        - 8080:8080
+      labels:
+        org.label-schema.group: "monitoring"
 
   grafana:
       image: grafana/grafana
@@ -77,6 +86,8 @@ services:
         - 3000:3000
       depends_on:
         - prometheus
+      labels:
+        org.label-schema.group: "monitoring"
 
 volumes:
     prometheus_data:

@@ -8,6 +8,7 @@ import cz.wake.corgibot.utils.Constants;
 import cz.wake.corgibot.utils.CorgiLogger;
 import cz.wake.corgibot.utils.MessageUtils;
 import net.dv8tion.jda.core.JDA;
+import net.dv8tion.jda.core.entities.MessageChannel;
 import net.dv8tion.jda.core.entities.TextChannel;
 import net.dv8tion.jda.core.events.guild.GuildJoinEvent;
 import net.dv8tion.jda.core.hooks.ListenerAdapter;
@@ -25,7 +26,7 @@ public class JoinEvent extends ListenerAdapter {
          */
         if (CorgiBot.getInstance().getSql().existsGuildData(event.getGuild().getId())) {
             // Load dat from SQL + load into BotManager
-            Set<TextChannel> ignoredChannels = CorgiBot.getInstance().getSql().getIgnoredChannels(event.getGuild().getId());
+            Set<MessageChannel> ignoredChannels = CorgiBot.getInstance().getSql().getIgnoredChannels(event.getGuild().getId());
             GuildWrapper gw = CorgiBot.getInstance().getSql().createGuildWrappers(event.getGuild().getId());
             gw.setIgnoredChannels(ignoredChannels);
             gw.setPrefix("c!", true); // Reset prefixu na c!

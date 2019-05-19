@@ -21,5 +21,6 @@ scrape_configs:
       - targets: ['node-exporter:9100']
 
   - job_name: 'corgibot'
+    metrics_path: ''
     static_configs:
-      - targets: ['corgibot:9191']
+      - targets: ['0.0.0.0:9191']

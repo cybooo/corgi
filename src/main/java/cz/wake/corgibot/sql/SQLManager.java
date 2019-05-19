@@ -8,6 +8,7 @@ import cz.wake.corgibot.objects.GuildWrapper;
 import cz.wake.corgibot.objects.TemporaryReminder;
 import cz.wake.corgibot.utils.CorgiLogger;
 import net.dv8tion.jda.core.entities.Guild;
+import net.dv8tion.jda.core.entities.MessageChannel;
 import net.dv8tion.jda.core.entities.TextChannel;
 import net.dv8tion.jda.core.entities.User;
 
@@ -196,8 +197,8 @@ public class SQLManager {
         }
     }
 
-    public final HashSet<TextChannel> getIgnoredChannels(final String guildId) {
-        HashSet<TextChannel> list = new HashSet<>();
+    public final HashSet<MessageChannel> getIgnoredChannels(final String guildId) {
+        HashSet<MessageChannel> list = new HashSet<>();
         Connection conn = null;
         PreparedStatement ps = null;
         try {
@@ -207,7 +208,7 @@ public class SQLManager {
             ps.executeQuery();
             while (ps.getResultSet().next()) {
                 try {
-                    TextChannel tx = CorgiBot.getJda().getGuildById(guildId).getTextChannelById(ps.getResultSet().getString("channel_id"));
+                    MessageChannel tx = CorgiBot.getJda().getGuildById(guildId).getTextChannelById(ps.getResultSet().getString("channel_id"));
                     if(tx != null){
                         list.add(tx);
                     }

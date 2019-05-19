@@ -4,7 +4,7 @@ import cz.wake.corgibot.CorgiBot;
 import cz.wake.corgibot.utils.Constants;
 import cz.wake.corgibot.utils.CorgiLogger;
 import net.dv8tion.jda.core.entities.Member;
-import net.dv8tion.jda.core.entities.TextChannel;
+import net.dv8tion.jda.core.entities.MessageChannel;
 
 import java.awt.*;
 import java.util.*;
@@ -26,7 +26,7 @@ public class GuildWrapper {
     /*
         Set of ignored channels where corgi will not react on commands
      */
-    private Set<TextChannel> ignoredChannels = new HashSet<>();
+    private Set<MessageChannel> ignoredChannels = new HashSet<>();
 
     /*
         Sets of blocked commands in guild that corgi wil not react
@@ -119,7 +119,7 @@ public class GuildWrapper {
      *
      * @return {@link Set} of ignored channels
      */
-    public Set<TextChannel> getIgnoredChannels() {
+    public Set<MessageChannel> getIgnoredChannels() {
         return ignoredChannels;
     }
 
@@ -130,9 +130,9 @@ public class GuildWrapper {
      * @param member Selected member in guild
      * @return {@link List}
      */
-    public List<TextChannel> getIgnoredChannelsByMember(Member member) {
-        ArrayList<TextChannel> ignoredChannels = new ArrayList<>();
-        for (TextChannel tc : this.ignoredChannels) {
+    public List<MessageChannel> getIgnoredChannelsByMember(Member member) {
+        ArrayList<MessageChannel> ignoredChannels = new ArrayList<>();
+        for (MessageChannel tc : this.ignoredChannels) {
             if (member.getGuild().getTextChannels().contains(tc)) {
                 ignoredChannels.add(tc);
             }
@@ -271,7 +271,7 @@ public class GuildWrapper {
      * @param ignoredChannel Ignored channels
      * @return {@link GuildWrapper}
      */
-    public GuildWrapper setIgnoredChannels(Set<TextChannel> ignoredChannel) {
+    public GuildWrapper setIgnoredChannels(Set<MessageChannel> ignoredChannel) {
         this.ignoredChannels = ignoredChannel;
         return this;
     }
@@ -283,7 +283,7 @@ public class GuildWrapper {
      * @param textChannel Selected channel
      * @return {@link GuildWrapper}
      */
-    public GuildWrapper updateIgnoredChannel(TextChannel textChannel) {
+    public GuildWrapper updateIgnoredChannel(MessageChannel textChannel) {
         if (ignoredChannels.contains(textChannel)) {
             ignoredChannels.remove(textChannel);
             try {

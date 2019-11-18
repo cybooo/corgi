@@ -85,7 +85,6 @@ public class CommandHandler {
         registerCommand(new Donate());
         registerCommand(new Svatek());
         registerCommand(new Color());
-        registerCommand(new Weather());
         registerCommand(new Twitter());
         registerCommand(new Love());
         registerCommand(new Lang());

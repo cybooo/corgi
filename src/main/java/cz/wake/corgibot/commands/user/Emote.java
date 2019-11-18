@@ -1,16 +1,15 @@
 package cz.wake.corgibot.commands.user;
 
-import com.jagrosh.jdautilities.waiter.EventWaiter;
+import com.jagrosh.jdautilities.commons.waiter.EventWaiter;
 import cz.wake.corgibot.annotations.SinceCorgi;
 import cz.wake.corgibot.commands.Command;
 import cz.wake.corgibot.commands.CommandCategory;
 import cz.wake.corgibot.objects.GuildWrapper;
 import cz.wake.corgibot.utils.Constants;
-import cz.wake.corgibot.utils.CorgiLogger;
 import cz.wake.corgibot.utils.MessageUtils;
-import net.dv8tion.jda.core.entities.Member;
-import net.dv8tion.jda.core.entities.Message;
-import net.dv8tion.jda.core.entities.MessageChannel;
+import net.dv8tion.jda.api.entities.Member;
+import net.dv8tion.jda.api.entities.Message;
+import net.dv8tion.jda.api.entities.MessageChannel;
 
 @SinceCorgi(version = "0.8.1")
 public class Emote implements Command {
@@ -25,7 +24,7 @@ public class Emote implements Command {
                 MessageUtils.sendAutoDeletedMessage("Na tomto serveru nejsou žádné Emotes!", 15000, channel);
             }
             StringBuilder builder = new StringBuilder("**Přehled Emotes:**\n");
-            for (net.dv8tion.jda.core.entities.Emote e : member.getGuild().getEmotes()) {
+            for (net.dv8tion.jda.api.entities.Emote e : member.getGuild().getEmotes()) {
                 builder.append(" ").append(e.getAsMention());
             }
             channel.sendMessage(builder.toString()).queue();
@@ -34,7 +33,7 @@ public class Emote implements Command {
             if (str.matches("<.*:.*:\\d+>")) { //Server Emotes
                 String id = str.replaceAll("<.*:.*:(\\d+)>", "$1");
                 Long longId = Long.valueOf(id);
-                net.dv8tion.jda.core.entities.Emote emote = channel.getJDA().getEmoteById(longId);
+                net.dv8tion.jda.api.entities.Emote emote = channel.getJDA().getEmoteById(longId);
                 if (emote == null) {
                     channel.sendMessage(MessageUtils.getEmbed(member.getUser(), Constants.RED).setTitle("**Neznámý Emote**")
                             .setDescription("**ID:** " + id + "\n" +

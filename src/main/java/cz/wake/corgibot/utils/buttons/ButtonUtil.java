@@ -2,8 +2,11 @@ package cz.wake.corgibot.utils.buttons;
 
 import cz.wake.corgibot.objects.ButtonGroup;
 import cz.wake.corgibot.utils.MessageUtils;
-import net.dv8tion.jda.core.Permission;
-import net.dv8tion.jda.core.entities.*;
+import net.dv8tion.jda.api.Permission;
+import net.dv8tion.jda.api.entities.GuildChannel;
+import net.dv8tion.jda.api.entities.Message;
+import net.dv8tion.jda.api.entities.MessageChannel;
+import net.dv8tion.jda.api.entities.MessageEmbed;
 
 import java.util.Map;
 import java.util.concurrent.ConcurrentHashMap;
@@ -28,7 +31,7 @@ public class ButtonUtil {
      *
      * @return The message we sent to discord.
      *
-     * @param channel The {@link TextChannel} to send it to.
+     * @param channel The {@link net.dv8tion.jda.api.entities.TextChannel} to send it to.
      * @param embed   The {@link MessageEmbed} to send.
      * @param buttons The buttons to display.
      */
@@ -41,7 +44,7 @@ public class ButtonUtil {
     /**
      * Sends a string message with a set of buttons.
      *
-     * @param channel The {@link TextChannel} to send it to.
+     * @param channel The {@link net.dv8tion.jda.api.entities.TextChannel} to send it to.
      * @param text    The message to send.
      * @param buttons The buttons to display.
      */
@@ -55,7 +58,7 @@ public class ButtonUtil {
                     "disabled", channel);
             return;
         }
-        if (!message.getGuild().getSelfMember().hasPermission((Channel) channel, Permission.MESSAGE_MANAGE)) {
+        if (!message.getGuild().getSelfMember().hasPermission((GuildChannel)channel, Permission.MESSAGE_MANAGE)) {
             MessageUtils.sendErrorMessage("We don't have permission to manage reactions so you won't be getting the best experience with buttons", channel);
         }
         for (ButtonGroup.Button button : buttonGroup.getButtons()) {

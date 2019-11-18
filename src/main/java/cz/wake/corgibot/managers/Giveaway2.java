@@ -4,10 +4,10 @@ import cz.wake.corgibot.CorgiBot;
 import cz.wake.corgibot.metrics.Metrics;
 import cz.wake.corgibot.utils.Constants;
 import cz.wake.corgibot.utils.CorgiLogger;
-import net.dv8tion.jda.core.EmbedBuilder;
-import net.dv8tion.jda.core.entities.Message;
-import net.dv8tion.jda.core.entities.User;
-import net.dv8tion.jda.core.exceptions.ErrorResponseException;
+import net.dv8tion.jda.api.EmbedBuilder;
+import net.dv8tion.jda.api.entities.Message;
+import net.dv8tion.jda.api.entities.User;
+import net.dv8tion.jda.api.exceptions.ErrorResponseException;
 import org.apache.commons.lang3.StringUtils;
 
 import java.awt.*;
@@ -68,8 +68,8 @@ public class Giveaway2 {
                     Thread.sleep(1000);
                 }
                 try {
-                    message.getChannel().getMessageById(message.getId()).complete().getReactions().stream().filter(mr -> mr.getReactionEmote().getName().equals(emoji)).findAny().ifPresent(mr -> {
-                        List<User> users = new LinkedList<>(mr.getUsers().complete());
+                    message.getChannel().retrieveMessageById(message.getId()).complete().getReactions().stream().filter(mr -> mr.getReactionEmote().getName().equals(emoji)).findAny().ifPresent(mr -> {
+                        List<User> users = new LinkedList<>(mr.retrieveUsers().complete());
                         users.remove(message.getJDA().getSelfUser()); // Remove Corgi
                         List<String> winners = new ArrayList<>();
                         int failed = 0;

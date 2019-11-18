@@ -1,10 +1,8 @@
 package cz.wake.corgibot.feeds;
 
 import cz.wake.corgibot.CorgiBot;
-import cz.wake.corgibot.exceptions.NoAPIKeyException;
-import cz.wake.corgibot.utils.CorgiLogger;
 import cz.wake.corgibot.utils.MessageUtils;
-import net.dv8tion.jda.core.entities.Guild;
+import net.dv8tion.jda.api.entities.Guild;
 import twitter4j.*;
 import twitter4j.conf.Configuration;
 import twitter4j.conf.ConfigurationBuilder;

@@ -1,7 +1,6 @@
 package cz.wake.corgibot.commands.mod;
 
-import com.jagrosh.jdautilities.waiter.EventWaiter;
-import cz.wake.corgibot.CorgiBot;
+import com.jagrosh.jdautilities.commons.waiter.EventWaiter;
 import cz.wake.corgibot.annotations.SinceCorgi;
 import cz.wake.corgibot.commands.Command;
 import cz.wake.corgibot.commands.CommandCategory;
@@ -9,10 +8,10 @@ import cz.wake.corgibot.objects.GuildWrapper;
 import cz.wake.corgibot.utils.Constants;
 import cz.wake.corgibot.utils.EmoteList;
 import cz.wake.corgibot.utils.MessageUtils;
-import net.dv8tion.jda.core.Permission;
-import net.dv8tion.jda.core.entities.*;
-import net.dv8tion.jda.core.exceptions.ErrorResponseException;
-import net.dv8tion.jda.core.exceptions.PermissionException;
+import net.dv8tion.jda.api.Permission;
+import net.dv8tion.jda.api.entities.Member;
+import net.dv8tion.jda.api.entities.Message;
+import net.dv8tion.jda.api.entities.MessageChannel;
 import org.apache.commons.lang3.StringUtils;
 
 import java.time.OffsetDateTime;
@@ -42,7 +41,7 @@ public class Purge implements Command {
             } else {
                 message.delete().queue(useless -> {
                     message.getTextChannel().getHistory().retrievePast(purge).queue(msgsRaw -> {
-                        List<Message> msgs = msgsRaw.stream().filter(mess -> !mess.getCreationTime().plusWeeks(2).isBefore(OffsetDateTime.now())).collect(Collectors.toList());
+                        List<Message> msgs = msgsRaw.stream().filter(mess -> !mess.getTimeCreated().plusWeeks(2).isBefore(OffsetDateTime.now())).collect(Collectors.toList());
                         message.getTextChannel().sendMessage(MessageUtils.getEmbed(Constants.GRAY).setDescription("Mažu zpravy...").build()).queue(msg -> {
                             if (msgs.size() > 0) {
                                 if (args.length >= 2) {

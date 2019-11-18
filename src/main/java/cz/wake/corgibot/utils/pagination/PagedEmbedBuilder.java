@@ -1,8 +1,8 @@
 package cz.wake.corgibot.utils.pagination;
 
 import cz.wake.corgibot.utils.Constants;
-import net.dv8tion.jda.core.EmbedBuilder;
-import net.dv8tion.jda.core.entities.MessageEmbed;
+import net.dv8tion.jda.api.EmbedBuilder;
+import net.dv8tion.jda.api.entities.MessageEmbed;
 
 import java.awt.*;
 import java.util.List;

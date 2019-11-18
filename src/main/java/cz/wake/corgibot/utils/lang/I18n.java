@@ -1,11 +1,10 @@
 package cz.wake.corgibot.utils.lang;
 
-import cz.wake.corgibot.CorgiBot;
 import cz.wake.corgibot.managers.BotManager;
 import cz.wake.corgibot.objects.GuildWrapper;
 import cz.wake.corgibot.utils.CorgiLogger;
 import cz.wake.corgibot.utils.config.Config;
-import net.dv8tion.jda.core.entities.Guild;
+import net.dv8tion.jda.api.entities.Guild;
 
 import javax.annotation.Nonnull;
 import javax.annotation.Nullable;

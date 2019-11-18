@@ -3,10 +3,10 @@ package cz.wake.corgibot.utils.pagination;
 import cz.wake.corgibot.objects.ButtonGroup;
 import cz.wake.corgibot.utils.MessageUtils;
 import cz.wake.corgibot.utils.buttons.ButtonUtil;
-import net.dv8tion.jda.core.Permission;
-import net.dv8tion.jda.core.entities.MessageChannel;
-import net.dv8tion.jda.core.entities.TextChannel;
-import net.dv8tion.jda.core.entities.User;
+import net.dv8tion.jda.api.Permission;
+import net.dv8tion.jda.api.entities.MessageChannel;
+import net.dv8tion.jda.api.entities.TextChannel;
+import net.dv8tion.jda.api.entities.User;
 import org.apache.commons.lang3.ArrayUtils;
 
 import java.util.ArrayList;

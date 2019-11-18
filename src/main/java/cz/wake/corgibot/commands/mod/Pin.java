@@ -1,16 +1,16 @@
 package cz.wake.corgibot.commands.mod;
 
-import com.jagrosh.jdautilities.waiter.EventWaiter;
+import com.jagrosh.jdautilities.commons.waiter.EventWaiter;
 import cz.wake.corgibot.commands.Command;
 import cz.wake.corgibot.commands.CommandCategory;
 import cz.wake.corgibot.objects.GuildWrapper;
 import cz.wake.corgibot.utils.Constants;
 import cz.wake.corgibot.utils.MessageUtils;
-import net.dv8tion.jda.core.EmbedBuilder;
-import net.dv8tion.jda.core.Permission;
-import net.dv8tion.jda.core.entities.Member;
-import net.dv8tion.jda.core.entities.Message;
-import net.dv8tion.jda.core.entities.MessageChannel;
+import net.dv8tion.jda.api.EmbedBuilder;
+import net.dv8tion.jda.api.Permission;
+import net.dv8tion.jda.api.entities.Member;
+import net.dv8tion.jda.api.entities.Message;
+import net.dv8tion.jda.api.entities.MessageChannel;
 
 public class Pin implements Command {
 
@@ -18,7 +18,7 @@ public class Pin implements Command {
     public void onCommand(MessageChannel channel, Message message, String[] args, Member member, EventWaiter w, GuildWrapper gw) {
         if (args.length == 1 && args[0].matches("[0-9]{18,22}")) {
 
-            Message msg = channel.getMessageById(args[0].trim()).complete();
+            Message msg = channel.retrieveMessageById(args[0].trim()).complete();
             if (msg == null) {
                 MessageUtils.sendErrorMessage("Požadovaná zpráva nebyla nalezena!", channel);
                 return;

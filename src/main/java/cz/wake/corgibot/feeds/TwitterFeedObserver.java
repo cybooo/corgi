@@ -2,12 +2,11 @@ package cz.wake.corgibot.feeds;
 
 import cz.wake.corgibot.CorgiBot;
 import cz.wake.corgibot.utils.ColorSelector;
-import net.dv8tion.jda.core.EmbedBuilder;
-import net.dv8tion.jda.core.entities.TextChannel;
+import net.dv8tion.jda.api.EmbedBuilder;
+import net.dv8tion.jda.api.entities.TextChannel;
 import twitter4j.MediaEntity;
 import twitter4j.Status;
 
-import java.awt.*;
 import java.io.Serializable;
 import java.time.Instant;
 

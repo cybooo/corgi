@@ -1,9 +1,5 @@
 package cz.wake.corgibot.utils;
 
-import cz.wake.corgibot.CorgiBot;
-import net.dv8tion.jda.core.entities.Emote;
-import net.dv8tion.jda.core.requests.Route;
-
 public class EmoteList {
 
     /*

@@ -1,14 +1,14 @@
 package cz.wake.corgibot.commands.user;
 
-import com.jagrosh.jdautilities.waiter.EventWaiter;
+import com.jagrosh.jdautilities.commons.waiter.EventWaiter;
 import cz.wake.corgibot.annotations.SinceCorgi;
 import cz.wake.corgibot.commands.Command;
 import cz.wake.corgibot.commands.CommandCategory;
 import cz.wake.corgibot.objects.GuildWrapper;
 import cz.wake.corgibot.utils.Constants;
-import net.dv8tion.jda.core.EmbedBuilder;
-import net.dv8tion.jda.core.OnlineStatus;
-import net.dv8tion.jda.core.entities.*;
+import net.dv8tion.jda.api.EmbedBuilder;
+import net.dv8tion.jda.api.OnlineStatus;
+import net.dv8tion.jda.api.entities.*;
 
 import java.time.format.DateTimeFormatter;
 import java.util.stream.Collectors;
@@ -35,7 +35,7 @@ public class GuildInfo implements Command {
                 .setDescription("Informace pro server " + guild.getName())
                 .setThumbnail(guild.getIconUrl())
                 .addField("Uživatelé (Online/Unikátní)", (int) guild.getMembers().stream().filter(u -> !u.getOnlineStatus().equals(OnlineStatus.OFFLINE)).count() + "/" + guild.getMembers().size(), true)
-                .addField("Datum vytvoření", guild.getCreationTime().format(DateTimeFormatter.ISO_DATE_TIME).replaceAll("[^0-9.:-]", " "), true)
+                .addField("Datum vytvoření", guild.getTimeCreated().format(DateTimeFormatter.ISO_DATE_TIME).replaceAll("[^0-9.:-]", " "), true)
                 .addField("Voice/Text channels", guild.getVoiceChannels().size() + "/" + guild.getTextChannels().size(), true)
                 .addField("Majitel", guild.getOwner().getUser().getName() + "#" + guild.getOwner().getUser().getDiscriminator(), true)
                 .addField("Region", guild.getRegion() == null ? "Neznámý." : guild.getRegion().getName(), true)

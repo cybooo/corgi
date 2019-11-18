@@ -2,15 +2,16 @@ package cz.wake.corgibot.listener;
 
 import cz.wake.corgibot.CorgiBot;
 import cz.wake.corgibot.managers.BotManager;
-import net.dv8tion.jda.core.events.channel.text.TextChannelDeleteEvent;
-import net.dv8tion.jda.core.hooks.ListenerAdapter;
+import net.dv8tion.jda.api.events.channel.text.TextChannelDeleteEvent;
+import net.dv8tion.jda.api.hooks.ListenerAdapter;
+import org.jetbrains.annotations.NotNull;
 
 public class ChannelDeleteEvent extends ListenerAdapter {
 
     @Override
-    public void onTextChannelDelete(TextChannelDeleteEvent e) {
+    public void onTextChannelDelete(@NotNull TextChannelDeleteEvent e) {
 
-        if (e.getChannel() == null) {
+        if (BotManager.getCustomGuild(e.getGuild().getId()) == null) {
             return;
         }
 

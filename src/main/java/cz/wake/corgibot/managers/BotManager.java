@@ -3,8 +3,8 @@ package cz.wake.corgibot.managers;
 import cz.wake.corgibot.CorgiBot;
 import cz.wake.corgibot.objects.GuildWrapper;
 import cz.wake.corgibot.utils.CorgiLogger;
-import net.dv8tion.jda.core.entities.MessageChannel;
-import net.dv8tion.jda.core.exceptions.ErrorResponseException;
+import net.dv8tion.jda.api.entities.MessageChannel;
+import net.dv8tion.jda.api.exceptions.ErrorResponseException;
 
 import java.util.HashSet;
 import java.util.Set;
@@ -40,7 +40,7 @@ public class BotManager {
         CorgiLogger.infoMessage("Loading Giveaways on guilds.");
         CorgiBot.getInstance().getSql().getAllGiveaways().forEach(go -> {
             try {
-                new Giveaway2(CorgiBot.getJda().getGuildById(go.getGuildId()).getTextChannelById(go.getTextchannelId()).getMessageById(go.getMessageId()).complete(true), go.getEndTime(), go.getPrize(), go.getMaxWinners(), go.getEmoji(), go.getColor()).start();
+                new Giveaway2(CorgiBot.getJda().getGuildById(go.getGuildId()).getTextChannelById(go.getTextchannelId()).retrieveMessageById(go.getMessageId()).complete(true), go.getEndTime(), go.getPrize(), go.getMaxWinners(), go.getEmoji(), go.getColor()).start();
             } catch (Exception e) {
                 exceptionHandler(e, go.getGuildId(), go.getMessageId());
             }

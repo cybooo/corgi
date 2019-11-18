@@ -1,6 +1,6 @@
 package cz.wake.corgibot;
 
-import com.jagrosh.jdautilities.waiter.EventWaiter;
+import com.jagrosh.jdautilities.commons.waiter.EventWaiter;
 import cz.wake.corgibot.commands.CommandHandler;
 import cz.wake.corgibot.feeds.TwitterEventListener;
 import cz.wake.corgibot.listener.ChannelDeleteEvent;
@@ -20,14 +20,14 @@ import cz.wake.corgibot.utils.config.Config;
 import cz.wake.corgibot.utils.config.ConfigUtils;
 import cz.wake.corgibot.utils.lang.I18n;
 import cz.wake.corgibot.utils.statuses.Checker;
-import net.dv8tion.jda.core.AccountType;
-import net.dv8tion.jda.core.JDA;
-import net.dv8tion.jda.core.JDABuilder;
-import net.dv8tion.jda.core.OnlineStatus;
-import net.dv8tion.jda.core.entities.Game;
-import net.dv8tion.jda.core.entities.Guild;
-import net.dv8tion.jda.core.entities.Icon;
-import net.dv8tion.jda.core.entities.TextChannel;
+import net.dv8tion.jda.api.AccountType;
+import net.dv8tion.jda.api.JDA;
+import net.dv8tion.jda.api.JDABuilder;
+import net.dv8tion.jda.api.OnlineStatus;
+import net.dv8tion.jda.api.entities.Activity;
+import net.dv8tion.jda.api.entities.Guild;
+import net.dv8tion.jda.api.entities.Icon;
+import net.dv8tion.jda.api.entities.TextChannel;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
@@ -83,15 +83,15 @@ public class CorgiBot {
         CorgiLogger.infoMessage("Connecting to Discord API.");
         jda = new JDABuilder(AccountType.BOT)
                 .setToken(config.getString("discord.token"))
-                .addEventListener(new ChatListener(waiter))
-                .addEventListener(new LeaveEvent())
-                .addEventListener(new JoinEvent())
-                .addEventListener(new ChannelDeleteEvent())
-                .addEventListener(new JdaEventMetricsListener())
-                .addEventListener(waiter)
-                .setGame(Game.playing("Starting..."))
+                .addEventListeners(new ChatListener(waiter))
+                .addEventListeners(new LeaveEvent())
+                .addEventListeners(new JoinEvent())
+                .addEventListeners(new ChannelDeleteEvent())
+                .addEventListeners(new JdaEventMetricsListener())
+                .addEventListeners(waiter)
+                .setActivity(Activity.playing("Loading..."))
                 .setStatus(OnlineStatus.IDLE)
-                .buildBlocking();
+                .build().awaitReady();
 
         // Instances
         (instance = new CorgiBot()).init();

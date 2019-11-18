@@ -1,16 +1,16 @@
 package cz.wake.corgibot.commands.user;
 
-import com.jagrosh.jdautilities.waiter.EventWaiter;
+import com.jagrosh.jdautilities.commons.waiter.EventWaiter;
 import cz.wake.corgibot.commands.Command;
 import cz.wake.corgibot.commands.CommandCategory;
 import cz.wake.corgibot.objects.GuildWrapper;
 import cz.wake.corgibot.utils.Constants;
 import cz.wake.corgibot.utils.MessageUtils;
-import net.dv8tion.jda.core.EmbedBuilder;
-import net.dv8tion.jda.core.MessageBuilder;
-import net.dv8tion.jda.core.entities.Member;
-import net.dv8tion.jda.core.entities.Message;
-import net.dv8tion.jda.core.entities.MessageChannel;
+import net.dv8tion.jda.api.EmbedBuilder;
+import net.dv8tion.jda.api.MessageBuilder;
+import net.dv8tion.jda.api.entities.Member;
+import net.dv8tion.jda.api.entities.Message;
+import net.dv8tion.jda.api.entities.MessageChannel;
 
 import javax.imageio.ImageIO;
 import java.awt.*;
@@ -103,16 +103,16 @@ public class Color implements Command {
         g.setColor(c);
         g.fillRect(0, 0, width, height);
         g.dispose();
-        File file = new File(String.valueOf(Integer.toHexString(c.getRGB()).substring(2).toLowerCase()) + ".png");
+        File file = new File(Integer.toHexString(c.getRGB()).substring(2).toLowerCase() + ".png");
         try {
             ImageIO.write(bufferedImage, "png", file);
         } catch (IOException e) {
             e.printStackTrace();
         }
         MessageBuilder msgBuilder = new MessageBuilder();
-        builder.setImage("attachment://" + String.valueOf(Integer.toHexString(c.getRGB()).substring(2).toLowerCase()) + ".png");
+        builder.setImage("attachment://" + Integer.toHexString(c.getRGB()).substring(2).toLowerCase() + ".png");
         msgBuilder.setEmbed(builder.build());
-        channel.sendFile(file, String.valueOf(Integer.toHexString(c.getRGB()).substring(2).toLowerCase()) + ".png", msgBuilder.build()).queue();
+        channel.sendMessage(msgBuilder.build()).addFile(file).queue();
         new Timer().schedule(new TimerTask() {
             @Override
             public void run() {

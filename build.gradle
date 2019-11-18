@@ -1,7 +1,7 @@
 plugins {
     id 'java'
     id 'application'
-    id 'com.github.johnrengelman.shadow' version '2.0.4'
+    id 'com.github.johnrengelman.shadow' version '4.0.4'
 }
 
 mainClassName = 'cz.wake.corgibot.CorgiBot'
@@ -35,8 +35,8 @@ repositories {
 dependencies {
 
     // JDA
-    compile group: 'net.dv8tion', name: 'JDA', version:'3.8.3_463'
-    compile group: 'com.jagrosh', name: 'JDA-Utilities', version:'1.9'
+    compile 'net.dv8tion:JDA:4.0.0_62'
+    compile 'com.jagrosh:jda-utilities:3.0.2'
 
     // Others
     compile group: 'com.mashape.unirest', name: 'unirest-java', version:'1.4.9'

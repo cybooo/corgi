@@ -1,6 +1,6 @@
 package cz.wake.corgibot.commands.user;
 
-import com.jagrosh.jdautilities.waiter.EventWaiter;
+import com.jagrosh.jdautilities.commons.waiter.EventWaiter;
 import cz.wake.corgibot.CorgiBot;
 import cz.wake.corgibot.annotations.SinceCorgi;
 import cz.wake.corgibot.commands.Command;
@@ -8,8 +8,8 @@ import cz.wake.corgibot.commands.CommandCategory;
 import cz.wake.corgibot.objects.GuildWrapper;
 import cz.wake.corgibot.utils.EmoteList;
 import cz.wake.corgibot.utils.MessageUtils;
-import net.dv8tion.jda.core.OnlineStatus;
-import net.dv8tion.jda.core.entities.*;
+import net.dv8tion.jda.api.OnlineStatus;
+import net.dv8tion.jda.api.entities.*;
 
 import java.time.LocalDateTime;
 import java.util.Comparator;
@@ -40,7 +40,7 @@ public class UserInfo implements Command {
 
         StringBuilder joinOrder = new StringBuilder();
         List<Member> joins = message.getGuild().getMemberCache().stream().collect(Collectors.toList());
-        joins.sort(Comparator.comparing(Member::getJoinDate));
+        joins.sort(Comparator.comparing(Member::getTimeJoined));
         int index = joins.indexOf(m2);
         index -= 3;
         if (index < 0)
@@ -65,10 +65,10 @@ public class UserInfo implements Command {
                 .setThumbnail(user.getEffectiveAvatarUrl())
                 .addField("Jméno", user.getName() + "#" + user.getDiscriminator() + " " + getDiscordRank(user), true)
                 .addField("ID", user.getId(), true)
-                .addField("Status", gameToString(m2.getGame()), true)
+                .addField("Status", gameToString(m2.getActivities().get(0)), true)
                 .addField("Pravý jméno", m2.getEffectiveName(), true)
-                .addField("Registrován", CorgiBot.getInstance().formatTime(LocalDateTime.from(user.getCreationTime())), true)
-                .addField("Připojen", (member.getGuild().getMember(user) == null ? "Tento uživatel nebyl na tomto serveru!." : CorgiBot.getInstance().formatTime(LocalDateTime.from(member.getGuild().getMember(user).getJoinDate()))), true)
+                .addField("Registrován", CorgiBot.getInstance().formatTime(LocalDateTime.from(user.getTimeCreated())), true)
+                .addField("Připojen", (member.getGuild().getMember(user) == null ? "Tento uživatel nebyl na tomto serveru!." : CorgiBot.getInstance().formatTime(LocalDateTime.from(member.getGuild().getMember(user).getTimeJoined()))), true)
                 .addField("Pořadí připojení", joinOrder.toString(), false)
                 .addField("Online stav", convertStatus(m2.getOnlineStatus()) + " " + m2.getOnlineStatus().name().toLowerCase().replaceAll("_", " "), true)
                 .addField("Bot", (user.isBot() ? "Ano" : "Nope"), true)
@@ -148,7 +148,7 @@ public class UserInfo implements Command {
         }
     }
 
-    private static String gameToString(Game g) {
+    private static String gameToString(Activity g) {
         if (g == null) return "no game";
 
         String gameType = "Playing";

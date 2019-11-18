@@ -1,6 +1,6 @@
 package cz.wake.corgibot.commands.mod;
 
-import com.jagrosh.jdautilities.waiter.EventWaiter;
+import com.jagrosh.jdautilities.commons.waiter.EventWaiter;
 import cz.wake.corgibot.CorgiBot;
 import cz.wake.corgibot.annotations.SinceCorgi;
 import cz.wake.corgibot.commands.Command;
@@ -8,10 +8,10 @@ import cz.wake.corgibot.commands.CommandCategory;
 import cz.wake.corgibot.objects.GuildWrapper;
 import cz.wake.corgibot.utils.Constants;
 import cz.wake.corgibot.utils.MessageUtils;
-import net.dv8tion.jda.core.Permission;
-import net.dv8tion.jda.core.entities.*;
-import net.dv8tion.jda.core.requests.RestAction;
-import net.dv8tion.jda.core.utils.PermissionUtil;
+import net.dv8tion.jda.api.Permission;
+import net.dv8tion.jda.api.entities.*;
+import net.dv8tion.jda.api.requests.RestAction;
+import net.dv8tion.jda.internal.utils.PermissionUtil;
 
 import java.time.format.DateTimeFormatter;
 import java.util.List;
@@ -42,7 +42,7 @@ public class Archive implements Command {
             StringBuilder builder = new StringBuilder("-- Archiv kanálu: [" + tx.getName() + "] --\n\n");
             for (int i = messages.complete().size() - 1; i >= 0; i--) {
                 Message m = messages.complete().get(i);
-                builder.append("[").append(m.getCreationTime() == null ? "NEZNÁMÝ ČAS" : m.getCreationTime().format(DateTimeFormatter.RFC_1123_DATE_TIME)).append("] ");
+                builder.append("[").append(m.getTimeCreated() == null ? "NEZNÁMÝ ČAS" : m.getTimeCreated().format(DateTimeFormatter.RFC_1123_DATE_TIME)).append("] ");
                 builder.append(m.getAuthor() == null ? "????" : m.getAuthor().getName()).append(" : ");
                 builder.append(m.getContentRaw()).append(m.getAttachments() != null && m.getAttachments().size() > 0 ? " " + m.getAttachments().get(0).getUrl() : "").append("\n");
             }

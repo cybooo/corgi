@@ -3,8 +3,8 @@ package cz.wake.corgibot.objects;
 import cz.wake.corgibot.CorgiBot;
 import cz.wake.corgibot.utils.Constants;
 import cz.wake.corgibot.utils.CorgiLogger;
-import net.dv8tion.jda.core.entities.Member;
-import net.dv8tion.jda.core.entities.MessageChannel;
+import net.dv8tion.jda.api.entities.Member;
+import net.dv8tion.jda.api.entities.MessageChannel;
 
 import java.awt.*;
 import java.util.*;

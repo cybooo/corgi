@@ -1,6 +1,6 @@
 package cz.wake.corgibot.commands.mod;
 
-import com.jagrosh.jdautilities.waiter.EventWaiter;
+import com.jagrosh.jdautilities.commons.waiter.EventWaiter;
 import cz.wake.corgibot.CorgiBot;
 import cz.wake.corgibot.annotations.SinceCorgi;
 import cz.wake.corgibot.commands.Command;
@@ -13,10 +13,10 @@ import cz.wake.corgibot.utils.MessageUtils;
 import cz.wake.corgibot.utils.TimeUtils;
 import cz.wake.corgibot.utils.pagination.PagedTableBuilder;
 import cz.wake.corgibot.utils.pagination.PaginationUtil;
-import net.dv8tion.jda.core.Permission;
-import net.dv8tion.jda.core.entities.Member;
-import net.dv8tion.jda.core.entities.Message;
-import net.dv8tion.jda.core.entities.MessageChannel;
+import net.dv8tion.jda.api.Permission;
+import net.dv8tion.jda.api.entities.Member;
+import net.dv8tion.jda.api.entities.Message;
+import net.dv8tion.jda.api.entities.MessageChannel;
 import org.joda.time.DateTime;
 import org.joda.time.Period;
 import org.joda.time.format.PeriodFormatter;
@@ -24,7 +24,6 @@ import org.joda.time.format.PeriodFormatterBuilder;
 
 import java.util.ArrayList;
 import java.util.List;
-import java.util.regex.Pattern;
 
 @SinceCorgi(version = "2.3.2")
 public class Giveaway implements Command {

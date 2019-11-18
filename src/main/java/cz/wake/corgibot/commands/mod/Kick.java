@@ -1,6 +1,6 @@
 package cz.wake.corgibot.commands.mod;
 
-import com.jagrosh.jdautilities.waiter.EventWaiter;
+import com.jagrosh.jdautilities.commons.waiter.EventWaiter;
 import cz.wake.corgibot.annotations.SinceCorgi;
 import cz.wake.corgibot.commands.Command;
 import cz.wake.corgibot.commands.CommandCategory;
@@ -8,11 +8,11 @@ import cz.wake.corgibot.objects.GuildWrapper;
 import cz.wake.corgibot.utils.EmoteList;
 import cz.wake.corgibot.utils.FormatUtil;
 import cz.wake.corgibot.utils.MessageUtils;
-import net.dv8tion.jda.core.Permission;
-import net.dv8tion.jda.core.entities.Member;
-import net.dv8tion.jda.core.entities.Message;
-import net.dv8tion.jda.core.entities.MessageChannel;
-import net.dv8tion.jda.core.utils.PermissionUtil;
+import net.dv8tion.jda.api.Permission;
+import net.dv8tion.jda.api.entities.Member;
+import net.dv8tion.jda.api.entities.Message;
+import net.dv8tion.jda.api.entities.MessageChannel;
+import net.dv8tion.jda.internal.utils.PermissionUtil;
 
 import java.util.LinkedList;
 
@@ -63,7 +63,7 @@ public class Kick implements Command {
             for (int i = 0; i < members.size(); i++) {
                 Member m = members.get(i);
                 boolean last = i + 1 == members.size();
-                message.getGuild().getController().kick(m).queue((v) -> {
+                message.getGuild().kick(m).queue((v) -> {
                     builder.append("\n")
                             .append(EmoteList.GREEN_OK)
                             .append(" | Uspěšně vykopnut ")

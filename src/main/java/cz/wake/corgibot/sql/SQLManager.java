@@ -6,19 +6,12 @@ import cz.wake.corgibot.objects.ChangeLog;
 import cz.wake.corgibot.objects.GiveawayObject;
 import cz.wake.corgibot.objects.GuildWrapper;
 import cz.wake.corgibot.objects.TemporaryReminder;
-import cz.wake.corgibot.utils.CorgiLogger;
-import net.dv8tion.jda.core.entities.Guild;
-import net.dv8tion.jda.core.entities.MessageChannel;
-import net.dv8tion.jda.core.entities.TextChannel;
-import net.dv8tion.jda.core.entities.User;
+import net.dv8tion.jda.api.entities.MessageChannel;
+import net.dv8tion.jda.api.entities.User;
 
-import java.sql.Array;
 import java.sql.Connection;
 import java.sql.PreparedStatement;
-import java.sql.ResultSet;
-import java.util.ArrayList;
 import java.util.HashSet;
-import java.util.Set;
 
 public class SQLManager {
 
@@ -209,11 +202,11 @@ public class SQLManager {
             while (ps.getResultSet().next()) {
                 try {
                     MessageChannel tx = CorgiBot.getJda().getGuildById(guildId).getTextChannelById(ps.getResultSet().getString("channel_id"));
-                    if(tx != null){
+                    if (tx != null) {
                         list.add(tx);
                     }
                     //TODO: Event pri smazani channelu smaze i z SQL, pokud je ignorovany!
-                } catch (NullPointerException e){
+                } catch (NullPointerException e) {
                     CorgiBot.LOGGER.error(e.getMessage());
                 }
             }
@@ -256,7 +249,7 @@ public class SQLManager {
         }
     }
 
-    public HashSet<TemporaryReminder> getRemindersByUser(final String userId){
+    public HashSet<TemporaryReminder> getRemindersByUser(final String userId) {
         HashSet<TemporaryReminder> list = new HashSet<>();
         Connection conn = null;
         PreparedStatement ps = null;
@@ -276,7 +269,7 @@ public class SQLManager {
         return list;
     }
 
-    public HashSet<TemporaryReminder> getAllReminders(){
+    public HashSet<TemporaryReminder> getAllReminders() {
         HashSet<TemporaryReminder> list = new HashSet<>();
         Connection conn = null;
         PreparedStatement ps = null;
@@ -295,7 +288,7 @@ public class SQLManager {
         return list;
     }
 
-    public GuildWrapper createGuildWrappers(String id){
+    public GuildWrapper createGuildWrappers(String id) {
         Connection conn = null;
         PreparedStatement ps = null;
         try {
@@ -374,7 +367,7 @@ public class SQLManager {
         }
     }
 
-    public HashSet<GiveawayObject> getAllGiveaways(){
+    public HashSet<GiveawayObject> getAllGiveaways() {
         HashSet<GiveawayObject> list = new HashSet<>();
         Connection conn = null;
         PreparedStatement ps = null;
@@ -384,14 +377,14 @@ public class SQLManager {
             ps.executeQuery();
             while (ps.getResultSet().next()) {
                 list.add(new GiveawayObject(ps.getResultSet().getInt("id"),
-                                            ps.getResultSet().getString("guild_id"),
-                                            ps.getResultSet().getString("textchannel_id"),
-                                            ps.getResultSet().getString("message_id"),
-                                            ps.getResultSet().getLong("end_time"),
-                                            ps.getResultSet().getString("prize"),
-                                            ps.getResultSet().getInt("max_winners"),
-                                            ps.getResultSet().getString("emoji"),
-                                            ps.getResultSet().getString("embed_color")));
+                        ps.getResultSet().getString("guild_id"),
+                        ps.getResultSet().getString("textchannel_id"),
+                        ps.getResultSet().getString("message_id"),
+                        ps.getResultSet().getLong("end_time"),
+                        ps.getResultSet().getString("prize"),
+                        ps.getResultSet().getInt("max_winners"),
+                        ps.getResultSet().getString("emoji"),
+                        ps.getResultSet().getString("embed_color")));
             }
         } catch (Exception e) {
             e.printStackTrace();
@@ -401,7 +394,7 @@ public class SQLManager {
         return list;
     }
 
-    public String getRandomFact(){
+    public String getRandomFact() {
         Connection conn = null;
         PreparedStatement ps = null;
         try {
@@ -434,7 +427,6 @@ public class SQLManager {
             pool.close(conn, ps, null);
         }
     }
-
 
 
 }

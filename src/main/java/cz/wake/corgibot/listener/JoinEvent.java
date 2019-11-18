@@ -7,11 +7,10 @@ import cz.wake.corgibot.utils.ColorSelector;
 import cz.wake.corgibot.utils.Constants;
 import cz.wake.corgibot.utils.CorgiLogger;
 import cz.wake.corgibot.utils.MessageUtils;
-import net.dv8tion.jda.core.JDA;
-import net.dv8tion.jda.core.entities.MessageChannel;
-import net.dv8tion.jda.core.entities.TextChannel;
-import net.dv8tion.jda.core.events.guild.GuildJoinEvent;
-import net.dv8tion.jda.core.hooks.ListenerAdapter;
+import net.dv8tion.jda.api.JDA;
+import net.dv8tion.jda.api.entities.MessageChannel;
+import net.dv8tion.jda.api.events.guild.GuildJoinEvent;
+import net.dv8tion.jda.api.hooks.ListenerAdapter;
 
 import java.time.OffsetDateTime;
 import java.util.Set;
@@ -50,12 +49,12 @@ public class JoinEvent extends ListenerAdapter {
 
         // Info into dev chanel
         if (event.getJDA().getStatus() == JDA.Status.CONNECTED &&
-                event.getGuild().getSelfMember().getJoinDate().plusMinutes(2).isAfter(OffsetDateTime.now())) {
+                event.getGuild().getSelfMember().getTimeJoined().plusMinutes(2).isAfter(OffsetDateTime.now())) {
             CorgiBot.getInstance().getGuildLogChannel().sendMessage(MessageUtils.getEmbed(Constants.GREEN)
                     .setThumbnail(event.getGuild().getIconUrl())
                     .setFooter(event.getGuild().getId(), event.getGuild().getIconUrl())
                     .setTitle("Corgi se připojil do nové guildy")
-                    .setAuthor(event.getGuild().getName(), null, event.getGuild().getIconUrl()).setTimestamp(event.getGuild().getSelfMember().getJoinDate())
+                    .setAuthor(event.getGuild().getName(), null, event.getGuild().getIconUrl()).setTimestamp(event.getGuild().getSelfMember().getTimeJoined())
                     .setDescription("Název guildy: `" + event.getGuild().getName() + "` :smile: :heart:\n" +
                             "Majitel: " + event.getGuild().getOwner().getUser().getName() + "\nPočet členů: " +
                             event.getGuild().getMembers().size()).build()).queue();

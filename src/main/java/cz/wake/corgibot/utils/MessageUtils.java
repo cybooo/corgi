@@ -4,21 +4,19 @@ import com.mashape.unirest.http.Unirest;
 import com.mashape.unirest.http.exceptions.UnirestException;
 import cz.wake.corgibot.CorgiBot;
 import cz.wake.corgibot.scheluder.CorgiTask;
-import net.dv8tion.jda.core.EmbedBuilder;
-import net.dv8tion.jda.core.MessageBuilder;
-import net.dv8tion.jda.core.entities.Message;
-import net.dv8tion.jda.core.entities.MessageChannel;
-import net.dv8tion.jda.core.entities.MessageEmbed;
-import net.dv8tion.jda.core.entities.User;
-import net.dv8tion.jda.core.exceptions.ErrorResponseException;
+import net.dv8tion.jda.api.EmbedBuilder;
+import net.dv8tion.jda.api.MessageBuilder;
+import net.dv8tion.jda.api.entities.Message;
+import net.dv8tion.jda.api.entities.MessageChannel;
+import net.dv8tion.jda.api.entities.MessageEmbed;
+import net.dv8tion.jda.api.entities.User;
+import net.dv8tion.jda.api.exceptions.ErrorResponseException;
 import org.apache.commons.lang3.StringUtils;
 
 import java.awt.*;
-import java.io.ByteArrayInputStream;
 import java.io.PrintWriter;
 import java.io.StringWriter;
 import java.util.Arrays;
-import java.util.Timer;
 import java.util.stream.Collectors;
 
 public class MessageUtils {
@@ -58,10 +56,10 @@ public class MessageUtils {
         message.editMessage(content).queue();
     }
 
-    public static Message sendFile(MessageChannel channel, String s, String fileContent, String filename) {
+    /*public static Message sendFile(MessageChannel channel, String s, String fileContent, String filename) {
         ByteArrayInputStream stream = new ByteArrayInputStream(fileContent.getBytes());
         return channel.sendFile(stream, filename, new MessageBuilder().append(s).build()).complete();
-    }
+    }*/
 
     public static String getTag(User user) {
         return user.getName() + '#' + user.getDiscriminator();

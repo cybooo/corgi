@@ -6,7 +6,6 @@
     <img src="https://forthebadge.com/images/badges/made-with-java.svg" height="30">&nbsp;
     <img src="https://forthebadge.com/images/badges/built-with-love.svg" height="30">&nbsp;
     <a href="https://discord.gg/rfsEqme"><img src="https://img.shields.io/discord/255045073887166475.svg?style=for-the-badge" height="30"></a>&nbsp;
-    <a href="https://buddy.works"><img src="https://assets.buddy.works/automated-dark.svg" alt="Automated by Buddy" height="30"></a>
 </div>
 
 ---

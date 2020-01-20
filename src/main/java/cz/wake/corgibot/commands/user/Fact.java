@@ -17,7 +17,7 @@ public class Fact implements Command {
 
     @Override
     public void onCommand(MessageChannel channel, Message message, String[] args, Member member, EventWaiter w, GuildWrapper gw) {
-        channel.sendMessage(MessageUtils.getEmbed(Constants.PINK).setTitle("Náhodný fakt dne :trophy:", null).setDescription(CorgiBot.getInstance().getSql().getRandomFact()).build()).queue();
+        channel.sendMessage(MessageUtils.getEmbed(Constants.PINK).setTitle("Náhodný fakt :trophy:", null).setDescription(CorgiBot.getInstance().getSql().getRandomFact()).build()).queue();
     }
 
     @Override

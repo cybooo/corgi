@@ -1,7 +1,7 @@
 version: "3"
 services:
   corgibot:
-      image: mrwakecz/corgibot:stable
+      image: docker.pkg.github.com/corgibot/corgi/corgibot:master
       restart: always
       network_mode: "host"
       user: root

@@ -1,4 +1,4 @@
-name: Deploy develop to GP
+name: Deploy master to GP
 
 on: 
   push:

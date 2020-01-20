@@ -3,10 +3,15 @@ FROM openjdk:11-slim
 # Oooo KWAK!
 MAINTAINER "MrWakeCZ"
 
-# Add basic files
-COPY ./build/libs/corgibot.jar /srv/corgibot.jar
+WORKDIR /app
 
-WORKDIR /srv
+COPY . /app
 
-# Basic run
-ENTRYPOINT ["java", "-jar", "corgibot.jar"]
+# Build
+RUN ./gradlew shadowJar
+
+# List files in build folder
+RUN ls build/libs
+
+# Entrypoint for start
+ENTRYPOINT ["java", "-jar", "build/libs/corgibot.jar"]

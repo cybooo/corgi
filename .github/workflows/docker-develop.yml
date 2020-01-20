@@ -1,4 +1,4 @@
-name: CI
+name: Deploy develop to GP
 
 on: 
   push:
@@ -18,6 +18,6 @@ jobs:
         IMAGE_NAME: 'corgibot'
         TAG: 'develop'
         DOCKERFILE_PATH: 'Dockerfile'
-        BUILD_CONTEXT: '/'
+        BUILD_CONTEXT: './'
       env:
         GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}

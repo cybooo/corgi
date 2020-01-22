@@ -1,9 +1,8 @@
-### Ignore everything
-**
-
 ### Except this
 !Dockerfile
 !src/main/resources
 !facts.txt
-!build/libs/
-
+.gradle
+.idea
+logs
+config.json

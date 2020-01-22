@@ -22,7 +22,7 @@ public class Log implements Command {
             try {
                 channel.sendMessage(MessageUtils.getEmbed(Constants.GREEN).setDescription("Vygenerovaný log (latest.log) by vyžádán!").build()).queue();
                 File log = new File("latest.log");
-                channel.sendFile(log, "latest.log").queue();
+                channel.sendFile(log, "latest.log").queue(); //TODO: NEFUNGUJE!
             } catch (Exception e) {
                 //
             }

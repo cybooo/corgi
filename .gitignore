@@ -15,3 +15,5 @@ config\.json
 
 .gradle
 /build
+
+cz.wake.corgibot.iml

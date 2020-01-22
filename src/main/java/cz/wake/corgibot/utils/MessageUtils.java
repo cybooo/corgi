@@ -39,8 +39,8 @@ public class MessageUtils {
 
     public static String hastebin(String trace) {
         try {
-            return "https://hastebin.com/" + Unirest.post("https://hastebin.com/documents")
-                    .header("User-Agent", "Mozilla/5.0 FlareBot")
+            return "https://paste.waked.cz/" + Unirest.post("https://paste.waked.cz/documents")
+                    .header("User-Agent", "Mozilla/5.0 CorgiBot")
                     .header("Content-Type", "text/plain")
                     .body(trace)
                     .asJson()

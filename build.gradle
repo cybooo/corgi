@@ -29,13 +29,13 @@ shadowJar {
 repositories {
     flatDir { dirs 'library' }
     mavenCentral()
-    maven { url "http://jcenter.bintray.com" }
-    maven { url "http://repo.maven.apache.org/maven2" }
+    maven { url "https://jcenter.bintray.com" }
+    maven { url "https://repo.maven.apache.org/maven2" }
 }
 dependencies {
 
     // JDA
-    compile 'net.dv8tion:JDA:4.0.0_62'
+    compile 'net.dv8tion:JDA:4.1.0_100'
     compile 'com.jagrosh:jda-utilities:3.0.2'
 
     // Others

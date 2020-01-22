@@ -62,7 +62,6 @@ public class CommandHandler {
         registerCommand(new TextToBlock());
         registerCommand(new Giveaway());
         registerCommand(new Stats());
-        registerCommand(new Warn());
         registerCommand(new About());
         registerCommand(new Invite());
         registerCommand(new Changelog());
@@ -80,13 +79,13 @@ public class CommandHandler {
         registerCommand(new GuildInfo());
         registerCommand(new Eval());
         registerCommand(new Choose());
-        registerCommand(new Support());
+        //registerCommand(new Support());
         registerCommand(new Reminder());
         registerCommand(new Svatek());
         registerCommand(new Color());
         registerCommand(new Twitter());
         registerCommand(new Love());
-        registerCommand(new Lang());
+        //registerCommand(new Lang());
         registerCommand(new Pin());
         registerCommand(new Bigmoji());
         CorgiLogger.greatMessage("Corgi will respond to (" + commands.size() + ") commands.");

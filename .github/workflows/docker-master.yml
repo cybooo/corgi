@@ -1,0 +1,23 @@
+name: Deploy master to GP
+
+on: 
+  push:
+    branches: master
+
+jobs:
+  build:
+
+    runs-on: ubuntu-latest
+
+    steps:
+    - uses: actions/checkout@v1
+    - name: Publish Docker Image to GPR
+      uses: machine-learning-apps/gpr-docker-publish@master
+      id: docker
+      with:
+        IMAGE_NAME: 'corgibot'
+        TAG: 'master'
+        DOCKERFILE_PATH: 'Dockerfile'
+        BUILD_CONTEXT: './'
+      env:
+        GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}

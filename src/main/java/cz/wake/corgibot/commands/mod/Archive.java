@@ -8,6 +8,7 @@ import cz.wake.corgibot.commands.CommandCategory;
 import cz.wake.corgibot.objects.GuildWrapper;
 import cz.wake.corgibot.utils.Constants;
 import cz.wake.corgibot.utils.MessageUtils;
+import net.dv8tion.jda.api.EmbedBuilder;
 import net.dv8tion.jda.api.Permission;
 import net.dv8tion.jda.api.entities.*;
 import net.dv8tion.jda.api.requests.RestAction;
@@ -31,7 +32,15 @@ public class Archive implements Command {
                 return;
             }
 
-            long numposts = Long.valueOf(args[0]);
+            long numposts = Long.parseLong(args[0]);
+
+            if (numposts > 100) {
+                MessageUtils.sendAutoDeletedMessage("Nelze vygenerovat log s víc jak 100 zprávy, kvůli limitu Discord API", 20000, channel);
+                return;
+            }
+
+            MessageEmbed logMess = MessageUtils.getEmbed(Constants.GREEN).setDescription("Generuji log, čekej prosím...").build();
+            channel.sendMessage(logMess).queue();
 
             TextChannel tx = member.getGuild().getTextChannelById(channel.getId());
             MessageHistory mh;
@@ -42,9 +51,9 @@ public class Archive implements Command {
             StringBuilder builder = new StringBuilder("-- Archiv kanálu: [" + tx.getName() + "] --\n\n");
             for (int i = messages.complete().size() - 1; i >= 0; i--) {
                 Message m = messages.complete().get(i);
-                builder.append("[").append(m.getTimeCreated() == null ? "NEZNÁMÝ ČAS" : m.getTimeCreated().format(DateTimeFormatter.RFC_1123_DATE_TIME)).append("] ");
-                builder.append(m.getAuthor() == null ? "????" : m.getAuthor().getName()).append(" : ");
-                builder.append(m.getContentRaw()).append(m.getAttachments() != null && m.getAttachments().size() > 0 ? " " + m.getAttachments().get(0).getUrl() : "").append("\n");
+                builder.append("[").append(m.getTimeCreated().format(DateTimeFormatter.RFC_1123_DATE_TIME)).append("] ");
+                builder.append(m.getAuthor().getName()).append(" : ");
+                builder.append(m.getContentRaw()).append(m.getAttachments().size() > 0 ? " " + m.getAttachments().get(0).getUrl() : "").append("\n");
             }
 
             MessageEmbed mess = MessageUtils.getEmbed(Constants.GREEN).setTitle("Vygenerovaný log soubor").setDescription("Zasílám vygenerovaný log soubor s " + numposts + " zprávami.\n" +

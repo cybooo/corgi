@@ -60,19 +60,20 @@ public class UserInfo implements Command {
             joinOrder.append(" > ").append(name);
         }
 
-
+        assert m2 != null;
         channel.sendMessage(MessageUtils.getEmbed(member.getUser(), member.getGuild().getMember(user).getColor())
                 .setThumbnail(user.getEffectiveAvatarUrl())
-                .addField("Jméno", user.getName() + "#" + user.getDiscriminator() + " " + getDiscordRank(user), true)
+                .addField("Pravé jméno", user.getName() + "#" + user.getDiscriminator() + " " + getDiscordRank(user), true)
                 .addField("ID", user.getId(), true)
-                .addField("Status", gameToString(m2.getActivities().get(0)), true)
-                .addField("Pravý jméno", m2.getEffectiveName(), true)
+                .addField("Status", gameToString(m2.getActivities(), member), true)
+                .addField("Nick", m2.getEffectiveName(), true)
                 .addField("Registrován", CorgiBot.getInstance().formatTime(LocalDateTime.from(user.getTimeCreated())), true)
                 .addField("Připojen", (member.getGuild().getMember(user) == null ? "Tento uživatel nebyl na tomto serveru!." : CorgiBot.getInstance().formatTime(LocalDateTime.from(member.getGuild().getMember(user).getTimeJoined()))), true)
-                .addField("Pořadí připojení", joinOrder.toString(), false)
                 .addField("Online stav", convertStatus(m2.getOnlineStatus()) + " " + m2.getOnlineStatus().name().toLowerCase().replaceAll("_", " "), true)
-                .addField("Bot", (user.isBot() ? "Ano" : "Nope"), true)
-                .addField("Role", getRoles(m2, member.getGuild()), true).build()).queue();
+                .addField("Bot", (user.isBot() ? "Ano" : "Ne"), true)
+                .addField("Boost", m2.getTimeBoosted() != null ? CorgiBot.getInstance().formatTime(LocalDateTime.from(m2.getTimeBoosted())) : "Žádný boost", true)
+                .addField("Pořadí připojení", joinOrder.toString(), false)
+                .addField("Role", getRoles(m2, member.getGuild()), false).build()).queue();
 
     }
 
@@ -125,10 +126,6 @@ public class UserInfo implements Command {
             return EmoteList.EMOTE_BOT;
         } else if (user.getId().equals("177516608778928129")) { //Wake
             return EmoteList.EMOTE_PARTNER;
-        } else if (user.getId().equals("151332840577957889")) { //Liturkey
-            return EmoteList.EMOTE_HYPESQUAD;
-        } else if (user.getId().equals("263736235539955713")) { //_yyySepii
-            return EmoteList.EMOTE_NITRO;
         } else {
             return "";
         }
@@ -142,13 +139,16 @@ public class UserInfo implements Command {
                 return "<:away:314900395082252290>";
             case DO_NOT_DISTURB:
                 return "<:dnd:314900395556339732>";
-
             default:
                 return "<:offline:314900395430379521>";
         }
     }
 
-    private static String gameToString(Activity g) {
+    private static String gameToString(List<Activity> activities, Member member) {
+        if (activities.size() == 0) {
+            return "no game";
+        }
+        Activity g = member.getActivities().get(0);
         if (g == null) return "no game";
 
         String gameType = "Playing";

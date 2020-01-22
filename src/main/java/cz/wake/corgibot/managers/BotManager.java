@@ -30,7 +30,7 @@ public class BotManager {
                     listGuilds.add(gw);
                 }
 
-            } catch (NullPointerException ex) {
+            } catch (Exception ex) {
                 CorgiLogger.dangerMessage("Error when Corgi register Guild (ID: " + guild.getId() + "). Error:\n");
                 ex.printStackTrace();
                 System.exit(-1);

@@ -2,7 +2,7 @@ package cz.wake.corgibot.utils.statuses;
 
 public enum MojangService {
 
-    MINECRAFT_NET("Minecraft.net", "minecraft.net"),
+    //MINECRAFT_NET("Minecraft.net", "minecraft.net"),
     SESSIONS("Mojang Sessions", "session.minecraft.net"),
     ACCOUNT("Mojang Accounts", "account.mojang.com"),
     AUTH("Mojang Authentication", "auth.mojang.com"),
@@ -10,13 +10,13 @@ public enum MojangService {
     AUTH_SERVER("Authentication Server", "authserver.mojang.com"),
     SESSION_SERVER("Session Server", "sessionserver.mojang.com"),
     API("API", "api.mojang.com"),
-    TEXTURES("Textures", "textures.minecraft.net"),
-    MOJANG_COM("Mojang.com", "mojang.com");
+    TEXTURES("Textures", "textures.minecraft.net");
+    //MOJANG_COM("Mojang.com", "mojang.com");
 
     public static MojangService[] values = values();
 
-    private String name;
-    private String url;
+    private final String name;
+    private final String url;
 
     MojangService(String prettyName, String url) {
         this.name = prettyName;

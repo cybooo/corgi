@@ -42,6 +42,7 @@ public class McStatus implements Command {
             builder.addField(service.toString(), status, false);
         }
         builder.setThumbnail("http://vgboxart.com/resources/logo/3993_mojang-prev.png");
+        builder.setFooter("Některé služby mohou být offline z důvodu, že je Mojang status označil jako offline.");
         channel.sendMessage(builder.setColor((state == 0 ? Constants.GREEN : state == 1 ? Constants.ORANGE : Constants.RED)).build()).queue();
     }
 

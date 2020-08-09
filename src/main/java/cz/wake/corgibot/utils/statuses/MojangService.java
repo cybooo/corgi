@@ -2,13 +2,13 @@ package cz.wake.corgibot.utils.statuses;
 
 public enum MojangService {
 
-    //MINECRAFT_NET("Minecraft.net", "minecraft.net"),
+    MINECRAFT_NET("Minecraft.net", "minecraft.net"),
     SESSIONS("Mojang Sessions", "session.minecraft.net"),
     ACCOUNT("Mojang Accounts", "account.mojang.com"),
     AUTH("Mojang Authentication", "auth.mojang.com"),
     SKINS("Skins", "skins.minecraft.net"),
     AUTH_SERVER("Authentication Server", "authserver.mojang.com"),
-    SESSION_SERVER("Session Server", "sessionserver.mojang.com"),
+    //SESSION_SERVER("Session Server", "sessionserver.mojang.com"),
     API("API", "api.mojang.com"),
     TEXTURES("Textures", "textures.minecraft.net");
     //MOJANG_COM("Mojang.com", "mojang.com");

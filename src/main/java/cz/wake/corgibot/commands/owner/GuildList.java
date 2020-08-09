@@ -86,4 +86,9 @@ public class GuildList implements Command {
     public boolean isOwner() {
         return true;
     }
+    
+    @Override
+    public String[] getAliases() {
+        return new String[]{"servers", "serverlist"};
+    }
 }

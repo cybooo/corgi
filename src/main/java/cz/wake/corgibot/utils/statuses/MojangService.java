@@ -2,7 +2,7 @@ package cz.wake.corgibot.utils.statuses;
 
 public enum MojangService {
 
-    MINECRAFT_NET("Minecraft.net", "minecraft.net"),
+    //MINECRAFT_NET("Minecraft.net", "minecraft.net"),
     SESSIONS("Mojang Sessions", "session.minecraft.net"),
     ACCOUNT("Mojang Accounts", "account.mojang.com"),
     AUTH("Mojang Authentication", "auth.mojang.com"),

@@ -24,13 +24,13 @@ public class Dog implements Command {
     public void onCommand(MessageChannel channel, Message message, String[] args, Member member, EventWaiter w, GuildWrapper gw) {
         String url = "";
         OkHttpClient caller = new OkHttpClient();
-        Request request = new Request.Builder().url("https://api-to.get-a.life/dogimg").build();
+        Request request = new Request.Builder().url("https://dog.ceo/api/breeds/image/random").build();
         try {
             Response response = caller.newCall(request).execute();
             JSONObject json = new JSONObject(response.body().string());
             //JSONArray jsonArray = json.getJSONArray("data");
             //JSONObject jsonObject = jsonArray.getJSONObject(0);
-            url = json.getString("link");
+            url = json.getString("message");
         } catch (Exception e) {
             MessageUtils.sendErrorMessage(I18n.getLoc(gw, "internal.error.api-failed"), channel);
         }

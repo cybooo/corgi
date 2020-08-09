@@ -1,23 +1,44 @@
-name: Deploy develop to GP
+name: Build Develop
 
-on: 
+on:
   push:
-    branches: develop
+    branches-ignore:
+      - master
 
 jobs:
   build:
-
     runs-on: ubuntu-latest
-
     steps:
-    - uses: actions/checkout@v1
-    - name: Publish Docker Image to GPR
-      uses: machine-learning-apps/gpr-docker-publish@master
-      id: docker
-      with:
-        IMAGE_NAME: 'corgibot'
-        TAG: 'develop'
-        DOCKERFILE_PATH: 'Dockerfile'
-        BUILD_CONTEXT: './'
-      env:
-        GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
+      - uses: actions/checkout@v2
+      - name: Set up JDK 1.8
+        uses: actions/setup-java@v1
+        with:
+          java-version: 1.8
+      - name: Build bot
+        run: ./gradlew shadowJar
+      - name: Upload artifacts
+        uses: actions/upload-artifact@v1
+        with:
+          name: Artifacts
+          path: build/libs
+
+  packages:
+    needs: build
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v2
+      - name: Download artifacts
+        uses: actions/download-artifact@v1
+        with:
+          name: Artifacts
+          path: build/libs
+      - name: Publish Docker Image to GPR
+        uses: machine-learning-apps/gpr-docker-publish@master
+        id: docker
+        with:
+          IMAGE_NAME: 'corgibot'
+          TAG: 'develop'
+          DOCKERFILE_PATH: 'Dockerfile'
+          BUILD_CONTEXT: './'
+        env:
+          GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}

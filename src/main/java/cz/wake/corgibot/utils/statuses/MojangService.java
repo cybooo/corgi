@@ -8,15 +8,15 @@ public enum MojangService {
     AUTH("Mojang Authentication", "auth.mojang.com"),
     SKINS("Skins", "skins.minecraft.net"),
     AUTH_SERVER("Authentication Server", "authserver.mojang.com"),
-    SESSION_SERVER("Session Server", "sessionserver.mojang.com"),
+    //SESSION_SERVER("Session Server", "sessionserver.mojang.com"),
     API("API", "api.mojang.com"),
-    TEXTURES("Textures", "textures.minecraft.net"),
-    MOJANG_COM("Mojang.com", "mojang.com");
+    TEXTURES("Textures", "textures.minecraft.net");
+    //MOJANG_COM("Mojang.com", "mojang.com");
 
     public static MojangService[] values = values();
 
-    private String name;
-    private String url;
+    private final String name;
+    private final String url;
 
     MojangService(String prettyName, String url) {
         this.name = prettyName;

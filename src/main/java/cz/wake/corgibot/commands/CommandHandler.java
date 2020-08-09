@@ -88,6 +88,7 @@ public class CommandHandler {
         //registerCommand(new Lang());
         registerCommand(new Pin());
         registerCommand(new Bigmoji());
+        registerCommand(new Hug());
         CorgiLogger.greatMessage("Corgi will respond to (" + commands.size() + ") commands.");
     }
 

@@ -38,6 +38,9 @@
     "dog": {
       "title": "Náhodný obrázek psa:"
     },
+    "hug": {
+      "title": "Náhodný obrázek obejmutí:"
+    },
     "changelog": {
       "news": "Novinky",
       "fixes": "Opravy & změny",

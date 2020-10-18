@@ -25,7 +25,11 @@ public class EightBall implements Command {
             if (args.length < 1) {
                 channel.sendMessage(member.getUser().getAsMention() + " Musíš položit otázku, neumím číst myšlenky!").queue();
             } else {
-                channel.sendMessage(MessageUtils.getEmbed(member.getUser(), Constants.PINK).addField(member.getUser().getName() + " se ptá:", message.getContentRaw().replace("8ball ", "").replace("8b", "").replace(gw.getPrefix(), "").replace("dotaz", ""), false).addField("Corgi odpovídá:", outcomes[ThreadLocalRandom.current().nextInt(0, outcomes.length)], false).build()).queue();
+                if(Arrays.stream(args).collect(Collectors.toList()).contains("Geo") || Arrays.stream(args).collect(Collectors.toList()).contains("GeoPaul")){
+                    channel.sendMessage(MessageUtils.getEmbed(member.getUser(), Constants.PINK).addField(member.getUser().getName() + " se ptá:", message.getContentRaw().replace("8ball ", "").replace("8b", "").replace(gw.getPrefix(), "").replace("dotaz", ""), false).addField("Corgi odpovídá:", "To raději neodpovím...", false).build()).queue();
+                } else {
+                    channel.sendMessage(MessageUtils.getEmbed(member.getUser(), Constants.PINK).addField(member.getUser().getName() + " se ptá:", message.getContentRaw().replace("8ball ", "").replace("8b", "").replace(gw.getPrefix(), "").replace("dotaz", ""), false).addField("Corgi odpovídá:", outcomes[ThreadLocalRandom.current().nextInt(0, outcomes.length)], false).build()).queue();
+                }
             }
         } catch (Exception e) {
             MessageUtils.sendAutoDeletedMessage("Chyba při provádění příkazu!", 10000, channel);

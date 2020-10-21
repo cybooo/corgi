@@ -1,6 +1,6 @@
 
 <div align="center">
-    <img src="https://i.imgur.com/Ei9h3xg.png" height="200" width="200">
+    <a href="https://imgur.com/a/CbfAoLz"><img src="https://i.imgur.com/cLWXQ33.jpg" height="200" width="200"></a>
     <h1>CorgiBot</h1>
     <strong>Discord powerful bot for everyone!</strong><br><br>
     <img src="https://forthebadge.com/images/badges/made-with-java.svg" height="30">&nbsp;

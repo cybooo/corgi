@@ -7,7 +7,7 @@ import cz.wake.corgibot.commands.CommandCategory;
 import cz.wake.corgibot.objects.GuildWrapper;
 import cz.wake.corgibot.utils.Constants;
 import cz.wake.corgibot.utils.EmoteList;
-import cz.wake.corgibot.utils.statuses.Checker;
+import cz.wake.corgibot.utils.statuses.MojangChecker;
 import cz.wake.corgibot.utils.statuses.MojangService;
 import net.dv8tion.jda.api.EmbedBuilder;
 import net.dv8tion.jda.api.entities.Member;
@@ -19,7 +19,7 @@ import java.util.concurrent.ConcurrentMap;
 @SinceCorgi(version = "0.4")
 public class McStatus implements Command {
 
-    private ConcurrentMap map = Checker.getServiceStatus();
+    private ConcurrentMap map = MojangChecker.getServiceStatus();
 
     @Override
     public void onCommand(MessageChannel channel, Message message, String[] args, Member member, EventWaiter w, GuildWrapper gw) {

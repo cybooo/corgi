@@ -13,7 +13,7 @@ import java.util.TimerTask;
 import java.util.concurrent.ConcurrentHashMap;
 import java.util.concurrent.ConcurrentMap;
 
-public class Checker extends TimerTask {
+public class MojangChecker extends TimerTask {
 
     private JsonParser parser = new JsonParser();
     private static ConcurrentMap<MojangService, Integer> serviceStatus = new ConcurrentHashMap<>();

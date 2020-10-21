@@ -17,7 +17,7 @@ import cz.wake.corgibot.utils.CorgiLogger;
 import cz.wake.corgibot.utils.config.Config;
 import cz.wake.corgibot.utils.config.ConfigUtils;
 import cz.wake.corgibot.utils.lang.I18n;
-import cz.wake.corgibot.utils.statuses.Checker;
+import cz.wake.corgibot.utils.statuses.MojangChecker;
 import net.dv8tion.jda.api.AccountType;
 import net.dv8tion.jda.api.JDA;
 import net.dv8tion.jda.api.JDABuilder;
@@ -132,7 +132,7 @@ public class CorgiBot {
         // Is Corgi beta?
         if (!isBeta) {
             CorgiLogger.infoMessage("Corgi will run as PRODUCTION bot.");
-            timer.scheduleAtFixedRate(new Checker(), 10, 60000);
+            timer.scheduleAtFixedRate(new MojangChecker(), 10, 60000);
             timer.scheduleAtFixedRate(new ReminderTask(getInstance()), 10, 20000);
             TwitterEventListener.initTwitter();
         } else {

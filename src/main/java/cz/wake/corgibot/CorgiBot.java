@@ -10,7 +10,6 @@ import cz.wake.corgibot.listener.LeaveEvent;
 import cz.wake.corgibot.managers.BotManager;
 import cz.wake.corgibot.runnable.ReminderTask;
 import cz.wake.corgibot.runnable.SpamHandler;
-import cz.wake.corgibot.runnable.StatusChanger;
 import cz.wake.corgibot.sql.SQLManager;
 import cz.wake.corgibot.utils.Constants;
 import cz.wake.corgibot.utils.CorgiLogger;
@@ -122,7 +121,6 @@ public class CorgiBot {
 
         // Startup timer
         Timer timer = new Timer();
-        timer.scheduleAtFixedRate(new StatusChanger(), 10, 120000);
         timer.scheduleAtFixedRate(new SpamHandler(), 10, 1500); // 1.5s clear, higher = disaster
 
         // Languages
@@ -150,6 +148,15 @@ public class CorgiBot {
                 CorgiLogger.dangerMessage("Error when Corgi setup image:");
                 e.printStackTrace();
             }
+        }
+
+        // Final set status
+        if (!isBeta) {
+            getJda().getPresence().setActivity(Activity.playing("c!help | corgibot.xyz"));
+            getJda().getPresence().setStatus(OnlineStatus.ONLINE);
+        } else {
+            getJda().getPresence().setActivity(Activity.playing("with bugs"));
+            getJda().getPresence().setStatus(OnlineStatus.DO_NOT_DISTURB);
         }
     }
 

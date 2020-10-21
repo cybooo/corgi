@@ -1,7 +1,6 @@
 package cz.wake.corgibot.managers;
 
 import cz.wake.corgibot.CorgiBot;
-import cz.wake.corgibot.metrics.Metrics;
 import cz.wake.corgibot.utils.Constants;
 import cz.wake.corgibot.utils.CorgiLogger;
 import net.dv8tion.jda.api.EmbedBuilder;
@@ -42,7 +41,6 @@ public class Giveaway2 {
         this.message = message;
         this.seconds = (endTime - System.currentTimeMillis())/1000;
         this.giveawayId = 0;
-        Metrics.totalGiveaways.labels(message.getGuild().getName()).inc();
     }
 
     public void start(){

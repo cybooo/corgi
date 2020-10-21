@@ -53,9 +53,6 @@ dependencies {
     compile group: 'com.google.guava', name: 'guava', version:'24.1-jre'
     compile group: 'org.twitter4j', name: 'twitter4j-stream', version:'4.0.6'
     compile group: 'javax.xml.bind', name: 'jaxb-api', version:'2.3.0'
-    compile group: 'io.prometheus', name: 'simpleclient', version: '0.6.0'
-    compile group: 'io.prometheus', name: 'simpleclient_httpserver', version: '0.6.0'
-    compile group: 'io.prometheus', name: 'simpleclient_hotspot', version: '0.6.0'
     compile name: 'ason-1.4.16'
     testCompile group: 'org.slf4j', name: 'slf4j-jdk14', version:'1.7.25'
 }

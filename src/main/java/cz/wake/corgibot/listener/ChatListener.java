@@ -4,7 +4,6 @@ import com.jagrosh.jdautilities.commons.waiter.EventWaiter;
 import cz.wake.corgibot.CorgiBot;
 import cz.wake.corgibot.commands.Command;
 import cz.wake.corgibot.managers.BotManager;
-import cz.wake.corgibot.metrics.Metrics;
 import cz.wake.corgibot.objects.GuildWrapper;
 import cz.wake.corgibot.utils.Constants;
 import cz.wake.corgibot.utils.CorgiLogger;
@@ -79,8 +78,6 @@ public class ChatListener extends ListenerAdapter {
                     return;
                 }
 
-                Metrics.commandsReceived.labels(cmd.getClass().getSimpleName()).inc();
-
                 // If Corgi does not own basic permission will do nothing
                 if (!e.getGuild().getSelfMember().hasPermission(getBasicPerms())) {
                     return;
@@ -127,7 +124,6 @@ public class ChatListener extends ListenerAdapter {
 
                 // Run command
                 try {
-                    Metrics.commandsExecuted.labels(cmd.getClass().getSimpleName()).inc();
                     cmd.onCommand(e.getChannel(), e.getMessage(), Arrays.copyOfRange(split, 1, split.length), e.getMember(), w, guildWrapper);
                 } catch (Exception ex) {
                     MessageUtils.sendAutoDeletedMessage("Interní chyba při provádění příkazu!", 10000, e.getChannel());

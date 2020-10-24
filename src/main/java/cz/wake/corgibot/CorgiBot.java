@@ -25,6 +25,8 @@ import net.dv8tion.jda.api.entities.Activity;
 import net.dv8tion.jda.api.entities.Guild;
 import net.dv8tion.jda.api.entities.Icon;
 import net.dv8tion.jda.api.entities.TextChannel;
+import net.dv8tion.jda.api.requests.GatewayIntent;
+import net.dv8tion.jda.api.utils.MemberCachePolicy;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
@@ -78,8 +80,9 @@ public class CorgiBot {
 
         // JDA Build
         CorgiLogger.infoMessage("Connecting to Discord API.");
-        jda = new JDABuilder(AccountType.BOT)
-                .setToken(config.getString("discord.token"))
+        jda = JDABuilder.createDefault(config.getString("discord.token"))
+                .enableIntents(GatewayIntent.GUILD_MEMBERS, GatewayIntent.GUILD_MESSAGES, GatewayIntent.GUILD_PRESENCES)
+                .setMemberCachePolicy(MemberCachePolicy.ALL)
                 .addEventListeners(new ChatListener(waiter))
                 .addEventListeners(new LeaveEvent())
                 .addEventListeners(new JoinEvent())

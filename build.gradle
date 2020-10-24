@@ -32,11 +32,12 @@ repositories {
     maven { url "https://jcenter.bintray.com" }
     maven { url "https://repo.maven.apache.org/maven2" }
 }
+
 dependencies {
 
     // JDA
-    compile 'net.dv8tion:JDA:4.1.0_100'
-    compile 'com.jagrosh:jda-utilities:3.0.2'
+    compile group: 'net.dv8tion', name: 'JDA', version:'4.2.0_209'
+    compile group: 'com.jagrosh', name: 'jda-utilities', version:'3.0.4'
 
     // Others
     compile group: 'com.mashape.unirest', name: 'unirest-java', version:'1.4.9'

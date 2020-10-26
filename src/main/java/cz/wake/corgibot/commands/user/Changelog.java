@@ -63,12 +63,12 @@ public class Changelog implements Command {
 
     @Override
     public String getDescription() {
-        return "Získej přehled o posledních změnách";
+        return "Latest changes and news, what has been changed in Corgi";
     }
 
     @Override
     public String getHelp() {
-        return "%changelog - Zobrazí poslední změny v Corgim.";
+        return "%changelog - Generates latest changelog";
     }
 
     @Override

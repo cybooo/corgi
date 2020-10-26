@@ -44,12 +44,12 @@ public class Dog implements Command {
 
     @Override
     public String getDescription() {
-        return "Získání náhodného obrázku psa.";
+        return "Random dog images";
     }
 
     @Override
     public String getHelp() {
-        return "%dog - K získání obrázku psa.";
+        return "%dog - Generates random dog image";
     }
 
     @Override
@@ -59,6 +59,6 @@ public class Dog implements Command {
 
     @Override
     public String[] getAliases() {
-        return new String[]{"pes", "rdog"};
+        return new String[]{"rdog"};
     }
 }

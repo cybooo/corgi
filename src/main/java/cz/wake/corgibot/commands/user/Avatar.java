@@ -46,12 +46,12 @@ public class Avatar implements Command {
 
     @Override
     public String getDescription() {
-        return "Ziskání profilového obrázku uživatelů.";
+        return "Get profile image from user";
     }
 
     @Override
     public String getHelp() {
-        return "%avatar [@nick/ID] - Vygeneruje avatara požadovaného uživatele.";
+        return "%avatar [@nick/discord_id] - Generate image from selected user or based by Discord ID.";
     }
 
     @Override

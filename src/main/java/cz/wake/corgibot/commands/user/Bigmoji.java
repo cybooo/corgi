@@ -17,7 +17,7 @@ public class Bigmoji implements Command {
     public void onCommand(MessageChannel channel, Message message, String[] args, Member member, EventWaiter w, GuildWrapper gw) {
         if(args.length < 1) {
             channel.sendMessage(MessageUtils.getEmbed().setTitle(I18n.getLoc(gw, "internal.general.help-command") + " - bigmoji :question:")
-                    .setDescription(getDescription() + "\n\n**Použití**\n" +
+                    .setDescription(getDescription() + "\n\n**Použití**\n" + //TODO: Translate
                             getHelp().replace("%", gw.getPrefix())).build()).queue();
         } else {
             String str = args[0];
@@ -43,12 +43,12 @@ public class Bigmoji implements Command {
 
     @Override
     public String getDescription() {
-        return "Generování velkých emoji v chatu!";
+        return "Generating big emojis from server.";
     }
 
     @Override
     public String getHelp() {
-        return "%bigmoji <regex|text> - K odeslání velkého emoji!";
+        return "%bigmoji <regex|text> - Will send big emoji into channel.";
     }
 
     @Override

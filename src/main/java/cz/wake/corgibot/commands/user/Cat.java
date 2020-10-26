@@ -40,12 +40,12 @@ public class Cat implements Command {
 
     @Override
     public String getDescription() {
-        return "Náhodné obrázky koček!";
+        return "Random cat images";
     }
 
     @Override
     public String getHelp() {
-        return "%cat - Získání náhodného obrázku kočky";
+        return "%cat - Generate some cat image";
     }
 
     @Override
@@ -55,6 +55,6 @@ public class Cat implements Command {
 
     @Override
     public String[] getAliases() {
-        return new String[]{"kocka", "rcat"};
+        return new String[]{"rcat"};
     }
 }

@@ -134,7 +134,7 @@ public class Ignore implements Command {
             pBuilder.addItems(m.getName());
         }
 
-        Paginator p = pBuilder.setColor(Constants.LIGHT_BLUE).setText("Seznam ignorovaných channelů:").build();
+        Paginator p = pBuilder.setColor(Constants.DEFAULT_PURPLE).setText("Seznam ignorovaných channelů:").build();
         p.paginate(channel, 1);
 
     }

@@ -19,10 +19,10 @@ public class Help implements Command {
     public void onCommand(MessageChannel channel, Message message, String[] args, Member member, EventWaiter w, GuildWrapper gw) {
         if (args.length < 1) {
             if (channel.getType() == ChannelType.TEXT) {
-                channel.sendMessage(MessageUtils.getEmbed(Constants.LIGHT_BLUE).setTitle("Zkontroluj si zprávy")
+                channel.sendMessage(MessageUtils.getEmbed(Constants.DEFAULT_PURPLE).setTitle("Zkontroluj si zprávy")
                         .setDescription(EmoteList.MAILBOX + " | Odeslal jsem ti do zpráv nápovědu s příkazy!").build()).queue();
             }
-            member.getUser().openPrivateChannel().queue(msg -> msg.sendMessage(MessageUtils.getEmbed(Constants.LIGHT_BLUE)
+            member.getUser().openPrivateChannel().queue(msg -> msg.sendMessage(MessageUtils.getEmbed(Constants.DEFAULT_PURPLE)
                     .setAuthor("Nápověda k CorgiBot", null, channel.getJDA().getSelfUser().getAvatarUrl())
                     .setDescription(getContext(member, message.getGuild())).setFooter("Podrobnější popis nalezneš na: https://corgibot.xyz/prikazy", null)
                     .build()).queue());
@@ -37,7 +37,7 @@ public class Help implements Command {
                 }
                 channel.sendMessage(MessageUtils.getEmbed().setTitle("Nápověda k příkazu - " + commandName + " :question:")
                         .setDescription(c.getDescription() + "\n\n**Použití**\n" + c.getHelp().replace("%", gw.getPrefix()))
-                        .setColor(Constants.LIGHT_BLUE).setFooter("Aliasy: " + String.join(", ", c.getAliases()), null).build()).queue();
+                        .setColor(Constants.DEFAULT_PURPLE).setFooter("Aliasy: " + String.join(", ", c.getAliases()), null).build()).queue();
             });
         }
     }

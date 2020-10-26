@@ -32,7 +32,7 @@ public class Hug implements Command {
         } catch (Exception e) {
             MessageUtils.sendErrorMessage(I18n.getLoc(gw, "internal.error.api-failed"), channel);
         }
-        channel.sendMessage(MessageUtils.getEmbed(Constants.LIGHT_BLUE).setTitle(EmoteList.COMET + " | " +  I18n.getLoc(gw, "commands.hug.title")).setImage(url).build()).queue();
+        channel.sendMessage(MessageUtils.getEmbed(Constants.DEFAULT_PURPLE).setTitle(EmoteList.COMET + " | " +  I18n.getLoc(gw, "commands.hug.title")).setImage(url).build()).queue();
     }
 
     @Override

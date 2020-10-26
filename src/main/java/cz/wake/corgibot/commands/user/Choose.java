@@ -7,6 +7,7 @@ import cz.wake.corgibot.commands.CommandCategory;
 import cz.wake.corgibot.objects.GuildWrapper;
 import cz.wake.corgibot.utils.EmoteList;
 import cz.wake.corgibot.utils.MessageUtils;
+import cz.wake.corgibot.utils.lang.I18n;
 import net.dv8tion.jda.api.entities.Member;
 import net.dv8tion.jda.api.entities.Message;
 import net.dv8tion.jda.api.entities.MessageChannel;
@@ -19,20 +20,20 @@ public class Choose implements Command {
     @Override
     public void onCommand(MessageChannel channel, Message message, String[] args, Member member, EventWaiter w, GuildWrapper gw) {
         if (args.length < 1) {
-            MessageUtils.sendErrorMessage("Musíš si něco vybrat!", channel);
+            MessageUtils.sendErrorMessage(I18n.getLoc(gw, "commands.choose.must-select"), channel);
         } else {
             // Format message
             String request = message.getContentRaw().replaceAll("\\s+\\;", ";").replaceAll("\\;\\s+", ";").replaceAll("\\;", ";").replace("choose ", "").replace(gw.getPrefix(), "");
             String[] arguments = request.split("\\;");
             if (arguments.length == 1) {
-                MessageUtils.sendErrorMessage("Musíš zadat víc než 1 volbu!", channel);
+                MessageUtils.sendErrorMessage(I18n.getLoc(gw, "commands.choose.no-arguments"), channel);
                 return;
             }
             if (arguments[0].equalsIgnoreCase("choose")) {
-                MessageUtils.sendErrorMessage("První možnost byla zadána špatně. Zkus to znova...", channel);
+                MessageUtils.sendErrorMessage(I18n.getLoc(gw, "commands.choose.choose-in-choose"), channel);
                 return;
             }
-            channel.sendMessage(getRandomThinkingEmote() + " | **" + member.getUser().getName() + "**, zvolil jsem **" + arguments[(int) (Math.random() * arguments.length)] + "**!").queue();
+            channel.sendMessage(getRandomThinkingEmote() + " | **" + member.getUser().getName() + "**, " + I18n.getLoc(gw, "commands.choose.corgi-select") + " **" + arguments[(int) (Math.random() * arguments.length)] + "**!").queue();
         }
     }
 
@@ -43,12 +44,12 @@ public class Choose implements Command {
 
     @Override
     public String getDescription() {
-        return "Nevíš co? Nech Corgiho ať rozhodne za tebe.";
+        return "If you do not know what to select? Corgi will choose something for you!";
     }
 
     @Override
     public String getHelp() {
-        return "%choose volba1 | volba2 | volba3 - ukázka příkazu";
+        return "%choose question_1 | question_2 | question_3";
     }
 
     @Override

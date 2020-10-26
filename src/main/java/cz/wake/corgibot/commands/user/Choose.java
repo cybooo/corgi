@@ -22,13 +22,13 @@ public class Choose implements Command {
             MessageUtils.sendErrorMessage("Musíš si něco vybrat!", channel);
         } else {
             // Format message
-            String request = message.getContentRaw().replaceAll("\\s+\\|", "|").replaceAll("\\|\\s+", "|").replaceAll("\\|", "|").replace("choose ", "").replace("volba ", "").replace(gw.getPrefix(), "");
-            String[] arguments = request.split("\\|");
+            String request = message.getContentRaw().replaceAll("\\s+\\;", ";").replaceAll("\\;\\s+", ";").replaceAll("\\;", ";").replace("choose ", "").replace(gw.getPrefix(), "");
+            String[] arguments = request.split("\\;");
             if (arguments.length == 1) {
                 MessageUtils.sendErrorMessage("Musíš zadat víc než 1 volbu!", channel);
                 return;
             }
-            if (arguments[0].equalsIgnoreCase("choose") || arguments[0].equalsIgnoreCase("volba")) {
+            if (arguments[0].equalsIgnoreCase("choose")) {
                 MessageUtils.sendErrorMessage("První možnost byla zadána špatně. Zkus to znova...", channel);
                 return;
             }
@@ -58,7 +58,7 @@ public class Choose implements Command {
 
     @Override
     public String[] getAliases() {
-        return new String[]{"volba"};
+        return new String[]{};
     }
 
     private String getRandomThinkingEmote() {

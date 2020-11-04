@@ -92,7 +92,7 @@ public class Reminder implements Command {
                     .replace("upozorneni", "").replace(gw.getPrefix(), "");
             String[] arguments = request.split("\\;");
 
-            // .reminder 2d2h7m | Vypnout Corgiho!
+            // .reminder 2d2h7m ; Vypnout Corgiho!
 
             // 1 parametr?
             if (arguments.length == 1) {

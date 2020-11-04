@@ -47,9 +47,9 @@ public class Giveaway implements Command {
         if (args.length < 1) {
             channel.sendMessage(MessageUtils.getEmbed(Constants.GIVEAWAY_BLUE).setTitle("Jak na Giveaway")
                     .setDescription("Stručný návod jak vytvářet různé Giveawaye podle sebe.")
-                    .addField("Vytvoření", "`{%}giveaway 30m` - Základní Giveaway na 30 minut.\n`{%}giveaway 1h ; FarCry 3` - Giveaway na 1h s výhrou FarCry 3\n`{%}giveaway 2h ; Mafia 2 ; 5` - Giveaway na 2h, s výhrou Mafia 2 pro 5 uživatelů.\n`{%}giveaway 1d3h ; Overwatch ; 1 ; \uD83D\uDE04` - Giveaway s vlastním emoji (zatím fungují pouze základní)\n`{%}giveaway 4d ; CS:GO ; 3 ; \uD83D\uDE04 ; #ffffff` - Giveaway s vlastní barvou".replace("{%}", gw.getPrefix()), true)
-                    .addField("Seznam giveawayů", "Pokuď na serveru běží více Giveawayů, lze zobrazit základní informace pomocí následujícího příkazu: `{%}giveaway list`".replace("{%}", gw.getPrefix()), true)
-                    .addField("Smazání", "Giveaway se smaže zcela jednoduše, stačí smazat zprávu, kterou Corgi vytvořil!".replace("{%}", gw.getPrefix()), true).setFooter("Corgi vše ukládá, v případě výpadku bude Giveaway pokračovat.", null).build()).queue();
+                    .addField("Vytvoření", "`{%}giveaway 30m` - Základní Giveaway na 30 minut.\n`{%}giveaway 1h ; FarCry 3` - Giveaway na 1h s výhrou FarCry 3\n`{%}giveaway 2h ; Mafia 2 ; 5` - Giveaway na 2h, s výhrou Mafia 2 pro 5 uživatelů.\n`{%}giveaway 1d3h ; Overwatch ; 1 ; \uD83D\uDE04` - Giveaway s vlastním emoji (zatím fungují pouze základní)\n`{%}giveaway 4d ; CS:GO ; 3 ; \uD83D\uDE04 ; #ffffff` - Giveaway s vlastní barvou".replace("{%}", gw.getPrefix()), false)
+                    .addField("Seznam giveawayů", "Pokuď na serveru běží více Giveawayů, lze zobrazit základní informace pomocí následujícího příkazu: `{%}giveaway list`".replace("{%}", gw.getPrefix()), false)
+                    .addField("Smazání", "Giveaway se smaže zcela jednoduše, stačí smazat zprávu, kterou Corgi vytvořil!".replace("{%}", gw.getPrefix()), false).setFooter("Corgi vše ukládá, v případě výpadku bude Giveaway pokračovat.", null).build()).queue();
         } else {
             if (args[0].equalsIgnoreCase("list")) {
 

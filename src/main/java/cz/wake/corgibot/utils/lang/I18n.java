@@ -14,7 +14,7 @@ import java.util.Set;
 
 public class I18n {
 
-    public static final LanguageObject DEFAULT = new LanguageObject(Language.EN_US);
+    public static final LanguageObject DEFAULT = new LanguageObject(Language.CZ_CS); //TODO: Change to EN
     public static final Set<LanguageObject> LANGS = new HashSet<>();
 
     public static void start() {

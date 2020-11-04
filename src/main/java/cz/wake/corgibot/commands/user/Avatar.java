@@ -29,13 +29,13 @@ public class Avatar implements Command {
             MessageUtils.sendAutoDeletedMessage(I18n.getLoc(gw, "internal.required.mention"), 10000, channel);
             return;
         }
-        User user = CorgiBot.getJda().getUserById(id);
-        if (user == null) {
+        Member member1 = message.getGuild().getMemberById(id);
+        if (member1 == null) {
             MessageUtils.sendAutoDeletedMessage(I18n.getLoc(gw, "internal.error.user-not-found"), 10000, channel);
             return;
         }
-        String url = user.getEffectiveAvatarUrl() + "?size=1024";
-        channel.sendMessage(MessageUtils.getEmbed(Constants.GRAY).setTitle(I18n.getLoc(gw, "commands.avatar.title") + " " + user.getName())
+        String url = member1.getUser().getEffectiveAvatarUrl() + "?size=1024";
+        channel.sendMessage(MessageUtils.getEmbed(Constants.GRAY).setTitle(I18n.getLoc(gw, "commands.avatar.title") + " " + member1.getUser().getName())
                 .setImage(url).build()).queue();
     }
 

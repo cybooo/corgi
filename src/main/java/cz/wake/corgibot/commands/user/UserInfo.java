@@ -31,22 +31,21 @@ public class UserInfo implements Command {
             MessageUtils.sendAutoDeletedMessage("Musíš použít označení s @!", 10000, channel);
             return;
         }
-        User user = CorgiBot.getJda().getUserById(id);
-        if (user == null) {
-            MessageUtils.sendAutoDeletedMessage("Nelze najít uživatele!", 10000, channel);
+        Member guildMember = member.getGuild().getMemberById(id);
+        if (guildMember == null) {
+            MessageUtils.sendAutoDeletedMessage("Nelze zobrazit informace o jiných uživatelích, než jsi ty sám.", 10000, channel);
             return;
         }
-        Member m2 = member.getGuild().getMember(user);
 
         StringBuilder joinOrder = new StringBuilder();
         List<Member> joins = message.getGuild().getMemberCache().stream().collect(Collectors.toList());
         joins.sort(Comparator.comparing(Member::getTimeJoined));
-        int index = joins.indexOf(m2);
+        int index = joins.indexOf(guildMember);
         index -= 3;
         if (index < 0)
             index = 0;
         joinOrder.append("\n");
-        if (joins.get(index).equals(m2))
+        if (joins.get(index).equals(guildMember))
             joinOrder.append("[").append(joins.get(index).getEffectiveName()).append("]()");
         else
             joinOrder.append(joins.get(index).getEffectiveName());
@@ -55,25 +54,24 @@ public class UserInfo implements Command {
                 break;
             Member usr = joins.get(i);
             String name = usr.getEffectiveName();
-            if (usr.equals(m2))
+            if (usr.equals(guildMember))
                 name = "[" + name + "](https://corgibot.xyz/)";
             joinOrder.append(" > ").append(name);
         }
 
-        assert m2 != null;
-        channel.sendMessage(MessageUtils.getEmbed(member.getUser(), member.getGuild().getMember(user).getColor())
-                .setThumbnail(user.getEffectiveAvatarUrl())
-                .addField("Pravé jméno", user.getName() + "#" + user.getDiscriminator() + " " + getDiscordRank(user), true)
-                .addField("ID", user.getId(), true)
-                .addField("Status", gameToString(m2.getActivities(), member), true)
-                .addField("Nick", m2.getEffectiveName(), true)
-                .addField("Registrován", CorgiBot.getInstance().formatTime(LocalDateTime.from(user.getTimeCreated())), true)
-                .addField("Připojen", (member.getGuild().getMember(user) == null ? "Tento uživatel nebyl na tomto serveru!." : CorgiBot.getInstance().formatTime(LocalDateTime.from(member.getGuild().getMember(user).getTimeJoined()))), true)
-                .addField("Online stav", convertStatus(m2.getOnlineStatus()) + " " + m2.getOnlineStatus().name().toLowerCase().replaceAll("_", " "), true)
-                .addField("Bot", (user.isBot() ? "Ano" : "Ne"), true)
-                .addField("Boost", m2.getTimeBoosted() != null ? CorgiBot.getInstance().formatTime(LocalDateTime.from(m2.getTimeBoosted())) : "Žádný boost", true)
+        channel.sendMessage(MessageUtils.getEmbed(member.getUser(), member.getGuild().getMember(guildMember.getUser()).getColor())
+                .setThumbnail(guildMember.getUser().getEffectiveAvatarUrl())
+                .addField("Pravé jméno", guildMember.getUser().getName() + "#" + guildMember.getUser().getDiscriminator() + " " + getDiscordRank(guildMember.getUser()), true)
+                .addField("ID", guildMember.getUser().getId(), true)
+                .addField("Status", gameToString(guildMember.getActivities(), member), true)
+                .addField("Nick", guildMember.getEffectiveName(), true)
+                .addField("Registrován", CorgiBot.getInstance().formatTime(LocalDateTime.from(guildMember.getUser().getTimeCreated())), true)
+                .addField("Připojen", (member.getGuild().getMember(guildMember.getUser()) == null ? "Tento uživatel nebyl na tomto serveru!." : CorgiBot.getInstance().formatTime(LocalDateTime.from(member.getGuild().getMember(guildMember.getUser()).getTimeJoined()))), true)
+                .addField("Online stav", convertStatus(guildMember.getOnlineStatus()) + " " + guildMember.getOnlineStatus().name().toLowerCase().replaceAll("_", " "), true)
+                .addField("Bot", (guildMember.getUser().isBot() ? "Ano" : "Ne"), true)
+                .addField("Boost", guildMember.getTimeBoosted() != null ? CorgiBot.getInstance().formatTime(LocalDateTime.from(guildMember.getTimeBoosted())) : "Žádný boost", true)
                 .addField("Pořadí připojení", joinOrder.toString(), false)
-                .addField("Role", getRoles(m2, member.getGuild()), false).build()).queue();
+                .addField("Role", getRoles(guildMember, member.getGuild()), false).build()).queue();
 
     }
 

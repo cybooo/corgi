@@ -90,7 +90,7 @@ public class Reminder implements Command {
             String request = message.getContentRaw().replace("rm", "")
                     .replace("remindme", "").replace("reminder", "")
                     .replace("upozorneni", "").replace(gw.getPrefix(), "");
-            String[] arguments = request.split("\\|");
+            String[] arguments = request.split("\\;");
 
             // .reminder 2d2h7m | Vypnout Corgiho!
 

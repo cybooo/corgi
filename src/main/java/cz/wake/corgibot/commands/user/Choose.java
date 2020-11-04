@@ -49,7 +49,7 @@ public class Choose implements Command {
 
     @Override
     public String getHelp() {
-        return "%choose question_1 | question_2 | question_3";
+        return "%choose question_1 ; question_2 ; question_3";
     }
 
     @Override

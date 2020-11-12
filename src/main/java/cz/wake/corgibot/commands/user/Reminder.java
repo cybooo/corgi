@@ -152,7 +152,7 @@ public class Reminder implements Command {
     @Override
     public String getHelp() {
         return "%reminder - Zobrazí nápovědu\n" +
-                "%reminder [čas] | [text] - Nastavení upozornění\n" +
+                "%reminder [čas] ; [text] - Nastavení upozornění\n" +
                 "%reminder list - Zobrazení všech tvých budoucích upozorenění\n" +
                 "%reminder delete [ID] - Smaže upozornění";
     }

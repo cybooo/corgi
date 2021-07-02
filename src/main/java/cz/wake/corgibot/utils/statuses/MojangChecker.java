@@ -53,7 +53,8 @@ public class MojangChecker extends TimerTask {
                 }
             }
         } catch (Exception e) {
-            e.printStackTrace();
+            // Ignore - mojang status page refuses connection too often, don't want my console full of errors.
+//            e.printStackTrace();
         }
     }
 

@@ -30,7 +30,7 @@ public class Ignore implements Command {
         if (args.length < 1) {
             channel.sendMessage(MessageUtils.getEmbed(Constants.GREEN).setTitle("Ignoring channel: " + channel.getName())
                     .setDescription("Disables the use of Corgi's commands in this channel.\nIf you want Corgi to stop ignoring, use `" + gw.getPrefix() + "ignore` again, and cancel it.\n\n" +
-                            ":one: | " + formatTruth(channel, gw) + " Toggles if Corgi should ignore commands here\n:two: | List all currently ignored channels").setFooter("If you want to cancel the action, do not react to it, it's gonna be be canceled within 30 seconds!", null).build()).queue((Message m) -> {
+                            ":one: | " + formatTruth(channel, gw) + " ignoring for this channel\n:two: | List all currently ignored channels").setFooter("If you want to cancel the action, do not react to it, it's gonna be be canceled within 30 seconds!", null).build()).queue((Message m) -> {
                 m.addReaction(EmoteList.ONE).queue();
                 m.addReaction(EmoteList.TWO).queue();
 
@@ -99,7 +99,7 @@ public class Ignore implements Command {
                 return;
             }
             gw.updateIgnoredChannel(ch);
-            channel.sendMessage(MessageUtils.getEmbed(Constants.ORANGE).setTitle("Ignorování channelu: " + channel.getName())
+            channel.sendMessage(MessageUtils.getEmbed(Constants.ORANGE).setTitle("Ignoring channel: " + channel.getName())
                     .setDescription("\uD83D\uDD15 | Corgi now ignores all commands in this channel!")
                     .setFooter("You can cancel ignoring using `" + prefix + "ignore`", null).build()).queue();
         } catch (Exception e) {
@@ -112,7 +112,7 @@ public class Ignore implements Command {
         List<MessageChannel> channels = gw.getIgnoredChannelsByMember(member);
 
         if (channels.isEmpty()) {
-            MessageUtils.sendErrorMessage("Nemáš nastavený žádný ignorovaný channel!", channel);
+            MessageUtils.sendErrorMessage("No channels ignored!", channel);
             return;
         }
 
@@ -135,7 +135,7 @@ public class Ignore implements Command {
             pBuilder.addItems(m.getName());
         }
 
-        Paginator p = pBuilder.setColor(Constants.DEFAULT_PURPLE).setText("Seznam ignorovaných channelů:").build();
+        Paginator p = pBuilder.setColor(Constants.DEFAULT_PURPLE).setText("Ignorred channels:").build();
         p.paginate(channel, 1);
 
     }

@@ -19,7 +19,7 @@ public class TextToBlock implements Command {
     @Override
     public void onCommand(MessageChannel channel, Message message, String[] args, Member member, EventWaiter w, GuildWrapper gw) {
         if (args.length == 0) {
-            MessageUtils.sendErrorMessage("Musíš napsat nějaký text!", channel);
+            MessageUtils.sendErrorMessage("You need to provide some text!", channel);
             return;
         }
         StringBuilder sb = new StringBuilder();
@@ -44,7 +44,7 @@ public class TextToBlock implements Command {
 
     @Override
     public String getDescription() {
-        return "Text psaný v blocích.";
+        return "Text written in blocks";
     }
 
     @Override

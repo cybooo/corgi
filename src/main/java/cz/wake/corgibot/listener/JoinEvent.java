@@ -42,10 +42,10 @@ public class JoinEvent extends ListenerAdapter {
         CorgiLogger.infoMessage("GuildJoinEvent - " + event.getGuild().getName() + "(" + event.getGuild().getId() + ")");
 
         // Informal message
-        MessageUtils.sendAutoDeletedMessage(MessageUtils.getEmbed(ColorSelector.getRandomColor()).setTitle("Corgi je připojen! :heart_eyes: ")
-                .setDescription("Corgi byl správně připojen na Váš server. Změň si prefix pomocí příkazu `c!prefix [kod]`. Příklad: `c!prefix .`\n" +
-                        "Seznam všech příkazů zobrazíš pomocí `c!help` nebo také na [**WEBU**](https://corgibot.xyz)")
-                .setThumbnail(CorgiBot.getJda().getSelfUser().getAvatarUrl()).setFooter("Tato zpráva se smaže sama do 30 vteřin!", null).build(), 40000L, event.getGuild().getDefaultChannel());
+        MessageUtils.sendAutoDeletedMessage(MessageUtils.getEmbed(ColorSelector.getRandomColor()).setTitle("Corgi joined! :heart_eyes: ")
+                .setDescription("Corgi has joined your server! Change your prefix using `c!prefix [prefix]`. Example: `c!prefix .`\n" +
+                        "View all commands using `c!help` or on my [**website**](https://corgibot.xyz)")
+                .setThumbnail(CorgiBot.getJda().getSelfUser().getAvatarUrl()).setFooter("This message is gonna be deleted in 30 seconds!", null).build(), 40000L, event.getGuild().getDefaultChannel());
 
         // Info into dev chanel
         if (event.getJDA().getStatus() == JDA.Status.CONNECTED &&
@@ -53,10 +53,10 @@ public class JoinEvent extends ListenerAdapter {
             CorgiBot.getInstance().getGuildLogChannel().sendMessage(MessageUtils.getEmbed(Constants.GREEN)
                     .setThumbnail(event.getGuild().getIconUrl())
                     .setFooter(event.getGuild().getId(), event.getGuild().getIconUrl())
-                    .setTitle("Corgi se připojil do nové guildy")
+                    .setTitle("Corgi has joined a new guild!")
                     .setAuthor(event.getGuild().getName(), null, event.getGuild().getIconUrl()).setTimestamp(event.getGuild().getSelfMember().getTimeJoined())
-                    .setDescription("Název guildy: `" + event.getGuild().getName() + "` :smile: :heart:\n" +
-                            "Majitel: " + event.getGuild().getOwner().getUser().getName() + "\nPočet členů: " +
+                    .setDescription("Guild name: `" + event.getGuild().getName() + "` :smile: :heart:\n" +
+                            "Owner: " + event.getGuild().getOwner().getUser().getName() + "\nMembers: " +
                             event.getGuild().getMembers().size()).build()).queue();
         }
     }

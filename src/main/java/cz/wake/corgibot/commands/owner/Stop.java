@@ -17,7 +17,7 @@ public class Stop implements Command {
     @Override
     public void onCommand(MessageChannel channel, Message message, String[] args, Member member, EventWaiter w, GuildWrapper gw) {
         if (member.getUser().getId().equals("177516608778928129")) {
-            channel.sendMessage(MessageUtils.getEmbed(Constants.RED).setDescription(":skull_crossbones: | Vyžádáno vypnutí! Vypínám se...").build()).queue((message1) -> {
+            channel.sendMessage(MessageUtils.getEmbed(Constants.RED).setDescription(":skull_crossbones: | Stop requested! Shutting down..").build()).queue((message1) -> {
                 System.exit(0);
             });
         }
@@ -30,7 +30,7 @@ public class Stop implements Command {
 
     @Override
     public String getDescription() {
-        return "Tento příkaz vypne bota. (Pouze Wake)";
+        return "This commands shuts down the bot. (Only bot owner)";
     }
 
     @Override

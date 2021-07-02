@@ -30,17 +30,17 @@ public class GuildInfo implements Command {
             roles = roles.substring(0, 1024 - 4) + "...";
 
         channel.sendMessage(new EmbedBuilder()
-                .setAuthor("Informace o serveru", null, guild.getIconUrl())
+                .setAuthor("Guild info", null, guild.getIconUrl())
                 .setColor(guild.getOwner().getColor() == null ? Constants.DEFAULT_PURPLE : guild.getOwner().getColor())
-                .setDescription("Informace pro server " + guild.getName())
+                .setDescription("Information for " + guild.getName())
                 .setThumbnail(guild.getIconUrl())
-                .addField("Uživatelé (Online/Unikátní)", (int) guild.getMembers().stream().filter(u -> !u.getOnlineStatus().equals(OnlineStatus.OFFLINE)).count() + "/" + guild.getMembers().size(), true)
-                .addField("Datum vytvoření", guild.getTimeCreated().format(DateTimeFormatter.ISO_DATE_TIME).replaceAll("[^0-9.:-]", " "), true)
+                .addField("Users (Online/Unique)", (int) guild.getMembers().stream().filter(u -> !u.getOnlineStatus().equals(OnlineStatus.OFFLINE)).count() + "/" + guild.getMembers().size(), true)
+                .addField("Date created", guild.getTimeCreated().format(DateTimeFormatter.ISO_DATE_TIME).replaceAll("[^0-9.:-]", " "), true)
                 .addField("Voice/Text channels", guild.getVoiceChannels().size() + "/" + guild.getTextChannels().size(), true)
-                .addField("Majitel", guild.getOwner().getUser().getName() + "#" + guild.getOwner().getUser().getDiscriminator(), true)
+                .addField("Owner", guild.getOwner().getUser().getName() + "#" + guild.getOwner().getUser().getDiscriminator(), true)
                 .addField("Region", guild.getRegion() == null ? "Neznámý." : guild.getRegion().getName(), true)
-                .addField("Role (" + guild.getRoles().size() + ")", roles, false)
-                .setFooter("Server ID: " + String.valueOf(guild.getId()), null)
+                .addField("Roles (" + guild.getRoles().size() + ")", roles, false)
+                .setFooter("Server ID: " + guild.getId(), null)
                 .build()
         ).queue();
 
@@ -53,12 +53,12 @@ public class GuildInfo implements Command {
 
     @Override
     public String getDescription() {
-        return "Informace o serveru, kde je příkaz napsán!";
+        return "Displays information about the server where the command is written.";
     }
 
     @Override
     public String getHelp() {
-        return "%guildinfo - Zobrazení informací o serveru";
+        return "%guildinfo - View info about server";
     }
 
     @Override

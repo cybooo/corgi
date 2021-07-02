@@ -100,7 +100,7 @@ public class PaginationList<T> {
 
     public class PageGroup {
 
-        private List<T> group;
+        private final List<T> group;
 
         /**
          * Makes a new PageGroup

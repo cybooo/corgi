@@ -45,11 +45,7 @@ public class TwitterEventListener {
             } else {
                 saveFeed();
             }
-        } catch (FileNotFoundException e) {
-            e.printStackTrace();
-        } catch (ClassNotFoundException e) {
-            e.printStackTrace();
-        } catch (IOException e) {
+        } catch (ClassNotFoundException | IOException e) {
             e.printStackTrace();
         }
     }
@@ -131,9 +127,7 @@ public class TwitterEventListener {
             ObjectOutputStream oos = new ObjectOutputStream(new FileOutputStream(serializedFile));
             oos.writeObject(twitterFeed);
             oos.close();
-        } catch(FileNotFoundException e) {
-            e.printStackTrace();
-        } catch (IOException e) {
+        } catch(IOException e) {
             e.printStackTrace();
         }
     }
@@ -146,7 +140,7 @@ public class TwitterEventListener {
     public static int queue(long twitterId) {
         if(!updateQueued()) {
             lastChange = System.currentTimeMillis();
-            MessageUtils.setTimeout(() -> update(), (int) (DELAY * 1000), true);
+            MessageUtils.setTimeout(TwitterEventListener::update, (int) (DELAY * 1000), true);
             return (int) DELAY;
         }
         return (int) (DELAY - (sinceLastChange() / 1000));

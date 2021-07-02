@@ -245,12 +245,12 @@ public class GuildWrapper {
      */
     public GuildWrapper setPrefix(String prefix, boolean updateSQL) {
         if(updateSQL){
-            if(prefix == Constants.PREFIX){
+            if(prefix.equals(Constants.PREFIX)){
                 this.prefix = Constants.PREFIX;
                 try {
                     CorgiBot.getInstance().getSql().updatePrefix(guildId, prefix);
                 } catch (Exception e) {
-                    CorgiBot.LOGGER.error("Chyba při mazání prefixu!", e);
+                    CorgiBot.LOGGER.error("Error while deleting prefix!", e);
                 }
                 return this;
             }
@@ -258,7 +258,7 @@ public class GuildWrapper {
             try {
                 CorgiBot.getInstance().getSql().updatePrefix(guildId, prefix);
             } catch (Exception e) {
-                CorgiBot.LOGGER.error("Chyba při přidávání prefixu!", e);
+                CorgiBot.LOGGER.error("Error while setting prefix!", e);
             }
         }
         this.prefix = prefix;
@@ -289,7 +289,7 @@ public class GuildWrapper {
             try {
                 CorgiBot.getInstance().getSql().deleteIgnoredChannel(textChannel.getId());
             } catch (Exception e) {
-                CorgiBot.LOGGER.error("Chyba při mazání ignorovaného channelu!", e);
+                CorgiBot.LOGGER.error("Error while deleting ignored channel!", e);
             }
             return this;
         }
@@ -297,7 +297,7 @@ public class GuildWrapper {
         try {
             CorgiBot.getInstance().getSql().addIgnoredChannel(this.guildId, textChannel.getId());
         } catch (Exception e) {
-            CorgiBot.LOGGER.error("Chyba při přidávání ignorovaného channelu!", e);
+            CorgiBot.LOGGER.error("Error while adding ignored channel!", e);
         }
         return this;
     }
@@ -431,7 +431,7 @@ public class GuildWrapper {
                 try {
                     CorgiBot.getInstance().getSql().updateLanguage(this.guildId, this.language);
                 } catch (Exception e) {
-                    CorgiLogger.fatalMessage("Nepodarilo se zupdatovat jazyk! Guild: " + this.guildId + ", jazyk: " + this.language);
+                    CorgiLogger.fatalMessage("Could not update language! Guild: " + this.guildId + ", language: " + this.language);
                 }
             }
         } else {

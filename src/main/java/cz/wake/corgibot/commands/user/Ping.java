@@ -23,7 +23,7 @@ public class Ping implements Command {
 
         if(!running){
             running = true;
-            channel.sendMessage(MessageUtils.getEmbed(Constants.GRAY).setDescription("Vypočítávám ping...").build()).queue(m -> {
+            channel.sendMessage(MessageUtils.getEmbed(Constants.GRAY).setDescription("Calculating ping ...").build()).queue(m -> {
                 int pings = 5;
                 int lastResult;
                 int sum = 0, min = 999, max = 0;
@@ -41,11 +41,11 @@ public class Ping implements Command {
                     }
                     start = System.currentTimeMillis();
                 }
-                m.editMessage(MessageUtils.getEmbed(Constants.GREEN).setDescription(String.format(EmoteList.LOUDSPEAKER + " | **Průměrný ping je:** %dms", CorgiBot.getJda().getGatewayPing())).build()).queue();
+                m.editMessage(MessageUtils.getEmbed(Constants.GREEN).setDescription(String.format(EmoteList.LOUDSPEAKER + " | **Average ping is:** %dms", CorgiBot.getJda().getGatewayPing())).build()).queue();
                 running = false;
             });
         } else {
-            MessageUtils.sendErrorMessage("Aktuálně nelze zjistit ping, jelikož již probíhá sken. Zkus to zachvilku!", channel);
+            MessageUtils.sendErrorMessage("Unable to detect ping at this time because a scan is already in progress. Try it for a moment!", channel);
         }
     }
 
@@ -56,7 +56,7 @@ public class Ping implements Command {
 
     @Override
     public String getDescription() {
-        return "Zjištění rychlosti odezvy.";
+        return "Get the bot ping.";
     }
 
     @Override

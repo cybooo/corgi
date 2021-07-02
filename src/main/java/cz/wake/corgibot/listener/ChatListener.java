@@ -84,7 +84,7 @@ public class ChatListener extends ListenerAdapter {
                 }
 
                 // Check bot owner
-                if (cmd.isOwner() && !e.getAuthor().getId().equals("177516608778928129")){
+                if (cmd.isOwner() && !e.getAuthor().getId().equals("485434705903222805")){
                     return;
                 }
 
@@ -112,13 +112,13 @@ public class ChatListener extends ListenerAdapter {
                 if (!e.getGuild().getSelfMember().hasPermission(cmd.botPermission())) {
                     StringBuilder sb = new StringBuilder();
                     Arrays.stream(cmd.botPermission()).forEach(c -> sb.append(c.name()).append(", "));
-                    MessageUtils.sendErrorMessage("Chyba práv", "Akci nelze provést, jelikož nemám dostatečná práva!\nChybí mi: `" + sb.toString().substring(0, sb.length() - 2) + "`", e.getChannel());
+                    MessageUtils.sendErrorMessage("Permissions error", "Action failed, i'm missing some permissions!\nI'm missing: `" + sb.substring(0, sb.length() - 2) + "`", e.getChannel());
                     return;
                 }
 
                 // Check user permissions if are required
                 if (!e.getMember().hasPermission(cmd.userPermission())) {
-                    CorgiLogger.warnMessage("Prikaz zastaven - " + e.getAuthor().getName() + " nema dostatecna prava!");
+                    CorgiLogger.warnMessage("Command stopped - " + e.getAuthor().getName() + " does not have enough permissions!");
                     return;
                 }
 
@@ -126,7 +126,7 @@ public class ChatListener extends ListenerAdapter {
                 try {
                     cmd.onCommand(e.getChannel(), e.getMessage(), Arrays.copyOfRange(split, 1, split.length), e.getMember(), w, guildWrapper);
                 } catch (Exception ex) {
-                    MessageUtils.sendAutoDeletedMessage("Interní chyba při provádění příkazu!", 10000, e.getChannel());
+                    MessageUtils.sendAutoDeletedMessage("Something went wrong when executing this command!", 10000, e.getChannel());
                     ex.printStackTrace();
                 }
 
@@ -142,7 +142,7 @@ public class ChatListener extends ListenerAdapter {
             // ¯\_(ツ)_/¯
         } catch (ErrorResponseException ex2) {
             if (ex2.getErrorCode() == 50007) {
-                e.getChannel().sendMessage(EmoteList.WARNING + " | " + e.getAuthor().getAsMention() + " promiň, ale nemohu ti poslat zprávu. Máš to blokované!").queue();
+                e.getChannel().sendMessage(EmoteList.WARNING + " | " + e.getAuthor().getAsMention() + " sorry, but i can't message you, your messages are disabled!").queue();
             } else {
                 ex2.printStackTrace();
             }
@@ -180,8 +180,8 @@ public class ChatListener extends ListenerAdapter {
             allowed = allowed == 0 ? 1 : allowed;
             if (messages > allowed) {
                 if (!guild.isBlocked()) {
-                    MessageUtils.sendErrorMessage("**Detekuji SPAM!** Od teď ignoruji na tomto serveru příkazy po dobu 1 minuty!", ch);
-                    guild.setBlocked(true).setBlockReason("Spam příkazů").setUnBlockTime(System.currentTimeMillis() + TimeUnit.MINUTES.toMillis(1));
+                    MessageUtils.sendErrorMessage("**SPAM DETECTED** Commands in this server are ignored for one minute.", ch);
+                    guild.setBlocked(true).setBlockReason("Command spam").setUnBlockTime(System.currentTimeMillis() + TimeUnit.MINUTES.toMillis(1));
                 }
             } else {
                 spamMap.put(event.getGuild().getId(), messages + 1);

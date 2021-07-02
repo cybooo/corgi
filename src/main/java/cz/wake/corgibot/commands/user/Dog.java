@@ -32,9 +32,9 @@ public class Dog implements Command {
             //JSONObject jsonObject = jsonArray.getJSONObject(0);
             url = json.getString("message");
         } catch (Exception e) {
-            MessageUtils.sendErrorMessage(I18n.getLoc(gw, "internal.error.api-failed"), channel);
+            MessageUtils.sendErrorMessage("Something went wrong! Try again later..", channel);
         }
-        channel.sendMessage(MessageUtils.getEmbed(Constants.DEFAULT_PURPLE).setTitle(EmoteList.DOG + " | " +  I18n.getLoc(gw, "commands.dog.title")).setImage(url).build()).queue();
+        channel.sendMessage(MessageUtils.getEmbed(Constants.DEFAULT_PURPLE).setTitle(EmoteList.DOG + " | " + "Random dog image:").setImage(url).build()).queue();
     }
 
     @Override

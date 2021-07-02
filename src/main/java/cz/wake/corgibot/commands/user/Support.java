@@ -15,8 +15,8 @@ public class Support implements Command {
 
     @Override
     public void onCommand(MessageChannel channel, Message message, String[] args, Member member, EventWaiter w, GuildWrapper gw) {
-        channel.sendMessage(MessageUtils.getEmbed(Constants.WHITE).setTitle(I18n.getLoc(gw, "commands.support.title"))
-                .setDescription(I18n.getLoc(gw, "commands.support.description".replace("{1}", "https://discordapp.com/invite/eaEFCYX"))).build()).queue();
+        channel.sendMessage(MessageUtils.getEmbed(Constants.WHITE).setTitle("Corgi's support server")
+                .setDescription("To connect to the support server, [**click here!**]({1})".replace("{1}", "https://discord.gg/pR2tj432NS")).build()).queue();
     }
 
     @Override
@@ -26,12 +26,12 @@ public class Support implements Command {
 
     @Override
     public String getDescription() {
-        return "Získání odkazu na podporu Corgiho (server).";
+        return "Join Corgi's support server";
     }
 
     @Override
     public String getHelp() {
-        return "%support - Získání odkazu";
+        return "%support - Get the URL";
     }
 
     @Override

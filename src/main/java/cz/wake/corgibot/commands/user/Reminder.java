@@ -37,7 +37,7 @@ public class Reminder implements Command {
     public void onCommand(MessageChannel channel, Message message, String[] args, Member member, EventWaiter w, GuildWrapper gw) {
         if (args.length < 1) {
             channel.sendMessage(MessageUtils.getEmbed(Constants.GRAY)
-                    .setTitle(I18n.getLoc(gw, "internal.general.help-command") + " - reminder").setDescription(getHelp().replace("%", gw.getPrefix())).build()).queue();
+                    .setTitle("Help" + " - reminder").setDescription(getHelp().replace("%", gw.getPrefix())).build()).queue();
         } else if (args[0].contains("list")) {
             HashSet<TemporaryReminder> list = CorgiBot.getInstance().getSql().getRemindersByUser(member.getUser().getId());
 
@@ -48,9 +48,9 @@ public class Reminder implements Command {
 
             //NEW
             PagedTableBuilder tb = new PagedTableBuilder();
-            tb.addColumn(I18n.getLoc(gw, "commands.reminder.table-id"));
-            tb.addColumn(I18n.getLoc(gw, "commands.reminder.table-time"));
-            tb.addColumn(I18n.getLoc(gw, "commands.reminder.table-text"));
+            tb.addColumn("ID");
+            tb.addColumn("Remaining time");
+            tb.addColumn("Reminder text");
 
             for (TemporaryReminder tr : list) {
                 List<String> row = new ArrayList<>();
@@ -64,45 +64,44 @@ public class Reminder implements Command {
 
         } else if (args[0].contains("delete")) {
             if (args.length == 1) {
-                MessageUtils.sendErrorMessage(I18n.getLoc(gw, "commands.reminder.no-id"), channel);
+                MessageUtils.sendErrorMessage("You did not provide any ID, try again!", channel);
                 return;
             }
             String id = args[1];
             if (id == null) {
-                MessageUtils.sendErrorMessage(I18n.getLoc(gw, "commands.reminder.no-id"), channel);
+                MessageUtils.sendErrorMessage("You did not provide any ID, try again!", channel);
                 return;
             }
             if (FormatUtil.isStringInt(id)) {
-                int convertedId = Integer.valueOf(id);
+                int convertedId = Integer.parseInt(id);
                 try {
                     CorgiBot.getInstance().getSql().deleteReminderById(member.getUser().getId(), convertedId);
                     channel.sendMessage(MessageUtils.getEmbed(Constants.GREEN)
-                            .setDescription(I18n.getLoc(gw, "commands.reminder.deleted-reminder")
+                            .setDescription("Reminder with ID **{1}** was deleted!"
                                     .replace("{1}", String.valueOf(convertedId))).build()).queue();
                 } catch (Exception e) {
-                    MessageUtils.sendErrorMessage(I18n.getLoc(gw, "commands.reminder.non-existing-id"), channel);
+                    MessageUtils.sendErrorMessage("ID does not exist, or something went wrong!", channel);
                 }
             } else {
-                MessageUtils.sendErrorMessage(I18n.getLoc(gw, "commands.reminder.id-is-not-number"), channel);
+                MessageUtils.sendErrorMessage("Provided ID is not a number!", channel);
             }
         } else {
 
             String request = message.getContentRaw().replace("rm", "")
-                    .replace("remindme", "").replace("reminder", "")
-                    .replace("upozorneni", "").replace(gw.getPrefix(), "");
+                    .replace("remindme", "").replace("reminder", "");
             String[] arguments = request.split("\\;");
 
             // .reminder 2d2h7m ; Vypnout Corgiho!
 
             // 1 parametr?
             if (arguments.length == 1) {
-                MessageUtils.sendErrorMessage(I18n.getLoc(gw, "commands.reminder.incorrect-command").replace("%", gw.getPrefix()), channel);
+                MessageUtils.sendErrorMessage("Incorrectly executed command! Example: %reminder 2h ; Restart Corgi!".replace("%", gw.getPrefix()), channel);
                 return;
             }
 
             // Delsi jak 1000 znaku
             if (arguments[1].length() > 1000) {
-                MessageUtils.sendErrorMessage(I18n.getLoc(gw, "commands.reminder.too-long-time").replace("{1}", String.valueOf(arguments[1].length())), channel);
+                MessageUtils.sendErrorMessage("Sorry, reminders longer than 1000 characters cannot be processed! Lenght of your reminder: {1}".replace("{1}", String.valueOf(arguments[1].length())), channel);
                 return;
             }
 
@@ -117,7 +116,7 @@ public class Reminder implements Command {
             long millis = end.getMillis() - start.getMillis(); // Rozdil na upozorneni
 
             if (millis < 60000L) {
-                MessageUtils.sendErrorMessage(I18n.getLoc(gw, "commands.reminder.minimal-time"), channel);
+                MessageUtils.sendErrorMessage("Minimum time is 1 minte!", channel);
                 return;
             }
 
@@ -126,13 +125,13 @@ public class Reminder implements Command {
                 CorgiBot.getInstance().getSql().addReminder(member.getUser().getId(), end.getMillis(), reminderMessage);
             } catch (Exception e) {
                 e.printStackTrace();
-                MessageUtils.sendErrorMessage(I18n.getLoc(gw, "internal.error.command-failed"), channel);
+                MessageUtils.sendErrorMessage("Incorrectly executed command! Example: %reminder 2h ; Restart Corgi!", channel);
                 return;
             }
 
             // Oznameni
             channel.sendMessage(MessageUtils.getEmbed(Constants.GREEN)
-                    .setDescription(EmoteList.ALARM_CLOCK + " | " + I18n.getLoc(gw, "commands.reminder.final-message")
+                    .setDescription(EmoteList.ALARM_CLOCK + " | " + "Sure! I'll remind you in {1}"
                             .replace("{1}", TimeUtils.toYYYYHHmmssS(millis))).build()).queue();
         }
     }
@@ -144,17 +143,17 @@ public class Reminder implements Command {
 
     @Override
     public String getDescription() {
-        return "Zapomínáš na všechno? Tak si nastav oznámení!\n" +
-                "Pomocí jednoho příkazu si nastavíš, kdy tě má Corgi upozornit!" +
-                "Upozornění jsou přesné v rozmezí 30 vteřin!";
+        return "Forgetting everything! Set a reminder!\n" +
+                "With only one command, you can set when Corgi should remind you!" +
+                "Alerts are accurate within 30 seconds!";
     }
 
     @Override
     public String getHelp() {
-        return "%reminder - Zobrazí nápovědu\n" +
-                "%reminder [čas] ; [text] - Nastavení upozornění\n" +
-                "%reminder list - Zobrazení všech tvých budoucích upozorenění\n" +
-                "%reminder delete [ID] - Smaže upozornění";
+        return "%reminder - Show help\n" +
+                "%reminder [čas] ; [text] - Set a reminder\n" +
+                "%reminder list - Show all your reminders\n" +
+                "%reminder delete [ID] - Deletes a reminder";
     }
 
     @Override
@@ -164,14 +163,14 @@ public class Reminder implements Command {
 
     @Override
     public String[] getAliases() {
-        return new String[]{"upozorneni", "remindme", "rm"};
+        return new String[]{"remindme", "rm"};
     }
 
     private static Period getTimeFromInput(String input, MessageChannel channel) {
         try {
             return periodParser.parsePeriod(input);
         } catch (IllegalArgumentException e) {
-            MessageUtils.sendErrorMessage("Byl zadán neplatný formát času! Zkus to třeba takto `1d` -> pro 1 den.",
+            MessageUtils.sendErrorMessage("Invalid time format! Try: `1d` -> for 1 day.",
                     channel);
             return null;
         }

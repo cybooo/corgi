@@ -21,8 +21,8 @@ public class LeaveGuild implements Command {
     @Override
     public void onCommand(MessageChannel channel, Message message, String[] args, Member member, EventWaiter w, GuildWrapper gw) {
         if (args.length < 1) {
-            channel.sendMessage(MessageUtils.getEmbed(Constants.ORANGE).setTitle("\u26A0 Potvrzení opuštění serveru \u26A0")
-                    .setDescription("**VAROVÁNÍ**: Potvrzením následující akce Corgi opustí tento server!\nOpravdu chceš provést následující akci?").setFooter("Na potvrzení máš 60 vteřin.", null).build()).queue((Message m) -> {
+            channel.sendMessage(MessageUtils.getEmbed(Constants.ORANGE).setTitle("\u26A0 Confirmation of leaving the server \u26A0")
+                    .setDescription("**WARNING**: By confirming this action, corgi is gonna leave this server!\nAre you sure you want to perform the following action?").setFooter("You have 60 seconds to react.", null).build()).queue((Message m) -> {
                 m.addReaction("\u2705").queue();
                 m.addReaction("\u26D4").queue();
                 message.delete().queue();
@@ -31,14 +31,14 @@ public class LeaveGuild implements Command {
                     return e.getUser().equals(member.getUser()) && e.getMessageId().equals(m.getId()) && (e.getReaction().getReactionEmote().getName().equals("\u2705"));
                 }, (MessageReactionAddEvent ev) -> {
                     m.clearReactions().queue();
-                    m.editMessage(MessageUtils.getEmbed(Constants.RED).setTitle("Potvrzení o opuštění!").setDescription("Corgi nyní opustí tento server! :sob:").build()).queue();
+                    m.editMessage(MessageUtils.getEmbed(Constants.RED).setTitle("Action confirmed!").setDescription("Corgi is now leaving this server! :sob:").build()).queue();
                     m.getGuild().leave().queue();
                 }, 60, TimeUnit.SECONDS, null);
 
                 w.waitForEvent(MessageReactionAddEvent.class, (MessageReactionAddEvent e) -> { //Zrušení
                     return e.getUser().equals(member.getUser()) && e.getMessageId().equals(m.getId()) && (e.getReaction().getReactionEmote().getName().equals("\u26D4"));
                 }, (MessageReactionAddEvent ev) -> {
-                    m.editMessage(MessageUtils.getEmbed(Constants.GREEN).setTitle("Opuštění zrušeno!").setDescription("Juchůůů! Corgi zde zůstane! :hugging:").build()).queue();
+                    m.editMessage(MessageUtils.getEmbed(Constants.GREEN).setTitle("Action cancelled!").setDescription("Yaaay, Corgi is going to stay here! :hugging:").build()).queue();
                     m.clearReactions().queue();
                 }, 60, TimeUnit.SECONDS, null);
             });
@@ -52,7 +52,7 @@ public class LeaveGuild implements Command {
 
     @Override
     public String getDescription() {
-        return "Příkaz, kterým Corgi opustí server, pokud bude schválen. (Pouze Administrátoři)";
+        return "Command to force Corgi to leave the server, if confirmed. (Only for Administrators)";
     }
 
     @Override

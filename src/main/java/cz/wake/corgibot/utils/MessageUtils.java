@@ -47,7 +47,7 @@ public class MessageUtils {
                     .getBody()
                     .getObject().getString("key");
         } catch (UnirestException e) {
-            CorgiBot.LOGGER.error("Chyba při posílání na HasteBin", e);
+            CorgiBot.LOGGER.error("Error while uploading to hastebin!", e);
             return null;
         }
     }
@@ -70,7 +70,7 @@ public class MessageUtils {
     }
 
     public static EmbedBuilder getEmbed(User user) {
-        return getEmbed(ColorSelector.getRandomColor()).setFooter("Požadavek od @" + getTag(user), user.getEffectiveAvatarUrl());
+        return getEmbed(ColorSelector.getRandomColor()).setFooter("Request from @" + getTag(user), user.getEffectiveAvatarUrl());
     }
 
     public static EmbedBuilder getEmbed(Color c) {
@@ -128,7 +128,7 @@ public class MessageUtils {
     }
 
     public static EmbedBuilder getEmbedError() {
-        return new EmbedBuilder().setFooter("Chyba při provádění akce CorgiBot", CorgiBot.getJda().getSelfUser().getAvatarUrl());
+        return new EmbedBuilder().setFooter("Error while performing action", CorgiBot.getJda().getSelfUser().getAvatarUrl());
     }
 
     private static void sendAutoDeletedMessage(Message message, long delay, MessageChannel channel) {
@@ -165,7 +165,7 @@ public class MessageUtils {
         try {
             user.openPrivateChannel().complete()
                     .sendMessage(message.substring(0, Math.min(message.length(), 1999))).queue();
-            CorgiBot.LOGGER.info("Zasílání zprávy - " + user.getName() + "(" + user.getId() + ") -> " + message);
+            CorgiBot.LOGGER.info("Sending message - " + user.getName() + "(" + user.getId() + ") -> " + message);
         } catch (ErrorResponseException ignored) {
             ignored.printStackTrace();
         }

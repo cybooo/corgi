@@ -21,8 +21,8 @@ public class Love implements Command {
         List<User> mentioned = message.getMentionedUsers();
         String result;
 
-        if(mentioned.size() < 1) {
-            MessageUtils.sendErrorMessage("Musíš označit aspoň jednu osobu! Př. `%love @nick`".replace("%", gw.getPrefix()), channel);
+        if (mentioned.size() < 1) {
+            MessageUtils.sendErrorMessage("You need to mention someone! Example: `%love @nick`".replace("%", gw.getPrefix()), channel);
             return;
         }
 
@@ -30,22 +30,22 @@ public class Love implements Command {
         ids[0] = message.getAuthor().getIdLong();
         ids[1] = mentioned.get(0).getIdLong();
 
-        int percentage = (int)(ids[0] == ids[1] ? 101 : (ids[0] + ids[1]) % 101L);
+        int percentage = (int) (ids[0] == ids[1] ? 101 : (ids[0] + ids[1]) % 101L);
 
-        if(percentage < 45) {
-            result = EmoteList.THINKING_1 + " | To bohužel nepůjde... Shoda: **" + percentage + "%** mezi " + message.getAuthor().getAsMention() + " a " + mentioned.get(0).getAsMention();
-        } else if(percentage < 75) {
-            result = EmoteList.VERIIM + " | Možná to půjde, záleží na vás... Shoda: **" + percentage + "%** mezi " + message.getAuthor().getAsMention() + " a " + mentioned.get(0).getAsMention();
-        } else if(percentage < 100) {
-            result = EmoteList.FEELSOMGYOU + " | Tady to vypadá na něco zajímavějšího... Shoda: **" + percentage + "%** mezi " + message.getAuthor().getAsMention() + " a " + mentioned.get(0).getAsMention();
+        if (percentage < 45) {
+            result = EmoteList.THINKING_1 + " | That won't work.. Match: **" + percentage + "%** between " + message.getAuthor().getAsMention() + " and " + mentioned.get(0).getAsMention();
+        } else if (percentage < 75) {
+            result = EmoteList.VERIIM + " | Maybe it's gonna work, up to you. Match: **" + percentage + "%** between " + message.getAuthor().getAsMention() + " and " + mentioned.get(0).getAsMention();
+        } else if (percentage < 100) {
+            result = EmoteList.FEELSOMGYOU + " | This looks like something interesting! Match: **" + percentage + "%** between " + message.getAuthor().getAsMention() + " and " + mentioned.get(0).getAsMention();
         } else {
-            result = EmoteList.FEELSSEXMAN + " | Tak to žasnu, jděte na to... Shoda: **" + percentage + "%** mezi " + message.getAuthor().getAsMention() + " a " + mentioned.get(0).getAsMention();
-            if(percentage == 101) {
-                result = EmoteList.FEELSSTALKERMAN +  " | Povím ti tajemství, tak blbý nejsem! Neoznačuj sám sebe, pouze ty víš jak moc se máš rád/a.";
+            result = EmoteList.FEELSSEXMAN + " | I'm suprised.. Go for it! Match: **" + percentage + "%** between " + message.getAuthor().getAsMention() + " and " + mentioned.get(0).getAsMention();
+            if (percentage == 101) {
+                result = EmoteList.FEELSSTALKERMAN + " | Don't mention yourself! Only you know how much you love yourself!";
             }
         }
 
-        channel.sendMessage(MessageUtils.getEmbed(Color.PINK).setTitle("Detektor lásky :heart:").setDescription(result).build()).queue();
+        channel.sendMessage(MessageUtils.getEmbed(Color.PINK).setTitle("Love detector :heart:").setDescription(result).build()).queue();
 
     }
 
@@ -76,6 +76,6 @@ public class Love implements Command {
 
     @Override
     public String[] getAliases() {
-        return new String[]{"laska","loveme"};
+        return new String[]{"loveme"};
     }
 }

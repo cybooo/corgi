@@ -23,7 +23,7 @@ public class Uptime implements Command {
         long minutes = seconds / 60;
         long hours = minutes / 60;
         long days = hours / 24;
-        channel.sendMessage(MessageUtils.getEmbed(Constants.DEFAULT_PURPLE).setTitle("Uptime", null).setDescription(":stopwatch: | " + String.format("%d dní, %02d hodin, %02d minut", days, hours % 24, minutes % 60)).build()).queue();
+        channel.sendMessage(MessageUtils.getEmbed(Constants.DEFAULT_PURPLE).setTitle("Uptime", null).setDescription(":stopwatch: | " + String.format("%d days, %02d hours, %02d minutes", days, hours % 24, minutes % 60)).build()).queue();
     }
 
     @Override
@@ -33,12 +33,12 @@ public class Uptime implements Command {
 
     @Override
     public String getDescription() {
-        return "Informace o tom, jak dlouho běží bot.";
+        return "Get Corgi's uptime";
     }
 
     @Override
     public String getHelp() {
-        return "%uptime - Zobrazí čas od spuštění.";
+        return "%uptime - Shows Corgi's uptime";
     }
 
     @Override

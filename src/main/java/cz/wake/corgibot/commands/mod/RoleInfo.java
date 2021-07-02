@@ -35,7 +35,7 @@ public class RoleInfo implements Command {
             }
         }
         if (role == null) {
-            MessageUtils.sendErrorMessage("Nebyla nalezena žádná role.", channel);
+            MessageUtils.sendErrorMessage("No roles found", channel);
             return;
         }
 
@@ -43,11 +43,11 @@ public class RoleInfo implements Command {
 
         embed.setColor(role.getColor());
         embed.addField(role.getName(), "ID: " + role.getId(), true);
-        embed.addField("Pozice", String.valueOf(role.getPosition()), true);
-        embed.addField("Oddělená", String.valueOf(role.isHoisted()), true);
-        embed.addField("Spravovaná", String.valueOf(role.isManaged()), true);
-        embed.addField("Označitelná", String.valueOf(role.isMentionable()), true);
-        embed.addField("Datum vytvoření", CorgiBot.getInstance().formatTime(role.getTimeCreated().toLocalDateTime()), true);
+        embed.addField("Position", String.valueOf(role.getPosition()), true);
+        embed.addField("Separated", String.valueOf(role.isHoisted()), true);
+        embed.addField("Managed", String.valueOf(role.isManaged()), true);
+        embed.addField("Mentionable", String.valueOf(role.isMentionable()), true);
+        embed.addField("Date created", CorgiBot.getInstance().formatTime(role.getTimeCreated().toLocalDateTime()), true);
 
         channel.sendMessage(embed.build()).queue();
     }
@@ -59,12 +59,12 @@ public class RoleInfo implements Command {
 
     @Override
     public String getDescription() {
-        return "Zobrazení informací o požadované roli.";
+        return "Displays info about a specified role";
     }
 
     @Override
     public String getHelp() {
-        return "%roleinfo nazev/ID";
+        return "%roleinfo name/ID";
     }
 
     @Override

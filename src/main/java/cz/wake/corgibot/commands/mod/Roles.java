@@ -33,7 +33,7 @@ public class Roles implements Command {
 
     @Override
     public String getDescription() {
-        return "Seznam rolí na serveru.";
+        return "List of roles in this server";
     }
 
     @Override

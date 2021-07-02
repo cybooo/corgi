@@ -20,20 +20,20 @@ public class Choose implements Command {
     @Override
     public void onCommand(MessageChannel channel, Message message, String[] args, Member member, EventWaiter w, GuildWrapper gw) {
         if (args.length < 1) {
-            MessageUtils.sendErrorMessage(I18n.getLoc(gw, "commands.choose.must-select"), channel);
+            MessageUtils.sendErrorMessage("You need to choose something!", channel);
         } else {
             // Format message
             String request = message.getContentRaw().replaceAll("\\s+\\;", ";").replaceAll("\\;\\s+", ";").replaceAll("\\;", ";").replace("choose ", "").replace(gw.getPrefix(), "");
             String[] arguments = request.split("\\;");
             if (arguments.length == 1) {
-                MessageUtils.sendErrorMessage(I18n.getLoc(gw, "commands.choose.no-arguments"), channel);
+                MessageUtils.sendErrorMessage("You need to provide more than 1 option!", channel);
                 return;
             }
             if (arguments[0].equalsIgnoreCase("choose")) {
-                MessageUtils.sendErrorMessage(I18n.getLoc(gw, "commands.choose.choose-in-choose"), channel);
+                MessageUtils.sendErrorMessage("The first option was entered incorrectly. Please try again..", channel);
                 return;
             }
-            channel.sendMessage(getRandomThinkingEmote() + " | **" + member.getUser().getName() + "**, " + I18n.getLoc(gw, "commands.choose.corgi-select") + " **" + arguments[(int) (Math.random() * arguments.length)] + "**!").queue();
+            channel.sendMessage(getRandomThinkingEmote() + " | **" + member.getUser().getName() + "**, " + "i chose" + " **" + arguments[(int) (Math.random() * arguments.length)] + "**!").queue();
         }
     }
 

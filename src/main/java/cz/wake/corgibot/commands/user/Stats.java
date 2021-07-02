@@ -27,18 +27,18 @@ public class Stats implements Command {
             long totalMb = Runtime.getRuntime().totalMemory() / (1024 * 1024);
             long usedMb = (Runtime.getRuntime().totalMemory() - Runtime.getRuntime().freeMemory()) / (1024 * 1024);
             EmbedBuilder embed = new EmbedBuilder();
-            embed.setDescription(I18n.getLoc(gw, "commands.stats.awake") + " " + getUptime());
-            embed.addField(EmoteList.HOMES + " " + I18n.getLoc(gw, "commands.stats.guilds"), String.valueOf(channel.getJDA().getGuilds().size()), true);
-            embed.addField(EmoteList.USERS + " " + I18n.getLoc(gw, "commands.stats.users"), String.valueOf(channel.getJDA().getUsers().size()), true);
-            embed.addField(EmoteList.PENCIL + " " + I18n.getLoc(gw, "commands.stats.text-channels"), String.valueOf(channel.getJDA().getTextChannels().size()), true);
-            embed.addField(EmoteList.MEGAFON + " " + I18n.getLoc(gw, "commands.stats.voice-channels"), String.valueOf(channel.getJDA().getVoiceChannels().size()), true);
-            embed.addField(EmoteList.COMMANDS + " " + I18n.getLoc(gw, "commands.stats.commands-run"), String.valueOf(CorgiBot.commands), true);
-            embed.addField(EmoteList.JDA + " " + I18n.getLoc(gw, "commands.stats.jda-version"), JDAInfo.VERSION, true);
-            embed.addField(EmoteList.COMPRESS + " " + I18n.getLoc(gw, "commands.stats.load-cpu"), ((int) (CPUDaemon.get() * 10000)) / 100d + "%", true);
-            embed.addField(EmoteList.FLOPY_DISC + " " + I18n.getLoc(gw, "commands.stats.memory"), usedMb + "MB / " + totalMb + "MB", true);
-            embed.addField(EmoteList.COMET + " " + I18n.getLoc(gw, "commands.stats.threads"), String.valueOf(Thread.getAllStackTraces().size()), true);
-            embed.addField(EmoteList.JAVA + " " + I18n.getLoc(gw, "commands.stats.java"), System.getProperty("java.version"), true);
-            embed.setAuthor(I18n.getLoc(gw, "commands.stats.title"), null, CorgiBot.getJda().getSelfUser().getAvatarUrl());
+            embed.setDescription("My uptime is " + getUptime());
+            embed.addField(EmoteList.HOMES + " Guilds", String.valueOf(channel.getJDA().getGuilds().size()), true);
+            embed.addField(EmoteList.USERS + " Users", String.valueOf(channel.getJDA().getUsers().size()), true);
+            embed.addField(EmoteList.PENCIL + " Text channels", String.valueOf(channel.getJDA().getTextChannels().size()), true);
+            embed.addField(EmoteList.MEGAFON + " Voice channels", String.valueOf(channel.getJDA().getVoiceChannels().size()), true);
+            embed.addField(EmoteList.COMMANDS + " Executed commands", String.valueOf(CorgiBot.commands), true);
+            embed.addField(EmoteList.JDA + " JDA Version", JDAInfo.VERSION, true);
+            embed.addField(EmoteList.COMPRESS + " CPU Load", ((int) (CPUDaemon.get() * 10000)) / 100d + "%", true);
+            embed.addField(EmoteList.FLOPY_DISC + " RAM", usedMb + "MB / " + totalMb + "MB", true);
+            embed.addField(EmoteList.COMET + " Threads", String.valueOf(Thread.getAllStackTraces().size()), true);
+            embed.addField(EmoteList.JAVA + " Java" + I18n.getLoc(gw, "commands.stats.java"), System.getProperty("java.version"), true);
+            embed.setAuthor("Corgi's statistics", null, CorgiBot.getJda().getSelfUser().getAvatarUrl());
             embed.setColor(Constants.BLACK);
             channel.sendMessage(embed.build()).queue();
         }
@@ -52,12 +52,12 @@ public class Stats implements Command {
 
     @Override
     public String getDescription() {
-        return "Globální statistiky Bota a jeho verze.";
+        return "Global statistics of Corgi";
     }
 
     @Override
     public String getHelp() {
-        return "%stats - Zobrazení všech statistik o Corgim.";
+        return "%stats - Show all statistics of Corgi";
     }
 
     @Override
@@ -71,6 +71,6 @@ public class Stats implements Command {
         long minutes = seconds / 60;
         long hours = minutes / 60;
         long days = hours / 24;
-        return String.format("%d dní, %02d hodin, %02d minut", days, hours % 24, minutes % 60);
+        return String.format("%d days, %02d hours, %02d minutes", days, hours % 24, minutes % 60);
     }
 }

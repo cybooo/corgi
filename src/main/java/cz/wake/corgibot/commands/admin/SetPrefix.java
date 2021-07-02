@@ -21,20 +21,20 @@ public class SetPrefix implements Command {
     public void onCommand(MessageChannel channel, Message message, String[] args, Member member, EventWaiter w, GuildWrapper gw) {
         if (args.length == 1) {
             if (CorgiBot.isIsBeta()) {
-                channel.sendMessage(I18n.getLoc(gw, "commands.prefix.corgi-is-beta-prefix")).queue();
+                channel.sendMessage("Corgi is in Beta, the prefix cannot be changed!").queue();
                 return;
             }
             if (args[0].equalsIgnoreCase("reset")) {
                 gw.setPrefix("c!", true);
-                channel.sendMessage(MessageUtils.getEmbed(Constants.GREEN).setDescription(I18n.getLoc(gw, "commands.prefix.reset-back")).build()).queue();
+                channel.sendMessage(MessageUtils.getEmbed(Constants.GREEN).setDescription("Prefix was changed back to `c!`").build()).queue();
             } else if (args[0].length() < 4) {
                 gw.setPrefix(args[0], true);
-                channel.sendMessage(MessageUtils.getEmbed(Constants.GREEN).setDescription(String.format(I18n.getLoc(gw, "commands.prefix.prefix-sets-to"), args[0])).build()).queue();
+                channel.sendMessage(MessageUtils.getEmbed(Constants.GREEN).setDescription(String.format("Prefix was set to `%s`", args[0])).build()).queue();
             } else {
-                MessageUtils.sendErrorMessage(I18n.getLoc(gw, "commands.prefix.cannot-three-chars"), channel);
+                MessageUtils.sendErrorMessage("Prefix can't be longer than 3 characters!", channel);
             }
         } else {
-            channel.sendMessage(MessageUtils.getEmbed(Constants.DEFAULT_PURPLE).setDescription(String.format(I18n.getLoc(gw, "commands.prefix.actual-prefix-is"), gw.getPrefix())).build()).queue();
+            channel.sendMessage(MessageUtils.getEmbed(Constants.DEFAULT_PURPLE).setDescription(String.format("The current prefix is `%s`", gw.getPrefix())).build()).queue();
         }
     }
 
@@ -45,7 +45,7 @@ public class SetPrefix implements Command {
 
     @Override
     public String getDescription() {
-        return "Nastavení vlastního prefixu pro server.";
+        return "Set a custom prefix for this server";
     }
 
     @Override

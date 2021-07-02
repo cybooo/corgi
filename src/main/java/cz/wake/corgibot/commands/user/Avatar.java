@@ -26,12 +26,12 @@ public class Avatar implements Command {
             id = args[0].replaceAll("[^0-9]", "");
         }
         if (id.isEmpty()) {
-            MessageUtils.sendAutoDeletedMessage(I18n.getLoc(gw, "internal.required.mention"), 10000, channel);
+            MessageUtils.sendAutoDeletedMessage("You need to mention someone!", 10000, channel);
             return;
         }
         Member member1 = message.getGuild().getMemberById(id);
         if (member1 == null) {
-            MessageUtils.sendAutoDeletedMessage(I18n.getLoc(gw, "internal.error.user-not-found"), 10000, channel);
+            MessageUtils.sendAutoDeletedMessage("This user was nout found!", 10000, channel);
             return;
         }
         String url = member1.getUser().getEffectiveAvatarUrl() + "?size=1024";

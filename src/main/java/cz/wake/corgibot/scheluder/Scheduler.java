@@ -28,7 +28,7 @@ public class Scheduler {
                     try {
                         task.run();
                     } catch (Exception e) {
-                        CorgiBot.LOGGER.error("Chyba při provádění akce " + taskName, e);
+                        CorgiBot.LOGGER.error("Error while executing action " + taskName, e);
                     }
                 }, delay, interval, TimeUnit.MILLISECONDS));
         return true;

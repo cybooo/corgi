@@ -39,7 +39,7 @@ public class TwitterFeedObserver implements Serializable {
         }
         EmbedBuilder em = new EmbedBuilder();
         String text = status.getText();
-        em.setTitle("Nový Tweet od \\@" + status.getUser().getScreenName(),
+        em.setTitle("New tweet from \\@" + status.getUser().getScreenName(),
                 "https://twitter.com/" + status.getUser().getScreenName()
                         + "/status/" + status.getId())
                 .setColor(ColorSelector.getRandomColor()) //TODO: Twitter color
@@ -55,7 +55,7 @@ public class TwitterFeedObserver implements Serializable {
         if(url != null)
             em.setImage(url);
         if(status.getMediaEntities().length > 0 && url == null || status.getMediaEntities().length > 1) {
-            em.setFooter("Tweet obsahuje víc medií", null);
+            em.setFooter("Tweet contains more media", null);
         } else {
             em.setFooter("Tweet", null);
         }

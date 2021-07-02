@@ -31,7 +31,7 @@ public class Say implements Command {
 
     @Override
     public String getDescription() {
-        return "Tímto příkazem lze psát jako bot.";
+        return "This command can be used to write as the bot.";
     }
 
     @Override

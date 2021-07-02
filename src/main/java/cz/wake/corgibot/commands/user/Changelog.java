@@ -27,31 +27,31 @@ public class Changelog implements Command {
         ChangeLog changes = CorgiBot.getInstance().getSql().getLastChanges();
 
         if (changes == null) {
-            MessageUtils.sendErrorMessage(I18n.getLoc(gw, "internal.error.api-failed"), channel);
+            MessageUtils.sendErrorMessage("Something went wrong! Try again later..", channel);
             return;
         }
 
-        changelog.append(EmoteList.INFO + " | **Update [" + convertMilisToDate(String.valueOf(changes.getDate())) + "]**");
+        changelog.append(EmoteList.INFO + " | **Update [").append(convertMilisToDate(String.valueOf(changes.getDate()))).append("]**");
         changelog.append("\n\n");
         if (changes.getNews() != null) {
-            changelog.append(EmoteList.GREEN_OK + "** | " + I18n.getLoc(gw, "commands.changelog.news") + ":**\n");
+            changelog.append(EmoteList.GREEN_OK + "** | " + "News" + ":**\n");
             changelog.append(changes.getNews().replaceAll("-", "•"));
             changelog.append("\n\n");
         }
 
         if (changes.getFixes() != null) {
-            changelog.append(EmoteList.BUG + " ** | " + I18n.getLoc(gw, "commands.changelog.fixes") + ":**\n");
+            changelog.append(EmoteList.BUG + " ** | " + "Fixes & Changes" + ":**\n");
             changelog.append(changes.getFixes().replaceAll("-", "•"));
             changelog.append("\n\n");
         }
 
         if (changes.getWarning() != null) {
-            changelog.append(EmoteList.WARNING + " ** | " + I18n.getLoc(gw, "commands.changelog.announce") + ":**\n");
+            changelog.append(EmoteList.WARNING + " ** | " + "Warning" + ":**\n");
             changelog.append(changes.getWarning().replaceAll("-", "•"));
             changelog.append("\n\n");
         }
 
-        changelog.append(I18n.getLoc(gw, "commands.changelog.footer").replace("{1}", "https://discord.gg/eaEFCYX"));
+        changelog.append("Do you want see old changes? Look at our changelog channel on support guild!".replace("{1}", "https://discord.gg/pR2tj432NS"));
 
         channel.sendMessage(changelog.toString()).queue();
     }
@@ -77,7 +77,7 @@ public class Changelog implements Command {
     }
 
     public static String dateFormat = "dd.MM.yyyy";
-    private static SimpleDateFormat simpleDateFormat = new SimpleDateFormat(dateFormat);
+    private static final SimpleDateFormat simpleDateFormat = new SimpleDateFormat(dateFormat);
 
     public static String convertMilisToDate(String milliSeconds) {
         Calendar calendar = Calendar.getInstance();

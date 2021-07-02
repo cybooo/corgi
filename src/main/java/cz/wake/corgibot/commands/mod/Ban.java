@@ -22,15 +22,15 @@ public class Ban implements Command {
     @Override
     public void onCommand(MessageChannel channel, Message message, String[] args, Member member, EventWaiter w, GuildWrapper gw) {
         if (!PermissionUtil.checkPermission(message.getGuild().getSelfMember(), Permission.BAN_MEMBERS)) {
-            MessageUtils.sendErrorMessage("Nemám dostatečná práva na vyhazování uživatelů! Přidej mi právo na `BAN_MEMBERS` nebo `ADMINISTRATOR`", channel);
+            MessageUtils.sendErrorMessage("I can't ban members! Give me the `BAN_MEMBERS` or `ADMINISTRATOR` permission!", channel);
             return;
         }
         if (message.getMentionedUsers().isEmpty()) {
-            MessageUtils.sendErrorMessage("Musíš nejdříve někoho označit! Př. `" + gw.getPrefix() + "ban @User`", channel);
+            MessageUtils.sendErrorMessage("You need to mention someone! Example: `" + gw.getPrefix() + "ban @User`", channel);
             return;
         }
         if (message.getMentionedUsers().size() > 20) {
-            MessageUtils.sendErrorMessage("Maximální počet uživatelů, kterých lze najednou zabanovat je 20!", channel);
+            MessageUtils.sendErrorMessage("You can only ban 20 members at once!", channel);
             return;
         }
 
@@ -43,16 +43,16 @@ public class Ban implements Command {
                         .append(EmoteList.WARNING)
                         .append(" | ")
                         .append(u.getAsMention())
-                        .append(" nemůže být zabanován, jelikož není evidován na serveru!");
+                        .append(" can't be banned, because he was not found in this server!");
             } else if (!PermissionUtil.canInteract(message.getMember(), m)) {
                 builder.append("\n")
                         .append(EmoteList.RED_DENY)
-                        .append(" | Nemáš dostatečná práva na zabanování ")
+                        .append(" | You don't have enough permissions to ban ")
                         .append(FormatUtil.formatUser(u));
             } else if (!PermissionUtil.canInteract(message.getGuild().getSelfMember(), m)) {
                 builder.append("\n")
                         .append(EmoteList.RED_DENY)
-                        .append(" | Nemáš dostatečná práva na zabanování ")
+                        .append(" | You don't have enough permissions to ban ")
                         .append(FormatUtil.formatUser(u));
             } else
                 members.add(m);
@@ -66,14 +66,14 @@ public class Ban implements Command {
                 message.getGuild().ban(m, 1).queue((v) -> {
                     builder.append("\n")
                             .append(EmoteList.GREEN_OK)
-                            .append(" | Uspěšně zabanován ")
+                            .append(" | Succesfully banned ")
                             .append(m.getAsMention());
                     if (last)
                         MessageUtils.sendErrorMessage(builder.toString(), channel);
                 }, (t) -> {
                     builder.append("\n")
                             .append(EmoteList.RED_DENY)
-                            .append(" | Nepodařilo se zabanovat ")
+                            .append(" | Could not ban ")
                             .append(FormatUtil.formatUser(m.getUser()));
                     if (last)
                         MessageUtils.sendErrorMessage(builder.toString(), channel);
@@ -89,7 +89,7 @@ public class Ban implements Command {
 
     @Override
     public String getDescription() {
-        return "Banování uživatelů na serveru.";
+        return "Ban user(s) from this server";
     }
 
     @Override

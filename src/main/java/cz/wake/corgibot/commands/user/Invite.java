@@ -16,8 +16,8 @@ public class Invite implements Command {
 
     @Override
     public void onCommand(MessageChannel channel, Message message, String[] args, Member member, EventWaiter w, GuildWrapper gw) {
-        channel.sendMessage(MessageUtils.getEmbed(Constants.GREEN).setTitle("Přidání Corgiho na server")
-                .setDescription("K pozvání použij následující [**ODKAZ**](https://discordapp.com/oauth2/authorize?client_id=294952122582302720&scope=bot&permissions=104197334)").build()).queue();
+        channel.sendMessage(MessageUtils.getEmbed(Constants.GREEN).setTitle("Invite me to your server!")
+                .setDescription("To invite me, [**click here!**](https://discord.com/api/oauth2/authorize?client_id=860244075138383922&permissions=3220700791&scope=bot)").build()).queue();
     }
 
     @Override
@@ -27,12 +27,12 @@ public class Invite implements Command {
 
     @Override
     public String getDescription() {
-        return "Pozvání bota na server";
+        return "Invite me to your server!";
     }
 
     @Override
     public String getHelp() {
-        return "%invite - Odešle odkaz na pozvání Corgiho na tvůj server.";
+        return "%invite - Sends a link to invite Corgi to your server.";
     }
 
     @Override
@@ -42,6 +42,6 @@ public class Invite implements Command {
 
     @Override
     public String[] getAliases() {
-        return new String[]{"pozvat"};
+        return new String[]{"inviteme"};
     }
 }

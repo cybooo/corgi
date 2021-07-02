@@ -38,6 +38,7 @@ import java.text.SimpleDateFormat;
 import java.time.LocalDateTime;
 import java.time.format.DateTimeFormatter;
 import java.util.Date;
+import java.util.EnumSet;
 import java.util.Map;
 import java.util.Timer;
 import java.util.concurrent.ConcurrentHashMap;
@@ -81,8 +82,8 @@ public class CorgiBot {
         // JDA Build
         CorgiLogger.infoMessage("Connecting to Discord API.");
         jda = JDABuilder.createDefault(config.getString("discord.token"))
-                .enableIntents(GatewayIntent.GUILD_MESSAGES, GatewayIntent.GUILD_MESSAGE_REACTIONS)
-                .setMemberCachePolicy(MemberCachePolicy.DEFAULT)
+                .enableIntents(GatewayIntent.GUILD_MESSAGES, GatewayIntent.GUILD_MESSAGE_REACTIONS, GatewayIntent.GUILD_PRESENCES, GatewayIntent.GUILD_MEMBERS)
+                .setMemberCachePolicy(MemberCachePolicy.ALL)
                 .addEventListeners(new ChatListener(waiter))
                 .addEventListeners(new LeaveEvent())
                 .addEventListeners(new JoinEvent())
@@ -204,11 +205,11 @@ public class CorgiBot {
     }
 
     public TextChannel getGuildLogChannel() {
-        return getJda().getGuildById("255045073887166475").getTextChannelById("361636711585021953");
+        return getJda().getGuildById("860251548231532584").getTextChannelById("860299812582981643");
     }
 
     public static Guild getDefaultGuild() {
-        return getJda().getGuildById("255045073887166475");
+        return getJda().getGuildById("860251548231532584");
     }
 
     private static void bootLogo() {

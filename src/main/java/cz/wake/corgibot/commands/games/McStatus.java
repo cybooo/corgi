@@ -30,10 +30,10 @@ public class McStatus implements Command {
             if (map.containsKey(service)) {
                 int time = (int) map.get(service);
                 if (time == -1) {
-                    status = EmoteList.WARNING + " Výpadky spojení";
+                    status = EmoteList.WARNING + " Connection failures";
                     state = 1;
                 } else {
-                    status = ":x: Offline (" + time + " minut" + (time < 4 ? "y" : "") + ")";
+                    status = ":x: Offline (" + time + " minutes" + (time < 4 ? "y" : "") + ")";
                     state = 2;
                 }
             } else {
@@ -42,7 +42,7 @@ public class McStatus implements Command {
             builder.addField(service.toString(), status, false);
         }
         builder.setThumbnail("https://boldscandinavia.com/wp-content/uploads/2020/05/moj_hor_1080x1080_compressed.gif");
-        builder.setFooter("Některé služby mohou být offline z důvodu, že je Mojang status označil jako offline.");
+        builder.setFooter("Some services may be offline because Mojang status marked them as offline.");
         channel.sendMessage(builder.setColor((state == 0 ? Constants.GREEN : state == 1 ? Constants.ORANGE : Constants.RED)).build()).queue();
     }
 
@@ -53,12 +53,12 @@ public class McStatus implements Command {
 
     @Override
     public String getHelp() {
-        return "%mcstatus - Zobrazí přehled Mojang API a jeho stavu.";
+        return "%mcstatus - Displays an overview of the Mojang API and its status.";
     }
 
     @Override
     public String getDescription() {
-        return "Příkaz na získání základní nápovědy.";
+        return "Command to view Mojnag status.";
     }
 
     @Override

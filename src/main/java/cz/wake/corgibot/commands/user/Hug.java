@@ -30,9 +30,9 @@ public class Hug implements Command {
             //JSONObject jsonObject = jsonArray.getJSONObject(0);
             url = json.getString("link");
         } catch (Exception e) {
-            MessageUtils.sendErrorMessage(I18n.getLoc(gw, "internal.error.api-failed"), channel);
+            MessageUtils.sendErrorMessage("Something went wrong! Try again later..", channel);
         }
-        channel.sendMessage(MessageUtils.getEmbed(Constants.DEFAULT_PURPLE).setTitle(EmoteList.COMET + " | " +  I18n.getLoc(gw, "commands.hug.title")).setImage(url).build()).queue();
+        channel.sendMessage(MessageUtils.getEmbed(Constants.DEFAULT_PURPLE).setTitle(EmoteList.COMET + " | " + "Random hug image").setImage(url).build()).queue();
     }
 
     @Override
@@ -42,12 +42,12 @@ public class Hug implements Command {
 
     @Override
     public String getDescription() {
-        return "Náhodný obrázek obejmutí!";
+        return "Random hug image!";
     }
 
     @Override
     public String getHelp() {
-        return "%hug - Vygenerování náhodného obrázku";
+        return "%hug - Generate random image";
     }
 
     @Override

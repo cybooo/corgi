@@ -50,7 +50,7 @@ public class Giveaway2 {
                     return;
                 }
                 while (seconds > 10 && !exit) {
-                    message.editMessage(new EmbedBuilder().setTitle(":confetti_ball:  **GIVEAWAY!**  :confetti_ball:", null).setDescription((prize != null ? "\n**" + prize + "**" : "\n") + "\nKlikni na " + emoji + " ke vstupu!\nZbývající čas: " + secondsToTime(seconds)).setColor(color).setFooter("Výherci: " + maxWinners, null).setTimestamp(Instant.ofEpochMilli(endTime)).build()).queue(m -> {}, this::exceptionHandler);
+                    message.editMessage(new EmbedBuilder().setTitle(":confetti_ball:  **GIVEAWAY!**  :confetti_ball:", null).setDescription((prize != null ? "\n**" + prize + "**" : "\n") + "\nReact with" + emoji + " to join!\nRemaining time: " + secondsToTime(seconds)).setColor(color).setFooter("Winners: " + maxWinners, null).setTimestamp(Instant.ofEpochMilli(endTime)).build()).queue(m -> {}, this::exceptionHandler);
                     seconds -= 5;
                     if(!message.getReactions().equals(emoji)){
                         message.addReaction(emoji).queue();
@@ -58,7 +58,7 @@ public class Giveaway2 {
                     Thread.sleep(5000);
                 }
                 while (seconds > 0 && !exit) {
-                    message.editMessage(new EmbedBuilder().setTitle(":confetti_ball:  **GIVEAWAY BRZO SKONCI!**  :confetti_ball:", null).setDescription((prize != null ? "\n**" + prize + "**" : "\n") + "\nKlikni na " + emoji + " ke vstupu!\nZbývající čas: " + secondsToTime(seconds)).setColor(Constants.RED).setFooter("Výherci: " + maxWinners, null).setTimestamp(Instant.ofEpochMilli(endTime)).build()).queue(m -> {}, this::exceptionHandler);
+                    message.editMessage(new EmbedBuilder().setTitle(":confetti_ball:  **GIVEAWAY IS ENDING SOON!**  :confetti_ball:", null).setDescription((prize != null ? "\n**" + prize + "**" : "\n") + "\nReact with " + emoji + " to join!\nRemaining time: " + secondsToTime(seconds)).setColor(Constants.RED).setFooter("Winners: " + maxWinners, null).setTimestamp(Instant.ofEpochMilli(endTime)).build()).queue(m -> {}, this::exceptionHandler);
                     seconds--;
                     if(!message.getReactions().equals(emoji)){
                         message.addReaction(emoji).queue();
@@ -87,12 +87,12 @@ public class Giveaway2 {
                         winners.forEach(w -> {
                             c.getAndIncrement();
                             if(w == null){
-                                finalWinners.append(c + ". `Nikdo`\n");
+                                finalWinners.append(c).append(". `Noone`\n");
                             } else {
-                                finalWinners.append(winners.size() > 1 ? c + ". " : "Vítěz ").append(message.getJDA().getUserById(w).getAsMention()).append("\n");
+                                finalWinners.append(winners.size() > 1 ? c + ". " : "Winnner ").append(message.getJDA().getUserById(w).getAsMention()).append("\n");
                             }
                         });
-                        message.editMessage(new EmbedBuilder().setTitle(":confetti_ball:  **GIVEAWAY SKONČIL!**  :confetti_ball:", null).setDescription((prize != null ? "\n**" + prize + "**" : "\n") + "\n" + finalWinners.toString()).setColor(Constants.GREEN).setFooter("Ukončeno ", null).setTimestamp(Instant.ofEpochMilli(System.currentTimeMillis())).build()).queue(m -> {}, this::exceptionHandler);
+                        message.editMessage(new EmbedBuilder().setTitle(":confetti_ball:  **GIVEAWAY ENDED!**  :confetti_ball:", null).setDescription((prize != null ? "\n**" + prize + "**" : "\n") + "\n" + finalWinners.toString()).setColor(Constants.GREEN).setFooter("Ended ", null).setTimestamp(Instant.ofEpochMilli(System.currentTimeMillis())).build()).queue(m -> {}, this::exceptionHandler);
 
                         if (winners.size() > 1) {
                             StringBuilder finalList = new StringBuilder();
@@ -101,18 +101,18 @@ public class Giveaway2 {
                                     finalList.append(message.getJDA().getUserById(winner).getAsMention()).append(", ");
                                 }
                             });
-                            message.getChannel().sendMessage("Gratulujeme " + StringUtils.removeEnd(finalList.toString(), ", ") + (prize != null ? "! K výhře **" + prize + "**" : "k výhře!")).queue();
+                            message.getChannel().sendMessage("Congratulations " + StringUtils.removeEnd(finalList.toString(), ", ") + (prize != null ? "! You won **" + prize + "**" : "You won!")).queue();
                         } else {
                             winners.forEach(winner -> {
                                 if (winner != null) {
-                                    message.getChannel().sendMessage("Gratulujeme " + message.getJDA().getUserById(winner).getAsMention() + (prize != null ? "! Vyhrál/a jsi **" + prize + "**" : "k výhře!")).queue();
+                                    message.getChannel().sendMessage("Gratulujeme " + message.getJDA().getUserById(winner).getAsMention() + (prize != null ? "! You won **" + prize + "**" : "You won!")).queue();
                                 }
                             });
                         }
                         CorgiBot.getInstance().getSql().deleteGiveawayFromSQL(message.getGuild().getId(), message.getId());
                     });
                 } catch (Exception ex){
-                    message.editMessage(new EmbedBuilder().setTitle(":fire:  **GIVEAWAY CHYBA!**  :fire:", null).setDescription("Vítěz nemohl být vyhodnocen, jelikož se nikdo nezúčastnil!").setColor(Constants.ORANGE).build()).queue();
+                    message.editMessage(new EmbedBuilder().setTitle(":fire:  **GIVEAWAY ERROR!**  :fire:", null).setDescription("No winner found, noone has joined the giveaway!").setColor(Constants.ORANGE).build()).queue();
                     message.clearReactions().queue();
                     CorgiBot.getInstance().getSql().deleteGiveawayFromSQL(message.getGuild().getId(), message.getId());
                 }
@@ -129,31 +129,31 @@ public class Giveaway2 {
         StringBuilder builder = new StringBuilder();
         int years = (int) (timeseconds / (60 * 60 * 24 * 365));
         if (years > 0) {
-            builder.append("**").append(years).append("** let, ");
+            builder.append("**").append(years).append("** years, ");
             timeseconds = timeseconds % (60 * 60 * 24 * 365);
         }
         int weeks = (int) (timeseconds / (60 * 60 * 24 * 365));
         if (weeks > 0) {
-            builder.append("**").append(weeks).append("** týdnů, ");
+            builder.append("**").append(weeks).append("** weeks, ");
             timeseconds = timeseconds % (60 * 60 * 24 * 7);
         }
         int days = (int) (timeseconds / (60 * 60 * 24));
         if (days > 0) {
-            builder.append("**").append(days).append("** dní, ");
+            builder.append("**").append(days).append("** days, ");
             timeseconds = timeseconds % (60 * 60 * 24);
         }
         int hours = (int) (timeseconds / (60 * 60));
         if (hours > 0) {
-            builder.append("**").append(hours).append("** hodin, ");
+            builder.append("**").append(hours).append("** hours, ");
             timeseconds = timeseconds % (60 * 60);
         }
         int minutes = (int) (timeseconds / (60));
         if (minutes > 0) {
-            builder.append("**").append(minutes).append("** minut, ");
+            builder.append("**").append(minutes).append("** minutes, ");
             timeseconds = timeseconds % (60);
         }
         if (timeseconds > 0)
-            builder.append("**").append(timeseconds).append("** vteřin");
+            builder.append("**").append(timeseconds).append("** seconds");
         String str = builder.toString();
         if (str.endsWith(", "))
             str = str.substring(0, str.length() - 2);

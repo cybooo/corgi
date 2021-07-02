@@ -150,7 +150,7 @@ public class PagedTableBuilder {
             }
             sb.append(MessageUtils.appendSeparatorLine("+", "+", "+", padding, widths));
             if (pageCounts) {
-                sb.append(MessageUtils.getFooter("Strana: " + (i + 1) + "/" + pagesCount, padding, widths));
+                sb.append(MessageUtils.getFooter("Page: " + (i + 1) + "/" + pagesCount, padding, widths));
             }
             sb.append(MessageUtils.appendSeparatorLine("+", "+", "+", padding, widths));
             sb.append("\n```");

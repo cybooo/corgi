@@ -45,7 +45,7 @@ public class GuildList implements Command {
             try {
                 page = Integer.parseInt(args[0]);
             } catch (NumberFormatException e) {
-                channel.sendMessage(MessageUtils.sendErrorMessage("`" + args[0] + "` je neni číslo!", channel)).queue();
+                channel.sendMessage(MessageUtils.sendErrorMessage("`" + args[0] + "` is not a number!", channel)).queue();
                 return;
             }
         }
@@ -54,7 +54,7 @@ public class GuildList implements Command {
                 .map(g -> "**" + g.getName() + "** (ID:" + g.getId() + ") ~ " + g.getMembers().size() + " členů")
                 .forEach(s -> pBuilder.addItems(s));
         Paginator p = pBuilder.setColor(message.isFromType(ChannelType.TEXT) ? member.getGuild().getSelfMember().getColor() : Color.BLACK)
-                .setText(":chart_with_upwards_trend: | Seznam Guild na kterých je **" + member.getGuild().getJDA().getSelfUser().getName() + "** připojen"
+                .setText(":chart_with_upwards_trend: | Guilds where **" + member.getGuild().getJDA().getSelfUser().getName() + "** is"
                         + (channel.getJDA().getShardInfo() == null ? ":" : "(Shard ID " + channel.getJDA().getShardInfo().getShardId() + "):"))
                 .setUsers(message.getAuthor())
                 .build();
@@ -69,7 +69,7 @@ public class GuildList implements Command {
 
     @Override
     public String getDescription() {
-        return "Přehled guild ve kterých Corgi je!";
+        return "Shows guild list!";
     }
 
     @Override

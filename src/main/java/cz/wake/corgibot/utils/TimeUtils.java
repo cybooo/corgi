@@ -63,11 +63,11 @@ public class TimeUtils {
         }
 
         long minutes = time % 60;
-        String minutesFormat = " minut";
+        String minutesFormat = " minutes";
         if(minutes == 1){
-            minutesFormat = " minutu";
+            minutesFormat = " minute";
         } else if (minutes > 1 && minutes < 5){
-            minutesFormat = " minuty";
+            minutesFormat = " minutes";
         }
         prependTimeAndUnit(timeBuf, minutes, minutesFormat);
 
@@ -78,11 +78,11 @@ public class TimeUtils {
         }
 
         long hours = time % 24;
-        String hourFormat = " hodin";
+        String hourFormat = " hours";
         if (hours == 1){
-            hourFormat = " hodinu";
+            hourFormat = " hour";
         } else if (hours > 1 && hours < 5){
-            hourFormat = " hodiny";
+            hourFormat = " hours";
         }
         prependTimeAndUnit(timeBuf, hours, hourFormat);
 
@@ -93,11 +93,11 @@ public class TimeUtils {
         }
 
         long day = time % 365;
-        String dayFormat = " dní";
+        String dayFormat = " days";
         if(day == 1){
-            dayFormat = " den";
+            dayFormat = " day";
         } else if (day > 1 && day < 5){
-            dayFormat = " dny";
+            dayFormat = " days";
         }
         prependTimeAndUnit(timeBuf, day, dayFormat);
 
@@ -157,11 +157,11 @@ public class TimeUtils {
         }
 
         long day = time % 365;
-        String dayFormat = " dní";
+        String dayFormat = " days";
         if(day == 1){
-            dayFormat = " den";
+            dayFormat = " day";
         } else if (day > 1 && day < 5){
-            dayFormat = " dny";
+            dayFormat = " days";
         }
         prependTimeAndUnit(timeBuf, day, dayFormat);
 

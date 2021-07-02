@@ -45,19 +45,19 @@ public class Giveaway implements Command {
          */
 
         if (args.length < 1) {
-            channel.sendMessage(MessageUtils.getEmbed(Constants.GIVEAWAY_BLUE).setTitle("Jak na Giveaway")
-                    .setDescription("Stručný návod jak vytvářet různé Giveawaye podle sebe.")
-                    .addField("Vytvoření", "`{%}giveaway 30m` - Základní Giveaway na 30 minut.\n`{%}giveaway 1h ; FarCry 3` - Giveaway na 1h s výhrou FarCry 3\n`{%}giveaway 2h ; Mafia 2 ; 5` - Giveaway na 2h, s výhrou Mafia 2 pro 5 uživatelů.\n`{%}giveaway 1d3h ; Overwatch ; 1 ; \uD83D\uDE04` - Giveaway s vlastním emoji (zatím fungují pouze základní)\n`{%}giveaway 4d ; CS:GO ; 3 ; \uD83D\uDE04 ; #ffffff` - Giveaway s vlastní barvou".replace("{%}", gw.getPrefix()), false)
-                    .addField("Seznam giveawayů", "Pokuď na serveru běží více Giveawayů, lze zobrazit základní informace pomocí následujícího příkazu: `{%}giveaway list`".replace("{%}", gw.getPrefix()), false)
-                    .addField("Smazání", "Giveaway se smaže zcela jednoduše, stačí smazat zprávu, kterou Corgi vytvořil!".replace("{%}", gw.getPrefix()), false).setFooter("Corgi vše ukládá, v případě výpadku bude Giveaway pokračovat.", null).build()).queue();
+            channel.sendMessage(MessageUtils.getEmbed(Constants.GIVEAWAY_BLUE).setTitle("How to create a giveaway!")
+                    .setDescription("A brief guide on how to create different Giveaways.")
+                    .addField("Creating", "`{%}giveaway 30m` - Basic giveaway for 30 minutes.\n`{%}giveaway 1h ; FarCry 3` - Giveaway for 1 hour with the FarCry 3 prize.\n`{%}giveaway 2h ; Mafia 2 ; 5` - Giveaway for 2 hours with the Mafia 2 prize for 5 users.\n`{%}giveaway 1d3h ; Overwatch ; 1 ; \uD83D\uDE04` - Giveaway with a custom emoji (Only discord emojis)\n`{%}giveaway 4d ; CS:GO ; 3 ; \uD83D\uDE04 ; #ffffff` - Giveaway with a custom color".replace("{%}", gw.getPrefix()), false)
+                    .addField("List all giveaways", "If multiple Giveaways is running on this server, you can view basic information using the following command: `{%}giveaway list`".replace("{%}", gw.getPrefix()), false)
+                    .addField("Deleting a giveaway", "It's simple! Just delete the message that Corgi sent.".replace("{%}", gw.getPrefix()), false).setFooter("Corgi is saving everything! In case of Corgi going down, everything is gonna be saved.", null).build()).queue();
         } else {
             if (args[0].equalsIgnoreCase("list")) {
 
                 PagedTableBuilder pb = new PagedTableBuilder();
                 pb.addColumn("ID");
-                pb.addColumn("Výhra");
-                pb.addColumn("Počet");
-                pb.addColumn("Konec za");
+                pb.addColumn("Prize");
+                pb.addColumn("Winners");
+                pb.addColumn("Ends in");
 
                 CorgiBot.getInstance().getSql().getAllGiveaways().forEach(g -> {
                     if (g.getGuildId().equals(message.getGuild().getId())) {
@@ -91,9 +91,9 @@ public class Giveaway implements Command {
                 if (arguments.length >= 3) {
                     maxWinners = arguments[2].replaceAll("\\s+", "");
                     if (FormatUtil.isStringInt(maxWinners)) {
-                        winners = Integer.valueOf(maxWinners);
+                        winners = Integer.parseInt(maxWinners);
                     } else {
-                        MessageUtils.sendErrorMessage("Špatně zadaný počet výherců! Zkus to znova...", channel);
+                        MessageUtils.sendErrorMessage("Invalid amount of winners! Try again..", channel);
                         return;
                     }
                 }
@@ -121,8 +121,8 @@ public class Giveaway implements Command {
                 DateTime end = start.plus(p);
                 long kekTime = end.getMillis() - start.getMillis();
 
-                if(kekTime < 150000){
-                    MessageUtils.sendErrorMessage("Minimalni čas na vytvoření Giveawaye jsou 3 minuty!", channel);
+                if (kekTime < 150000) {
+                    MessageUtils.sendErrorMessage("Giveaways can't be shorter than 3 minutes!", channel);
                     message.delete().queue();
                     return;
                 }
@@ -131,12 +131,12 @@ public class Giveaway implements Command {
                 String finalPrize = prize;
                 String finalEmoji = emoji != null ? emoji : "\uD83C\uDF89";
                 String finalColor = color;
-                channel.sendMessage(MessageUtils.getEmbed(Constants.GRAY).setDescription("Generuji...").build()).queue(m -> {
+                channel.sendMessage(MessageUtils.getEmbed(Constants.GRAY).setDescription("Generating..").build()).queue(m -> {
                     m.addReaction(finalEmoji).queue();
                     new Giveaway2(m, end.getMillis(), finalPrize, finalWinners, finalEmoji, finalColor).start();
                     CorgiBot.getInstance().getSql().registerGiveawayInSQL(member.getGuild().getId(), channel.getId(), m.getId(), start.getMillis(), end.getMillis(), finalPrize, finalWinners, finalEmoji, finalColor);
                 });
-                message.delete().reason("Start giveawaye").queue();
+                message.delete().reason("Starting giveaway").queue();
             }
         }
     }
@@ -148,12 +148,12 @@ public class Giveaway implements Command {
 
     @Override
     public String getDescription() {
-        return "Chceš pořádat na serveru Giveaway? Tímto příkazem ho vytvoříš snadno!\nStačí pouze zaktivovat a počkat si na výherce!";
+        return "Creates a giveaway.";
     }
 
     @Override
     public String getHelp() {
-        return "%giveaway 1h30m ; Výhra v loterii ; 2 ; :smile: ; #ffffff\n\nK podrovnější nápovědě napiš na serveru `%giveaway`";
+        return "%giveaway 1h30m ; Discord Nitro ; 2 ; :smile: ; #ffffff\n\nFor a more detailed guide, use `%giveaway`";
     }
 
     @Override
@@ -175,7 +175,7 @@ public class Giveaway implements Command {
         try {
             return periodParser.parsePeriod(input);
         } catch (IllegalArgumentException e) {
-            MessageUtils.sendErrorMessage("Byl zadán neplatný formát času! Zkus to třeba takto `1d` -> pro 1 den.",
+            MessageUtils.sendErrorMessage("Invalid time format! Try this: `1d` -> for one day.",
                     channel);
             return null;
         }

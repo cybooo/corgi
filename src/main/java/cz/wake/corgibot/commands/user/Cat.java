@@ -28,9 +28,9 @@ public class Cat implements Command {
             Response response = caller.newCall(request).execute();
             url = response.request().url().toString();
         } catch (Exception e) {
-            MessageUtils.sendErrorMessage(I18n.getLoc(gw, "internal.error.command-failed"), channel);
+            MessageUtils.sendErrorMessage("Something went wrong! Try again later..", channel);
         }
-        channel.sendMessage(MessageUtils.getEmbed(Constants.ORANGE).setTitle(EmoteList.CAT + " | " +  I18n.getLoc(gw, "commands.cat.title")).setImage(url).build()).queue();
+        channel.sendMessage(MessageUtils.getEmbed(Constants.ORANGE).setTitle(EmoteList.CAT + " | " + "Random cat image:").setImage(url).build()).queue();
     }
 
     @Override

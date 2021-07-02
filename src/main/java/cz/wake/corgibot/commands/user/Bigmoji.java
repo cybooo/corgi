@@ -16,8 +16,8 @@ public class Bigmoji implements Command {
     @Override
     public void onCommand(MessageChannel channel, Message message, String[] args, Member member, EventWaiter w, GuildWrapper gw) {
         if(args.length < 1) {
-            channel.sendMessage(MessageUtils.getEmbed().setTitle(I18n.getLoc(gw, "internal.general.help-command") + " - bigmoji :question:")
-                    .setDescription(getDescription() + "\n\n**Použití**\n" + //TODO: Translate
+            channel.sendMessage(MessageUtils.getEmbed().setTitle("Help" + " - bigmoji :question:")
+                    .setDescription(getDescription() + "\n\n**Usage**\n" + //TODO: Translate
                             getHelp().replace("%", gw.getPrefix())).build()).queue();
         } else {
             String str = args[0];
@@ -28,10 +28,10 @@ public class Bigmoji implements Command {
                 if (emote != null) {
                     channel.sendMessage(MessageUtils.getEmbed().setImage(emote.getImageUrl()).build()).queue();
                 } else {
-                    MessageUtils.sendErrorMessage(I18n.getLoc(gw, "commands.bigmoji.only-server-emoji"), channel);
+                    MessageUtils.sendErrorMessage("You can only use emojis from this server!", channel);
                 }
             } else {
-                MessageUtils.sendErrorMessage(I18n.getLoc(gw, "commands.bigmoji.invalid-emoji-format"), channel);
+                MessageUtils.sendErrorMessage("Invalid emoji format! Try again!", channel);
             }
         }
     }

@@ -27,7 +27,7 @@ public class CommandHandler {
         try {
             commands.add(c);
         } catch (Exception e) {
-            CorgiLogger.warnMessage("Error during register command - " + c.getCommand() + " :");
+            CorgiLogger.warnMessage("Error while registering command - " + c.getCommand() + " :");
             e.printStackTrace();
         }
     }

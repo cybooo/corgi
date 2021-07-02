@@ -26,7 +26,7 @@ public class Color implements Command {
     @Override
     public void onCommand(MessageChannel channel, Message message, String[] args, Member member, EventWaiter w, GuildWrapper gw) {
         if (args.length < 1) {
-            channel.sendMessage(MessageUtils.getEmbed(Constants.GRAY).setTitle("Nápověda k příkazu color").setDescription(getHelp().replace("%", gw.getPrefix())).build()).queue();
+            channel.sendMessage(MessageUtils.getEmbed(Constants.GRAY).setTitle("Color command help").setDescription(getHelp().replace("%", gw.getPrefix())).build()).queue();
         } else {
             try {
                 String color = args[0];
@@ -41,10 +41,10 @@ public class Color implements Command {
                     builder.setAuthor(HEX + ":");
                     colorCommand(java.awt.Color.decode(HEX), channel, builder);
                 } else {
-                    MessageUtils.sendErrorMessage("Špatně zadaný příkaz! Př. `%color #B0171F`".replace("%", gw.getPrefix()), channel);
+                    MessageUtils.sendErrorMessage("Incorrectly entered command! Example: `%color #B0171F`".replace("%", gw.getPrefix()), channel);
                 }
             } catch (NumberFormatException e) {
-                MessageUtils.sendErrorMessage("Špatně zadaný příkaz! Př. `%color #B0171F`".replace("%", gw.getPrefix()), channel);
+                MessageUtils.sendErrorMessage("Incorrectly entered command! Example: %color #B0171F`".replace("%", gw.getPrefix()), channel);
             }
         }
     }
@@ -56,12 +56,12 @@ public class Color implements Command {
 
     @Override
     public String getDescription() {
-        return "Získání barvy podle kódu.";
+        return "Get color by code";
     }
 
     @Override
     public String getHelp() {
-        return "%color [HEX-CODE] - Získání barvy";
+        return "%color [HEX-CODE] - Get color";
     }
 
     @Override

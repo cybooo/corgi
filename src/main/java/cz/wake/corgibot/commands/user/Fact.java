@@ -17,7 +17,8 @@ public class Fact implements Command {
 
     @Override
     public void onCommand(MessageChannel channel, Message message, String[] args, Member member, EventWaiter w, GuildWrapper gw) {
-        channel.sendMessage(MessageUtils.getEmbed(Constants.PINK).setTitle("Náhodný fakt :trophy:", null).setDescription(CorgiBot.getInstance().getSql().getRandomFact()).build()).queue();
+        channel.sendMessage("This command is currently unavailable!").queue();
+        //channel.sendMessage(MessageUtils.getEmbed(Constants.PINK).setTitle("Random fact :trophy:", null).setDescription(CorgiBot.getInstance().getSql().getRandomFact()).build()).queue();
     }
 
     @Override
@@ -27,12 +28,12 @@ public class Fact implements Command {
 
     @Override
     public String getDescription() {
-        return "Fakty na každý den.";
+        return "Facts every day.";
     }
 
     @Override
     public String getHelp() {
-        return "%fact - Vygenerování náhodného faktu.";
+        return "%fact - Generate random fact.";
     }
 
     @Override

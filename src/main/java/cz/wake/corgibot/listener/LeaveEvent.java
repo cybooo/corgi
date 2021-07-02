@@ -18,12 +18,12 @@ public class LeaveEvent extends ListenerAdapter {
                 .setThumbnail(event.getGuild().getIconUrl())
                 .setFooter(event.getGuild().getId(), event.getGuild().getIconUrl())
                 .setTimestamp(OffsetDateTime.now())
-                .setTitle("Corgi byl vyhozen z guildy")
+                .setTitle("Corgi has left a guild!")
                 .setAuthor(event.getGuild().getName(), null, event.getGuild().getIconUrl())
-                .setDescription("Nazev guildy: `" + event.getGuild().getName() + "` :broken_heart:\n" +
-                        "Majitel: " + (event.getGuild().getOwner() != null ?
+                .setDescription("Guild name: `" + event.getGuild().getName() + "` :broken_heart:\n" +
+                        "Owner: " + (event.getGuild().getOwner() != null ?
                         event.getGuild().getOwner().getUser().getName()
-                        : "Neexistuje, nebo nelze zjistit!")).build()).queue();
+                        : "Does not exist, or unable to find!")).build()).queue();
 
         // Logger
         CorgiLogger.infoMessage("GuildLeaveEvent - " + event.getGuild().getName() + "(" + event.getGuild().getId() + ")");

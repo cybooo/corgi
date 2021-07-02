@@ -93,7 +93,7 @@ public class Eval implements Command {
 
     @Override
     public String getDescription() {
-        return "Prostě eval";
+        return "Eval command";
     }
 
     @Override

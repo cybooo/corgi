@@ -11,7 +11,7 @@ import java.util.Set;
 
 public class BotManager {
 
-    private static HashSet<GuildWrapper> listGuilds = new HashSet<>();
+    private static final HashSet<GuildWrapper> listGuilds = new HashSet<>();
 
     public static void loadGuilds() {
         CorgiBot.getJda().getGuilds().forEach(guild -> {
@@ -21,7 +21,7 @@ public class BotManager {
 
                 // Setup guild wrapper with ignored channels
                 GuildWrapper gw = CorgiBot.getInstance().getSql().createGuildWrappers(guild.getId());
-                if(gw != null){
+                if (gw != null) {
                     gw.setIgnoredChannels(ignoredChannels);
                 }
 
@@ -31,7 +31,7 @@ public class BotManager {
                 }
 
             } catch (Exception ex) {
-                CorgiLogger.dangerMessage("Error when Corgi register Guild (ID: " + guild.getId() + "). Error:\n");
+                CorgiLogger.dangerMessage("Error when registering guild (ID: " + guild.getId() + "). Error:\n");
                 ex.printStackTrace();
                 System.exit(-1);
             }

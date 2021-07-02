@@ -20,7 +20,7 @@ public class Pin implements Command {
 
             Message msg = channel.retrieveMessageById(args[0].trim()).complete();
             if (msg == null) {
-                MessageUtils.sendErrorMessage("Požadovaná zpráva nebyla nalezena!", channel);
+                MessageUtils.sendErrorMessage("Message not found!", channel);
                 return;
             }
             msg.pin().complete();
@@ -32,7 +32,7 @@ public class Pin implements Command {
             msg.pin().complete();
             channel.getHistory().retrievePast(1).complete().get(0).delete().queue();
         } else {
-            channel.sendMessage(MessageUtils.getEmbed(Constants.GRAY).setTitle("Nápověda k příkazu %ping".replace("%", gw.getPrefix()))
+            channel.sendMessage(MessageUtils.getEmbed(Constants.GRAY).setTitle("Help for command %ping".replace("%", gw.getPrefix()))
                 .setDescription(getDescription()).build()).queue();
         }
     }
@@ -44,22 +44,17 @@ public class Pin implements Command {
 
     @Override
     public String getDescription() {
-        return "Příkaz, se kterým lze připnout zprávu nebo vygenerovat zprávu k připnutí.";
+        return "Command to pin a message, or a generate message to pin";
     }
 
     @Override
     public String getHelp() {
-        return "%pin <ID|zpráva>` - Připne zprávu podle ID nebo vygeneruje novou a připne.";
+        return "%pin <ID|zpráva>` - Pins a message by ID, or generates a new one to pin";
     }
 
     @Override
     public CommandCategory getCategory() {
         return CommandCategory.MODERATION;
-    }
-
-    @Override
-    public String[] getAliases() {
-        return new String[]{"pripnout"};
     }
 
     @Override

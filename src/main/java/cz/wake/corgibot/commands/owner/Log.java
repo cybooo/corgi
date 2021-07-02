@@ -20,9 +20,9 @@ public class Log implements Command {
     public void onCommand(MessageChannel channel, Message message, String[] args, Member member, EventWaiter w, GuildWrapper gw) {
         if (args.length < 1) {
             try {
-                channel.sendMessage(MessageUtils.getEmbed(Constants.GREEN).setDescription("Vygenerovaný log (latest.log) by vyžádán!").build()).queue();
-                File log = new File("latest.log");
-                channel.sendFile(log, "latest.log").queue(); //TODO: NEFUNGUJE!
+                channel.sendMessage(MessageUtils.getEmbed(Constants.GREEN).setDescription("Generated log (latest.log) requested!").build()).queue();
+                File log = new File("logs/latest.log");
+                channel.sendFile(log, "latest.log").queue();
             } catch (Exception e) {
                 //
             }
@@ -36,7 +36,7 @@ public class Log implements Command {
 
     @Override
     public String getDescription() {
-        return "Zaslání logu";
+        return "Request logs";
     }
 
     @Override

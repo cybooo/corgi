@@ -31,12 +31,16 @@ repositories {
     mavenCentral()
     maven { url "https://jcenter.bintray.com" }
     maven { url "https://repo.maven.apache.org/maven2" }
+    maven {
+        name 'm2-dv8tion'
+        url 'https://m2.dv8tion.net/releases'
+    }
 }
 
 dependencies {
 
     // JDA
-    compile group: 'net.dv8tion', name: 'JDA', version:'4.2.0_209'
+    compile group: 'net.dv8tion', name: 'JDA', version:'4.3.0_290'
     compile group: 'com.jagrosh', name: 'jda-utilities', version:'3.0.4'
 
     // Others

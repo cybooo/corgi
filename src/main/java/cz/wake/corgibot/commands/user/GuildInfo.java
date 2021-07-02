@@ -38,7 +38,7 @@ public class GuildInfo implements Command {
                 .addField("Date created", guild.getTimeCreated().format(DateTimeFormatter.ISO_DATE_TIME).replaceAll("[^0-9.:-]", " "), true)
                 .addField("Voice/Text channels", guild.getVoiceChannels().size() + "/" + guild.getTextChannels().size(), true)
                 .addField("Owner", guild.getOwner().getUser().getName() + "#" + guild.getOwner().getUser().getDiscriminator(), true)
-                .addField("Region", guild.getRegion() == null ? "Neznámý." : guild.getRegion().getName(), true)
+                .addField("Region", guild.getRegion() == null ? "Unknown." : guild.getRegion().getName(), true)
                 .addField("Roles (" + guild.getRoles().size() + ")", roles, false)
                 .setFooter("Server ID: " + guild.getId(), null)
                 .build()

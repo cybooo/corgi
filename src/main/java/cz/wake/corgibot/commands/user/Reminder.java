@@ -42,7 +42,7 @@ public class Reminder implements Command {
             HashSet<TemporaryReminder> list = CorgiBot.getInstance().getSql().getRemindersByUser(member.getUser().getId());
 
             if (list.isEmpty()) {
-                MessageUtils.sendErrorMessage(I18n.getLoc(gw, "commands.reminder.no-reminder"), channel);
+                MessageUtils.sendErrorMessage("You don't have any reminders!", channel);
                 return;
             }
 
@@ -105,11 +105,10 @@ public class Reminder implements Command {
                 return;
             }
 
-            String time = arguments[0].replaceAll("\\s+", "");
+            String time = arguments[0].replaceAll("\\s+", "").replace(gw.getPrefix(), "");
             String reminderMessage = arguments[1].substring(1);
 
             Period p = getTimeFromInput(time, channel);
-
             DateTime start = new DateTime();  //NOW
             DateTime end = start.plus(p);
 
@@ -151,7 +150,7 @@ public class Reminder implements Command {
     @Override
     public String getHelp() {
         return "%reminder - Show help\n" +
-                "%reminder [čas] ; [text] - Set a reminder\n" +
+                "%reminder [time] ; [text] - Set a reminder\n" +
                 "%reminder list - Show all your reminders\n" +
                 "%reminder delete [ID] - Deletes a reminder";
     }

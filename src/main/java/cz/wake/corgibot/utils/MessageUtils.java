@@ -66,11 +66,11 @@ public class MessageUtils {
     }
 
     public static EmbedBuilder getEmbed(User user, Color c) {
-        return getEmbed(c).setFooter("Požadavek od @" + getTag(user), user.getEffectiveAvatarUrl());
+        return getEmbed(c).setFooter("Requested by @" + getTag(user), user.getEffectiveAvatarUrl());
     }
 
     public static EmbedBuilder getEmbed(User user) {
-        return getEmbed(ColorSelector.getRandomColor()).setFooter("Request from @" + getTag(user), user.getEffectiveAvatarUrl());
+        return getEmbed(ColorSelector.getRandomColor()).setFooter("Requested by @" + getTag(user), user.getEffectiveAvatarUrl());
     }
 
     public static EmbedBuilder getEmbed(Color c) {

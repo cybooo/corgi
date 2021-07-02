@@ -13,7 +13,7 @@ import java.util.concurrent.ConcurrentHashMap;
 
 public class ButtonUtil {
 
-    private static Map<String, ButtonGroup> buttonMessages = new ConcurrentHashMap<>();
+    private static final Map<String, ButtonGroup> buttonMessages = new ConcurrentHashMap<>();
 
     /**
      * Sends an embed button message with a set of buttons.

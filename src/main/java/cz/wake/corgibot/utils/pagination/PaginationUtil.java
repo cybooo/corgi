@@ -98,7 +98,7 @@ public class PaginationUtil {
                     message.delete().queue(null, e -> {
                     });
                 } else {
-                    MessageUtils.sendErrorMessage("You need to be the sender or have the `Manage Messages` discord permission to do this!", (TextChannel) message.getChannel());
+                    MessageUtils.sendErrorMessage("You need to be the sender or have the `Manage Messages` discord permission to do this!", message.getChannel());
                 }
             }));
             ButtonUtil.sendButtonedMessage(textChannel, list.getPage(page), buttonGroup);
@@ -155,7 +155,7 @@ public class PaginationUtil {
                     message.delete().queue(null, e -> {
                     });
                 } else {
-                    MessageUtils.sendErrorMessage("You need to be the sender or have the `Manage Messages` discord permission to do this!", (TextChannel) message.getChannel());
+                    MessageUtils.sendErrorMessage("You need to be the sender or have the `Manage Messages` discord permission to do this!", message.getChannel());
                 }
             }));
             ButtonUtil.sendButtonedMessage(channel, pagedEmbed.getEmbed(page), buttonGroup);

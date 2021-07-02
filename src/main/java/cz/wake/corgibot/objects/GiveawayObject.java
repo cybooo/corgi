@@ -2,15 +2,15 @@ package cz.wake.corgibot.objects;
 
 public class GiveawayObject {
 
-    private int giveawayId;
-    private String guildId;
-    private String textchannelId;
-    private String messageId;
-    private long endTime;
-    private String prize;
-    private int maxWinners;
-    private String emoji;
-    private String color;
+    private final int giveawayId;
+    private final String guildId;
+    private final String textchannelId;
+    private final String messageId;
+    private final long endTime;
+    private final String prize;
+    private final int maxWinners;
+    private final String emoji;
+    private final String color;
 
     public GiveawayObject(int giveawayId, String guildId, String textchannelId, String messageId, long endTime, String prize, int maxWinners, String emoji, String color) {
         this.giveawayId = giveawayId;

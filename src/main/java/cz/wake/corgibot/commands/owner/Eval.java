@@ -22,7 +22,7 @@ import java.util.stream.Collectors;
 @SinceCorgi(version = "1.2.2")
 public class Eval implements Command {
 
-    private ScriptEngineManager manager = new ScriptEngineManager();
+    private final ScriptEngineManager manager = new ScriptEngineManager();
     private static final ThreadGroup EVALS = new ThreadGroup("EvalCommand Thread Pool");
     private static final ExecutorService POOL = Executors.newCachedThreadPool(r -> new Thread(EVALS, r,
             EVALS.getName() + EVALS.activeCount()));

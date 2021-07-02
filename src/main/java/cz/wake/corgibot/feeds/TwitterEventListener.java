@@ -12,11 +12,11 @@ import java.util.*;
 
 public class TwitterEventListener {
 
-    private static File serializedFile = new File("resources/feeds/Twitter.bin");
+    private static final File serializedFile = new File("resources/feeds/Twitter.bin");
     // twitterClient is null if no API keys set
     public static Twitter twitterClient;
     static Configuration config;
-    static FilterQuery filter = new FilterQuery();
+    static final FilterQuery filter = new FilterQuery();
     static TwitterStream twitterStream;
 
     private static long lastChange;

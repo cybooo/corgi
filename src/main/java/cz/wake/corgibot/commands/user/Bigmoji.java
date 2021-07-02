@@ -5,7 +5,6 @@ import cz.wake.corgibot.commands.Command;
 import cz.wake.corgibot.commands.CommandCategory;
 import cz.wake.corgibot.objects.GuildWrapper;
 import cz.wake.corgibot.utils.MessageUtils;
-import cz.wake.corgibot.utils.lang.I18n;
 import net.dv8tion.jda.api.entities.Emote;
 import net.dv8tion.jda.api.entities.Member;
 import net.dv8tion.jda.api.entities.Message;
@@ -23,7 +22,7 @@ public class Bigmoji implements Command {
             String str = args[0];
             if (str.matches("<.*:.*:\\d+>")) {
                 String id = str.replaceAll("<.*:.*:(\\d+)>", "$1");
-                Long longId = Long.valueOf(id);
+                long longId = Long.parseLong(id);
                 Emote emote = channel.getJDA().getEmoteById(longId);
                 if (emote != null) {
                     channel.sendMessage(MessageUtils.getEmbed().setImage(emote.getImageUrl()).build()).queue();

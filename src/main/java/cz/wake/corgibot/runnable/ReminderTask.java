@@ -2,12 +2,9 @@ package cz.wake.corgibot.runnable;
 
 import cz.wake.corgibot.CorgiBot;
 import cz.wake.corgibot.objects.TemporaryReminder;
-import cz.wake.corgibot.sql.ConnectionPoolManager;
 import cz.wake.corgibot.utils.CorgiLogger;
 import cz.wake.corgibot.utils.MessageUtils;
 
-import java.sql.Connection;
-import java.sql.PreparedStatement;
 import java.util.HashSet;
 import java.util.TimerTask;
 

@@ -10,7 +10,7 @@ import java.util.List;
 public class PagedTableBuilder {
 
     private List<String> header;
-    private List<List<String>> body;
+    private final List<List<String>> body;
     private int rows;
     private boolean pageCounts;
 

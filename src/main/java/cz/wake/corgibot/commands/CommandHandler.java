@@ -21,7 +21,7 @@ import java.util.stream.Collectors;
 
 public class CommandHandler {
 
-    public static List<Command> commands = new ArrayList<>();
+    public static final List<Command> commands = new ArrayList<>();
 
     public void registerCommand(Command c) {
         try {

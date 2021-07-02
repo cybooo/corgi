@@ -2,10 +2,10 @@ package cz.wake.corgibot.objects;
 
 public class TemporaryReminder {
 
-    private int reminderId;
-    private String userId;
-    private long date;
-    private String message;
+    private final int reminderId;
+    private final String userId;
+    private final long date;
+    private final String message;
 
     public TemporaryReminder(int reminderId, String userId, long date, String message) {
         this.reminderId = reminderId;

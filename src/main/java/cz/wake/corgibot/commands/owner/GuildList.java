@@ -49,7 +49,7 @@ public class GuildList implements Command {
                 return;
             }
         }
-        pBuilder.setItems(new String[0]);
+        pBuilder.setItems();
         channel.getJDA().getGuilds().stream()
                 .map(g -> "**" + g.getName() + "** (ID:" + g.getId() + ") ~ " + g.getMembers().size() + " členů")
                 .forEach(s -> pBuilder.addItems(s));

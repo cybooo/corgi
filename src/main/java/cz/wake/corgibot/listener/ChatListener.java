@@ -29,7 +29,7 @@ import java.util.regex.Pattern;
 public class ChatListener extends ListenerAdapter {
 
     private EventWaiter w;
-    private static Map<String, Integer> spamMap = new ConcurrentHashMap<>();
+    private static final Map<String, Integer> spamMap = new ConcurrentHashMap<>();
 
     public ChatListener(EventWaiter w) {
         this.w = w;
@@ -41,7 +41,7 @@ public class ChatListener extends ListenerAdapter {
     @Override
     public void onGuildMessageReceived(GuildMessageReceivedEvent e) {
 
-        if (e.getAuthor().isBot() || e.getAuthor().isFake()) {
+        if (e.getAuthor().isBot()) {
             return;
         }
 

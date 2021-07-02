@@ -12,9 +12,9 @@ import java.util.List;
 
 public class ButtonGroup {
 
-    private List<Button> buttons;
-    private long ownerID;
-    private String name;
+    private final List<Button> buttons;
+    private final long ownerID;
+    private final String name;
 
     public ButtonGroup(long ownerID, String name) {
         this.ownerID = ownerID;
@@ -48,7 +48,7 @@ public class ButtonGroup {
 
         private String unicode;
         private long emoteId;
-        private ButtonRunnable runnable;
+        private final ButtonRunnable runnable;
         private Message message;
 
         public Button(String unicode, ButtonRunnable runnable) {

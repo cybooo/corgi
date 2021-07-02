@@ -176,7 +176,7 @@ public class Paginator extends Menu {
         MessageBuilder mbuilder = new MessageBuilder();
         EmbedBuilder ebuilder = new EmbedBuilder();
         int start = (pageNum-1)*itemsPerPage;
-        int end = strings.size() < pageNum*itemsPerPage ? strings.size() : pageNum*itemsPerPage;
+        int end = Math.min(strings.size(), pageNum * itemsPerPage);
         switch(columns)
         {
             case 1:

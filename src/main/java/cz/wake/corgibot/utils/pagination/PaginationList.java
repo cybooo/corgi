@@ -6,7 +6,7 @@ import java.util.Objects;
 
 public class PaginationList<T> {
 
-    private List<T> list;
+    private final List<T> list;
     private List<PageGroup> groups;
 
     /**

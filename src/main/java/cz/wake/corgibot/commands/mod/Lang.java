@@ -24,9 +24,9 @@ public class Lang implements Command {
 
         for(Language language : Language.values()) {
             if(language.getCode().equalsIgnoreCase(gw.getLanguage())){
-                text.append("• " + language.getFlag() + " **" + language.getNativeName() + "** [{1}]\n".replace("{1}", I18n.getLoc(gw, "commands.language.selected")));
+                text.append("• ").append(language.getFlag()).append(" **").append(language.getNativeName()).append("** [{1}]\n".replace("{1}", I18n.getLoc(gw, "commands.language.selected")));
             } else {
-                text.append("• " + language.getFlag() + " " + language.getNativeName() + "\n");
+                text.append("• ").append(language.getFlag()).append(" ").append(language.getNativeName()).append("\n");
             }
         }
 

@@ -16,7 +16,7 @@ public class GuildWrapper {
     /*
         The id of the guild that the settings are for
      */
-    private String guildId;
+    private final String guildId;
 
     /*
         Custom prefix for that guild

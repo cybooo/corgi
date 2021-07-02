@@ -9,7 +9,6 @@ import cz.wake.corgibot.objects.ChangeLog;
 import cz.wake.corgibot.objects.GuildWrapper;
 import cz.wake.corgibot.utils.EmoteList;
 import cz.wake.corgibot.utils.MessageUtils;
-import cz.wake.corgibot.utils.lang.I18n;
 import net.dv8tion.jda.api.entities.Member;
 import net.dv8tion.jda.api.entities.Message;
 import net.dv8tion.jda.api.entities.MessageChannel;
@@ -76,7 +75,7 @@ public class Changelog implements Command {
         return CommandCategory.GENERAL;
     }
 
-    public static String dateFormat = "dd.MM.yyyy";
+    public static final String dateFormat = "dd.MM.yyyy";
     private static final SimpleDateFormat simpleDateFormat = new SimpleDateFormat(dateFormat);
 
     public static String convertMilisToDate(String milliSeconds) {

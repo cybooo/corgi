@@ -1,7 +1,6 @@
 package cz.wake.corgibot.commands.user;
 
 import com.jagrosh.jdautilities.commons.waiter.EventWaiter;
-import cz.wake.corgibot.CorgiBot;
 import cz.wake.corgibot.annotations.SinceCorgi;
 import cz.wake.corgibot.commands.Command;
 import cz.wake.corgibot.commands.CommandCategory;
@@ -12,7 +11,6 @@ import cz.wake.corgibot.utils.lang.I18n;
 import net.dv8tion.jda.api.entities.Member;
 import net.dv8tion.jda.api.entities.Message;
 import net.dv8tion.jda.api.entities.MessageChannel;
-import net.dv8tion.jda.api.entities.User;
 
 @SinceCorgi(version = "1.2")
 public class Avatar implements Command {

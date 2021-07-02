@@ -84,7 +84,7 @@ public class Help implements Command {
             builder.append(type.getEmote()).append(" | **").append(type.formattedName()).append("** - ").append(ch.getCommandsByType(type).size()).append("\n");
             for (Command c : ch.getCommands()) {
                 if (c.getCategory().equals(type)) {
-                    builder.append("`" + c.getCommand() + "` ");
+                    builder.append("`").append(c.getCommand()).append("` ");
                 }
             }
         }

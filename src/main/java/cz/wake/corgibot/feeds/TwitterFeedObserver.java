@@ -14,9 +14,9 @@ public class TwitterFeedObserver implements Serializable {
 
     private static final long serialVersionUID = -4749221302251416947L;
 
-    private String discoChannel;
-    private String twitterHandle;
-    private boolean showPictures;
+    private final String discoChannel;
+    private final String twitterHandle;
+    private final boolean showPictures;
     private boolean showRetweets;
     private boolean showReplies;
 

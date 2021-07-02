@@ -18,13 +18,13 @@ import java.util.concurrent.atomic.AtomicInteger;
 
 public class Giveaway2 {
 
-    private int giveawayId;
-    private long endTime;
-    private String prize;
-    private int maxWinners;
-    private String emoji;
+    private final int giveawayId;
+    private final long endTime;
+    private final String prize;
+    private final int maxWinners;
+    private final String emoji;
     private Color color;
-    private Message message;
+    private final Message message;
     private long seconds;
     private volatile boolean exit = false;
 
@@ -92,7 +92,7 @@ public class Giveaway2 {
                                 finalWinners.append(winners.size() > 1 ? c + ". " : "Winnner ").append(message.getJDA().getUserById(w).getAsMention()).append("\n");
                             }
                         });
-                        message.editMessage(new EmbedBuilder().setTitle(":confetti_ball:  **GIVEAWAY ENDED!**  :confetti_ball:", null).setDescription((prize != null ? "\n**" + prize + "**" : "\n") + "\n" + finalWinners.toString()).setColor(Constants.GREEN).setFooter("Ended ", null).setTimestamp(Instant.ofEpochMilli(System.currentTimeMillis())).build()).queue(m -> {}, this::exceptionHandler);
+                        message.editMessage(new EmbedBuilder().setTitle(":confetti_ball:  **GIVEAWAY ENDED!**  :confetti_ball:", null).setDescription((prize != null ? "\n**" + prize + "**" : "\n") + "\n" + finalWinners).setColor(Constants.GREEN).setFooter("Ended ", null).setTimestamp(Instant.ofEpochMilli(System.currentTimeMillis())).build()).queue(m -> {}, this::exceptionHandler);
 
                         if (winners.size() > 1) {
                             StringBuilder finalList = new StringBuilder();

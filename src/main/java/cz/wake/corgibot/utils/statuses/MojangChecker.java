@@ -15,8 +15,8 @@ import java.util.concurrent.ConcurrentMap;
 
 public class MojangChecker extends TimerTask {
 
-    private JsonParser parser = new JsonParser();
-    private static ConcurrentMap<MojangService, Integer> serviceStatus = new ConcurrentHashMap<>();
+    private final JsonParser parser = new JsonParser();
+    private static final ConcurrentMap<MojangService, Integer> serviceStatus = new ConcurrentHashMap<>();
 
     @Override
     public void run() {

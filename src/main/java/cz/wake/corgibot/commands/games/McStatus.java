@@ -19,7 +19,7 @@ import java.util.concurrent.ConcurrentMap;
 @SinceCorgi(version = "0.4")
 public class McStatus implements Command {
 
-    private ConcurrentMap map = MojangChecker.getServiceStatus();
+    private final ConcurrentMap map = MojangChecker.getServiceStatus();
 
     @Override
     public void onCommand(MessageChannel channel, Message message, String[] args, Member member, EventWaiter w, GuildWrapper gw) {

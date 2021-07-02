@@ -17,7 +17,6 @@ import cz.wake.corgibot.utils.config.Config;
 import cz.wake.corgibot.utils.config.ConfigUtils;
 import cz.wake.corgibot.utils.lang.I18n;
 import cz.wake.corgibot.utils.statuses.MojangChecker;
-import net.dv8tion.jda.api.AccountType;
 import net.dv8tion.jda.api.JDA;
 import net.dv8tion.jda.api.JDABuilder;
 import net.dv8tion.jda.api.OnlineStatus;
@@ -38,7 +37,6 @@ import java.text.SimpleDateFormat;
 import java.time.LocalDateTime;
 import java.time.format.DateTimeFormatter;
 import java.util.Date;
-import java.util.EnumSet;
 import java.util.Map;
 import java.util.Timer;
 import java.util.concurrent.ConcurrentHashMap;
@@ -47,10 +45,10 @@ public class CorgiBot {
 
     private static CorgiBot instance;
     private static JDA jda;
-    private CommandHandler ch = new CommandHandler();
+    private final CommandHandler ch = new CommandHandler();
     private SQLManager sql;
     private ChatListener chatListener;
-    private DateTimeFormatter timeFormat = DateTimeFormatter.ofPattern("MMMM yyyy HH:mm:ss");
+    private final DateTimeFormatter timeFormat = DateTimeFormatter.ofPattern("MMMM yyyy HH:mm:ss");
     public static long startUp;
     private static final Map<String, Logger> LOGGERS;
     public static final Logger LOGGER;

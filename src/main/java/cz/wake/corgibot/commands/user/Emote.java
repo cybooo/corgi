@@ -32,7 +32,7 @@ public class Emote implements Command {
             String str = args[0];
             if (str.matches("<.*:.*:\\d+>")) { //Server Emotes
                 String id = str.replaceAll("<.*:.*:(\\d+)>", "$1");
-                Long longId = Long.valueOf(id);
+                long longId = Long.parseLong(id);
                 net.dv8tion.jda.api.entities.Emote emote = channel.getJDA().getEmoteById(longId);
                 if (emote == null) {
                     channel.sendMessage(MessageUtils.getEmbed(member.getUser(), Constants.RED).setTitle("**Unknown emote**")

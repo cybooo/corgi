@@ -38,8 +38,7 @@ public class UserInfo implements Command {
         }
 
         StringBuilder joinOrder = new StringBuilder();
-        List<Member> joins = message.getGuild().getMemberCache().stream().collect(Collectors.toList());
-        joins.sort(Comparator.comparing(Member::getTimeJoined));
+        List<Member> joins = message.getGuild().getMemberCache().stream().sorted(Comparator.comparing(Member::getTimeJoined)).collect(Collectors.toList());
         int index = joins.indexOf(guildMember);
         index -= 3;
         if (index < 0)

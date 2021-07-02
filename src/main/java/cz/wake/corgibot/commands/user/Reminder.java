@@ -8,7 +8,6 @@ import cz.wake.corgibot.commands.CommandCategory;
 import cz.wake.corgibot.objects.GuildWrapper;
 import cz.wake.corgibot.objects.TemporaryReminder;
 import cz.wake.corgibot.utils.*;
-import cz.wake.corgibot.utils.lang.I18n;
 import cz.wake.corgibot.utils.pagination.PagedTableBuilder;
 import cz.wake.corgibot.utils.pagination.PaginationUtil;
 import net.dv8tion.jda.api.entities.Member;

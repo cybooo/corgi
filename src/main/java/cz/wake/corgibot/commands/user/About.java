@@ -25,22 +25,22 @@ public class About implements Command {
                                     "I was originally created by Wake#0001, but now i'm maintained by cybo#0001!\n\n" +
 
                                     "**Web**: [https://corgibot.xyz](https://corgibot.xyz)\n" +
-                                    "**Invite me**: [Odkaz](https://discord.com/api/oauth2/authorize?client_id=860244075138383922&permissions=3220700791&scope=bot)\n" +
+                                    "**Invite me**: [Click me](https://discord.com/api/oauth2/authorize?client_id=860244075138383922&permissions=3220700791&scope=bot)\n" +
                                     "**Owner**: " + channel.getJDA().getUserById("485434705903222805").getAsMention() + "\n" +
-                                    "**Suppport Guild**: [Odkaz](https://discord.gg/pR2tj432NS)")
+                                    "**Suppport Guild**: [Click me](https://discord.gg/pR2tj432NS)")
                     .setThumbnail(channel.getJDA().getSelfUser().getAvatarUrl())
                     .setImage("https://www.cyborggg.eu/images/corgi_logo.jpg").build()).queue();
         } else {
-            channel.sendMessage(MessageUtils.getEmbed(ColorSelector.getRandomColor()).setTitle("Představení Corgiho")
+            channel.sendMessage(MessageUtils.getEmbed(ColorSelector.getRandomColor()).setTitle("Introducing Corgi!")
                     .setDescription(
                             "Hey, i'm Corgi! I'm a bot for Discord!\n" +
                                     "I'm designed for a wide range of functionality from administration, obtaining statistics from games to classic commands for Discord!\n" +
                                     "I was originally created by Wake#0001, but now i'm maintained by cybo#0001!\n\n" +
 
                                     "**Web**: [https://corgibot.xyz](https://corgibot.xyz)\n" +
-                                    "**Invite me**: [Odkaz](https://discord.com/api/oauth2/authorize?client_id=860244075138383922&permissions=3220700791&scope=bot)\n" +
+                                    "**Invite me**: [Click me](https://discord.com/api/oauth2/authorize?client_id=860244075138383922&permissions=3220700791&scope=bot)\n" +
                                     "**Owner**: " + channel.getJDA().getUserById("485434705903222805").getAsMention() + "\n" +
-                                    "**Suppport Guild**: [Odkaz](https://discord.gg/pR2tj432NS)")
+                                    "**Suppport Guild**: [Click me](https://discord.gg/pR2tj432NS)")
                     .setThumbnail(channel.getJDA().getSelfUser().getAvatarUrl()).build()).queue();
         }
     }

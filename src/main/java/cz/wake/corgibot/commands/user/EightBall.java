@@ -30,7 +30,7 @@ public class EightBall implements Command {
             if (args.length < 1) {
                 channel.sendMessage(member.getUser().getAsMention() + " You need to ask me something, i can't read your mind!").queue();
             } else {
-                channel.sendMessage(MessageUtils.getEmbed(member.getUser(), Constants.PINK).addField(member.getUser().getName() + " se ptá:", message.getContentRaw().replace("8ball ", "").replace("8b", "").replace(gw.getPrefix(), "").replace("dotaz", ""), false).addField("Corgi odpovídá:", outcomes[ThreadLocalRandom.current().nextInt(0, outcomes.length)], false).build()).queue();
+                channel.sendMessage(MessageUtils.getEmbed(member.getUser(), Constants.PINK).addField(member.getUser().getName() + " is asking:", message.getContentRaw().replace("8ball ", "").replace("8b", "").replace(gw.getPrefix(), ""), false).addField("Corgi responds:", outcomes[ThreadLocalRandom.current().nextInt(0, outcomes.length)], false).build()).queue();
             }
         } catch (Exception e) {
             MessageUtils.sendAutoDeletedMessage("Something went wrong!", 10000, channel);

@@ -82,7 +82,8 @@ public class ButtonGroup {
             else {
                 try {
                     message.addReaction(CorgiBot.getJda().getEmoteById(emoteId)).queue();
-                } catch (IllegalArgumentException ignored) {}
+                } catch (IllegalArgumentException ignored) {
+                }
             }
         }
 

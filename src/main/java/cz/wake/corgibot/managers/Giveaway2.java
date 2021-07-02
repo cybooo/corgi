@@ -39,28 +39,30 @@ public class Giveaway2 {
             this.color = Constants.GIVEAWAY_BLUE;
         }
         this.message = message;
-        this.seconds = (endTime - System.currentTimeMillis())/1000;
+        this.seconds = (endTime - System.currentTimeMillis()) / 1000;
         this.giveawayId = 0;
     }
 
-    public void start(){
+    public void start() {
         new Thread(() -> {
             try {
-                if (exit){
+                if (exit) {
                     return;
                 }
                 while (seconds > 10 && !exit) {
-                    message.editMessage(new EmbedBuilder().setTitle(":confetti_ball:  **GIVEAWAY!**  :confetti_ball:", null).setDescription((prize != null ? "\n**" + prize + "**" : "\n") + "\nReact with" + emoji + " to join!\nRemaining time: " + secondsToTime(seconds)).setColor(color).setFooter("Winners: " + maxWinners, null).setTimestamp(Instant.ofEpochMilli(endTime)).build()).queue(m -> {}, this::exceptionHandler);
+                    message.editMessage(new EmbedBuilder().setTitle(":confetti_ball:  **GIVEAWAY!**  :confetti_ball:", null).setDescription((prize != null ? "\n**" + prize + "**" : "\n") + "\nReact with" + emoji + " to join!\nRemaining time: " + secondsToTime(seconds)).setColor(color).setFooter("Winners: " + maxWinners, null).setTimestamp(Instant.ofEpochMilli(endTime)).build()).queue(m -> {
+                    }, this::exceptionHandler);
                     seconds -= 5;
-                    if(!message.getReactions().equals(emoji)){
+                    if (!message.getReactions().equals(emoji)) {
                         message.addReaction(emoji).queue();
                     }
                     Thread.sleep(5000);
                 }
                 while (seconds > 0 && !exit) {
-                    message.editMessage(new EmbedBuilder().setTitle(":confetti_ball:  **GIVEAWAY IS ENDING SOON!**  :confetti_ball:", null).setDescription((prize != null ? "\n**" + prize + "**" : "\n") + "\nReact with " + emoji + " to join!\nRemaining time: " + secondsToTime(seconds)).setColor(Constants.RED).setFooter("Winners: " + maxWinners, null).setTimestamp(Instant.ofEpochMilli(endTime)).build()).queue(m -> {}, this::exceptionHandler);
+                    message.editMessage(new EmbedBuilder().setTitle(":confetti_ball:  **GIVEAWAY IS ENDING SOON!**  :confetti_ball:", null).setDescription((prize != null ? "\n**" + prize + "**" : "\n") + "\nReact with " + emoji + " to join!\nRemaining time: " + secondsToTime(seconds)).setColor(Constants.RED).setFooter("Winners: " + maxWinners, null).setTimestamp(Instant.ofEpochMilli(endTime)).build()).queue(m -> {
+                    }, this::exceptionHandler);
                     seconds--;
-                    if(!message.getReactions().equals(emoji)){
+                    if (!message.getReactions().equals(emoji)) {
                         message.addReaction(emoji).queue();
                     }
                     Thread.sleep(1000);
@@ -71,12 +73,12 @@ public class Giveaway2 {
                         users.remove(message.getJDA().getSelfUser()); // Remove Corgi
                         List<String> winners = new ArrayList<>();
                         int failed = 0;
-                        while (winners.size() < maxWinners){
+                        while (winners.size() < maxWinners) {
                             String id = users.get((int) (Math.random() * users.size())).getId();
-                            if(!winners.contains(id)){
+                            if (!winners.contains(id)) {
                                 winners.add(id);
                             } else {
-                                if(failed >= 5){
+                                if (failed >= 5) {
                                     winners.add(null);
                                 }
                                 failed++;
@@ -86,13 +88,14 @@ public class Giveaway2 {
                         AtomicInteger c = new AtomicInteger();
                         winners.forEach(w -> {
                             c.getAndIncrement();
-                            if(w == null){
+                            if (w == null) {
                                 finalWinners.append(c).append(". `Noone`\n");
                             } else {
                                 finalWinners.append(winners.size() > 1 ? c + ". " : "Winnner ").append(message.getJDA().getUserById(w).getAsMention()).append("\n");
                             }
                         });
-                        message.editMessage(new EmbedBuilder().setTitle(":confetti_ball:  **GIVEAWAY ENDED!**  :confetti_ball:", null).setDescription((prize != null ? "\n**" + prize + "**" : "\n") + "\n" + finalWinners).setColor(Constants.GREEN).setFooter("Ended ", null).setTimestamp(Instant.ofEpochMilli(System.currentTimeMillis())).build()).queue(m -> {}, this::exceptionHandler);
+                        message.editMessage(new EmbedBuilder().setTitle(":confetti_ball:  **GIVEAWAY ENDED!**  :confetti_ball:", null).setDescription((prize != null ? "\n**" + prize + "**" : "\n") + "\n" + finalWinners).setColor(Constants.GREEN).setFooter("Ended ", null).setTimestamp(Instant.ofEpochMilli(System.currentTimeMillis())).build()).queue(m -> {
+                        }, this::exceptionHandler);
 
                         if (winners.size() > 1) {
                             StringBuilder finalList = new StringBuilder();
@@ -111,7 +114,7 @@ public class Giveaway2 {
                         }
                         CorgiBot.getInstance().getSql().deleteGiveawayFromSQL(message.getGuild().getId(), message.getId());
                     });
-                } catch (Exception ex){
+                } catch (Exception ex) {
                     message.editMessage(new EmbedBuilder().setTitle(":fire:  **GIVEAWAY ERROR!**  :fire:", null).setDescription("No winner found, noone has joined the giveaway!").setColor(Constants.ORANGE).build()).queue();
                     message.clearReactions().queue();
                     CorgiBot.getInstance().getSql().deleteGiveawayFromSQL(message.getGuild().getId(), message.getId());
@@ -162,10 +165,10 @@ public class Giveaway2 {
         return str;
     }
 
-    private void exceptionHandler(Throwable ex){
-        if(ex instanceof ErrorResponseException){
-            ErrorResponseException e = (ErrorResponseException)ex;
-            switch(e.getErrorCode()){
+    private void exceptionHandler(Throwable ex) {
+        if (ex instanceof ErrorResponseException) {
+            ErrorResponseException e = (ErrorResponseException) ex;
+            switch (e.getErrorCode()) {
 
                 // Giveaway deleted.. Corgi do not have access to message
                 case 10008: // message not found
@@ -187,7 +190,7 @@ public class Giveaway2 {
         }
     }
 
-    private void requestExit(){
+    private void requestExit() {
         exit = true;
     }
 

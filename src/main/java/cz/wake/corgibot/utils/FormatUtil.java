@@ -49,7 +49,7 @@ public class FormatUtil {
     /**
      * Sets the highlightjs language for the given String.
      *
-     * @param in String to give highlighting to.
+     * @param in       String to give highlighting to.
      * @param language Language to highlight in.
      * @return Formatted String
      */

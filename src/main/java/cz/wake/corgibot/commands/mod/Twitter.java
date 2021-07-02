@@ -27,27 +27,27 @@ public class Twitter implements Command {
 
     @Override
     public void onCommand(MessageChannel channel, Message message, String[] args, Member member, EventWaiter w, GuildWrapper gw) {
-        if(args.length < 1){
+        if (args.length < 1) {
             channel.sendMessage(MessageUtils.getEmbed(Color.CYAN).setTitle("Twitter feeds")
-                .setDescription("Twitter Feeds allow you to receive news from the Twitter account via Corgi. \n" +
-                        "So if Corgi follows someone and he writes a tweet, Corgi will send the Tweet to a Discord channel.\n\n")
-                .addField("Commands","**%twitter sub [ID]** - Follows tweets in a channel\n**%twitter list** - Shows the list of followed twitter accounts\n**%twitter unsub [ID]** - Stops following a twitter account".replace("%", gw.getPrefix()), false)
-                .addField("Where to get a Account ID?", "http://gettwitterid.com/", false).build()).queue();
+                    .setDescription("Twitter Feeds allow you to receive news from the Twitter account via Corgi. \n" +
+                            "So if Corgi follows someone and he writes a tweet, Corgi will send the Tweet to a Discord channel.\n\n")
+                    .addField("Commands", "**%twitter sub [ID]** - Follows tweets in a channel\n**%twitter list** - Shows the list of followed twitter accounts\n**%twitter unsub [ID]** - Stops following a twitter account".replace("%", gw.getPrefix()), false)
+                    .addField("Where to get a Account ID?", "http://gettwitterid.com/", false).build()).queue();
         } else {
-            if(args[0].equalsIgnoreCase("subscribe") || args[0].equalsIgnoreCase("sub")){
+            if (args[0].equalsIgnoreCase("subscribe") || args[0].equalsIgnoreCase("sub")) {
                 String id = args[1];
                 long superId;
                 try {
                     superId = Long.parseLong(id);
-                } catch (Exception e){
+                } catch (Exception e) {
                     channel.sendMessage(MessageUtils.getEmbed(Constants.RED).setDescription("ID neodpovídá Twitter formátu nebo se nejedná o ID uživatele!")
                             .setFooter("You can find a Account ID on: http://gettwitterid.com", null).build()).queue();
                     return;
                 }
                 try {
                     User u = TwitterEventListener.twitterClient.lookupUsers(superId).get(0);
-                    if(TwitterEventListener.getObserver(u.getId(), message.getGuild()) != null) {
-                        if(TwitterEventListener.getObserver(u.getId(), message.getGuild()).getDiscoChannel().equals(message.getChannel())) {
+                    if (TwitterEventListener.getObserver(u.getId(), message.getGuild()) != null) {
+                        if (TwitterEventListener.getObserver(u.getId(), message.getGuild()).getDiscoChannel().equals(message.getChannel())) {
                             MessageUtils.sendErrorMessage("Twitter account **" + u.getScreenName() + " is already followed in this channel!", channel);
                             return;
                         }
@@ -56,17 +56,17 @@ public class Twitter implements Command {
                         // Register
                         new TwitterFeedObserver(message.getChannel().getId(), u.getName(), true, false, false).subscribe(superId);
                         channel.sendMessage(MessageUtils.getEmbed(Constants.DEFAULT_PURPLE).setDescription("Succesfully followed **" + u.getName() + "**. New tweets are gonna be sent here.").build()).queue();
-                    } catch (Exception e){
+                    } catch (Exception e) {
                         e.printStackTrace(); //?
                     }
-                } catch(TwitterException e) {
-                    if(e.getErrorCode() == 17) {
+                } catch (TwitterException e) {
+                    if (e.getErrorCode() == 17) {
                         MessageUtils.sendErrorMessage("Twitter account **" + id + "** not found!", channel);
                     } else {
                         MessageUtils.sendErrorMessage("Something went wrong! Try again later..", channel);
                     }
                 }
-            } else if (args[0].equalsIgnoreCase("list")){
+            } else if (args[0].equalsIgnoreCase("list")) {
                 List<TwitterFeedObserver> thisGuilds = new ArrayList<>();
                 for (List<TwitterFeedObserver> list : TwitterEventListener.getFeed().values()) {
                     for (TwitterFeedObserver observer : list) {
@@ -90,25 +90,25 @@ public class Twitter implements Command {
                     }
                     PaginationUtil.sendPagedMessage(channel, tb.build(), 0, message.getAuthor(), "kek");
                 }
-            } else if (args[0].equalsIgnoreCase("unsubscribe") || args[0].equalsIgnoreCase("unsub")){
+            } else if (args[0].equalsIgnoreCase("unsubscribe") || args[0].equalsIgnoreCase("unsub")) {
                 String id = args[1];
                 long superId;
                 try {
                     superId = Long.parseLong(id);
-                } catch (Exception e){
+                } catch (Exception e) {
                     channel.sendMessage(MessageUtils.getEmbed(Constants.RED).setDescription("The ID does not match the Twitter format or is not a user ID!")
-                        .setFooter("You can find a Account ID on: http://gettwitterid.com", null).build()).queue();
+                            .setFooter("You can find a Account ID on: http://gettwitterid.com", null).build()).queue();
                     return;
                 }
                 try {
                     User u = TwitterEventListener.twitterClient.lookupUsers(superId).get(0);
-                    if(TwitterEventListener.removeTwitterFeed(u.getId(), message.getGuild())) {
+                    if (TwitterEventListener.removeTwitterFeed(u.getId(), message.getGuild())) {
                         channel.sendMessage(MessageUtils.getEmbed(Constants.GREEN).setDescription(EmoteList.GREEN_OK + " | **" + u.getName() + "** has been unfollowed!!").build()).queue();
                     } else {
                         MessageUtils.sendErrorMessage("Twitter account not followed, or not found.", channel);
                     }
-                } catch(TwitterException e) {
-                    if(e.getErrorCode() == 17) {
+                } catch (TwitterException e) {
+                    if (e.getErrorCode() == 17) {
                         MessageUtils.sendErrorMessage("Twitter account **" + superId + "** not found!", channel);
                     } else {
                         MessageUtils.sendErrorMessage("Something went wrong! Try again later..", channel);

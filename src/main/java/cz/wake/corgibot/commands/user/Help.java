@@ -73,7 +73,7 @@ public class Help implements Command {
         CommandHandler ch = new CommandHandler();
         try {
             builder.append("Prefix for commands on ").append(guild.getName()).append(" is `").append(BotManager.getCustomGuild(member.getGuild().getId()).getPrefix()).append("`\nView additional info using `").append(BotManager.getCustomGuild(member.getGuild().getId()).getPrefix()).append("help <command>`");
-        } catch (NullPointerException ex){
+        } catch (NullPointerException ex) {
             builder.append("Prefix for commands is `c!`\nView additional info using `c!help <command>`");
         }
         for (CommandCategory type : CommandCategory.getTypes()) {

@@ -13,7 +13,6 @@ import net.dv8tion.jda.api.events.guild.GuildJoinEvent;
 import net.dv8tion.jda.api.exceptions.InsufficientPermissionException;
 import net.dv8tion.jda.api.hooks.ListenerAdapter;
 
-import java.time.OffsetDateTime;
 import java.util.Set;
 
 public class JoinEvent extends ListenerAdapter {
@@ -48,7 +47,8 @@ public class JoinEvent extends ListenerAdapter {
                     .setDescription("Corgi has joined your server! Change your prefix using `c!prefix [prefix]`. Example: `c!prefix .`\n" +
                             "View all commands using `c!help` or on my [**website**](https://corgibot.xyz)")
                     .setThumbnail(CorgiBot.getJda().getSelfUser().getAvatarUrl()).setFooter("This message is gonna be deleted in 30 seconds!", null).build(), 40000L, event.getGuild().getDefaultChannel());
-        } catch (InsufficientPermissionException ignored) { }
+        } catch (InsufficientPermissionException ignored) {
+        }
 
         // Info into dev chanel
         if (event.getJDA().getStatus() == JDA.Status.CONNECTED) {

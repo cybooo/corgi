@@ -33,7 +33,6 @@ public class TimeUtils {
      *
      * @param timeInMillis
      * @return
-     *
      * @since 2018. 1. 9.
      */
     public static String toYYYYHHmmssS(long timeInMillis) {
@@ -64,9 +63,9 @@ public class TimeUtils {
 
         long minutes = time % 60;
         String minutesFormat = " minutes";
-        if(minutes == 1){
+        if (minutes == 1) {
             minutesFormat = " minute";
-        } else if (minutes > 1 && minutes < 5){
+        } else if (minutes > 1 && minutes < 5) {
             minutesFormat = " minutes";
         }
         prependTimeAndUnit(timeBuf, minutes, minutesFormat);
@@ -79,9 +78,9 @@ public class TimeUtils {
 
         long hours = time % 24;
         String hourFormat = " hours";
-        if (hours == 1){
+        if (hours == 1) {
             hourFormat = " hour";
-        } else if (hours > 1 && hours < 5){
+        } else if (hours > 1 && hours < 5) {
             hourFormat = " hours";
         }
         prependTimeAndUnit(timeBuf, hours, hourFormat);
@@ -94,9 +93,9 @@ public class TimeUtils {
 
         long day = time % 365;
         String dayFormat = " days";
-        if(day == 1){
+        if (day == 1) {
             dayFormat = " day";
-        } else if (day > 1 && day < 5){
+        } else if (day > 1 && day < 5) {
             dayFormat = " days";
         }
         prependTimeAndUnit(timeBuf, day, dayFormat);
@@ -158,9 +157,9 @@ public class TimeUtils {
 
         long day = time % 365;
         String dayFormat = " days";
-        if(day == 1){
+        if (day == 1) {
             dayFormat = " day";
-        } else if (day > 1 && day < 5){
+        } else if (day > 1 && day < 5) {
             dayFormat = " days";
         }
         prependTimeAndUnit(timeBuf, day, dayFormat);
@@ -173,7 +172,7 @@ public class TimeUtils {
 
         prependTimeAndUnit(timeBuf, time, "y");
 
-        if(timeBuf.toString().length() < 2){
+        if (timeBuf.toString().length() < 2) {
             return "<1m";
         }
 

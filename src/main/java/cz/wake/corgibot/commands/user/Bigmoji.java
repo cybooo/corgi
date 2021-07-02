@@ -14,7 +14,7 @@ public class Bigmoji implements Command {
 
     @Override
     public void onCommand(MessageChannel channel, Message message, String[] args, Member member, EventWaiter w, GuildWrapper gw) {
-        if(args.length < 1) {
+        if (args.length < 1) {
             channel.sendMessage(MessageUtils.getEmbed().setTitle("Help" + " - bigmoji :question:")
                     .setDescription(getDescription() + "\n\n**Usage**\n" + //TODO: Translate
                             getHelp().replace("%", gw.getPrefix())).build()).queue();

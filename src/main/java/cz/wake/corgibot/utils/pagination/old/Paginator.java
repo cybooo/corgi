@@ -1,12 +1,5 @@
 package cz.wake.corgibot.utils.pagination.old;
 
-import java.awt.Color;
-import java.util.List;
-import java.util.Set;
-import java.util.concurrent.TimeUnit;
-import java.util.function.BiFunction;
-import java.util.function.Consumer;
-
 import com.jagrosh.jdautilities.commons.waiter.EventWaiter;
 import com.jagrosh.jdautilities.menu.Menu;
 import net.dv8tion.jda.api.EmbedBuilder;
@@ -19,6 +12,13 @@ import net.dv8tion.jda.api.events.message.react.MessageReactionAddEvent;
 import net.dv8tion.jda.api.exceptions.PermissionException;
 import net.dv8tion.jda.api.requests.RestAction;
 
+import java.awt.*;
+import java.util.List;
+import java.util.Set;
+import java.util.concurrent.TimeUnit;
+import java.util.function.BiFunction;
+import java.util.function.Consumer;
+
 /**
  * Scheduled for reallocation in 2.0
  *
@@ -29,8 +29,8 @@ import net.dv8tion.jda.api.requests.RestAction;
  */
 public class Paginator extends Menu {
 
-    private final BiFunction<Integer,Integer,Color> color;
-    private final BiFunction<Integer,Integer,String> text;
+    private final BiFunction<Integer, Integer, Color> color;
+    private final BiFunction<Integer, Integer, String> text;
     private final int columns;
     private final int itemsPerPage;
     private final boolean showPageNumbers;
@@ -45,9 +45,8 @@ public class Paginator extends Menu {
     public static final String RIGHT = "\u25B6";
 
     protected Paginator(EventWaiter waiter, Set<User> users, Set<Role> roles, long timeout, TimeUnit unit,
-                        BiFunction<Integer,Integer,Color> color, BiFunction<Integer,Integer,String> text, Consumer<Message> finalAction,
-                        int columns, int itemsPerPage, boolean showPageNumbers, boolean numberItems, List<String> items, boolean waitOnSinglePage)
-    {
+                        BiFunction<Integer, Integer, Color> color, BiFunction<Integer, Integer, String> text, Consumer<Message> finalAction,
+                        int columns, int itemsPerPage, boolean showPageNumbers, boolean numberItems, List<String> items, boolean waitOnSinglePage) {
         super(waiter, users, roles, timeout, unit);
         this.color = color;
         this.text = text;
@@ -56,7 +55,7 @@ public class Paginator extends Menu {
         this.showPageNumbers = showPageNumbers;
         this.numberItems = numberItems;
         this.strings = items;
-        this.pages = (int)Math.ceil((double)strings.size()/itemsPerPage);
+        this.pages = (int) Math.ceil((double) strings.size() / itemsPerPage);
         this.finalAction = finalAction;
         this.waitOnSinglePage = waitOnSinglePage;
     }
@@ -65,8 +64,7 @@ public class Paginator extends Menu {
      * Begins pagination on page 1 as a new {@link Message}
      * in the provided {@link MessageChannel}.
      *
-     * @param  channel
-     *         The MessageChannel to send the new Message to
+     * @param channel The MessageChannel to send the new Message to
      */
     @Override
     public void display(MessageChannel channel) {
@@ -77,8 +75,7 @@ public class Paginator extends Menu {
      * Begins pagination on page 1 displaying this Pagination by editing the provided
      * {@link Message}.
      *
-     * @param  message
-     *         The Message to display the Menu in
+     * @param message The Message to display the Menu in
      */
     @Override
     public void display(Message message) {
@@ -90,16 +87,13 @@ public class Paginator extends Menu {
      * in the provided {@link MessageChannel}, starting
      * on whatever page number is provided.
      *
-     * @param  channel
-     *         The MessageChannel to send the new Message to
-     * @param  pageNum
-     *         The page number to begin on
+     * @param channel The MessageChannel to send the new Message to
+     * @param pageNum The page number to begin on
      */
-    public void paginate(MessageChannel channel, int pageNum)
-    {
-        if(pageNum<1)
+    public void paginate(MessageChannel channel, int pageNum) {
+        if (pageNum < 1)
             pageNum = 1;
-        else if (pageNum>pages)
+        else if (pageNum > pages)
             pageNum = pages;
         Message msg = renderPage(pageNum);
         initialize(channel.sendMessage(msg), pageNum);
@@ -110,60 +104,58 @@ public class Paginator extends Menu {
      * {@link Message}, starting on whatever
      * page number is provided.
      *
-     * @param  message
-     *         The MessageChannel to send the new Message to
-     * @param  pageNum
-     *         The page number to begin on
+     * @param message The MessageChannel to send the new Message to
+     * @param pageNum The page number to begin on
      */
-    public void paginate(Message message, int pageNum)
-    {
-        if(pageNum<1)
+    public void paginate(Message message, int pageNum) {
+        if (pageNum < 1)
             pageNum = 1;
-        else if (pageNum>pages)
+        else if (pageNum > pages)
             pageNum = pages;
         Message msg = renderPage(pageNum);
         initialize(message.editMessage(msg), pageNum);
     }
 
-    private void initialize(RestAction<Message> action, int pageNum)
-    {
-        action.queue(m->{
-            if(pages>1)
-            {
+    private void initialize(RestAction<Message> action, int pageNum) {
+        action.queue(m -> {
+            if (pages > 1) {
                 m.addReaction(LEFT).queue();
                 m.addReaction(STOP).queue();
                 m.addReaction(RIGHT).queue(v -> pagination(m, pageNum), t -> pagination(m, pageNum));
-            }
-            else if(waitOnSinglePage)
-            {
+            } else if (waitOnSinglePage) {
                 m.addReaction(STOP).queue(v -> pagination(m, pageNum), t -> pagination(m, pageNum));
-            }
-            else
-            {
+            } else {
                 finalAction.accept(m);
             }
         });
     }
 
-    private void pagination(Message message, int pageNum)
-    {
+    private void pagination(Message message, int pageNum) {
         waiter.waitForEvent(MessageReactionAddEvent.class, (MessageReactionAddEvent event) -> {
-            if(!event.getMessageId().equals(message.getId()))
+            if (!event.getMessageId().equals(message.getId()))
                 return false;
-            if(!(LEFT.equals(event.getReactionEmote().getName())
+            if (!(LEFT.equals(event.getReactionEmote().getName())
                     || STOP.equals(event.getReactionEmote().getName())
                     || RIGHT.equals(event.getReactionEmote().getName())))
                 return false;
             return isValidUser(event.getUser(), event.getGuild());
         }, event -> {
             int newPageNum = pageNum;
-            switch(event.getReactionEmote().getName())
-            {
-                case LEFT:  if(newPageNum>1) newPageNum--; break;
-                case RIGHT: if(newPageNum<pages) newPageNum++; break;
-                case STOP: finalAction.accept(message); return;
+            switch (event.getReactionEmote().getName()) {
+                case LEFT:
+                    if (newPageNum > 1) newPageNum--;
+                    break;
+                case RIGHT:
+                    if (newPageNum < pages) newPageNum++;
+                    break;
+                case STOP:
+                    finalAction.accept(message);
+                    return;
             }
-            try{event.getReaction().removeReaction(event.getUser()).queue();}catch(PermissionException e){}
+            try {
+                event.getReaction().removeReaction(event.getUser()).queue();
+            } catch (PermissionException e) {
+            }
             int n = newPageNum;
             message.editMessage(renderPage(newPageNum)).queue(m -> {
                 pagination(m, n);
@@ -171,36 +163,33 @@ public class Paginator extends Menu {
         }, timeout, unit, () -> finalAction.accept(message));
     }
 
-    private Message renderPage(int pageNum)
-    {
+    private Message renderPage(int pageNum) {
         MessageBuilder mbuilder = new MessageBuilder();
         EmbedBuilder ebuilder = new EmbedBuilder();
-        int start = (pageNum-1)*itemsPerPage;
+        int start = (pageNum - 1) * itemsPerPage;
         int end = Math.min(strings.size(), pageNum * itemsPerPage);
-        switch(columns)
-        {
+        switch (columns) {
             case 1:
                 StringBuilder sbuilder = new StringBuilder();
-                for(int i=start; i<end; i++)
-                    sbuilder.append("\n").append(numberItems ? "`"+(i+1)+".` " : "").append(strings.get(i));
+                for (int i = start; i < end; i++)
+                    sbuilder.append("\n").append(numberItems ? "`" + (i + 1) + ".` " : "").append(strings.get(i));
                 ebuilder.setDescription(sbuilder.toString());
                 break;
             default:
-                int per = (int)Math.ceil((double)(end-start)/columns);
-                for(int k=0; k<columns; k++)
-                {
+                int per = (int) Math.ceil((double) (end - start) / columns);
+                for (int k = 0; k < columns; k++) {
                     StringBuilder strbuilder = new StringBuilder();
-                    for(int i=start+k*per; i<end && i<start+(k+1)*per; i++)
-                        strbuilder.append("\n").append(numberItems ? (i+1)+". " : "").append(strings.get(i));
+                    for (int i = start + k * per; i < end && i < start + (k + 1) * per; i++)
+                        strbuilder.append("\n").append(numberItems ? (i + 1) + ". " : "").append(strings.get(i));
                     ebuilder.addField("", strbuilder.toString(), true);
                 }
         }
 
         ebuilder.setColor(color.apply(pageNum, pages));
-        if(showPageNumbers)
-            ebuilder.setFooter("Page "+pageNum+"/"+pages, null);
+        if (showPageNumbers)
+            ebuilder.setFooter("Page " + pageNum + "/" + pages, null);
         mbuilder.setEmbed(ebuilder.build());
-        if(text!=null)
+        if (text != null)
             mbuilder.append(text.apply(pageNum, pages));
         return mbuilder.build();
     }

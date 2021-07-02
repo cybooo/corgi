@@ -22,11 +22,11 @@ import java.util.stream.Collectors;
 public class MessageUtils {
 
     /**
-        Sends Exception to selected {@link MessageChannel}
-
-        @param s Initial message
-        @param e Throwable message {@link Throwable}
-        @param channel Selected {@link MessageChannel} where Corgi will send Exception message
+     * Sends Exception to selected {@link MessageChannel}
+     *
+     * @param s       Initial message
+     * @param e       Throwable message {@link Throwable}
+     * @param channel Selected {@link MessageChannel} where Corgi will send Exception message
      */
     public static Message sendException(String s, Throwable e, MessageChannel channel) {
         StringWriter sw = new StringWriter();
@@ -77,7 +77,9 @@ public class MessageUtils {
         return new EmbedBuilder().setColor(c);
     }
 
-    public static EmbedBuilder getEmbed(){ return new EmbedBuilder(); }
+    public static EmbedBuilder getEmbed() {
+        return new EmbedBuilder();
+    }
 
     public static String getAvatar(User user) {
         return user.getEffectiveAvatarUrl();
@@ -218,18 +220,18 @@ public class MessageUtils {
 
     /**
      * Similar implementation to JavaScript setTimeout
+     *
      * @param runnable Runnable to run
-     * @param delay Delay in milliseconds
-     * @param async Run in async or blocking
+     * @param delay    Delay in milliseconds
+     * @param async    Run in async or blocking
      */
-    public static void setTimeout(Runnable runnable, int delay, boolean async){
+    public static void setTimeout(Runnable runnable, int delay, boolean async) {
         if (async) {
             new Thread(() -> {
                 try {
                     Thread.sleep(delay);
                     runnable.run();
-                }
-                catch(Exception e){
+                } catch (Exception e) {
                     e.printStackTrace();
                 }
             }).start();
@@ -237,8 +239,7 @@ public class MessageUtils {
             try {
                 Thread.sleep(delay);
                 runnable.run();
-            }
-            catch(Exception e){
+            } catch (Exception e) {
                 e.printStackTrace();
             }
         }

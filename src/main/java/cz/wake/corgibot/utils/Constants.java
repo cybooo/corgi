@@ -18,8 +18,8 @@ public class Constants {
     final public static Color PINK = new Color(255, 159, 243);
     final public static Color ORANGE = new Color(255, 159, 67);
     final public static Color GRAY = new Color(161, 161, 161);
-    final public static Color WHITE = new Color(255, 255,255);
-    final public static Color BLACK = new Color(0, 0,0);
+    final public static Color WHITE = new Color(255, 255, 255);
+    final public static Color BLACK = new Color(0, 0, 0);
 
     /*
         Basic color for Giveaway Embed

@@ -7,8 +7,8 @@ import net.dv8tion.jda.api.entities.Member;
 import net.dv8tion.jda.api.entities.MessageChannel;
 
 import java.awt.*;
-import java.util.*;
 import java.util.List;
+import java.util.*;
 import java.util.concurrent.ConcurrentHashMap;
 
 public class GuildWrapper {
@@ -108,7 +108,7 @@ public class GuildWrapper {
      * @return The prefix that the guild is using
      */
     public String getPrefix() {
-        if(prefix == null){
+        if (prefix == null) {
             return Constants.PREFIX;
         }
         return prefix;
@@ -151,6 +151,7 @@ public class GuildWrapper {
 
     /**
      * Map of Tags for the guild
+     *
      * @return {@link Map} of tags
      */
     public Map<String, String> getTags() {
@@ -238,14 +239,14 @@ public class GuildWrapper {
 
     /**
      * Update prefix for the guild!
-     * 
-     * @param prefix Custom prefix
+     *
+     * @param prefix    Custom prefix
      * @param updateSQL boolean value if we want to update prefix in SQL
      * @return {@link GuildWrapper}
      */
     public GuildWrapper setPrefix(String prefix, boolean updateSQL) {
-        if(updateSQL){
-            if(prefix.equals(Constants.PREFIX)){
+        if (updateSQL) {
+            if (prefix.equals(Constants.PREFIX)) {
                 this.prefix = Constants.PREFIX;
                 try {
                     CorgiBot.getInstance().getSql().updatePrefix(guildId, prefix);
@@ -425,8 +426,8 @@ public class GuildWrapper {
     }
 
     public void setLanguage(String language, boolean updateSQL) {
-        if(updateSQL) {
-            if(!this.language.equalsIgnoreCase(language)) {
+        if (updateSQL) {
+            if (!this.language.equalsIgnoreCase(language)) {
                 this.language = language;
                 try {
                     CorgiBot.getInstance().getSql().updateLanguage(this.guildId, this.language);
@@ -441,7 +442,7 @@ public class GuildWrapper {
     }
 
     @Override
-    public String toString(){
+    public String toString() {
         return getClass().getSimpleName() + "[id=" + guildId + ",prefix=" + prefix + ",ignoredChannels=" + ignoredChannels.toString() +
                 ",language=" + language + "]";
     }

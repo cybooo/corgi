@@ -5,7 +5,7 @@ import com.jagrosh.jdautilities.menu.Menu;
 import net.dv8tion.jda.api.entities.Role;
 import net.dv8tion.jda.api.entities.User;
 
-import java.awt.Color;
+import java.awt.*;
 import java.util.Arrays;
 import java.util.HashSet;
 import java.util.Set;
@@ -44,15 +44,11 @@ public abstract class MenuBuilder<T extends MenuBuilder<T, V>, V extends Menu> {
      * Sets the {@link java.awt.Color Color} of thu,
      * if description of the MessageEmbed is set.
      *
-     * @param  color
-     *         The Color of the MessageEmbed
-     *
+     * @param color The Color of the MessageEmbed
      * @return This builder
-     *
-     * @deprecated
-     *         This will be removed in 2.0 due to the bias it posses towards non-embed menus.<br>
-     *         If you wish to continue using it for your own custom Menu implementations in 2.0,
-     *         you simply have to remove the @Override annotation.
+     * @deprecated This will be removed in 2.0 due to the bias it posses towards non-embed menus.<br>
+     * If you wish to continue using it for your own custom Menu implementations in 2.0,
+     * you simply have to remove the @Override annotation.
      */
     @Deprecated
     public abstract T setColor(Color color);
@@ -64,30 +60,24 @@ public abstract class MenuBuilder<T extends MenuBuilder<T, V>, V extends Menu> {
      * <p><b>NOTE:</b> All Menus will only work with an EventWaiter set!
      * <br>Not setting an EventWaiter means the Menu will not work.
      *
-     * @param  waiter
-     *         The EventWaiter
-     *
+     * @param waiter The EventWaiter
      * @return This builder
      */
-    public final T setEventWaiter(EventWaiter waiter)
-    {
+    public final T setEventWaiter(EventWaiter waiter) {
         this.waiter = waiter;
-        return (T)this;
+        return (T) this;
     }
 
     /**
      * Adds {@link User}s that are allowed to use the
      * {@link com.jagrosh.jdautilities.menu.Menu Menu} that will be built.
      *
-     * @param  users
-     *         The Users allowed to use the Menu
-     *
+     * @param users The Users allowed to use the Menu
      * @return This builder
      */
-    public final T addUsers(User... users)
-    {
+    public final T addUsers(User... users) {
         this.users.addAll(Arrays.asList(users));
-        return (T)this;
+        return (T) this;
     }
 
     /**
@@ -95,31 +85,25 @@ public abstract class MenuBuilder<T extends MenuBuilder<T, V>, V extends Menu> {
      * {@link com.jagrosh.jdautilities.menu.Menu Menu} that will be built.
      * <br>This clears any Users already registered before adding the ones specified.
      *
-     * @param  users
-     *         The Users allowed to use the Menu
-     *
+     * @param users The Users allowed to use the Menu
      * @return This builder
      */
-    public final T setUsers(User... users)
-    {
+    public final T setUsers(User... users) {
         this.users.clear();
         this.users.addAll(Arrays.asList(users));
-        return (T)this;
+        return (T) this;
     }
 
     /**
      * Adds {@link Role}s that are allowed to use the
      * {@link com.jagrosh.jdautilities.menu.Menu Menu} that will be built.
      *
-     * @param  roles
-     *         The Roles allowed to use the Menu
-     *
+     * @param roles The Roles allowed to use the Menu
      * @return This builder
      */
-    public final T addRoles(Role... roles)
-    {
+    public final T addRoles(Role... roles) {
         this.roles.addAll(Arrays.asList(roles));
-        return (T)this;
+        return (T) this;
     }
 
     /**
@@ -127,16 +111,13 @@ public abstract class MenuBuilder<T extends MenuBuilder<T, V>, V extends Menu> {
      * {@link com.jagrosh.jdautilities.menu.Menu Menu} that will be built.
      * <br>This clears any Roles already registered before adding the ones specified.
      *
-     * @param  roles
-     *         The Roles allowed to use the Menu
-     *
+     * @param roles The Roles allowed to use the Menu
      * @return This builder
      */
-    public final T setRoles(Role... roles)
-    {
+    public final T setRoles(Role... roles) {
         this.roles.clear();
         this.roles.addAll(Arrays.asList(roles));
-        return (T)this;
+        return (T) this;
     }
 
     /**
@@ -146,15 +127,11 @@ public abstract class MenuBuilder<T extends MenuBuilder<T, V>, V extends Menu> {
      * <p>After this has expired, the a final action in the form of a
      * {@link java.lang.Runnable} may execute.
      *
-     * @param  timeout
-     *         The amount of time for the Menu to stay available
-     * @param  unit
-     *         The {@link java.util.concurrent.TimeUnit TimeUnit} for the timeout
-     *
+     * @param timeout The amount of time for the Menu to stay available
+     * @param unit    The {@link java.util.concurrent.TimeUnit TimeUnit} for the timeout
      * @return This builder
      */
-    public final T setTimeout(long timeout, TimeUnit unit)
-    {
+    public final T setTimeout(long timeout, TimeUnit unit) {
         this.timeout = timeout;
         this.unit = unit;
         return (T) this;

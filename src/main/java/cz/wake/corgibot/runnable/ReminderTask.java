@@ -12,7 +12,7 @@ public class ReminderTask extends TimerTask {
 
     private final CorgiBot plugin;
 
-    public ReminderTask(CorgiBot plugin){
+    public ReminderTask(CorgiBot plugin) {
         this.plugin = plugin;
     }
 
@@ -23,7 +23,7 @@ public class ReminderTask extends TimerTask {
         HashSet<TemporaryReminder> reminders = plugin.getSql().getAllReminders();
         try {
             reminders.forEach(reminder -> {
-                if(reminder.getDate() < now){
+                if (reminder.getDate() < now) {
                     MessageUtils.sendPrivateMessage(CorgiBot.getJda().getUserById(reminder.getUserId()), reminder.getMessage());
                     CorgiBot.getInstance().getSql().deleteReminder(reminder.getUserId(), reminder.getDate());
                 }

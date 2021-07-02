@@ -22,16 +22,16 @@ public class Lang implements Command {
         StringBuilder text = new StringBuilder();
         text.append("{1}\n\n".replace("{1}", I18n.getLoc(gw, "commands.language.description")));
 
-        for(Language language : Language.values()) {
-            if(language.getCode().equalsIgnoreCase(gw.getLanguage())){
+        for (Language language : Language.values()) {
+            if (language.getCode().equalsIgnoreCase(gw.getLanguage())) {
                 text.append("• ").append(language.getFlag()).append(" **").append(language.getNativeName()).append("** [{1}]\n".replace("{1}", I18n.getLoc(gw, "commands.language.selected")));
             } else {
                 text.append("• ").append(language.getFlag()).append(" ").append(language.getNativeName()).append("\n");
             }
         }
 
-        channel.sendMessage(MessageUtils.getEmbed(Color.BLACK).setTitle(I18n.getLoc(gw,"commands.language.title")).setDescription(text)
-                .setFooter(I18n.getLoc(gw,"commands.language.footer"), null).build()).queue((Message m) -> {
+        channel.sendMessage(MessageUtils.getEmbed(Color.BLACK).setTitle(I18n.getLoc(gw, "commands.language.title")).setDescription(text)
+                .setFooter(I18n.getLoc(gw, "commands.language.footer"), null).build()).queue((Message m) -> {
             m.addReaction(EmoteList.ENGLISH_FLAG).queue();
             m.addReaction(EmoteList.CZECH_FLAG).queue();
             m.addReaction(EmoteList.SLOVAK_FLAG).queue();
@@ -60,6 +60,6 @@ public class Lang implements Command {
 
     @Override
     public String[] getAliases() {
-        return new String[]{"lang","jazyk"};
+        return new String[]{"lang", "jazyk"};
     }
 }

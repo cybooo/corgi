@@ -29,11 +29,10 @@ public class ButtonUtil {
     /**
      * Sends an embed button message with a set of buttons, and returns the message.
      *
-     * @return The message we sent to discord.
-     *
      * @param channel The {@link net.dv8tion.jda.api.entities.TextChannel} to send it to.
      * @param embed   The {@link MessageEmbed} to send.
      * @param buttons The buttons to display.
+     * @return The message we sent to discord.
      */
     public static Message sendReturnedButtonedMessage(MessageChannel channel, MessageEmbed embed, ButtonGroup buttons) {
         Message message = channel.sendMessage(embed).complete();
@@ -58,7 +57,7 @@ public class ButtonUtil {
                     "disabled", channel);
             return;
         }
-        if (!message.getGuild().getSelfMember().hasPermission((GuildChannel)channel, Permission.MESSAGE_MANAGE)) {
+        if (!message.getGuild().getSelfMember().hasPermission((GuildChannel) channel, Permission.MESSAGE_MANAGE)) {
             MessageUtils.sendErrorMessage("We don't have permission to manage reactions so you won't be getting the best experience with buttons", channel);
         }
         for (ButtonGroup.Button button : buttonGroup.getButtons()) {

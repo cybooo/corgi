@@ -33,7 +33,7 @@ public class Pin implements Command {
             channel.getHistory().retrievePast(1).complete().get(0).delete().queue();
         } else {
             channel.sendMessage(MessageUtils.getEmbed(Constants.GRAY).setTitle("Help for command %ping".replace("%", gw.getPrefix()))
-                .setDescription(getDescription()).build()).queue();
+                    .setDescription(getDescription()).build()).queue();
         }
     }
 

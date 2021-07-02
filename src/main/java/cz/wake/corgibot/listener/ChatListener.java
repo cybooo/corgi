@@ -53,7 +53,7 @@ public class ChatListener extends ListenerAdapter {
         if (!CorgiBot.isIsBeta()) {
             // Custom Guild prefix from SQL
             guildWrapper = BotManager.getCustomGuild(e.getMember().getGuild().getId());
-            if(guildWrapper.getPrefix() != null) {
+            if (guildWrapper.getPrefix() != null) {
                 prefix = guildWrapper.getPrefix();
             }
         } else {
@@ -74,7 +74,7 @@ public class ChatListener extends ListenerAdapter {
                 // Get command
                 Command cmd = CorgiBot.getInstance().getCommandHandler().getCommand(invoke);
 
-                if(cmd == null){
+                if (cmd == null) {
                     return;
                 }
 
@@ -84,7 +84,7 @@ public class ChatListener extends ListenerAdapter {
                 }
 
                 // Check bot owner
-                if (cmd.isOwner() && !e.getAuthor().getId().equals("485434705903222805")){
+                if (cmd.isOwner() && !e.getAuthor().getId().equals("485434705903222805")) {
                     return;
                 }
 

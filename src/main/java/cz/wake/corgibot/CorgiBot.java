@@ -98,7 +98,7 @@ public class CorgiBot {
         isBeta = config.getBoolean("beta");
 
         // MySQL
-        if(!isBeta){
+        if (!isBeta) {
             CorgiLogger.infoMessage("Connection to MySQL...");
             try {
                 // MySQL Instance
@@ -111,7 +111,7 @@ public class CorgiBot {
                 // Setup
                 isBeta = false;
 
-            } catch (Exception ex){
+            } catch (Exception ex) {
                 CorgiLogger.dangerMessage("During connection to MySQL, error has occurred:");
                 ex.printStackTrace();
                 System.exit(-1);
@@ -140,7 +140,7 @@ public class CorgiBot {
         }
 
         // Setup new profile image from config.json
-        if(config.getBoolean("advanced.profile-picture.enabled")){
+        if (config.getBoolean("advanced.profile-picture.enabled")) {
             try {
                 String url = config.getString("advanced.profile-picture.url");
                 jda.getSelfUser().getManager().setAvatar(Icon.from(
@@ -170,7 +170,7 @@ public class CorgiBot {
         return jda;
     }
 
-    public ChatListener getChatListener(){
+    public ChatListener getChatListener() {
         return chatListener;
     }
 

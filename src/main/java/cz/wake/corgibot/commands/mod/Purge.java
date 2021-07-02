@@ -138,7 +138,8 @@ public class Purge implements Command {
     }
 
     public String combineArgs(int start, int end, String[] args) {
-        if (end > args.length) throw new IllegalArgumentException("End value specified is longer than the arguments provided.");
+        if (end > args.length)
+            throw new IllegalArgumentException("End value specified is longer than the arguments provided.");
         return StringUtils.join(Arrays.copyOfRange(args, start, end), " ");
     }
 }

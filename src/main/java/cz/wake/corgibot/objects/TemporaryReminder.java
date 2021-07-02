@@ -27,7 +27,7 @@ public class TemporaryReminder {
     }
 
     public String getMessage() {
-        if(message.length() > 100){
+        if (message.length() > 100) {
             return message.substring(0, 100).concat("...");
         }
         return message;

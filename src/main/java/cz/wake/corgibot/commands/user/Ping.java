@@ -21,7 +21,7 @@ public class Ping implements Command {
     @Override
     public void onCommand(MessageChannel channel, Message message, String[] args, Member member, EventWaiter w, GuildWrapper gw) {
 
-        if(!running){
+        if (!running) {
             running = true;
             channel.sendMessage(MessageUtils.getEmbed(Constants.GRAY).setDescription("Calculating ping ...").build()).queue(m -> {
                 int pings = 5;

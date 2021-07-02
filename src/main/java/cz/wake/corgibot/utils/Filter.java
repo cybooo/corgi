@@ -3,7 +3,7 @@ package cz.wake.corgibot.utils;
 import ch.qos.logback.classic.spi.ILoggingEvent;
 import ch.qos.logback.core.spi.FilterReply;
 
-public class Filter extends ch.qos.logback.core.filter.Filter<ILoggingEvent>  {
+public class Filter extends ch.qos.logback.core.filter.Filter<ILoggingEvent> {
 
     private static final String[] blacklist = {
 

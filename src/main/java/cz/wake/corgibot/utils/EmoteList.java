@@ -35,7 +35,7 @@ public class EmoteList {
     final public static String COMMANDS = "<:commands:860443290816872458>";
     final public static String JDA = "<:jda:860443290821459968>";
     final public static String COMPRESS = "\uD83D\uDDDC";
-    final public static String FLOPY_DISC =  "\uD83D\uDCBE";
+    final public static String FLOPY_DISC = "\uD83D\uDCBE";
     final public static String COMET = "\u2604";
     final public static String JAVA = "<:java:860325479524204544>";
     final public static String INFO = "\u2139";

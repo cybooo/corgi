@@ -51,7 +51,7 @@ public class PaginationList<T> {
             throw new IllegalArgumentException("Can't create groups bigger then the page amount");
         }
         List<PageGroup> groups = new ArrayList<>();
-        int groupNum = (int)Math.ceil((double)getPages() / (double)groupSize);
+        int groupNum = (int) Math.ceil((double) getPages() / (double) groupSize);
         for (int i = 0; i < groupNum; i++) {
             int start = groupSize * (i);
             int end = Math.min(start + groupSize, list.size());

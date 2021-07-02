@@ -21,4 +21,4 @@ Corgi was originally created by [MrWakeCZ](https://github.com/MrWakeCZ), but as 
 
 ## Main Contributors
 * [cybo#0001](https://github.com/cybooo)
-* [MrWakeCZ#0001](https://github.com/MrWakeCZ)
+* [Wake#0001](https://github.com/MrWakeCZ)

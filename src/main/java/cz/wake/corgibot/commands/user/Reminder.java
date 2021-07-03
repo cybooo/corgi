@@ -2,8 +2,9 @@ package cz.wake.corgibot.commands.user;
 
 import com.jagrosh.jdautilities.commons.waiter.EventWaiter;
 import cz.wake.corgibot.CorgiBot;
+import cz.wake.corgibot.annotations.CommandInfo;
 import cz.wake.corgibot.annotations.SinceCorgi;
-import cz.wake.corgibot.commands.Command;
+import cz.wake.corgibot.commands.CommandBase;
 import cz.wake.corgibot.commands.CommandCategory;
 import cz.wake.corgibot.objects.GuildWrapper;
 import cz.wake.corgibot.objects.TemporaryReminder;
@@ -22,8 +23,20 @@ import java.util.ArrayList;
 import java.util.HashSet;
 import java.util.List;
 
+@CommandInfo(
+        name = "reminder",
+        aliases = {"remindme", "rm"},
+        description = "Forgetting everything! Set a reminder!\n" +
+                "With only one command, you can set when Corgi should remind you!" +
+                "Alerts are accurate within 30 seconds!",
+        help = "%reminder - Show help\n" +
+                "%reminder [time] ; [text] - Set a reminder\n" +
+                "%reminder list - Show all your reminders\n" +
+                "%reminder delete [ID] - Deletes a reminder",
+        category = CommandCategory.GENERAL
+)
 @SinceCorgi(version = "1.3.0")
-public class Reminder implements Command {
+public class Reminder implements CommandBase {
 
     private static final PeriodFormatter periodParser = new PeriodFormatterBuilder()
             .appendDays().appendSuffix("d")
@@ -132,36 +145,6 @@ public class Reminder implements Command {
                     .setDescription(EmoteList.ALARM_CLOCK + " | " + "Sure! I'll remind you in {1}"
                             .replace("{1}", TimeUtils.toYYYYHHmmssS(millis))).build()).queue();
         }
-    }
-
-    @Override
-    public String getCommand() {
-        return "reminder";
-    }
-
-    @Override
-    public String getDescription() {
-        return "Forgetting everything! Set a reminder!\n" +
-                "With only one command, you can set when Corgi should remind you!" +
-                "Alerts are accurate within 30 seconds!";
-    }
-
-    @Override
-    public String getHelp() {
-        return "%reminder - Show help\n" +
-                "%reminder [time] ; [text] - Set a reminder\n" +
-                "%reminder list - Show all your reminders\n" +
-                "%reminder delete [ID] - Deletes a reminder";
-    }
-
-    @Override
-    public CommandCategory getCategory() {
-        return CommandCategory.GENERAL;
-    }
-
-    @Override
-    public String[] getAliases() {
-        return new String[]{"remindme", "rm"};
     }
 
     private static Period getTimeFromInput(String input, MessageChannel channel) {

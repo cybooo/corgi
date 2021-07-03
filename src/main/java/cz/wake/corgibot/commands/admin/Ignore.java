@@ -1,8 +1,9 @@
 package cz.wake.corgibot.commands.admin;
 
 import com.jagrosh.jdautilities.commons.waiter.EventWaiter;
+import cz.wake.corgibot.annotations.CommandInfo;
 import cz.wake.corgibot.annotations.SinceCorgi;
-import cz.wake.corgibot.commands.Command;
+import cz.wake.corgibot.commands.CommandBase;
 import cz.wake.corgibot.commands.CommandCategory;
 import cz.wake.corgibot.objects.GuildWrapper;
 import cz.wake.corgibot.utils.Constants;
@@ -22,8 +23,15 @@ import java.util.List;
 import java.util.Objects;
 import java.util.concurrent.TimeUnit;
 
+@CommandInfo(
+        name = "ignore",
+        help = "%ignore - Toggle ignoring",
+        description = "Command to toggle if Corgi should ignore all commands in the requested channel",
+        category = CommandCategory.ADMINISTRATOR,
+        userPerms = {Permission.MANAGE_CHANNEL}
+)
 @SinceCorgi(version = "1.2.0")
-public class Ignore implements Command {
+public class Ignore implements CommandBase {
 
     @Override
     public void onCommand(MessageChannel channel, Message message, String[] args, Member member, EventWaiter w, GuildWrapper gw) {
@@ -49,31 +57,6 @@ public class Ignore implements Command {
                 }, 60, TimeUnit.SECONDS, null);
             });
         }
-    }
-
-    @Override
-    public String getCommand() {
-        return "ignore";
-    }
-
-    @Override
-    public String getDescription() {
-        return "Command to toggle if Corgi should ignore all commands in the requested channel";
-    }
-
-    @Override
-    public String getHelp() {
-        return "%ignore - Toggle ignoring";
-    }
-
-    @Override
-    public CommandCategory getCategory() {
-        return CommandCategory.ADMINISTARTOR;
-    }
-
-    @Override
-    public Permission[] userPermission() {
-        return new Permission[]{Permission.MANAGE_CHANNEL};
     }
 
     private boolean getTruth(MessageChannel channel, GuildWrapper gw) {

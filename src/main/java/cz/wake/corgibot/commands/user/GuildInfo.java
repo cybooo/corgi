@@ -1,8 +1,9 @@
 package cz.wake.corgibot.commands.user;
 
 import com.jagrosh.jdautilities.commons.waiter.EventWaiter;
+import cz.wake.corgibot.annotations.CommandInfo;
 import cz.wake.corgibot.annotations.SinceCorgi;
-import cz.wake.corgibot.commands.Command;
+import cz.wake.corgibot.commands.CommandBase;
 import cz.wake.corgibot.commands.CommandCategory;
 import cz.wake.corgibot.objects.GuildWrapper;
 import cz.wake.corgibot.utils.Constants;
@@ -13,8 +14,15 @@ import net.dv8tion.jda.api.entities.*;
 import java.time.format.DateTimeFormatter;
 import java.util.stream.Collectors;
 
+@CommandInfo(
+        name = "guildinfo",
+        aliases = {"serverinfo"},
+        description = "Displays information about the server where the command is written.",
+        help = "%guildinfo - View info about server",
+        category = CommandCategory.GENERAL
+)
 @SinceCorgi(version = "1.0")
-public class GuildInfo implements Command {
+public class GuildInfo implements CommandBase {
 
     @Override
     public void onCommand(MessageChannel channel, Message message, String[] args, Member member, EventWaiter w, GuildWrapper gw) {
@@ -46,28 +54,4 @@ public class GuildInfo implements Command {
 
     }
 
-    @Override
-    public String getCommand() {
-        return "guildinfo";
-    }
-
-    @Override
-    public String getDescription() {
-        return "Displays information about the server where the command is written.";
-    }
-
-    @Override
-    public String getHelp() {
-        return "%guildinfo - View info about server";
-    }
-
-    @Override
-    public CommandCategory getCategory() {
-        return CommandCategory.GENERAL;
-    }
-
-    @Override
-    public String[] getAliases() {
-        return new String[]{"serverinfo"};
-    }
 }

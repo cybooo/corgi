@@ -2,8 +2,9 @@ package cz.wake.corgibot.commands.user;
 
 import com.jagrosh.jdautilities.commons.waiter.EventWaiter;
 import cz.wake.corgibot.CorgiBot;
+import cz.wake.corgibot.annotations.CommandInfo;
 import cz.wake.corgibot.annotations.SinceCorgi;
-import cz.wake.corgibot.commands.Command;
+import cz.wake.corgibot.commands.CommandBase;
 import cz.wake.corgibot.commands.CommandCategory;
 import cz.wake.corgibot.objects.GuildWrapper;
 import cz.wake.corgibot.utils.EmoteList;
@@ -16,8 +17,16 @@ import java.util.Comparator;
 import java.util.List;
 import java.util.stream.Collectors;
 
+@CommandInfo(
+        name = "userinfo",
+        aliases = {"ui"},
+        description = "Get basic info about a user",
+        help = "%userinfo - Information about yourself\n" +
+                "%userinfo @nick - Information about someone else",
+        category = CommandCategory.GENERAL
+)
 @SinceCorgi(version = "1.2.3.2")
-public class UserInfo implements Command {
+public class UserInfo implements CommandBase {
 
     @Override
     public void onCommand(MessageChannel channel, Message message, String[] args, Member member, EventWaiter w, GuildWrapper gw) {
@@ -72,32 +81,6 @@ public class UserInfo implements Command {
                 .addField("Joined order", joinOrder.toString(), false)
                 .addField("Roles", getRoles(guildMember, member.getGuild()), false).build()).queue();
 
-    }
-
-    @Override
-    public String getCommand() {
-        return "userinfo";
-    }
-
-    @Override
-    public String getDescription() {
-        return "Get basic info about a user";
-    }
-
-    @Override
-    public String getHelp() {
-        return "%userinfo - Information about yourself\n" +
-                "%userinfo @nick - Information about someone else";
-    }
-
-    @Override
-    public String[] getAliases() {
-        return new String[]{"ui"};
-    }
-
-    @Override
-    public CommandCategory getCategory() {
-        return CommandCategory.GENERAL;
     }
 
     private String getRoles(Member user, Guild guid) {

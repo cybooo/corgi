@@ -1,8 +1,10 @@
 package cz.wake.corgibot.commands.owner;
 
 import com.jagrosh.jdautilities.commons.waiter.EventWaiter;
+import cz.wake.corgibot.annotations.CommandInfo;
+import cz.wake.corgibot.annotations.OnlyOwner;
 import cz.wake.corgibot.annotations.SinceCorgi;
-import cz.wake.corgibot.commands.Command;
+import cz.wake.corgibot.commands.CommandBase;
 import cz.wake.corgibot.commands.CommandCategory;
 import cz.wake.corgibot.objects.GuildWrapper;
 import cz.wake.corgibot.utils.MessageUtils;
@@ -17,8 +19,16 @@ import net.dv8tion.jda.api.exceptions.PermissionException;
 import java.awt.*;
 import java.util.concurrent.TimeUnit;
 
+@OnlyOwner
+@CommandInfo(
+        name = "guildlist",
+        aliases = {"servers", "serverlist"},
+        description = "Shows guild list!",
+        help = "%guildlist <strana>",
+        category = CommandCategory.BOT_OWNER
+)
 @SinceCorgi(version = "1.0")
-public class GuildList implements Command {
+public class GuildList implements CommandBase {
 
     private PaginatorBuilder pBuilder;
 
@@ -60,35 +70,5 @@ public class GuildList implements Command {
                 .build();
         p.paginate(channel, page);
 
-    }
-
-    @Override
-    public String getCommand() {
-        return "guildlist";
-    }
-
-    @Override
-    public String getDescription() {
-        return "Shows guild list!";
-    }
-
-    @Override
-    public String getHelp() {
-        return "%guildlist <strana>";
-    }
-
-    @Override
-    public CommandCategory getCategory() {
-        return CommandCategory.BOT_OWNER;
-    }
-
-    @Override
-    public boolean isOwner() {
-        return true;
-    }
-
-    @Override
-    public String[] getAliases() {
-        return new String[]{"servers", "serverlist"};
     }
 }

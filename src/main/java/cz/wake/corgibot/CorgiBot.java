@@ -1,7 +1,7 @@
 package cz.wake.corgibot;
 
 import com.jagrosh.jdautilities.commons.waiter.EventWaiter;
-import cz.wake.corgibot.commands.CommandHandler;
+import cz.wake.corgibot.commands.CommandManager;
 import cz.wake.corgibot.feeds.TwitterEventListener;
 import cz.wake.corgibot.listener.ChannelDeleteEvent;
 import cz.wake.corgibot.listener.ChatListener;
@@ -38,6 +38,7 @@ import java.time.LocalDateTime;
 import java.time.format.DateTimeFormatter;
 import java.util.Date;
 import java.util.Map;
+import java.util.Objects;
 import java.util.Timer;
 import java.util.concurrent.ConcurrentHashMap;
 
@@ -45,7 +46,7 @@ public class CorgiBot {
 
     private static CorgiBot instance;
     private static JDA jda;
-    private final CommandHandler ch = new CommandHandler();
+    private final CommandManager commandManager = new CommandManager();
     private SQLManager sql;
     private ChatListener chatListener;
     private final DateTimeFormatter timeFormat = DateTimeFormatter.ofPattern("MMMM yyyy HH:mm:ss");
@@ -64,7 +65,11 @@ public class CorgiBot {
     }
 
     public static void main(String[] args) throws LoginException, InterruptedException {
+        instance = new CorgiBot();
+        instance.start();
+    }
 
+    public void start() throws LoginException, InterruptedException {
         // Inform
         CorgiLogger.infoMessage("Now wil Corgi wake up!");
 
@@ -92,7 +97,7 @@ public class CorgiBot {
                 .build().awaitReady();
 
         // Instances
-        (instance = new CorgiBot()).init();
+        instance.init();
 
         // Properties from config
         isBeta = config.getBoolean("beta");
@@ -102,7 +107,7 @@ public class CorgiBot {
             CorgiLogger.infoMessage("Connection to MySQL...");
             try {
                 // MySQL Instance
-                (instance = new CorgiBot()).initDatabase();
+                instance.initDatabase();
                 CorgiLogger.greatMessage("Corgi is successful connected to MySQL.");
 
                 // Load configuration for guilds
@@ -166,24 +171,9 @@ public class CorgiBot {
         return instance;
     }
 
-    public static JDA getJda() {
-        return jda;
-    }
-
-    public ChatListener getChatListener() {
-        return chatListener;
-    }
-
-    public CommandHandler getCommandHandler() {
-        return ch;
-    }
-
-    public SQLManager getSql() {
-        return sql;
-    }
-
     private void init() {
-        ch.register();
+        getLog(this.getClass()).error(String.valueOf(commandManager.getClass().hashCode()));
+        commandManager.register();
     }
 
     private void initDatabase() {
@@ -203,7 +193,7 @@ public class CorgiBot {
     }
 
     public TextChannel getGuildLogChannel() {
-        return getJda().getGuildById("860251548231532584").getTextChannelById("860299812582981643");
+        return Objects.requireNonNull(getJda().getGuildById("860251548231532584"), "Guild is null").getTextChannelById("860299812582981643");
     }
 
     public static Guild getDefaultGuild() {
@@ -236,5 +226,21 @@ public class CorgiBot {
      */
     public static boolean isIsBeta() {
         return isBeta;
+    }
+
+    public static JDA getJda() {
+        return jda;
+    }
+
+    public CommandManager getCommandManager() {
+        return commandManager;
+    }
+
+    public SQLManager getSql() {
+        return sql;
+    }
+
+    public ChatListener getChatListener() {
+        return chatListener;
     }
 }

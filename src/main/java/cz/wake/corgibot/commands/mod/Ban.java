@@ -1,8 +1,9 @@
 package cz.wake.corgibot.commands.mod;
 
 import com.jagrosh.jdautilities.commons.waiter.EventWaiter;
+import cz.wake.corgibot.annotations.CommandInfo;
 import cz.wake.corgibot.annotations.SinceCorgi;
-import cz.wake.corgibot.commands.Command;
+import cz.wake.corgibot.commands.CommandBase;
 import cz.wake.corgibot.commands.CommandCategory;
 import cz.wake.corgibot.objects.GuildWrapper;
 import cz.wake.corgibot.utils.EmoteList;
@@ -16,8 +17,15 @@ import net.dv8tion.jda.internal.utils.PermissionUtil;
 
 import java.util.LinkedList;
 
+@CommandInfo(
+        name = "ban",
+        help = "%ban @user [@user]",
+        description = "Ban user(s) from this server",
+        category = CommandCategory.MODERATION,
+        userPerms = {Permission.BAN_MEMBERS}
+)
 @SinceCorgi(version = "0.7")
-public class Ban implements Command {
+public class Ban implements CommandBase {
 
     @Override
     public void onCommand(MessageChannel channel, Message message, String[] args, Member member, EventWaiter w, GuildWrapper gw) {
@@ -82,28 +90,4 @@ public class Ban implements Command {
         }
     }
 
-    @Override
-    public String getCommand() {
-        return "ban";
-    }
-
-    @Override
-    public String getDescription() {
-        return "Ban user(s) from this server";
-    }
-
-    @Override
-    public String getHelp() {
-        return "%ban @user [@user]";
-    }
-
-    @Override
-    public CommandCategory getCategory() {
-        return CommandCategory.MODERATION;
-    }
-
-    @Override
-    public Permission[] userPermission() {
-        return new Permission[]{Permission.BAN_MEMBERS};
-    }
 }

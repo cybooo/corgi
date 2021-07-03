@@ -1,8 +1,9 @@
 package cz.wake.corgibot.commands.user;
 
 import com.jagrosh.jdautilities.commons.waiter.EventWaiter;
+import cz.wake.corgibot.annotations.CommandInfo;
 import cz.wake.corgibot.annotations.SinceCorgi;
-import cz.wake.corgibot.commands.Command;
+import cz.wake.corgibot.commands.CommandBase;
 import cz.wake.corgibot.commands.CommandCategory;
 import cz.wake.corgibot.objects.GuildWrapper;
 import cz.wake.corgibot.utils.EmoteList;
@@ -13,8 +14,14 @@ import net.dv8tion.jda.api.entities.MessageChannel;
 
 import java.util.Random;
 
+@CommandInfo(
+        name = "choose",
+        description = "If you do not know what to select? Corgi will choose something for you!",
+        help = "%choose question_1 ; question_2 ; question_3",
+        category = CommandCategory.FUN
+)
 @SinceCorgi(version = "3.3.0")
-public class Choose implements Command {
+public class Choose implements CommandBase {
 
     @Override
     public void onCommand(MessageChannel channel, Message message, String[] args, Member member, EventWaiter w, GuildWrapper gw) {
@@ -34,31 +41,6 @@ public class Choose implements Command {
             }
             channel.sendMessage(getRandomThinkingEmote() + " | **" + member.getUser().getName() + "**, " + "i chose" + " **" + arguments[(int) (Math.random() * arguments.length)] + "**!").queue();
         }
-    }
-
-    @Override
-    public String getCommand() {
-        return "choose";
-    }
-
-    @Override
-    public String getDescription() {
-        return "If you do not know what to select? Corgi will choose something for you!";
-    }
-
-    @Override
-    public String getHelp() {
-        return "%choose question_1 ; question_2 ; question_3";
-    }
-
-    @Override
-    public CommandCategory getCategory() {
-        return CommandCategory.FUN;
-    }
-
-    @Override
-    public String[] getAliases() {
-        return new String[]{};
     }
 
     private String getRandomThinkingEmote() {

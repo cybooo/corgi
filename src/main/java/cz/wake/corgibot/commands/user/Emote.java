@@ -1,8 +1,9 @@
 package cz.wake.corgibot.commands.user;
 
 import com.jagrosh.jdautilities.commons.waiter.EventWaiter;
+import cz.wake.corgibot.annotations.CommandInfo;
 import cz.wake.corgibot.annotations.SinceCorgi;
-import cz.wake.corgibot.commands.Command;
+import cz.wake.corgibot.commands.CommandBase;
 import cz.wake.corgibot.commands.CommandCategory;
 import cz.wake.corgibot.objects.GuildWrapper;
 import cz.wake.corgibot.utils.Constants;
@@ -11,8 +12,16 @@ import net.dv8tion.jda.api.entities.Member;
 import net.dv8tion.jda.api.entities.Message;
 import net.dv8tion.jda.api.entities.MessageChannel;
 
+@CommandInfo(
+        name = "emote",
+        aliases = {"emoji"},
+        description = "This command displays the special ID of the selected Emote,\nor all Emote where Corgi is.",
+        help = "%emote <regex|emote> - Emote info\n" +
+                "%emote list - List all available Emotes for Corgi",
+        category = CommandCategory.GENERAL
+)
 @SinceCorgi(version = "0.8.1")
-public class Emote implements Command {
+public class Emote implements CommandBase {
 
     @Override
     public void onCommand(MessageChannel channel, Message message, String[] args, Member member, EventWaiter w, GuildWrapper gw) {
@@ -76,29 +85,4 @@ public class Emote implements Command {
         }
     }
 
-    @Override
-    public String getCommand() {
-        return "emote";
-    }
-
-    @Override
-    public String getDescription() {
-        return "This command displays the special ID of the selected Emote,\nor all Emote where Corgi is.";
-    }
-
-    @Override
-    public String getHelp() {
-        return "%emote <regex|emote> - Emote info\n" +
-                "%emote list - List all available Emotes for Corgi";
-    }
-
-    @Override
-    public CommandCategory getCategory() {
-        return CommandCategory.GENERAL;
-    }
-
-    @Override
-    public String[] getAliases() {
-        return new String[]{"emoji"};
-    }
 }

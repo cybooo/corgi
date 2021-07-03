@@ -2,8 +2,9 @@ package cz.wake.corgibot.commands.user;
 
 import com.jagrosh.jdautilities.commons.waiter.EventWaiter;
 import cz.wake.corgibot.CorgiBot;
+import cz.wake.corgibot.annotations.CommandInfo;
 import cz.wake.corgibot.annotations.SinceCorgi;
-import cz.wake.corgibot.commands.Command;
+import cz.wake.corgibot.commands.CommandBase;
 import cz.wake.corgibot.commands.CommandCategory;
 import cz.wake.corgibot.objects.GuildWrapper;
 import cz.wake.corgibot.utils.Constants;
@@ -20,8 +21,14 @@ import javax.management.MBeanServer;
 import javax.management.ObjectName;
 import java.lang.management.ManagementFactory;
 
+@CommandInfo(
+        name = "stats",
+        description = "Global statistics of Corgi",
+        help = "%stats - Show all statistics of Corgi",
+        category = CommandCategory.GENERAL
+)
 @SinceCorgi(version = "1.3.0")
-public class Stats implements Command {
+public class Stats implements CommandBase {
 
     @Override
     public void onCommand(MessageChannel channel, Message message, String[] args, Member member, EventWaiter w, GuildWrapper gw) {
@@ -45,26 +52,6 @@ public class Stats implements Command {
             channel.sendMessage(embed.build()).queue();
         }
 
-    }
-
-    @Override
-    public String getCommand() {
-        return "stats";
-    }
-
-    @Override
-    public String getDescription() {
-        return "Global statistics of Corgi";
-    }
-
-    @Override
-    public String getHelp() {
-        return "%stats - Show all statistics of Corgi";
-    }
-
-    @Override
-    public CommandCategory getCategory() {
-        return CommandCategory.GENERAL;
     }
 
     private String getUptime() {

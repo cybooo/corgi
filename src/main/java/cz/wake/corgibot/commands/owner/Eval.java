@@ -2,8 +2,10 @@ package cz.wake.corgibot.commands.owner;
 
 import com.jagrosh.jdautilities.commons.waiter.EventWaiter;
 import cz.wake.corgibot.CorgiBot;
+import cz.wake.corgibot.annotations.CommandInfo;
+import cz.wake.corgibot.annotations.OnlyOwner;
 import cz.wake.corgibot.annotations.SinceCorgi;
-import cz.wake.corgibot.commands.Command;
+import cz.wake.corgibot.commands.CommandBase;
 import cz.wake.corgibot.commands.CommandCategory;
 import cz.wake.corgibot.objects.GuildWrapper;
 import cz.wake.corgibot.utils.MessageUtils;
@@ -19,8 +21,15 @@ import java.util.concurrent.ExecutorService;
 import java.util.concurrent.Executors;
 import java.util.stream.Collectors;
 
+@OnlyOwner
+@CommandInfo(
+        name = "eval",
+        description = "Eval command",
+        help = "%eval",
+        category = CommandCategory.BOT_OWNER
+)
 @SinceCorgi(version = "1.2.2")
-public class Eval implements Command {
+public class Eval implements CommandBase {
 
     private final ScriptEngineManager manager = new ScriptEngineManager();
     private static final ThreadGroup EVALS = new ThreadGroup("EvalCommand Thread Pool");
@@ -86,28 +95,4 @@ public class Eval implements Command {
         });
     }
 
-    @Override
-    public String getCommand() {
-        return "eval";
-    }
-
-    @Override
-    public String getDescription() {
-        return "Eval command";
-    }
-
-    @Override
-    public String getHelp() {
-        return ".eval";
-    }
-
-    @Override
-    public CommandCategory getCategory() {
-        return CommandCategory.BOT_OWNER;
-    }
-
-    @Override
-    public boolean isOwner() {
-        return true;
-    }
 }

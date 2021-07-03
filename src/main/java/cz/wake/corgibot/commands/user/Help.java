@@ -1,10 +1,10 @@
 package cz.wake.corgibot.commands.user;
 
 import com.jagrosh.jdautilities.commons.waiter.EventWaiter;
+import cz.wake.corgibot.CorgiBot;
+import cz.wake.corgibot.annotations.CommandInfo;
 import cz.wake.corgibot.annotations.SinceCorgi;
-import cz.wake.corgibot.commands.Command;
-import cz.wake.corgibot.commands.CommandCategory;
-import cz.wake.corgibot.commands.CommandHandler;
+import cz.wake.corgibot.commands.*;
 import cz.wake.corgibot.managers.BotManager;
 import cz.wake.corgibot.objects.GuildWrapper;
 import cz.wake.corgibot.utils.Constants;
@@ -12,8 +12,16 @@ import cz.wake.corgibot.utils.EmoteList;
 import cz.wake.corgibot.utils.MessageUtils;
 import net.dv8tion.jda.api.entities.*;
 
+@CommandInfo(
+        name = "help",
+        aliases = {"commands"},
+        description = "Basic help for Corgi",
+        help = "%help - Sends a list of commands to your DMs!\n" +
+                "%help [příkaz] - Shows info about commands and its usage.",
+        category = CommandCategory.GENERAL
+)
 @SinceCorgi(version = "0.1")
-public class Help implements Command {
+public class Help implements CommandBase {
 
     @Override
     public void onCommand(MessageChannel channel, Message message, String[] args, Member member, EventWaiter w, GuildWrapper gw) {
@@ -28,10 +36,10 @@ public class Help implements Command {
                     .build()).queue());
         } else {
             String commandName = args[0];
-            CommandHandler ch = new CommandHandler();
+            CommandManager cm = CorgiBot.getInstance().getCommandManager();
             StringBuilder sb = new StringBuilder();
             //Normal
-            ch.getCommands().stream().filter(c -> c.getCommand().equalsIgnoreCase(commandName)).forEach(c -> {
+            cm.getCommands().stream().filter(c -> c.getName().equalsIgnoreCase(commandName)).forEach(c -> {
                 for (String s : c.getAliases()) {
                     sb.append(s).append(", ");
                 }
@@ -42,35 +50,9 @@ public class Help implements Command {
         }
     }
 
-    @Override
-    public String getCommand() {
-        return "help";
-    }
-
-    @Override
-    public String getDescription() {
-        return "Basic help for Corgi";
-    }
-
-    @Override
-    public String getHelp() {
-        return "%help - Sends a list of commands to your DMs!\n" +
-                "%help [příkaz] - Shows info about commands and its usage.";
-    }
-
-    @Override
-    public CommandCategory getCategory() {
-        return CommandCategory.GENERAL;
-    }
-
-    @Override
-    public String[] getAliases() {
-        return new String[]{"commands"};
-    }
-
     private StringBuilder getContext(Member member, Guild guild) {
         StringBuilder builder = new StringBuilder();
-        CommandHandler ch = new CommandHandler();
+        CommandManager cm = CorgiBot.getInstance().getCommandManager();
         try {
             builder.append("Prefix for commands on ").append(guild.getName()).append(" is `").append(BotManager.getCustomGuild(member.getGuild().getId()).getPrefix()).append("`\nView additional info using `").append(BotManager.getCustomGuild(member.getGuild().getId()).getPrefix()).append("help <command>`");
         } catch (NullPointerException ex) {
@@ -81,10 +63,10 @@ public class Help implements Command {
                 return builder;
             }
             builder.append("\n\n");
-            builder.append(type.getEmote()).append(" | **").append(type.formattedName()).append("** - ").append(ch.getCommandsByType(type).size()).append("\n");
-            for (Command c : ch.getCommands()) {
-                if (c.getCategory().equals(type)) {
-                    builder.append("`").append(c.getCommand()).append("` ");
+            builder.append(type.getEmote()).append(" | **").append(type.formattedName()).append("** - ").append(cm.getCommandsByCategory(type).size()).append("\n");
+            for (FinalCommand c : cm.getCommands()) {
+                if (c.getCommandCategory().equals(type)) {
+                    builder.append("`").append(c.getName()).append("` ");
                 }
             }
         }

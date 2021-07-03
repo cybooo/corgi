@@ -1,7 +1,8 @@
 package cz.wake.corgibot.commands.mod;
 
 import com.jagrosh.jdautilities.commons.waiter.EventWaiter;
-import cz.wake.corgibot.commands.Command;
+import cz.wake.corgibot.annotations.CommandInfo;
+import cz.wake.corgibot.commands.CommandBase;
 import cz.wake.corgibot.commands.CommandCategory;
 import cz.wake.corgibot.objects.GuildWrapper;
 import cz.wake.corgibot.utils.Constants;
@@ -12,7 +13,15 @@ import net.dv8tion.jda.api.entities.Member;
 import net.dv8tion.jda.api.entities.Message;
 import net.dv8tion.jda.api.entities.MessageChannel;
 
-public class Pin implements Command {
+@CommandInfo(
+        name = "pin",
+        description = "Command to pin a message, or a generate message to pin",
+        help = "%pin <ID|message>` - Pins a message by ID, or generates a new one to pin",
+        category = CommandCategory.MODERATION,
+        userPerms = {Permission.MANAGE_CHANNEL, Permission.MESSAGE_MANAGE},
+        botPerms = {Permission.MANAGE_CHANNEL, Permission.MESSAGE_MANAGE}
+)
+public class Pin implements CommandBase {
 
     @Override
     public void onCommand(MessageChannel channel, Message message, String[] args, Member member, EventWaiter w, GuildWrapper gw) {
@@ -38,37 +47,7 @@ public class Pin implements Command {
     }
 
     @Override
-    public String getCommand() {
-        return "pin";
-    }
-
-    @Override
-    public String getDescription() {
-        return "Command to pin a message, or a generate message to pin";
-    }
-
-    @Override
-    public String getHelp() {
-        return "%pin <ID|zpráva>` - Pins a message by ID, or generates a new one to pin";
-    }
-
-    @Override
-    public CommandCategory getCategory() {
-        return CommandCategory.MODERATION;
-    }
-
-    @Override
     public boolean deleteMessage() {
         return true;
-    }
-
-    @Override
-    public Permission[] userPermission() {
-        return new Permission[]{Permission.MANAGE_CHANNEL, Permission.MESSAGE_MANAGE};
-    }
-
-    @Override
-    public Permission[] botPermission() {
-        return new Permission[]{Permission.MANAGE_CHANNEL, Permission.MESSAGE_MANAGE};
     }
 }

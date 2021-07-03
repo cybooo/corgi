@@ -2,8 +2,9 @@ package cz.wake.corgibot.commands.user;
 
 import com.jagrosh.jdautilities.commons.waiter.EventWaiter;
 import cz.wake.corgibot.CorgiBot;
+import cz.wake.corgibot.annotations.CommandInfo;
 import cz.wake.corgibot.annotations.SinceCorgi;
-import cz.wake.corgibot.commands.Command;
+import cz.wake.corgibot.commands.CommandBase;
 import cz.wake.corgibot.commands.CommandCategory;
 import cz.wake.corgibot.objects.GuildWrapper;
 import cz.wake.corgibot.utils.Constants;
@@ -14,8 +15,15 @@ import net.dv8tion.jda.api.entities.MessageChannel;
 
 import java.util.concurrent.ThreadLocalRandom;
 
+@CommandInfo(
+        name = "8ball",
+        aliases = {"8b"},
+        description = "Ask if this is true or not!",
+        help = "%8ball <question>",
+        category = CommandCategory.FUN
+)
 @SinceCorgi(version = "0.3")
-public class EightBall implements Command {
+public class EightBall implements CommandBase {
 
     private static final String[] outcomes =
             {
@@ -38,28 +46,4 @@ public class EightBall implements Command {
         }
     }
 
-    @Override
-    public String getCommand() {
-        return "8ball";
-    }
-
-    @Override
-    public String getDescription() {
-        return "Ask if this is true or not!";
-    }
-
-    @Override
-    public String getHelp() {
-        return "%8ball <question>";
-    }
-
-    @Override
-    public CommandCategory getCategory() {
-        return CommandCategory.FUN;
-    }
-
-    @Override
-    public String[] getAliases() {
-        return new String[]{"8b"};
-    }
 }

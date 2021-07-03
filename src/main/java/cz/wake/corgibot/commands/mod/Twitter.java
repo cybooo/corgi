@@ -1,7 +1,8 @@
 package cz.wake.corgibot.commands.mod;
 
 import com.jagrosh.jdautilities.commons.waiter.EventWaiter;
-import cz.wake.corgibot.commands.Command;
+import cz.wake.corgibot.annotations.CommandInfo;
+import cz.wake.corgibot.commands.CommandBase;
 import cz.wake.corgibot.commands.CommandCategory;
 import cz.wake.corgibot.feeds.TwitterEventListener;
 import cz.wake.corgibot.feeds.TwitterFeedObserver;
@@ -23,7 +24,14 @@ import java.util.ArrayList;
 import java.util.Comparator;
 import java.util.List;
 
-public class Twitter implements Command {
+@CommandInfo(
+        name = "twitter",
+        description = "Follow twitter accounts in a specified channel.",
+        help = "**%twitter sub [ID]** - Begins following a twitter account\n**%twitter list** - Shows a list of followed twitter accounts\n**%twitter unsub [ID]** - Unfollows a account\n\n You can get Account IDs on: http://gettwitterid.com/",
+        category = CommandCategory.MODERATION,
+        userPerms = {Permission.MANAGE_CHANNEL}
+)
+public class Twitter implements CommandBase {
 
     @Override
     public void onCommand(MessageChannel channel, Message message, String[] args, Member member, EventWaiter w, GuildWrapper gw) {
@@ -116,30 +124,5 @@ public class Twitter implements Command {
                 }
             }
         }
-    }
-
-    @Override
-    public String getCommand() {
-        return "twitter";
-    }
-
-    @Override
-    public String getDescription() {
-        return "Follow twitter accounts in a specified channel.";
-    }
-
-    @Override
-    public String getHelp() {
-        return "**%twitter sub [ID]** - Begins following a twitter account\n**%twitter list** - Shows a list of followed twitter accounts\n**%twitter unsub [ID]** - Unfollows a account\n\n You can get Account IDs on: http://gettwitterid.com/";
-    }
-
-    @Override
-    public CommandCategory getCategory() {
-        return CommandCategory.MODERATION;
-    }
-
-    @Override
-    public Permission[] userPermission() {
-        return new Permission[]{Permission.MANAGE_CHANNEL};
     }
 }

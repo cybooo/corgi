@@ -1,7 +1,8 @@
 package cz.wake.corgibot.commands.user;
 
 import com.jagrosh.jdautilities.commons.waiter.EventWaiter;
-import cz.wake.corgibot.commands.Command;
+import cz.wake.corgibot.annotations.CommandInfo;
+import cz.wake.corgibot.commands.CommandBase;
 import cz.wake.corgibot.commands.CommandCategory;
 import cz.wake.corgibot.objects.GuildWrapper;
 import cz.wake.corgibot.utils.Constants;
@@ -15,7 +16,13 @@ import okhttp3.Request;
 import okhttp3.Response;
 import org.json.JSONObject;
 
-public class Hug implements Command {
+@CommandInfo(
+        name = "hug",
+        description = "Random hug image!",
+        help = "%hug - Generate random image",
+        category = CommandCategory.FUN
+)
+public class Hug implements CommandBase {
 
     @Override
     public void onCommand(MessageChannel channel, Message message, String[] args, Member member, EventWaiter w, GuildWrapper gw) {
@@ -34,23 +41,4 @@ public class Hug implements Command {
         channel.sendMessage(MessageUtils.getEmbed(Constants.DEFAULT_PURPLE).setTitle(EmoteList.COMET + " | " + "Random hug image").setImage(url).build()).queue();
     }
 
-    @Override
-    public String getCommand() {
-        return "hug";
-    }
-
-    @Override
-    public String getDescription() {
-        return "Random hug image!";
-    }
-
-    @Override
-    public String getHelp() {
-        return "%hug - Generate random image";
-    }
-
-    @Override
-    public CommandCategory getCategory() {
-        return CommandCategory.FUN;
-    }
 }

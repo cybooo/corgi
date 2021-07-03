@@ -12,10 +12,16 @@ import java.lang.annotation.Target;
 @Retention(RetentionPolicy.RUNTIME)
 public @interface CommandInfo {
     String name();
+
     String[] aliases() default {};
+
     String help() default "";
+
     String description() default "";
+
     CommandCategory category() default CommandCategory.HIDDEN;
+
     Permission[] userPerms() default {};
+
     Permission[] botPerms() default {};
 }

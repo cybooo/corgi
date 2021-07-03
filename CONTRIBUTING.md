@@ -8,7 +8,7 @@ Jedná se o návod, jak co dělat a nedělet, pokuď chceš přispět k tomuto p
  - Zkontroluj si, zda PR neobsahuje nějaké soubory navíc př. Eclipse soubory.
 
 ### Formátování
-Corgiho source je formátováno podle InteliJ základního formátu, neakceptujeme tedy žádný jiný typ.
+Corgiho source je formátováno podle IntelliJ základního formátu, neakceptujeme tedy žádný jiný typ.
  - Minimální mezera mezi hlavičkou třídy a metodami je 1 řádek.
 
 ### Branches

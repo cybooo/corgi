@@ -60,5 +60,5 @@ public class RoleInfo implements CommandBase {
 
         channel.sendMessage(embed.build()).queue();
     }
-    
+
 }

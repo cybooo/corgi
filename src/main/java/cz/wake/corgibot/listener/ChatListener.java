@@ -2,7 +2,6 @@ package cz.wake.corgibot.listener;
 
 import com.jagrosh.jdautilities.commons.waiter.EventWaiter;
 import cz.wake.corgibot.CorgiBot;
-import cz.wake.corgibot.commands.CommandBase;
 import cz.wake.corgibot.commands.FinalCommand;
 import cz.wake.corgibot.managers.BotManager;
 import cz.wake.corgibot.objects.GuildWrapper;

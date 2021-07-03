@@ -45,7 +45,7 @@ public interface CommandBase {
      *
      * @return name
      */
-    default String getCommand(){
+    default String getCommand() {
         return this.getClass().getAnnotation(CommandInfo.class).name();
     }
 
@@ -54,7 +54,7 @@ public interface CommandBase {
      *
      * @return description
      */
-    default String getDescription(){
+    default String getDescription() {
         return this.getClass().getAnnotation(CommandInfo.class).description();
     }
 
@@ -63,7 +63,7 @@ public interface CommandBase {
      *
      * @return help
      */
-    default String getHelp(){
+    default String getHelp() {
         return this.getClass().getAnnotation(CommandInfo.class).help();
     }
 }

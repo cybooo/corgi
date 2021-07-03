@@ -27,23 +27,25 @@ public class CommandManager {
 
     private final List<FinalCommand> commands = new ArrayList<>();
 
-    public void registerCommand(CommandBase command){
-        if(Arrays.stream(command.getClass().getAnnotations()).noneMatch(a -> a instanceof CommandInfo)){
+    public void registerCommand(CommandBase command) {
+        if (Arrays.stream(command.getClass().getAnnotations()).noneMatch(a -> a instanceof CommandInfo)) {
             CorgiBot.getLog(command.getClass()).error("Require CommandInfo annotation!");
             return;
         }
 
         CommandInfo info = command.getClass().getAnnotation(CommandInfo.class);
         FinalCommand finalCommand = new FinalCommand(command, info.name(), info.help(), info.description(), info.category());
-        if(info.aliases().length > 0) finalCommand.setAliases(info.aliases());
-        if(info.userPerms().length > 0) finalCommand.setReqUserPermissions(info.userPerms());
-        if(info.botPerms().length > 0) finalCommand.setReqBotPermissions(info.botPerms());
-        if(Arrays.stream(command.getClass().getAnnotations()).anyMatch(a -> a instanceof OnlyOwner)) finalCommand.setOnlyOwner(true);
-        if(Arrays.stream(command.getClass().getAnnotations()).anyMatch(a -> a instanceof Beta)) finalCommand.setBeta(true);
+        if (info.aliases().length > 0) finalCommand.setAliases(info.aliases());
+        if (info.userPerms().length > 0) finalCommand.setReqUserPermissions(info.userPerms());
+        if (info.botPerms().length > 0) finalCommand.setReqBotPermissions(info.botPerms());
+        if (Arrays.stream(command.getClass().getAnnotations()).anyMatch(a -> a instanceof OnlyOwner))
+            finalCommand.setOnlyOwner(true);
+        if (Arrays.stream(command.getClass().getAnnotations()).anyMatch(a -> a instanceof Beta))
+            finalCommand.setBeta(true);
         commands.add(finalCommand);
     }
 
-    public void unregisterCommand(String name){
+    public void unregisterCommand(String name) {
         commands.removeIf(c -> c.getName().equalsIgnoreCase(name));
     }
 
@@ -56,11 +58,11 @@ public class CommandManager {
         return cmd.orElse(null);
     }
 
-    public List<FinalCommand> getCommandsByCategory(CommandCategory category){
+    public List<FinalCommand> getCommandsByCategory(CommandCategory category) {
         return commands.stream().filter(command -> command.getCommandCategory() == category).collect(Collectors.toList());
     }
 
-    public void register(){
+    public void register() {
         CorgiLogger.infoMessage("Loading all commands.");
         registerCommand(new EightBall());
         registerCommand(new Help());

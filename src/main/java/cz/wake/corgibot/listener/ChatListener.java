@@ -47,7 +47,6 @@ public class ChatListener extends ListenerAdapter {
             return;
         }
 
-        CorgiBot.getLog(this.getClass()).error("INVOKING EVENT");
         if (BotManager.getListGuilds() == null) return;
 
         String prefix = "c!";
@@ -67,7 +66,6 @@ public class ChatListener extends ListenerAdapter {
 
         String raw = e.getMessage().getContentRaw();
 
-        CorgiBot.getLog(this.getClass()).error(raw + " | "+ prefix);
         try {
             if (raw.startsWith(Constants.PREFIX.toLowerCase()) || raw.startsWith(guildWrapper.getPrefix().toLowerCase())
                     || raw.startsWith(e.getGuild().getSelfMember().getAsMention())) {
@@ -76,11 +74,9 @@ public class ChatListener extends ListenerAdapter {
                 final String invoke = split[0].toLowerCase();
 
                 // Get command
-                CorgiBot.getLog(this.getClass()).error(invoke);
                 FinalCommand cmd = CorgiBot.getInstance().getCommandManager().getCommand(invoke);
 
                 if (cmd == null) {
-                    CorgiBot.getLog(this.getClass()).error("CMD IS NULL");
                     return;
                 }
 

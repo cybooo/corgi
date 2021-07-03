@@ -2,7 +2,8 @@ package cz.wake.corgibot.listener;
 
 import com.jagrosh.jdautilities.commons.waiter.EventWaiter;
 import cz.wake.corgibot.CorgiBot;
-import cz.wake.corgibot.commands.Command;
+import cz.wake.corgibot.commands.CommandBase;
+import cz.wake.corgibot.commands.FinalCommand;
 import cz.wake.corgibot.managers.BotManager;
 import cz.wake.corgibot.objects.GuildWrapper;
 import cz.wake.corgibot.utils.Constants;
@@ -22,6 +23,7 @@ import net.dv8tion.jda.api.hooks.ListenerAdapter;
 
 import java.util.Arrays;
 import java.util.Map;
+import java.util.Objects;
 import java.util.concurrent.ConcurrentHashMap;
 import java.util.concurrent.TimeUnit;
 import java.util.regex.Pattern;
@@ -45,9 +47,10 @@ public class ChatListener extends ListenerAdapter {
             return;
         }
 
+        CorgiBot.getLog(this.getClass()).error("INVOKING EVENT");
         if (BotManager.getListGuilds() == null) return;
 
-        String prefix;
+        String prefix = "c!";
         GuildWrapper guildWrapper;
 
         if (!CorgiBot.isIsBeta()) {
@@ -64,6 +67,7 @@ public class ChatListener extends ListenerAdapter {
 
         String raw = e.getMessage().getContentRaw();
 
+        CorgiBot.getLog(this.getClass()).error(raw + " | "+ prefix);
         try {
             if (raw.startsWith(Constants.PREFIX.toLowerCase()) || raw.startsWith(guildWrapper.getPrefix().toLowerCase())
                     || raw.startsWith(e.getGuild().getSelfMember().getAsMention())) {
@@ -72,9 +76,11 @@ public class ChatListener extends ListenerAdapter {
                 final String invoke = split[0].toLowerCase();
 
                 // Get command
-                Command cmd = CorgiBot.getInstance().getCommandHandler().getCommand(invoke);
+                CorgiBot.getLog(this.getClass()).error(invoke);
+                FinalCommand cmd = CorgiBot.getInstance().getCommandManager().getCommand(invoke);
 
                 if (cmd == null) {
+                    CorgiBot.getLog(this.getClass()).error("CMD IS NULL");
                     return;
                 }
 
@@ -84,7 +90,7 @@ public class ChatListener extends ListenerAdapter {
                 }
 
                 // Check bot owner
-                if (cmd.isOwner() && !e.getAuthor().getId().equals("485434705903222805")) {
+                if (cmd.isOnlyOwner() && !e.getAuthor().getId().equals("485434705903222805")) {
                     return;
                 }
 
@@ -101,7 +107,7 @@ public class ChatListener extends ListenerAdapter {
                 }
 
                 // Ignored channel
-                if (guildWrapper.getIgnoredChannels().contains(e.getChannel()) && !cmd.getCommand().equalsIgnoreCase("ignore")) {
+                if (guildWrapper.getIgnoredChannels().contains(e.getChannel()) && !cmd.getName().equalsIgnoreCase("ignore")) {
                     return;
                 }
 
@@ -109,29 +115,29 @@ public class ChatListener extends ListenerAdapter {
                 CorgiLogger.commandMessage("'" + cmd.getCommand() + " " + Arrays.toString(Arrays.copyOfRange(split, 1, split.length)) + "', (Guild: " + e.getGuild().getName() + ", Channel: " + (e.getChannel().getName()) + "), Sender: " + e.getAuthor());
 
                 // Check bot permissions if are required
-                if (!e.getGuild().getSelfMember().hasPermission(cmd.botPermission())) {
+                if (!e.getGuild().getSelfMember().hasPermission(cmd.getReqBotPermissions())) {
                     StringBuilder sb = new StringBuilder();
-                    Arrays.stream(cmd.botPermission()).forEach(c -> sb.append(c.name()).append(", "));
+                    Arrays.stream(cmd.getReqBotPermissions()).forEach(c -> sb.append(c.name()).append(", "));
                     MessageUtils.sendErrorMessage("Permissions error", "Action failed, i'm missing some permissions!\nI'm missing: `" + sb.substring(0, sb.length() - 2) + "`", e.getChannel());
                     return;
                 }
 
                 // Check user permissions if are required
-                if (!e.getMember().hasPermission(cmd.userPermission())) {
+                if (!Objects.requireNonNull(e.getMember()).hasPermission(cmd.getReqUserPermissions())) {
                     CorgiLogger.warnMessage("Command stopped - " + e.getAuthor().getName() + " does not have enough permissions!");
                     return;
                 }
 
                 // Run command
                 try {
-                    cmd.onCommand(e.getChannel(), e.getMessage(), Arrays.copyOfRange(split, 1, split.length), e.getMember(), w, guildWrapper);
+                    cmd.getCommand().onCommand(e.getChannel(), e.getMessage(), Arrays.copyOfRange(split, 1, split.length), e.getMember(), w, guildWrapper);
                 } catch (Exception ex) {
                     MessageUtils.sendAutoDeletedMessage("Something went wrong when executing this command!", 10000, e.getChannel());
                     ex.printStackTrace();
                 }
 
                 // Delete message after
-                if (cmd.deleteMessage()) {
+                if (cmd.getCommand().deleteMessage()) {
                     delete(e.getMessage());
                 }
 

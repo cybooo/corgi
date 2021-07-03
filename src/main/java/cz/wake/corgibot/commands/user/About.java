@@ -1,8 +1,9 @@
 package cz.wake.corgibot.commands.user;
 
 import com.jagrosh.jdautilities.commons.waiter.EventWaiter;
+import cz.wake.corgibot.annotations.CommandInfo;
 import cz.wake.corgibot.annotations.SinceCorgi;
-import cz.wake.corgibot.commands.Command;
+import cz.wake.corgibot.commands.CommandBase;
 import cz.wake.corgibot.commands.CommandCategory;
 import cz.wake.corgibot.objects.GuildWrapper;
 import cz.wake.corgibot.utils.ColorSelector;
@@ -12,8 +13,15 @@ import net.dv8tion.jda.api.entities.Member;
 import net.dv8tion.jda.api.entities.Message;
 import net.dv8tion.jda.api.entities.MessageChannel;
 
+@CommandInfo(
+        name = "about",
+        aliases = {"info", "binfo", "corgi"},
+        description = "About Corgi",
+        help = "%about - Shows basic information about Corgi",
+        category = CommandCategory.GENERAL
+)
 @SinceCorgi(version = "0.1")
-public class About implements Command {
+public class About implements CommandBase {
 
     @Override
     public void onCommand(MessageChannel channel, Message message, String[] args, Member member, EventWaiter w, GuildWrapper gw) {
@@ -45,28 +53,4 @@ public class About implements Command {
         }
     }
 
-    @Override
-    public String getCommand() {
-        return "about";
-    }
-
-    @Override
-    public String getDescription() {
-        return "About Corgi";
-    }
-
-    @Override
-    public String getHelp() {
-        return "%about - Shows basic information about Corgi";
-    }
-
-    @Override
-    public CommandCategory getCategory() {
-        return CommandCategory.GENERAL;
-    }
-
-    @Override
-    public String[] getAliases() {
-        return new String[]{"info", "binfo", "corgi"};
-    }
 }

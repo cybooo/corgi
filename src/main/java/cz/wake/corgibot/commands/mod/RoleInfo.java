@@ -2,8 +2,9 @@ package cz.wake.corgibot.commands.mod;
 
 import com.jagrosh.jdautilities.commons.waiter.EventWaiter;
 import cz.wake.corgibot.CorgiBot;
+import cz.wake.corgibot.annotations.CommandInfo;
 import cz.wake.corgibot.annotations.SinceCorgi;
-import cz.wake.corgibot.commands.Command;
+import cz.wake.corgibot.commands.CommandBase;
 import cz.wake.corgibot.commands.CommandCategory;
 import cz.wake.corgibot.objects.GuildWrapper;
 import cz.wake.corgibot.utils.MessageUtils;
@@ -14,8 +15,16 @@ import net.dv8tion.jda.api.entities.Message;
 import net.dv8tion.jda.api.entities.MessageChannel;
 import net.dv8tion.jda.api.entities.Role;
 
+@CommandInfo(
+        name = "roleinfo",
+        aliases = {"rinfo"},
+        description = "Displays info about a specified role",
+        help = "%roleinfo name/ID",
+        category = CommandCategory.MODERATION,
+        userPerms = {Permission.MANAGE_SERVER}
+)
 @SinceCorgi(version = "1.2")
-public class RoleInfo implements Command {
+public class RoleInfo implements CommandBase {
 
     @Override
     public void onCommand(MessageChannel channel, Message message, String[] args, Member member, EventWaiter w, GuildWrapper gw) {
@@ -51,34 +60,5 @@ public class RoleInfo implements Command {
 
         channel.sendMessage(embed.build()).queue();
     }
-
-    @Override
-    public String getCommand() {
-        return "roleinfo";
-    }
-
-    @Override
-    public String getDescription() {
-        return "Displays info about a specified role";
-    }
-
-    @Override
-    public String getHelp() {
-        return "%roleinfo name/ID";
-    }
-
-    @Override
-    public CommandCategory getCategory() {
-        return CommandCategory.MODERATION;
-    }
-
-    @Override
-    public String[] getAliases() {
-        return new String[]{"rinfo"};
-    }
-
-    @Override
-    public Permission[] userPermission() {
-        return new Permission[]{Permission.MANAGE_SERVER};
-    }
+    
 }

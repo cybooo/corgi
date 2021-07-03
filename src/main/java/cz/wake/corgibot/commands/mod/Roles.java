@@ -1,8 +1,9 @@
 package cz.wake.corgibot.commands.mod;
 
 import com.jagrosh.jdautilities.commons.waiter.EventWaiter;
+import cz.wake.corgibot.annotations.CommandInfo;
 import cz.wake.corgibot.annotations.SinceCorgi;
-import cz.wake.corgibot.commands.Command;
+import cz.wake.corgibot.commands.CommandBase;
 import cz.wake.corgibot.commands.CommandCategory;
 import cz.wake.corgibot.objects.GuildWrapper;
 import net.dv8tion.jda.api.Permission;
@@ -11,8 +12,15 @@ import net.dv8tion.jda.api.entities.Message;
 import net.dv8tion.jda.api.entities.MessageChannel;
 import net.dv8tion.jda.api.entities.Role;
 
+@CommandInfo(
+        name = "roles",
+        description = "List of roles in this server",
+        help = "%roles",
+        category = CommandCategory.MODERATION,
+        userPerms = {Permission.MANAGE_SERVER}
+)
 @SinceCorgi(version = "1.1")
-public class Roles implements Command {
+public class Roles implements CommandBase {
 
     @Override
     public void onCommand(MessageChannel channel, Message message, String[] args, Member member, EventWaiter w, GuildWrapper gw) {
@@ -26,28 +34,4 @@ public class Roles implements Command {
         channel.sendMessage(sb.toString()).queue();
     }
 
-    @Override
-    public String getCommand() {
-        return "roles";
-    }
-
-    @Override
-    public String getDescription() {
-        return "List of roles in this server";
-    }
-
-    @Override
-    public String getHelp() {
-        return "%roles";
-    }
-
-    @Override
-    public CommandCategory getCategory() {
-        return CommandCategory.MODERATION;
-    }
-
-    @Override
-    public Permission[] userPermission() {
-        return new Permission[]{Permission.MANAGE_SERVER};
-    }
 }

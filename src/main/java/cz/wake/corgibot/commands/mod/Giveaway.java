@@ -2,8 +2,9 @@ package cz.wake.corgibot.commands.mod;
 
 import com.jagrosh.jdautilities.commons.waiter.EventWaiter;
 import cz.wake.corgibot.CorgiBot;
+import cz.wake.corgibot.annotations.CommandInfo;
 import cz.wake.corgibot.annotations.SinceCorgi;
-import cz.wake.corgibot.commands.Command;
+import cz.wake.corgibot.commands.CommandBase;
 import cz.wake.corgibot.commands.CommandCategory;
 import cz.wake.corgibot.managers.Giveaway2;
 import cz.wake.corgibot.objects.GuildWrapper;
@@ -25,8 +26,16 @@ import org.joda.time.format.PeriodFormatterBuilder;
 import java.util.ArrayList;
 import java.util.List;
 
+@CommandInfo(
+        name = "giveaway",
+        aliases = {"gw"},
+        help = "%giveaway 1h30m ; Discord Nitro ; 2 ; :smile: ; #ffffff\n\nFor a more detailed guide, use `%giveaway`",
+        description = "Creates a giveaway.",
+        category = CommandCategory.MODERATION,
+        userPerms = {Permission.MANAGE_CHANNEL}
+)
 @SinceCorgi(version = "2.3.2")
-public class Giveaway implements Command {
+public class Giveaway implements CommandBase {
 
     private static final PeriodFormatter periodParser = new PeriodFormatterBuilder()
             .appendDays().appendSuffix("d")
@@ -139,36 +148,6 @@ public class Giveaway implements Command {
                 message.delete().reason("Starting giveaway").queue();
             }
         }
-    }
-
-    @Override
-    public String getCommand() {
-        return "giveaway";
-    }
-
-    @Override
-    public String getDescription() {
-        return "Creates a giveaway.";
-    }
-
-    @Override
-    public String getHelp() {
-        return "%giveaway 1h30m ; Discord Nitro ; 2 ; :smile: ; #ffffff\n\nFor a more detailed guide, use `%giveaway`";
-    }
-
-    @Override
-    public CommandCategory getCategory() {
-        return CommandCategory.MODERATION;
-    }
-
-    @Override
-    public Permission[] userPermission() {
-        return new Permission[]{Permission.MANAGE_CHANNEL};
-    }
-
-    @Override
-    public String[] getAliases() {
-        return new String[]{"gw"};
     }
 
     private static Period getTimeFromInput(String input, MessageChannel channel) {

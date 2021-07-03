@@ -2,8 +2,9 @@ package cz.wake.corgibot.commands.user;
 
 import com.jagrosh.jdautilities.commons.waiter.EventWaiter;
 import cz.wake.corgibot.CorgiBot;
+import cz.wake.corgibot.annotations.CommandInfo;
 import cz.wake.corgibot.annotations.SinceCorgi;
-import cz.wake.corgibot.commands.Command;
+import cz.wake.corgibot.commands.CommandBase;
 import cz.wake.corgibot.commands.CommandCategory;
 import cz.wake.corgibot.objects.GuildWrapper;
 import cz.wake.corgibot.utils.Constants;
@@ -13,8 +14,14 @@ import net.dv8tion.jda.api.entities.Member;
 import net.dv8tion.jda.api.entities.Message;
 import net.dv8tion.jda.api.entities.MessageChannel;
 
+@CommandInfo(
+        name = "ping",
+        description = "Get the bot ping.",
+        help = "%ping",
+        category = CommandCategory.GENERAL
+)
 @SinceCorgi(version = "0.1")
-public class Ping implements Command {
+public class Ping implements CommandBase {
 
     private static boolean running = false;
 
@@ -47,26 +54,6 @@ public class Ping implements Command {
         } else {
             MessageUtils.sendErrorMessage("Unable to detect ping at this time because a scan is already in progress. Try it for a moment!", channel);
         }
-    }
-
-    @Override
-    public String getCommand() {
-        return "ping";
-    }
-
-    @Override
-    public String getDescription() {
-        return "Get the bot ping.";
-    }
-
-    @Override
-    public String getHelp() {
-        return "%ping";
-    }
-
-    @Override
-    public CommandCategory getCategory() {
-        return CommandCategory.GENERAL;
     }
 
     private static final String[] pingMessages = new String[]{

@@ -1,7 +1,8 @@
 package cz.wake.corgibot.commands.user;
 
 import com.jagrosh.jdautilities.commons.waiter.EventWaiter;
-import cz.wake.corgibot.commands.Command;
+import cz.wake.corgibot.annotations.CommandInfo;
+import cz.wake.corgibot.commands.CommandBase;
 import cz.wake.corgibot.commands.CommandCategory;
 import cz.wake.corgibot.objects.GuildWrapper;
 import cz.wake.corgibot.utils.EmoteList;
@@ -14,7 +15,12 @@ import net.dv8tion.jda.api.entities.User;
 import java.awt.Color;
 import java.util.List;
 
-public class Love implements Command {
+@CommandInfo(
+        name = "love",
+        aliases = {"loveme"},
+        category = CommandCategory.FUN
+)
+public class Love implements CommandBase {
 
     @Override
     public void onCommand(MessageChannel channel, Message message, String[] args, Member member, EventWaiter w, GuildWrapper gw) {
@@ -50,32 +56,8 @@ public class Love implements Command {
     }
 
     @Override
-    public String getCommand() {
-        return "love";
-    }
-
-    @Override
-    public String getDescription() {
-        return null;
-    }
-
-    @Override
-    public String getHelp() {
-        return null;
-    }
-
-    @Override
     public boolean deleteMessage() {
         return true;
     }
 
-    @Override
-    public CommandCategory getCategory() {
-        return CommandCategory.FUN;
-    }
-
-    @Override
-    public String[] getAliases() {
-        return new String[]{"loveme"};
-    }
 }

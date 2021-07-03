@@ -2,8 +2,9 @@ package cz.wake.corgibot.commands.mod;
 
 import com.jagrosh.jdautilities.commons.waiter.EventWaiter;
 import cz.wake.corgibot.CorgiBot;
+import cz.wake.corgibot.annotations.CommandInfo;
 import cz.wake.corgibot.annotations.SinceCorgi;
-import cz.wake.corgibot.commands.Command;
+import cz.wake.corgibot.commands.CommandBase;
 import cz.wake.corgibot.commands.CommandCategory;
 import cz.wake.corgibot.objects.GuildWrapper;
 import cz.wake.corgibot.utils.Constants;
@@ -16,8 +17,15 @@ import net.dv8tion.jda.internal.utils.PermissionUtil;
 import java.time.format.DateTimeFormatter;
 import java.util.List;
 
+@CommandInfo(
+        name = "archive",
+        help = "%archive <amount-of-messages>",
+        description = "Archive messages and upload them to hastebin.",
+        category = CommandCategory.MODERATION,
+        userPerms = {Permission.MANAGE_CHANNEL}
+)
 @SinceCorgi(version = "1.0")
-public class Archive implements Command {
+public class Archive implements CommandBase {
 
     @Override
     public void onCommand(MessageChannel channel, Message message, String[] args, Member member, EventWaiter w, GuildWrapper gw) {
@@ -66,28 +74,4 @@ public class Archive implements Command {
 
     }
 
-    @Override
-    public String getCommand() {
-        return "archive";
-    }
-
-    @Override
-    public String getDescription() {
-        return "Archive messages and upload them to hastebin.";
-    }
-
-    @Override
-    public String getHelp() {
-        return "%archive <amount-of-messages>";
-    }
-
-    @Override
-    public CommandCategory getCategory() {
-        return CommandCategory.MODERATION;
-    }
-
-    @Override
-    public Permission[] userPermission() {
-        return new Permission[]{Permission.MANAGE_CHANNEL};
-    }
 }

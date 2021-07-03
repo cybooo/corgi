@@ -1,8 +1,9 @@
 package cz.wake.corgibot.commands.user;
 
 import com.jagrosh.jdautilities.commons.waiter.EventWaiter;
+import cz.wake.corgibot.annotations.CommandInfo;
 import cz.wake.corgibot.annotations.SinceCorgi;
-import cz.wake.corgibot.commands.Command;
+import cz.wake.corgibot.commands.CommandBase;
 import cz.wake.corgibot.commands.CommandCategory;
 import cz.wake.corgibot.objects.GuildWrapper;
 import cz.wake.corgibot.utils.Constants;
@@ -16,8 +17,15 @@ import okhttp3.Request;
 import okhttp3.Response;
 import org.json.JSONObject;
 
+@CommandInfo(
+        name = "dog",
+        aliases = {"rdog"},
+        description = "Random dog images",
+        help = "%dog - Generates random dog image",
+        category = CommandCategory.FUN
+)
 @SinceCorgi(version = "1.2.1")
-public class Dog implements Command {
+public class Dog implements CommandBase {
 
     @Override
     public void onCommand(MessageChannel channel, Message message, String[] args, Member member, EventWaiter w, GuildWrapper gw) {
@@ -36,28 +44,4 @@ public class Dog implements Command {
         channel.sendMessage(MessageUtils.getEmbed(Constants.DEFAULT_PURPLE).setTitle(EmoteList.DOG + " | " + "Random dog image:").setImage(url).build()).queue();
     }
 
-    @Override
-    public String getCommand() {
-        return "dog";
-    }
-
-    @Override
-    public String getDescription() {
-        return "Random dog images";
-    }
-
-    @Override
-    public String getHelp() {
-        return "%dog - Generates random dog image";
-    }
-
-    @Override
-    public CommandCategory getCategory() {
-        return CommandCategory.FUN;
-    }
-
-    @Override
-    public String[] getAliases() {
-        return new String[]{"rdog"};
-    }
 }

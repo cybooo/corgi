@@ -2,8 +2,9 @@ package cz.wake.corgibot.commands.user;
 
 import com.jagrosh.jdautilities.commons.waiter.EventWaiter;
 import cz.wake.corgibot.CorgiBot;
+import cz.wake.corgibot.annotations.CommandInfo;
 import cz.wake.corgibot.annotations.SinceCorgi;
-import cz.wake.corgibot.commands.Command;
+import cz.wake.corgibot.commands.CommandBase;
 import cz.wake.corgibot.commands.CommandCategory;
 import cz.wake.corgibot.objects.ChangeLog;
 import cz.wake.corgibot.objects.GuildWrapper;
@@ -16,8 +17,14 @@ import net.dv8tion.jda.api.entities.MessageChannel;
 import java.text.SimpleDateFormat;
 import java.util.Calendar;
 
+@CommandInfo(
+        name = "changelog",
+        description = "Latest changes and news, what has been changed in Corgi",
+        help = "%changelog - Generates latest changelog",
+        category = CommandCategory.GENERAL
+)
 @SinceCorgi(version = "1.3.0")
-public class Changelog implements Command {
+public class Changelog implements CommandBase {
 
     @Override
     public void onCommand(MessageChannel channel, Message message, String[] args, Member member, EventWaiter w, GuildWrapper gw) {
@@ -53,26 +60,6 @@ public class Changelog implements Command {
         changelog.append("Do you want see old changes? Look at our changelog channel on support guild!".replace("{1}", "https://discord.gg/pR2tj432NS"));
 
         channel.sendMessage(changelog.toString()).queue();
-    }
-
-    @Override
-    public String getCommand() {
-        return "changelog";
-    }
-
-    @Override
-    public String getDescription() {
-        return "Latest changes and news, what has been changed in Corgi";
-    }
-
-    @Override
-    public String getHelp() {
-        return "%changelog - Generates latest changelog";
-    }
-
-    @Override
-    public CommandCategory getCategory() {
-        return CommandCategory.GENERAL;
     }
 
     public static final String dateFormat = "dd.MM.yyyy";

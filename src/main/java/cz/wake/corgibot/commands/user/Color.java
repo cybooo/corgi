@@ -1,7 +1,8 @@
 package cz.wake.corgibot.commands.user;
 
 import com.jagrosh.jdautilities.commons.waiter.EventWaiter;
-import cz.wake.corgibot.commands.Command;
+import cz.wake.corgibot.annotations.CommandInfo;
+import cz.wake.corgibot.commands.CommandBase;
 import cz.wake.corgibot.commands.CommandCategory;
 import cz.wake.corgibot.objects.GuildWrapper;
 import cz.wake.corgibot.utils.Constants;
@@ -21,7 +22,13 @@ import java.util.Timer;
 import java.util.TimerTask;
 import java.util.regex.Pattern;
 
-public class Color implements Command {
+@CommandInfo(
+        name = "color",
+        description = "Get color by code",
+        help = "%color [HEX-CODE] - Get color",
+        category = CommandCategory.FUN
+)
+public class Color implements CommandBase {
 
     @Override
     public void onCommand(MessageChannel channel, Message message, String[] args, Member member, EventWaiter w, GuildWrapper gw) {
@@ -47,26 +54,6 @@ public class Color implements Command {
                 MessageUtils.sendErrorMessage("Incorrectly entered command! Example: %color #B0171F`".replace("%", gw.getPrefix()), channel);
             }
         }
-    }
-
-    @Override
-    public String getCommand() {
-        return "color";
-    }
-
-    @Override
-    public String getDescription() {
-        return "Get color by code";
-    }
-
-    @Override
-    public String getHelp() {
-        return "%color [HEX-CODE] - Get color";
-    }
-
-    @Override
-    public CommandCategory getCategory() {
-        return CommandCategory.FUN;
     }
 
     /**

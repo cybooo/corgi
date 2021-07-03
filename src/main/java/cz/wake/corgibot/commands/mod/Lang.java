@@ -1,7 +1,8 @@
 package cz.wake.corgibot.commands.mod;
 
 import com.jagrosh.jdautilities.commons.waiter.EventWaiter;
-import cz.wake.corgibot.commands.Command;
+import cz.wake.corgibot.annotations.CommandInfo;
+import cz.wake.corgibot.commands.CommandBase;
 import cz.wake.corgibot.commands.CommandCategory;
 import cz.wake.corgibot.objects.GuildWrapper;
 import cz.wake.corgibot.utils.EmoteList;
@@ -14,7 +15,12 @@ import net.dv8tion.jda.api.entities.MessageChannel;
 
 import java.awt.*;
 
-public class Lang implements Command {
+@CommandInfo(
+        name = "language",
+        aliases = {"lang", "jazyk"},
+        category = CommandCategory.MODERATION
+)
+public class Lang implements CommandBase {
 
     @Override
     public void onCommand(MessageChannel channel, Message message, String[] args, Member member, EventWaiter w, GuildWrapper gw) {
@@ -38,28 +44,4 @@ public class Lang implements Command {
         });
     }
 
-    @Override
-    public String getCommand() {
-        return "language";
-    }
-
-    @Override
-    public String getDescription() {
-        return null;
-    }
-
-    @Override
-    public String getHelp() {
-        return null;
-    }
-
-    @Override
-    public CommandCategory getCategory() {
-        return CommandCategory.MODERATION;
-    }
-
-    @Override
-    public String[] getAliases() {
-        return new String[]{"lang", "jazyk"};
-    }
 }

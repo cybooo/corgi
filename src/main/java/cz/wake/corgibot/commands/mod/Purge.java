@@ -1,8 +1,9 @@
 package cz.wake.corgibot.commands.mod;
 
 import com.jagrosh.jdautilities.commons.waiter.EventWaiter;
+import cz.wake.corgibot.annotations.CommandInfo;
 import cz.wake.corgibot.annotations.SinceCorgi;
-import cz.wake.corgibot.commands.Command;
+import cz.wake.corgibot.commands.CommandBase;
 import cz.wake.corgibot.commands.CommandCategory;
 import cz.wake.corgibot.objects.GuildWrapper;
 import cz.wake.corgibot.utils.Constants;
@@ -22,8 +23,18 @@ import java.util.regex.Matcher;
 import java.util.regex.Pattern;
 import java.util.stream.Collectors;
 
+@CommandInfo(
+        name = "purge",
+        aliases = {"clean"},
+        description = "Purge messages from bots, members or everyone.",
+        help = "%purge <amount> - Deletes specified amount of messages.\n" +
+                "%purge <amount> [@user|regex] - Deletes a specific number of messages for the selected user or text.",
+        category = CommandCategory.MODERATION,
+        userPerms = {Permission.MANAGE_CHANNEL},
+        botPerms = {Permission.MESSAGE_MANAGE, Permission.MESSAGE_HISTORY}
+)
 @SinceCorgi(version = "2.3.2")
-public class Purge implements Command {
+public class Purge implements CommandBase {
 
     @Override
     public void onCommand(MessageChannel channel, Message message, String[] args, Member member, EventWaiter w, GuildWrapper gw) {
@@ -90,43 +101,6 @@ public class Purge implements Command {
         } catch (NumberFormatException e) {
             MessageUtils.sendErrorMessage("Invalid time format!", channel);
         }
-    }
-
-
-    @Override
-    public String getCommand() {
-        return "purge";
-    }
-
-    @Override
-    public String getDescription() {
-        return "Purge messages from bots, members or everyone.";
-    }
-
-    @Override
-    public String getHelp() {
-        return "%purge <amount> - Deletes specified amount of messages.\n" +
-                "%purge <amount> [@user|regex] - Deletes a specific number of messages for the selected user or text.";
-    }
-
-    @Override
-    public CommandCategory getCategory() {
-        return CommandCategory.MODERATION;
-    }
-
-    @Override
-    public Permission[] userPermission() {
-        return new Permission[]{Permission.MANAGE_CHANNEL};
-    }
-
-    @Override
-    public Permission[] botPermission() {
-        return new Permission[]{Permission.MESSAGE_MANAGE, Permission.MESSAGE_HISTORY};
-    }
-
-    @Override
-    public String[] getAliases() {
-        return new String[]{"clean"};
     }
 
     public String combineArgs(String[] args) {

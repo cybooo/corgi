@@ -1,7 +1,8 @@
 package cz.wake.corgibot.commands.user;
 
 import com.jagrosh.jdautilities.commons.waiter.EventWaiter;
-import cz.wake.corgibot.commands.Command;
+import cz.wake.corgibot.annotations.CommandInfo;
+import cz.wake.corgibot.commands.CommandBase;
 import cz.wake.corgibot.commands.CommandCategory;
 import cz.wake.corgibot.objects.GuildWrapper;
 import cz.wake.corgibot.utils.MessageUtils;
@@ -10,7 +11,14 @@ import net.dv8tion.jda.api.entities.Member;
 import net.dv8tion.jda.api.entities.Message;
 import net.dv8tion.jda.api.entities.MessageChannel;
 
-public class Bigmoji implements Command {
+@CommandInfo(
+        name = "bigmoji",
+        aliases = {"animoji"},
+        description = "Generating big emojis from server.",
+        help = "%bigmoji <regex|text> - Will send big emoji into channel.",
+        category = CommandCategory.FUN
+)
+public class Bigmoji implements CommandBase {
 
     @Override
     public void onCommand(MessageChannel channel, Message message, String[] args, Member member, EventWaiter w, GuildWrapper gw) {
@@ -33,31 +41,6 @@ public class Bigmoji implements Command {
                 MessageUtils.sendErrorMessage("Invalid emoji format! Try again!", channel);
             }
         }
-    }
-
-    @Override
-    public String getCommand() {
-        return "bigmoji";
-    }
-
-    @Override
-    public String getDescription() {
-        return "Generating big emojis from server.";
-    }
-
-    @Override
-    public String getHelp() {
-        return "%bigmoji <regex|text> - Will send big emoji into channel.";
-    }
-
-    @Override
-    public CommandCategory getCategory() {
-        return CommandCategory.FUN;
-    }
-
-    @Override
-    public String[] getAliases() {
-        return new String[]{"animoji"};
     }
 
     @Override

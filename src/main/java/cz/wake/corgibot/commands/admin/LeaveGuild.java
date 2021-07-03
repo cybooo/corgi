@@ -1,8 +1,9 @@
 package cz.wake.corgibot.commands.admin;
 
 import com.jagrosh.jdautilities.commons.waiter.EventWaiter;
+import cz.wake.corgibot.annotations.CommandInfo;
 import cz.wake.corgibot.annotations.SinceCorgi;
-import cz.wake.corgibot.commands.Command;
+import cz.wake.corgibot.commands.CommandBase;
 import cz.wake.corgibot.commands.CommandCategory;
 import cz.wake.corgibot.objects.GuildWrapper;
 import cz.wake.corgibot.utils.Constants;
@@ -15,8 +16,15 @@ import net.dv8tion.jda.api.events.message.react.MessageReactionAddEvent;
 
 import java.util.concurrent.TimeUnit;
 
+@CommandInfo(
+        name = "leaveguild",
+        help = "%leaveguild",
+        description = "Command to force Corgi to leave the server, if confirmed. (Only for Administrators)",
+        category = CommandCategory.ADMINISTRATOR,
+        userPerms = {Permission.MANAGE_SERVER}
+)
 @SinceCorgi(version = "1.2.0")
-public class LeaveGuild implements Command {
+public class LeaveGuild implements CommandBase {
 
     @Override
     public void onCommand(MessageChannel channel, Message message, String[] args, Member member, EventWaiter w, GuildWrapper gw) {
@@ -45,28 +53,4 @@ public class LeaveGuild implements Command {
         }
     }
 
-    @Override
-    public String getCommand() {
-        return "leaveguild";
-    }
-
-    @Override
-    public String getDescription() {
-        return "Command to force Corgi to leave the server, if confirmed. (Only for Administrators)";
-    }
-
-    @Override
-    public String getHelp() {
-        return "%leaveguild";
-    }
-
-    @Override
-    public CommandCategory getCategory() {
-        return CommandCategory.ADMINISTRATOR;
-    }
-
-    @Override
-    public Permission[] userPermission() {
-        return new Permission[]{Permission.MANAGE_SERVER};
-    }
 }

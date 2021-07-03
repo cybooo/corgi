@@ -68,7 +68,7 @@ public class Ignore implements Command {
 
     @Override
     public CommandCategory getCategory() {
-        return CommandCategory.ADMINISTARTOR;
+        return CommandCategory.ADMINISTRATOR;
     }
 
     @Override

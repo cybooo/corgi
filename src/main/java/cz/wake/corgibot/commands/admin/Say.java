@@ -41,7 +41,7 @@ public class Say implements Command {
 
     @Override
     public CommandCategory getCategory() {
-        return CommandCategory.ADMINISTARTOR;
+        return CommandCategory.ADMINISTRATOR;
     }
 
     @Override

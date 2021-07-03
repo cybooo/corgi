@@ -12,7 +12,7 @@ public enum CommandCategory {
     GAMES(EmoteList.VIDEO_GAME),
     FUN(EmoteList.COMET),
     MUSIC,
-    ADMINISTARTOR(EmoteList.PLAYING_CARD),
+    ADMINISTRATOR(EmoteList.PLAYING_CARD),
     HIDDEN,
     BOT_OWNER;
 
@@ -30,7 +30,7 @@ public enum CommandCategory {
     }
 
     public static CommandCategory[] getTypes() {
-        return new CommandCategory[]{GENERAL, GAMES, FUN, MODERATION, ADMINISTARTOR, MUSIC, HIDDEN, BOT_OWNER};
+        return new CommandCategory[]{GENERAL, GAMES, FUN, MODERATION, ADMINISTRATOR, MUSIC, HIDDEN, BOT_OWNER};
     }
 
     public List<Command> getCommands() {

@@ -43,13 +43,18 @@
       "fixes": "Fixes & Changes",
       "announce": "Warning",
       "footer": "Do you want see old changes? Look at our changelog channel on support guild! "
+    },
+    "bigmoji": {
+      "only-server-emoji": "You can use emoji only available in this guild.",
+      "invalid-emoji-format": "Invalid emoji format. Try again."
     }
   },
   "internal": {
     "error": {
       "no-context": "Can not send empty message!",
       "command-failed": "Error has occurred during executing of command! Try it again...",
-      "api-failed": "Error in API! Please wait..."
+      "api-failed": "Error in API! Please wait...",
+      "user-not-found": "User can not be found!"
     },
     "warning": {
     }

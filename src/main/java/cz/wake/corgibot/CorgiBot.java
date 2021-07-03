@@ -1,26 +1,22 @@
 package cz.wake.corgibot;
 
 import com.jagrosh.jdautilities.commons.waiter.EventWaiter;
-import cz.wake.corgibot.commands.CommandHandler;
+import cz.wake.corgibot.commands.CommandManager;
 import cz.wake.corgibot.feeds.TwitterEventListener;
 import cz.wake.corgibot.listener.ChannelDeleteEvent;
 import cz.wake.corgibot.listener.ChatListener;
 import cz.wake.corgibot.listener.JoinEvent;
 import cz.wake.corgibot.listener.LeaveEvent;
 import cz.wake.corgibot.managers.BotManager;
-import cz.wake.corgibot.metrics.JdaEventMetricsListener;
-import cz.wake.corgibot.metrics.Metrics;
 import cz.wake.corgibot.runnable.ReminderTask;
 import cz.wake.corgibot.runnable.SpamHandler;
-import cz.wake.corgibot.runnable.StatusChanger;
 import cz.wake.corgibot.sql.SQLManager;
 import cz.wake.corgibot.utils.Constants;
 import cz.wake.corgibot.utils.CorgiLogger;
 import cz.wake.corgibot.utils.config.Config;
 import cz.wake.corgibot.utils.config.ConfigUtils;
 import cz.wake.corgibot.utils.lang.I18n;
-import cz.wake.corgibot.utils.statuses.Checker;
-import net.dv8tion.jda.api.AccountType;
+import cz.wake.corgibot.utils.statuses.MojangChecker;
 import net.dv8tion.jda.api.JDA;
 import net.dv8tion.jda.api.JDABuilder;
 import net.dv8tion.jda.api.OnlineStatus;
@@ -28,6 +24,8 @@ import net.dv8tion.jda.api.entities.Activity;
 import net.dv8tion.jda.api.entities.Guild;
 import net.dv8tion.jda.api.entities.Icon;
 import net.dv8tion.jda.api.entities.TextChannel;
+import net.dv8tion.jda.api.requests.GatewayIntent;
+import net.dv8tion.jda.api.utils.MemberCachePolicy;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
@@ -40,6 +38,7 @@ import java.time.LocalDateTime;
 import java.time.format.DateTimeFormatter;
 import java.util.Date;
 import java.util.Map;
+import java.util.Objects;
 import java.util.Timer;
 import java.util.concurrent.ConcurrentHashMap;
 
@@ -47,10 +46,10 @@ public class CorgiBot {
 
     private static CorgiBot instance;
     private static JDA jda;
-    private CommandHandler ch = new CommandHandler();
+    private final CommandManager commandManager = new CommandManager();
     private SQLManager sql;
     private ChatListener chatListener;
-    private DateTimeFormatter timeFormat = DateTimeFormatter.ofPattern("MMMM yyyy HH:mm:ss");
+    private final DateTimeFormatter timeFormat = DateTimeFormatter.ofPattern("MMMM yyyy HH:mm:ss");
     public static long startUp;
     private static final Map<String, Logger> LOGGERS;
     public static final Logger LOGGER;
@@ -66,7 +65,11 @@ public class CorgiBot {
     }
 
     public static void main(String[] args) throws LoginException, InterruptedException {
+        instance = new CorgiBot();
+        instance.start();
+    }
 
+    public void start() throws LoginException, InterruptedException {
         // Inform
         CorgiLogger.infoMessage("Now wil Corgi wake up!");
 
@@ -81,30 +84,30 @@ public class CorgiBot {
 
         // JDA Build
         CorgiLogger.infoMessage("Connecting to Discord API.");
-        jda = new JDABuilder(AccountType.BOT)
-                .setToken(config.getString("discord.token"))
+        jda = JDABuilder.createDefault(config.getString("discord.token"))
+                .enableIntents(GatewayIntent.GUILD_MESSAGES, GatewayIntent.GUILD_MESSAGE_REACTIONS, GatewayIntent.GUILD_PRESENCES, GatewayIntent.GUILD_MEMBERS)
+                .setMemberCachePolicy(MemberCachePolicy.ALL)
                 .addEventListeners(new ChatListener(waiter))
                 .addEventListeners(new LeaveEvent())
                 .addEventListeners(new JoinEvent())
                 .addEventListeners(new ChannelDeleteEvent())
-                .addEventListeners(new JdaEventMetricsListener())
                 .addEventListeners(waiter)
                 .setActivity(Activity.playing("Loading..."))
                 .setStatus(OnlineStatus.IDLE)
                 .build().awaitReady();
 
         // Instances
-        (instance = new CorgiBot()).init();
+        instance.init();
 
         // Properties from config
         isBeta = config.getBoolean("beta");
 
         // MySQL
-        if(!isBeta){
+        if (!isBeta) {
             CorgiLogger.infoMessage("Connection to MySQL...");
             try {
                 // MySQL Instance
-                (instance = new CorgiBot()).initDatabase();
+                instance.initDatabase();
                 CorgiLogger.greatMessage("Corgi is successful connected to MySQL.");
 
                 // Load configuration for guilds
@@ -113,7 +116,7 @@ public class CorgiBot {
                 // Setup
                 isBeta = false;
 
-            } catch (Exception ex){
+            } catch (Exception ex) {
                 CorgiLogger.dangerMessage("During connection to MySQL, error has occurred:");
                 ex.printStackTrace();
                 System.exit(-1);
@@ -125,20 +128,16 @@ public class CorgiBot {
 
         // Startup timer
         Timer timer = new Timer();
-        timer.scheduleAtFixedRate(new StatusChanger(), 10, 120000);
         timer.scheduleAtFixedRate(new SpamHandler(), 10, 1500); // 1.5s clear, higher = disaster
 
         // Languages
         CorgiLogger.infoMessage("Loading language files...");
         I18n.start();
 
-        // Metrics
-        Metrics.setup();
-
         // Is Corgi beta?
         if (!isBeta) {
             CorgiLogger.infoMessage("Corgi will run as PRODUCTION bot.");
-            timer.scheduleAtFixedRate(new Checker(), 10, 60000);
+            timer.scheduleAtFixedRate(new MojangChecker(), 10, 60000);
             timer.scheduleAtFixedRate(new ReminderTask(getInstance()), 10, 20000);
             TwitterEventListener.initTwitter();
         } else {
@@ -146,7 +145,7 @@ public class CorgiBot {
         }
 
         // Setup new profile image from config.json
-        if(config.getBoolean("advanced.profile-picture.enabled")){
+        if (config.getBoolean("advanced.profile-picture.enabled")) {
             try {
                 String url = config.getString("advanced.profile-picture.url");
                 jda.getSelfUser().getManager().setAvatar(Icon.from(
@@ -157,30 +156,24 @@ public class CorgiBot {
                 e.printStackTrace();
             }
         }
+
+        // Final set status
+        if (!isBeta) {
+            getJda().getPresence().setActivity(Activity.playing("c!help | corgibot.xyz"));
+            getJda().getPresence().setStatus(OnlineStatus.ONLINE);
+        } else {
+            getJda().getPresence().setActivity(Activity.playing("with bugs"));
+            getJda().getPresence().setStatus(OnlineStatus.DO_NOT_DISTURB);
+        }
     }
 
     public static CorgiBot getInstance() {
         return instance;
     }
 
-    public static JDA getJda() {
-        return jda;
-    }
-
-    public ChatListener getChatListener(){
-        return chatListener;
-    }
-
-    public CommandHandler getCommandHandler() {
-        return ch;
-    }
-
-    public SQLManager getSql() {
-        return sql;
-    }
-
     private void init() {
-        ch.register();
+        getLog(this.getClass()).error(String.valueOf(commandManager.getClass().hashCode()));
+        commandManager.register();
     }
 
     private void initDatabase() {
@@ -200,11 +193,11 @@ public class CorgiBot {
     }
 
     public TextChannel getGuildLogChannel() {
-        return getJda().getGuildById("255045073887166475").getTextChannelById("361636711585021953");
+        return Objects.requireNonNull(getJda().getGuildById("860251548231532584"), "Guild is null").getTextChannelById("860299812582981643");
     }
 
     public static Guild getDefaultGuild() {
-        return getJda().getGuildById("255045073887166475");
+        return getJda().getGuildById("860251548231532584");
     }
 
     private static void bootLogo() {
@@ -233,5 +226,21 @@ public class CorgiBot {
      */
     public static boolean isIsBeta() {
         return isBeta;
+    }
+
+    public static JDA getJda() {
+        return jda;
+    }
+
+    public CommandManager getCommandManager() {
+        return commandManager;
+    }
+
+    public SQLManager getSql() {
+        return sql;
+    }
+
+    public ChatListener getChatListener() {
+        return chatListener;
     }
 }

@@ -13,10 +13,10 @@ import java.util.TimerTask;
 import java.util.concurrent.ConcurrentHashMap;
 import java.util.concurrent.ConcurrentMap;
 
-public class Checker extends TimerTask {
+public class MojangChecker extends TimerTask {
 
-    private JsonParser parser = new JsonParser();
-    private static ConcurrentMap<MojangService, Integer> serviceStatus = new ConcurrentHashMap<>();
+    private final JsonParser parser = new JsonParser();
+    private static final ConcurrentMap<MojangService, Integer> serviceStatus = new ConcurrentHashMap<>();
 
     @Override
     public void run() {
@@ -53,7 +53,8 @@ public class Checker extends TimerTask {
                 }
             }
         } catch (Exception e) {
-            e.printStackTrace();
+            // Ignore - mojang status page refuses connection too often, don't want my console full of errors.
+//            e.printStackTrace();
         }
     }
 

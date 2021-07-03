@@ -1,8 +1,9 @@
 package cz.wake.corgibot.commands.mod;
 
 import com.jagrosh.jdautilities.commons.waiter.EventWaiter;
+import cz.wake.corgibot.annotations.CommandInfo;
 import cz.wake.corgibot.annotations.SinceCorgi;
-import cz.wake.corgibot.commands.Command;
+import cz.wake.corgibot.commands.CommandBase;
 import cz.wake.corgibot.commands.CommandCategory;
 import cz.wake.corgibot.objects.GuildWrapper;
 import cz.wake.corgibot.utils.EmoteList;
@@ -16,8 +17,15 @@ import net.dv8tion.jda.internal.utils.PermissionUtil;
 
 import java.util.LinkedList;
 
+@CommandInfo(
+        name = "kick",
+        help = "%kick @user [@user]",
+        description = "Kick user(s) from this server",
+        category = CommandCategory.MODERATION,
+        userPerms = {Permission.KICK_MEMBERS}
+)
 @SinceCorgi(version = "0.7")
-public class Kick implements Command {
+public class Kick implements CommandBase {
 
     @Override
     public void onCommand(MessageChannel channel, Message message, String[] args, Member member, EventWaiter w, GuildWrapper gw) {
@@ -43,16 +51,16 @@ public class Kick implements Command {
                         .append(EmoteList.WARNING)
                         .append(" | ")
                         .append(u.getAsMention())
-                        .append(" nemůže být vyhozen, jelikož není evidován na serveru!");
+                        .append(" can't be kicked, because he was not found in this server!");
             } else if (!PermissionUtil.canInteract(message.getMember(), m)) {
                 builder.append("\n")
                         .append(EmoteList.RED_DENY)
-                        .append(" | Nemáš dostatečná práva na vyhození ")
+                        .append(" | You don't have enough permissions to kick ")
                         .append(FormatUtil.formatUser(u));
             } else if (!PermissionUtil.canInteract(message.getGuild().getSelfMember(), m)) {
                 builder.append("\n")
                         .append(EmoteList.RED_DENY)
-                        .append(" | Nemáš dostatečná práva na vyhození ")
+                        .append(" | You don't have enough permissions to kick ")
                         .append(FormatUtil.formatUser(u));
             } else
                 members.add(m);
@@ -66,14 +74,14 @@ public class Kick implements Command {
                 message.getGuild().kick(m).queue((v) -> {
                     builder.append("\n")
                             .append(EmoteList.GREEN_OK)
-                            .append(" | Uspěšně vykopnut ")
+                            .append(" | Succesfully kicked ")
                             .append(m.getAsMention());
                     if (last)
                         MessageUtils.sendErrorMessage(builder.toString(), channel);
                 }, (t) -> {
                     builder.append("\n")
                             .append(EmoteList.RED_DENY)
-                            .append(" | Nepodařilo se vyhodit ")
+                            .append(" | Could not kick ")
                             .append(FormatUtil.formatUser(m.getUser()));
                     if (last)
                         MessageUtils.sendErrorMessage(builder.toString(), channel);
@@ -82,28 +90,4 @@ public class Kick implements Command {
         }
     }
 
-    @Override
-    public String getCommand() {
-        return "kick";
-    }
-
-    @Override
-    public String getDescription() {
-        return "Vyhození uživatele(ů) z serveru.";
-    }
-
-    @Override
-    public String getHelp() {
-        return "%kick @user [@user]";
-    }
-
-    @Override
-    public CommandCategory getCategory() {
-        return CommandCategory.MODERATION;
-    }
-
-    @Override
-    public Permission[] userPermission() {
-        return new Permission[]{Permission.KICK_MEMBERS};
-    }
 }

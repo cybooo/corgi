@@ -63,10 +63,16 @@
       "deleted-reminder": "Upozornění s ID **{1}** bylo smazáno!",
       "non-existing-id": "Zadané ID neexistuje nebo se jedná o interní chybu!",
       "id-is-not-number": "Zadané ID není číslo!",
-      "incorrect-command": "Něco ti tam zřejmě chybí! Příklad: %reminder 2h | Vypnout Corgiho!",
+      "incorrect-command": "Něco ti tam zřejmě chybí! Příklad: %reminder 2h ; Vypnout Corgiho!",
       "too-long-time": "Promiň, ale upozornění delší jak 1000 znaků nelze zpracovat! Tvoje žádané upozornění má délku - {1}",
       "minimal-time": "Minimální čas na upozornění je 1 minuta!",
       "final-message": "Jistě! Upozorním tě za **{1}**"
+    },
+    "choose": {
+      "must-select": "Musíš si něco vybrat!",
+      "no-arguments": "Musíš zadat víc než 1 volbu!",
+      "choose-in-choose": "První možnost byla zadána špatně. Zkus to znova...",
+      "corgi-select": "zvolil jsem"
     }
   },
   "internal": {

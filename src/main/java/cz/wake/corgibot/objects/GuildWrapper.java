@@ -7,8 +7,8 @@ import net.dv8tion.jda.api.entities.Member;
 import net.dv8tion.jda.api.entities.MessageChannel;
 
 import java.awt.*;
-import java.util.*;
 import java.util.List;
+import java.util.*;
 import java.util.concurrent.ConcurrentHashMap;
 
 public class GuildWrapper {
@@ -16,7 +16,7 @@ public class GuildWrapper {
     /*
         The id of the guild that the settings are for
      */
-    private String guildId;
+    private final String guildId;
 
     /*
         Custom prefix for that guild
@@ -108,7 +108,7 @@ public class GuildWrapper {
      * @return The prefix that the guild is using
      */
     public String getPrefix() {
-        if(prefix == null){
+        if (prefix == null) {
             return Constants.PREFIX;
         }
         return prefix;
@@ -151,6 +151,7 @@ public class GuildWrapper {
 
     /**
      * Map of Tags for the guild
+     *
      * @return {@link Map} of tags
      */
     public Map<String, String> getTags() {
@@ -238,19 +239,19 @@ public class GuildWrapper {
 
     /**
      * Update prefix for the guild!
-     * 
-     * @param prefix Custom prefix
+     *
+     * @param prefix    Custom prefix
      * @param updateSQL boolean value if we want to update prefix in SQL
      * @return {@link GuildWrapper}
      */
     public GuildWrapper setPrefix(String prefix, boolean updateSQL) {
-        if(updateSQL){
-            if(prefix == Constants.PREFIX){
+        if (updateSQL) {
+            if (prefix.equals(Constants.PREFIX)) {
                 this.prefix = Constants.PREFIX;
                 try {
                     CorgiBot.getInstance().getSql().updatePrefix(guildId, prefix);
                 } catch (Exception e) {
-                    CorgiBot.LOGGER.error("Chyba při mazání prefixu!", e);
+                    CorgiBot.LOGGER.error("Error while deleting prefix!", e);
                 }
                 return this;
             }
@@ -258,7 +259,7 @@ public class GuildWrapper {
             try {
                 CorgiBot.getInstance().getSql().updatePrefix(guildId, prefix);
             } catch (Exception e) {
-                CorgiBot.LOGGER.error("Chyba při přidávání prefixu!", e);
+                CorgiBot.LOGGER.error("Error while setting prefix!", e);
             }
         }
         this.prefix = prefix;
@@ -289,7 +290,7 @@ public class GuildWrapper {
             try {
                 CorgiBot.getInstance().getSql().deleteIgnoredChannel(textChannel.getId());
             } catch (Exception e) {
-                CorgiBot.LOGGER.error("Chyba při mazání ignorovaného channelu!", e);
+                CorgiBot.LOGGER.error("Error while deleting ignored channel!", e);
             }
             return this;
         }
@@ -297,7 +298,7 @@ public class GuildWrapper {
         try {
             CorgiBot.getInstance().getSql().addIgnoredChannel(this.guildId, textChannel.getId());
         } catch (Exception e) {
-            CorgiBot.LOGGER.error("Chyba při přidávání ignorovaného channelu!", e);
+            CorgiBot.LOGGER.error("Error while adding ignored channel!", e);
         }
         return this;
     }
@@ -425,13 +426,13 @@ public class GuildWrapper {
     }
 
     public void setLanguage(String language, boolean updateSQL) {
-        if(updateSQL) {
-            if(!this.language.equalsIgnoreCase(language)) {
+        if (updateSQL) {
+            if (!this.language.equalsIgnoreCase(language)) {
                 this.language = language;
                 try {
                     CorgiBot.getInstance().getSql().updateLanguage(this.guildId, this.language);
                 } catch (Exception e) {
-                    CorgiLogger.fatalMessage("Nepodarilo se zupdatovat jazyk! Guild: " + this.guildId + ", jazyk: " + this.language);
+                    CorgiLogger.fatalMessage("Could not update language! Guild: " + this.guildId + ", language: " + this.language);
                 }
             }
         } else {
@@ -441,7 +442,7 @@ public class GuildWrapper {
     }
 
     @Override
-    public String toString(){
+    public String toString() {
         return getClass().getSimpleName() + "[id=" + guildId + ",prefix=" + prefix + ",ignoredChannels=" + ignoredChannels.toString() +
                 ",language=" + language + "]";
     }

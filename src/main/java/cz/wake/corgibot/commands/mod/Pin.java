@@ -1,7 +1,8 @@
 package cz.wake.corgibot.commands.mod;
 
 import com.jagrosh.jdautilities.commons.waiter.EventWaiter;
-import cz.wake.corgibot.commands.Command;
+import cz.wake.corgibot.annotations.CommandInfo;
+import cz.wake.corgibot.commands.CommandBase;
 import cz.wake.corgibot.commands.CommandCategory;
 import cz.wake.corgibot.objects.GuildWrapper;
 import cz.wake.corgibot.utils.Constants;
@@ -12,7 +13,15 @@ import net.dv8tion.jda.api.entities.Member;
 import net.dv8tion.jda.api.entities.Message;
 import net.dv8tion.jda.api.entities.MessageChannel;
 
-public class Pin implements Command {
+@CommandInfo(
+        name = "pin",
+        description = "Command to pin a message, or a generate message to pin",
+        help = "%pin <ID|message>` - Pins a message by ID, or generates a new one to pin",
+        category = CommandCategory.MODERATION,
+        userPerms = {Permission.MANAGE_CHANNEL, Permission.MESSAGE_MANAGE},
+        botPerms = {Permission.MANAGE_CHANNEL, Permission.MESSAGE_MANAGE}
+)
+public class Pin implements CommandBase {
 
     @Override
     public void onCommand(MessageChannel channel, Message message, String[] args, Member member, EventWaiter w, GuildWrapper gw) {
@@ -20,7 +29,7 @@ public class Pin implements Command {
 
             Message msg = channel.retrieveMessageById(args[0].trim()).complete();
             if (msg == null) {
-                MessageUtils.sendErrorMessage("Požadovaná zpráva nebyla nalezena!", channel);
+                MessageUtils.sendErrorMessage("Message not found!", channel);
                 return;
             }
             msg.pin().complete();
@@ -32,48 +41,13 @@ public class Pin implements Command {
             msg.pin().complete();
             channel.getHistory().retrievePast(1).complete().get(0).delete().queue();
         } else {
-            channel.sendMessage(MessageUtils.getEmbed(Constants.GRAY).setTitle("Nápověda k příkazu %ping".replace("%", gw.getPrefix()))
-                .setDescription(getDescription()).build()).queue();
+            channel.sendMessage(MessageUtils.getEmbed(Constants.GRAY).setTitle("Help for command %ping".replace("%", gw.getPrefix()))
+                    .setDescription(getDescription()).build()).queue();
         }
-    }
-
-    @Override
-    public String getCommand() {
-        return "pin";
-    }
-
-    @Override
-    public String getDescription() {
-        return "Příkaz, se kterým lze připnout zprávu nebo vygenerovat zprávu k připnutí.";
-    }
-
-    @Override
-    public String getHelp() {
-        return "%pin <ID|zpráva>` - Připne zprávu podle ID nebo vygeneruje novou a připne.";
-    }
-
-    @Override
-    public CommandCategory getCategory() {
-        return CommandCategory.MODERATION;
-    }
-
-    @Override
-    public String[] getAliases() {
-        return new String[]{"pripnout"};
     }
 
     @Override
     public boolean deleteMessage() {
         return true;
-    }
-
-    @Override
-    public Permission[] userPermission() {
-        return new Permission[]{Permission.MANAGE_CHANNEL, Permission.MESSAGE_MANAGE};
-    }
-
-    @Override
-    public Permission[] botPermission() {
-        return new Permission[]{Permission.MANAGE_CHANNEL, Permission.MESSAGE_MANAGE};
     }
 }

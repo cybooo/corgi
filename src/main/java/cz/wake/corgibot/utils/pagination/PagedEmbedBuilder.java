@@ -11,7 +11,7 @@ public class PagedEmbedBuilder<T> {
 
     private String title;
     private String codeBlock;
-    private PaginationList<T> list;
+    private final PaginationList<T> list;
     private boolean hasCodeBlock = false;
     private Color color;
     private String groupPrefix = null;
@@ -91,7 +91,7 @@ public class PagedEmbedBuilder<T> {
      * Enables the embed to use the groups within the {@link PaginationList}. And sets the groups per page.
      *
      * @param groupsPerPage The amount of groups to put on a page.
-     * @param groupPrefix The prefix for the groups.
+     * @param groupPrefix   The prefix for the groups.
      */
     public void useGroups(int groupsPerPage, String groupPrefix) {
         this.groupPrefix = groupPrefix;
@@ -100,16 +100,16 @@ public class PagedEmbedBuilder<T> {
 
     public class PagedEmbed {
 
-        private String title;
-        private String codeBlock;
-        private boolean hasCodeBlock;
-        private PaginationList<T> list;
-        private boolean pageCounts;
-        private int pageTotal;
-        private Color color;
+        private final String title;
+        private final String codeBlock;
+        private final boolean hasCodeBlock;
+        private final PaginationList<T> list;
+        private final boolean pageCounts;
+        private final int pageTotal;
+        private final Color color;
         private boolean useGroups;
         private String groupPrefix;
-        private int groupsPerPage;
+        private final int groupsPerPage;
         private int groupTotal;
 
         public PagedEmbed(String title, String codeBlock, boolean hasCodeBlock, PaginationList<T> list, boolean pageCounts, Color color, String groupPrefix, int groupsPerPage) {
@@ -119,7 +119,7 @@ public class PagedEmbedBuilder<T> {
             this.hasCodeBlock = hasCodeBlock;
             this.list = list;
             this.color = color;
-            if(groupPrefix != null) {
+            if (groupPrefix != null) {
                 this.useGroups = true;
                 this.groupPrefix = groupPrefix;
                 pageTotal = list.getPages() < groupsPerPage ? 1 : (list.getPages() / groupsPerPage) +
@@ -138,10 +138,10 @@ public class PagedEmbedBuilder<T> {
          * @return the {@link MessageEmbed} page.
          */
         public MessageEmbed getEmbed(int page) {
-            EmbedBuilder pageEmbed = new EmbedBuilder().setColor(Constants.LIGHT_BLUE);
+            EmbedBuilder pageEmbed = new EmbedBuilder().setColor(Constants.DEFAULT_PURPLE);
             if (title != null)
                 pageEmbed.setTitle(title);
-            if(useGroups) {
+            if (useGroups) {
                 int start = groupsPerPage * (page);
                 int end = Math.min(start + groupsPerPage, groupTotal);
                 int num = start;

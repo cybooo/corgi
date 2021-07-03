@@ -1,7 +1,8 @@
 package cz.wake.corgibot.commands.user;
 
 import com.jagrosh.jdautilities.commons.waiter.EventWaiter;
-import cz.wake.corgibot.commands.Command;
+import cz.wake.corgibot.annotations.CommandInfo;
+import cz.wake.corgibot.commands.CommandBase;
 import cz.wake.corgibot.commands.CommandCategory;
 import cz.wake.corgibot.objects.GuildWrapper;
 import cz.wake.corgibot.utils.Constants;
@@ -21,12 +22,18 @@ import java.util.Timer;
 import java.util.TimerTask;
 import java.util.regex.Pattern;
 
-public class Color implements Command {
+@CommandInfo(
+        name = "color",
+        description = "Get color by code",
+        help = "%color [HEX-CODE] - Get color",
+        category = CommandCategory.FUN
+)
+public class Color implements CommandBase {
 
     @Override
     public void onCommand(MessageChannel channel, Message message, String[] args, Member member, EventWaiter w, GuildWrapper gw) {
         if (args.length < 1) {
-            channel.sendMessage(MessageUtils.getEmbed(Constants.GRAY).setTitle("Nápověda k příkazu color").setDescription(getHelp().replace("%", gw.getPrefix())).build()).queue();
+            channel.sendMessage(MessageUtils.getEmbed(Constants.GRAY).setTitle("Color command help").setDescription(getHelp().replace("%", gw.getPrefix())).build()).queue();
         } else {
             try {
                 String color = args[0];
@@ -41,32 +48,12 @@ public class Color implements Command {
                     builder.setAuthor(HEX + ":");
                     colorCommand(java.awt.Color.decode(HEX), channel, builder);
                 } else {
-                    MessageUtils.sendErrorMessage("Špatně zadaný příkaz! Př. `%color #B0171F`".replace("%", gw.getPrefix()), channel);
+                    MessageUtils.sendErrorMessage("Incorrectly entered command! Example: `%color #B0171F`".replace("%", gw.getPrefix()), channel);
                 }
             } catch (NumberFormatException e) {
-                MessageUtils.sendErrorMessage("Špatně zadaný příkaz! Př. `%color #B0171F`".replace("%", gw.getPrefix()), channel);
+                MessageUtils.sendErrorMessage("Incorrectly entered command! Example: %color #B0171F`".replace("%", gw.getPrefix()), channel);
             }
         }
-    }
-
-    @Override
-    public String getCommand() {
-        return "color";
-    }
-
-    @Override
-    public String getDescription() {
-        return "Získání barvy podle kódu.";
-    }
-
-    @Override
-    public String getHelp() {
-        return "%color [HEX-CODE] - Získání barvy";
-    }
-
-    @Override
-    public CommandCategory getCategory() {
-        return CommandCategory.FUN;
     }
 
     /**

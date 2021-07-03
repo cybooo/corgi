@@ -14,9 +14,9 @@ public class TwitterFeedObserver implements Serializable {
 
     private static final long serialVersionUID = -4749221302251416947L;
 
-    private String discoChannel;
-    private String twitterHandle;
-    private boolean showPictures;
+    private final String discoChannel;
+    private final String twitterHandle;
+    private final boolean showPictures;
     private boolean showRetweets;
     private boolean showReplies;
 
@@ -30,7 +30,7 @@ public class TwitterFeedObserver implements Serializable {
     }
 
     public boolean trigger(Status status) {
-        if(getDiscoChannel() == null || !getDiscoChannel().canTalk()) {
+        if (getDiscoChannel() == null || !getDiscoChannel().canTalk()) {
             return false;
         }
         if ((status.isRetweet() && !showRetweets)
@@ -39,7 +39,7 @@ public class TwitterFeedObserver implements Serializable {
         }
         EmbedBuilder em = new EmbedBuilder();
         String text = status.getText();
-        em.setTitle("Nový Tweet od \\@" + status.getUser().getScreenName(),
+        em.setTitle("New tweet from \\@" + status.getUser().getScreenName(),
                 "https://twitter.com/" + status.getUser().getScreenName()
                         + "/status/" + status.getId())
                 .setColor(ColorSelector.getRandomColor()) //TODO: Twitter color
@@ -47,15 +47,15 @@ public class TwitterFeedObserver implements Serializable {
                 .setDescription(text);
 
         String url = null;
-        for(MediaEntity e : status.getMediaEntities()) {
-            if(this.showPictures && url == null && (e.getType().equals("photo")))
+        for (MediaEntity e : status.getMediaEntities()) {
+            if (this.showPictures && url == null && (e.getType().equals("photo")))
                 url = e.getMediaURL();
             text = text.replaceAll(e.getURL(), "");
         }
-        if(url != null)
+        if (url != null)
             em.setImage(url);
-        if(status.getMediaEntities().length > 0 && url == null || status.getMediaEntities().length > 1) {
-            em.setFooter("Tweet obsahuje víc medií", null);
+        if (status.getMediaEntities().length > 0 && url == null || status.getMediaEntities().length > 1) {
+            em.setFooter("Tweet contains more media", null);
         } else {
             em.setFooter("Tweet", null);
         }

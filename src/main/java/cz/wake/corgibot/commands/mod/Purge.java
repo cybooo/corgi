@@ -1,8 +1,9 @@
 package cz.wake.corgibot.commands.mod;
 
 import com.jagrosh.jdautilities.commons.waiter.EventWaiter;
+import cz.wake.corgibot.annotations.CommandInfo;
 import cz.wake.corgibot.annotations.SinceCorgi;
-import cz.wake.corgibot.commands.Command;
+import cz.wake.corgibot.commands.CommandBase;
 import cz.wake.corgibot.commands.CommandCategory;
 import cz.wake.corgibot.objects.GuildWrapper;
 import cz.wake.corgibot.utils.Constants;
@@ -22,27 +23,37 @@ import java.util.regex.Matcher;
 import java.util.regex.Pattern;
 import java.util.stream.Collectors;
 
+@CommandInfo(
+        name = "purge",
+        aliases = {"clean"},
+        description = "Purge messages from bots, members or everyone.",
+        help = "%purge <amount> - Deletes specified amount of messages.\n" +
+                "%purge <amount> [@user|regex] - Deletes a specific number of messages for the selected user or text.",
+        category = CommandCategory.MODERATION,
+        userPerms = {Permission.MANAGE_CHANNEL},
+        botPerms = {Permission.MESSAGE_MANAGE, Permission.MESSAGE_HISTORY}
+)
 @SinceCorgi(version = "2.3.2")
-public class Purge implements Command {
+public class Purge implements CommandBase {
 
     @Override
     public void onCommand(MessageChannel channel, Message message, String[] args, Member member, EventWaiter w, GuildWrapper gw) {
         if (args.length < 1) {
-            MessageUtils.sendErrorMessage("Nezadaný počet řádků! Nevím kolik toho mám smazat :(", channel);
+            MessageUtils.sendErrorMessage("Number of rows not specified! I don't know how much to delete :(", channel);
             return;
         }
 
         try {
             int purge = Integer.parseInt(args[0]);
             if (purge <= 1) {
-                MessageUtils.sendErrorMessage("Mazat méně jak 1 nelze!", channel);
+                MessageUtils.sendErrorMessage("Amount can't be lower than 1!", channel);
             } else if (purge > 100) {
-                MessageUtils.sendErrorMessage("Mazat méně jak 100 nelze!", channel);
+                MessageUtils.sendErrorMessage("Amount can't be higher than 100!", channel);
             } else {
                 message.delete().queue(useless -> {
                     message.getTextChannel().getHistory().retrievePast(purge).queue(msgsRaw -> {
                         List<Message> msgs = msgsRaw.stream().filter(mess -> !mess.getTimeCreated().plusWeeks(2).isBefore(OffsetDateTime.now())).collect(Collectors.toList());
-                        message.getTextChannel().sendMessage(MessageUtils.getEmbed(Constants.GRAY).setDescription("Mažu zpravy...").build()).queue(msg -> {
+                        message.getTextChannel().sendMessage(MessageUtils.getEmbed(Constants.GRAY).setDescription("Deleting messages..").build()).queue(msg -> {
                             if (msgs.size() > 0) {
                                 if (args.length >= 2) {
                                     String keyphrase = combineArgs(1, args);
@@ -53,16 +64,16 @@ public class Purge implements Command {
                                         else if (keywordPurge.size() == 1)
                                             keywordPurge.get(0).delete().queue();
                                         if (keywordPurge.size() >= 1)
-                                            msg.editMessage(MessageUtils.getEmbed(Constants.GREEN).setDescription(EmoteList.GREEN_OK + " | Smazáno " + keywordPurge.size() + " zpráv!").build()).queue();
+                                            msg.editMessage(MessageUtils.getEmbed(Constants.GREEN).setDescription(EmoteList.GREEN_OK + " | Deleted " + keywordPurge.size() + " messages!").build()).queue();
                                         else
-                                            msg.editMessage(MessageUtils.getEmbed(Constants.RED).setDescription(EmoteList.RED_DENY + " | Nepdařilo se najít požadované zprávy k smazání!").build()).queue();
+                                            msg.editMessage(MessageUtils.getEmbed(Constants.RED).setDescription(EmoteList.RED_DENY + " | Could not find messages to delete!").build()).queue();
                                     } else {
                                         List<String> mentions = new ArrayList<>();
                                         message.getMentionedUsers().forEach(user -> mentions.add(user.getAsMention()));
                                         Pattern p = Pattern.compile("([A-Z])+", Pattern.CASE_INSENSITIVE);
                                         Matcher m = p.matcher(keyphrase);
                                         if (mentions.stream().anyMatch(mentions::contains) && m.find()) {
-                                            msg.editMessage(MessageUtils.getEmbed(Constants.RED).setDescription(EmoteList.RED_DENY + " | Nelze mazat označení a zvolený text zároveň!").build()).queue();
+                                            msg.editMessage(MessageUtils.getEmbed(Constants.RED).setDescription(EmoteList.RED_DENY + " | You can't delete mentions and selected text at once!").build()).queue();
                                         } else {
                                             List<Message> mentionPurge = msgs.stream().filter(mes -> message.getMentionedUsers().stream().anyMatch(mes.getAuthor()::equals)).collect(Collectors.toList());
                                             if (mentionPurge.size() > 1)
@@ -70,63 +81,26 @@ public class Purge implements Command {
                                             else if (mentionPurge.size() == 1)
                                                 mentionPurge.get(0).delete().queue();
                                             if (mentionPurge.size() >= 1)
-                                                msg.editMessage(MessageUtils.getEmbed(Constants.GREEN).setDescription(EmoteList.GREEN_OK + " | Úspěšně smazáno " + mentionPurge.size() + " zpráv(y) od: `" + StringUtils.join(message.getMentionedUsers().stream().map(user -> user.getName() + "#" + user.getDiscriminator()).collect(Collectors.toList()), ", ") + "`").build()).queue();
+                                                msg.editMessage(MessageUtils.getEmbed(Constants.GREEN).setDescription(EmoteList.GREEN_OK + " | Succesfully deleted " + mentionPurge.size() + " message(s) from: `" + StringUtils.join(message.getMentionedUsers().stream().map(user -> user.getName() + "#" + user.getDiscriminator()).collect(Collectors.toList()), ", ") + "`").build()).queue();
                                             else
-                                                msg.editMessage(MessageUtils.getEmbed(Constants.RED).setDescription(EmoteList.RED_DENY + " | Nepodařilo se najít žádnou zprávu od označených uživatelů.").build()).queue();
+                                                msg.editMessage(MessageUtils.getEmbed(Constants.RED).setDescription(EmoteList.RED_DENY + " | Could not find any message from specified users!").build()).queue();
                                         }
                                     }
                                 } else {
                                     if (msgs.size() == 1)
-                                        msgs.get(0).delete().queue(delet -> msg.editMessage(MessageUtils.getEmbed(Constants.GREEN).setDescription(EmoteList.GREEN_OK + " | Úspěšně smazáno " + msgs.size() + " zpráv.").build()).queue());
+                                        msgs.get(0).delete().queue(delet -> msg.editMessage(MessageUtils.getEmbed(Constants.GREEN).setDescription(EmoteList.GREEN_OK + " | Succesfully deleted " + msgs.size() + " messages.").build()).queue());
                                     else
-                                        message.getTextChannel().deleteMessages(msgs).queue(delet -> msg.editMessage(MessageUtils.getEmbed(Constants.GREEN).setDescription(EmoteList.GREEN_OK + " | Úspěšně smazáno " + msgs.size() + " zpráv.").build()).queue());
+                                        message.getTextChannel().deleteMessages(msgs).queue(delet -> msg.editMessage(MessageUtils.getEmbed(Constants.GREEN).setDescription(EmoteList.GREEN_OK + " | Succesfully deleted " + msgs.size() + " messages.").build()).queue());
                                 }
                             } else
-                                msg.editMessage(MessageUtils.getEmbed(Constants.RED).setDescription(EmoteList.RED_DENY + " | Nelze mazat zprávy starší než 14 dní!").build()).queue();
+                                msg.editMessage(MessageUtils.getEmbed(Constants.RED).setDescription(EmoteList.RED_DENY + " | You can't delete messages older than 14 days!").build()).queue();
                         });
                     });
                 });
             }
         } catch (NumberFormatException e) {
-            MessageUtils.sendErrorMessage("Chyba! Špatně zadaný formát čísla!", channel);
+            MessageUtils.sendErrorMessage("Invalid time format!", channel);
         }
-    }
-
-
-    @Override
-    public String getCommand() {
-        return "purge";
-    }
-
-    @Override
-    public String getDescription() {
-        return "Mazání zpráv botů, uživatelů a nebo všech.";
-    }
-
-    @Override
-    public String getHelp() {
-        return "%purge <počet> - Smaže požadovaný počet zpráv.\n" +
-                "%purge <počet> [@uživatel|regex]- Smaže konkrétné počet zpráv pro zvoleného uživatele nebo text.";
-    }
-
-    @Override
-    public CommandCategory getCategory() {
-        return CommandCategory.MODERATION;
-    }
-
-    @Override
-    public Permission[] userPermission() {
-        return new Permission[]{Permission.MANAGE_CHANNEL};
-    }
-
-    @Override
-    public Permission[] botPermission() {
-        return new Permission[]{Permission.MESSAGE_MANAGE, Permission.MESSAGE_HISTORY};
-    }
-
-    @Override
-    public String[] getAliases() {
-        return new String[]{"clean"};
     }
 
     public String combineArgs(String[] args) {
@@ -138,7 +112,8 @@ public class Purge implements Command {
     }
 
     public String combineArgs(int start, int end, String[] args) {
-        if (end > args.length) throw new IllegalArgumentException("End value specified is longer than the arguments provided.");
+        if (end > args.length)
+            throw new IllegalArgumentException("End value specified is longer than the arguments provided.");
         return StringUtils.join(Arrays.copyOfRange(args, start, end), " ");
     }
 }

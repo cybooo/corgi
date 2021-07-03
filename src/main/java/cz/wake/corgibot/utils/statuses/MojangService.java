@@ -13,7 +13,7 @@ public enum MojangService {
     TEXTURES("Textures", "textures.minecraft.net");
     //MOJANG_COM("Mojang.com", "mojang.com");
 
-    public static MojangService[] values = values();
+    public static final MojangService[] values = values();
 
     private final String name;
     private final String url;

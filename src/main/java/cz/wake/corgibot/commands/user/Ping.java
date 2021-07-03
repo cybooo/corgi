@@ -2,8 +2,9 @@ package cz.wake.corgibot.commands.user;
 
 import com.jagrosh.jdautilities.commons.waiter.EventWaiter;
 import cz.wake.corgibot.CorgiBot;
+import cz.wake.corgibot.annotations.CommandInfo;
 import cz.wake.corgibot.annotations.SinceCorgi;
-import cz.wake.corgibot.commands.Command;
+import cz.wake.corgibot.commands.CommandBase;
 import cz.wake.corgibot.commands.CommandCategory;
 import cz.wake.corgibot.objects.GuildWrapper;
 import cz.wake.corgibot.utils.Constants;
@@ -13,17 +14,23 @@ import net.dv8tion.jda.api.entities.Member;
 import net.dv8tion.jda.api.entities.Message;
 import net.dv8tion.jda.api.entities.MessageChannel;
 
+@CommandInfo(
+        name = "ping",
+        description = "Get the bot ping.",
+        help = "%ping",
+        category = CommandCategory.GENERAL
+)
 @SinceCorgi(version = "0.1")
-public class Ping implements Command {
+public class Ping implements CommandBase {
 
     private static boolean running = false;
 
     @Override
     public void onCommand(MessageChannel channel, Message message, String[] args, Member member, EventWaiter w, GuildWrapper gw) {
 
-        if(!running){
+        if (!running) {
             running = true;
-            channel.sendMessage(MessageUtils.getEmbed(Constants.GRAY).setDescription("Vypočítávám ping...").build()).queue(m -> {
+            channel.sendMessage(MessageUtils.getEmbed(Constants.GRAY).setDescription("Calculating ping ...").build()).queue(m -> {
                 int pings = 5;
                 int lastResult;
                 int sum = 0, min = 999, max = 0;
@@ -41,32 +48,12 @@ public class Ping implements Command {
                     }
                     start = System.currentTimeMillis();
                 }
-                m.editMessage(MessageUtils.getEmbed(Constants.GREEN).setDescription(String.format(EmoteList.LOUDSPEAKER + " | **Průměrný ping je:** %dms", CorgiBot.getJda().getGatewayPing())).build()).queue();
+                m.editMessage(MessageUtils.getEmbed(Constants.GREEN).setDescription(String.format(EmoteList.LOUDSPEAKER + " | **Average ping is:** %dms", CorgiBot.getJda().getGatewayPing())).build()).queue();
                 running = false;
             });
         } else {
-            MessageUtils.sendErrorMessage("Aktuálně nelze zjistit ping, jelikož již probíhá sken. Zkus to zachvilku!", channel);
+            MessageUtils.sendErrorMessage("Unable to detect ping at this time because a scan is already in progress. Try it for a moment!", channel);
         }
-    }
-
-    @Override
-    public String getCommand() {
-        return "ping";
-    }
-
-    @Override
-    public String getDescription() {
-        return "Zjištění rychlosti odezvy.";
-    }
-
-    @Override
-    public String getHelp() {
-        return "%ping";
-    }
-
-    @Override
-    public CommandCategory getCategory() {
-        return CommandCategory.GENERAL;
     }
 
     private static final String[] pingMessages = new String[]{

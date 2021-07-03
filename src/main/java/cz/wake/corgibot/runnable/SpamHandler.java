@@ -6,7 +6,7 @@ import java.util.TimerTask;
 
 public class SpamHandler extends TimerTask {
 
-    private ChatListener ch = new ChatListener();
+    private final ChatListener ch = new ChatListener();
 
     @Override
     public void run() {

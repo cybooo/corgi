@@ -1,8 +1,10 @@
 package cz.wake.corgibot.commands.owner;
 
 import com.jagrosh.jdautilities.commons.waiter.EventWaiter;
+import cz.wake.corgibot.annotations.CommandInfo;
+import cz.wake.corgibot.annotations.OnlyOwner;
 import cz.wake.corgibot.annotations.SinceCorgi;
-import cz.wake.corgibot.commands.Command;
+import cz.wake.corgibot.commands.CommandBase;
 import cz.wake.corgibot.commands.CommandCategory;
 import cz.wake.corgibot.objects.GuildWrapper;
 import cz.wake.corgibot.utils.Constants;
@@ -11,40 +13,21 @@ import net.dv8tion.jda.api.entities.Member;
 import net.dv8tion.jda.api.entities.Message;
 import net.dv8tion.jda.api.entities.MessageChannel;
 
+@OnlyOwner
+@CommandInfo(
+        name = "stop",
+        description = "This commands shuts down the bot. (Only bot owner)",
+        help = "%stop",
+        category = CommandCategory.BOT_OWNER
+)
 @SinceCorgi(version = "0.1")
-public class Stop implements Command {
+public class Stop implements CommandBase {
 
     @Override
     public void onCommand(MessageChannel channel, Message message, String[] args, Member member, EventWaiter w, GuildWrapper gw) {
-        if (member.getUser().getId().equals("177516608778928129")) {
-            channel.sendMessage(MessageUtils.getEmbed(Constants.RED).setDescription(":skull_crossbones: | Vyžádáno vypnutí! Vypínám se...").build()).queue((message1) -> {
-                System.exit(0);
-            });
-        }
+        channel.sendMessage(MessageUtils.getEmbed(Constants.RED).setDescription(":skull_crossbones: | Stop requested! Shutting down..").build()).queue((message1) -> {
+            System.exit(0);
+        });
     }
 
-    @Override
-    public String getCommand() {
-        return "stop";
-    }
-
-    @Override
-    public String getDescription() {
-        return "Tento příkaz vypne bota. (Pouze Wake)";
-    }
-
-    @Override
-    public String getHelp() {
-        return "%stop";
-    }
-
-    @Override
-    public CommandCategory getCategory() {
-        return CommandCategory.BOT_OWNER;
-    }
-
-    @Override
-    public boolean isOwner() {
-        return true;
-    }
 }

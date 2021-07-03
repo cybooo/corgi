@@ -3,9 +3,7 @@ package cz.wake.corgibot.utils.lang;
 import cz.wake.corgibot.utils.EmoteList;
 
 import java.util.ArrayList;
-import java.util.Arrays;
 import java.util.Collection;
-import java.util.List;
 
 public enum Language {
 
@@ -52,7 +50,7 @@ public enum Language {
         return flag;
     }
 
-    private class LanguageList extends ArrayList<String> {
+    private static class LanguageList extends ArrayList<String> {
 
         LanguageList(Collection<? extends String> c) {
             super(c);

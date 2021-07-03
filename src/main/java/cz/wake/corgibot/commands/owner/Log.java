@@ -1,8 +1,10 @@
 package cz.wake.corgibot.commands.owner;
 
 import com.jagrosh.jdautilities.commons.waiter.EventWaiter;
+import cz.wake.corgibot.annotations.CommandInfo;
+import cz.wake.corgibot.annotations.OnlyOwner;
 import cz.wake.corgibot.annotations.SinceCorgi;
-import cz.wake.corgibot.commands.Command;
+import cz.wake.corgibot.commands.CommandBase;
 import cz.wake.corgibot.commands.CommandCategory;
 import cz.wake.corgibot.objects.GuildWrapper;
 import cz.wake.corgibot.utils.Constants;
@@ -13,44 +15,26 @@ import net.dv8tion.jda.api.entities.MessageChannel;
 
 import java.io.File;
 
+@OnlyOwner
+@CommandInfo(
+        name = "log",
+        description = "Request logs",
+        help = "%log",
+        category = CommandCategory.BOT_OWNER
+)
 @SinceCorgi(version = "1.0")
-public class Log implements Command {
+public class Log implements CommandBase {
 
     @Override
     public void onCommand(MessageChannel channel, Message message, String[] args, Member member, EventWaiter w, GuildWrapper gw) {
         if (args.length < 1) {
             try {
-                channel.sendMessage(MessageUtils.getEmbed(Constants.GREEN).setDescription("Vygenerovaný log (latest.log) by vyžádán!").build()).queue();
-                File log = new File("latest.log");
-                channel.sendFile(log, "latest.log").queue(); //TODO: NEFUNGUJE!
+                channel.sendMessage(MessageUtils.getEmbed(Constants.GREEN).setDescription("Generated log (latest.log) requested!").build()).queue();
+                File log = new File("logs/latest.log");
+                channel.sendFile(log, "latest.log").queue();
             } catch (Exception e) {
                 //
             }
         }
-    }
-
-    @Override
-    public String getCommand() {
-        return "log";
-    }
-
-    @Override
-    public String getDescription() {
-        return "Zaslání logu";
-    }
-
-    @Override
-    public String getHelp() {
-        return "%log";
-    }
-
-    @Override
-    public CommandCategory getCategory() {
-        return CommandCategory.BOT_OWNER;
-    }
-
-    @Override
-    public boolean isOwner() {
-        return true;
     }
 }

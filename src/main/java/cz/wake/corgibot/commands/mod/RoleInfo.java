@@ -2,8 +2,9 @@ package cz.wake.corgibot.commands.mod;
 
 import com.jagrosh.jdautilities.commons.waiter.EventWaiter;
 import cz.wake.corgibot.CorgiBot;
+import cz.wake.corgibot.annotations.CommandInfo;
 import cz.wake.corgibot.annotations.SinceCorgi;
-import cz.wake.corgibot.commands.Command;
+import cz.wake.corgibot.commands.CommandBase;
 import cz.wake.corgibot.commands.CommandCategory;
 import cz.wake.corgibot.objects.GuildWrapper;
 import cz.wake.corgibot.utils.MessageUtils;
@@ -14,8 +15,16 @@ import net.dv8tion.jda.api.entities.Message;
 import net.dv8tion.jda.api.entities.MessageChannel;
 import net.dv8tion.jda.api.entities.Role;
 
+@CommandInfo(
+        name = "roleinfo",
+        aliases = {"rinfo"},
+        description = "Displays info about a specified role",
+        help = "%roleinfo name/ID",
+        category = CommandCategory.MODERATION,
+        userPerms = {Permission.MANAGE_SERVER}
+)
 @SinceCorgi(version = "1.2")
-public class RoleInfo implements Command {
+public class RoleInfo implements CommandBase {
 
     @Override
     public void onCommand(MessageChannel channel, Message message, String[] args, Member member, EventWaiter w, GuildWrapper gw) {
@@ -35,7 +44,7 @@ public class RoleInfo implements Command {
             }
         }
         if (role == null) {
-            MessageUtils.sendErrorMessage("Nebyla nalezena žádná role.", channel);
+            MessageUtils.sendErrorMessage("No roles found", channel);
             return;
         }
 
@@ -43,42 +52,13 @@ public class RoleInfo implements Command {
 
         embed.setColor(role.getColor());
         embed.addField(role.getName(), "ID: " + role.getId(), true);
-        embed.addField("Pozice", String.valueOf(role.getPosition()), true);
-        embed.addField("Oddělená", String.valueOf(role.isHoisted()), true);
-        embed.addField("Spravovaná", String.valueOf(role.isManaged()), true);
-        embed.addField("Označitelná", String.valueOf(role.isMentionable()), true);
-        embed.addField("Datum vytvoření", CorgiBot.getInstance().formatTime(role.getTimeCreated().toLocalDateTime()), true);
+        embed.addField("Position", String.valueOf(role.getPosition()), true);
+        embed.addField("Separated", String.valueOf(role.isHoisted()), true);
+        embed.addField("Managed", String.valueOf(role.isManaged()), true);
+        embed.addField("Mentionable", String.valueOf(role.isMentionable()), true);
+        embed.addField("Date created", CorgiBot.getInstance().formatTime(role.getTimeCreated().toLocalDateTime()), true);
 
         channel.sendMessage(embed.build()).queue();
     }
 
-    @Override
-    public String getCommand() {
-        return "roleinfo";
-    }
-
-    @Override
-    public String getDescription() {
-        return "Zobrazení informací o požadované roli.";
-    }
-
-    @Override
-    public String getHelp() {
-        return "%roleinfo nazev/ID";
-    }
-
-    @Override
-    public CommandCategory getCategory() {
-        return CommandCategory.MODERATION;
-    }
-
-    @Override
-    public String[] getAliases() {
-        return new String[]{"rinfo"};
-    }
-
-    @Override
-    public Permission[] userPermission() {
-        return new Permission[]{Permission.MANAGE_SERVER};
-    }
 }

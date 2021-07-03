@@ -22,11 +22,11 @@ import java.util.stream.Collectors;
 public class MessageUtils {
 
     /**
-        Sends Exception to selected {@link MessageChannel}
-
-        @param s Initial message
-        @param e Throwable message {@link Throwable}
-        @param channel Selected {@link MessageChannel} where Corgi will send Exception message
+     * Sends Exception to selected {@link MessageChannel}
+     *
+     * @param s       Initial message
+     * @param e       Throwable message {@link Throwable}
+     * @param channel Selected {@link MessageChannel} where Corgi will send Exception message
      */
     public static Message sendException(String s, Throwable e, MessageChannel channel) {
         StringWriter sw = new StringWriter();
@@ -47,7 +47,7 @@ public class MessageUtils {
                     .getBody()
                     .getObject().getString("key");
         } catch (UnirestException e) {
-            CorgiBot.LOGGER.error("Chyba při posílání na HasteBin", e);
+            CorgiBot.LOGGER.error("Error while uploading to hastebin!", e);
             return null;
         }
     }
@@ -66,18 +66,20 @@ public class MessageUtils {
     }
 
     public static EmbedBuilder getEmbed(User user, Color c) {
-        return getEmbed(c).setFooter("Požadavek od @" + getTag(user), user.getEffectiveAvatarUrl());
+        return getEmbed(c).setFooter("Requested by @" + getTag(user), user.getEffectiveAvatarUrl());
     }
 
     public static EmbedBuilder getEmbed(User user) {
-        return getEmbed(ColorSelector.getRandomColor()).setFooter("Požadavek od @" + getTag(user), user.getEffectiveAvatarUrl());
+        return getEmbed(ColorSelector.getRandomColor()).setFooter("Requested by @" + getTag(user), user.getEffectiveAvatarUrl());
     }
 
     public static EmbedBuilder getEmbed(Color c) {
         return new EmbedBuilder().setColor(c);
     }
 
-    public static EmbedBuilder getEmbed(){ return new EmbedBuilder(); }
+    public static EmbedBuilder getEmbed() {
+        return new EmbedBuilder();
+    }
 
     public static String getAvatar(User user) {
         return user.getEffectiveAvatarUrl();
@@ -128,7 +130,7 @@ public class MessageUtils {
     }
 
     public static EmbedBuilder getEmbedError() {
-        return new EmbedBuilder().setFooter("Chyba při provádění akce CorgiBot", CorgiBot.getJda().getSelfUser().getAvatarUrl());
+        return new EmbedBuilder().setFooter("Error while performing action", CorgiBot.getJda().getSelfUser().getAvatarUrl());
     }
 
     private static void sendAutoDeletedMessage(Message message, long delay, MessageChannel channel) {
@@ -165,7 +167,7 @@ public class MessageUtils {
         try {
             user.openPrivateChannel().complete()
                     .sendMessage(message.substring(0, Math.min(message.length(), 1999))).queue();
-            CorgiBot.LOGGER.info("Zasílání zprávy - " + user.getName() + "(" + user.getId() + ") -> " + message);
+            CorgiBot.LOGGER.info("Sending message - " + user.getName() + "(" + user.getId() + ") -> " + message);
         } catch (ErrorResponseException ignored) {
             ignored.printStackTrace();
         }
@@ -218,18 +220,18 @@ public class MessageUtils {
 
     /**
      * Similar implementation to JavaScript setTimeout
+     *
      * @param runnable Runnable to run
-     * @param delay Delay in milliseconds
-     * @param async Run in async or blocking
+     * @param delay    Delay in milliseconds
+     * @param async    Run in async or blocking
      */
-    public static void setTimeout(Runnable runnable, int delay, boolean async){
+    public static void setTimeout(Runnable runnable, int delay, boolean async) {
         if (async) {
             new Thread(() -> {
                 try {
                     Thread.sleep(delay);
                     runnable.run();
-                }
-                catch(Exception e){
+                } catch (Exception e) {
                     e.printStackTrace();
                 }
             }).start();
@@ -237,8 +239,7 @@ public class MessageUtils {
             try {
                 Thread.sleep(delay);
                 runnable.run();
-            }
-            catch(Exception e){
+            } catch (Exception e) {
                 e.printStackTrace();
             }
         }

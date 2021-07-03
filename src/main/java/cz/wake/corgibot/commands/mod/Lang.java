@@ -1,7 +1,8 @@
 package cz.wake.corgibot.commands.mod;
 
 import com.jagrosh.jdautilities.commons.waiter.EventWaiter;
-import cz.wake.corgibot.commands.Command;
+import cz.wake.corgibot.annotations.CommandInfo;
+import cz.wake.corgibot.commands.CommandBase;
 import cz.wake.corgibot.commands.CommandCategory;
 import cz.wake.corgibot.objects.GuildWrapper;
 import cz.wake.corgibot.utils.EmoteList;
@@ -14,7 +15,12 @@ import net.dv8tion.jda.api.entities.MessageChannel;
 
 import java.awt.*;
 
-public class Lang implements Command {
+@CommandInfo(
+        name = "language",
+        aliases = {"lang", "jazyk"},
+        category = CommandCategory.MODERATION
+)
+public class Lang implements CommandBase {
 
     @Override
     public void onCommand(MessageChannel channel, Message message, String[] args, Member member, EventWaiter w, GuildWrapper gw) {
@@ -22,44 +28,20 @@ public class Lang implements Command {
         StringBuilder text = new StringBuilder();
         text.append("{1}\n\n".replace("{1}", I18n.getLoc(gw, "commands.language.description")));
 
-        for(Language language : Language.values()) {
-            if(language.getCode().equalsIgnoreCase(gw.getLanguage())){
-                text.append("• " + language.getFlag() + " **" + language.getNativeName() + "** [{1}]\n".replace("{1}", I18n.getLoc(gw, "commands.language.selected")));
+        for (Language language : Language.values()) {
+            if (language.getCode().equalsIgnoreCase(gw.getLanguage())) {
+                text.append("• ").append(language.getFlag()).append(" **").append(language.getNativeName()).append("** [{1}]\n".replace("{1}", I18n.getLoc(gw, "commands.language.selected")));
             } else {
-                text.append("• " + language.getFlag() + " " + language.getNativeName() + "\n");
+                text.append("• ").append(language.getFlag()).append(" ").append(language.getNativeName()).append("\n");
             }
         }
 
-        channel.sendMessage(MessageUtils.getEmbed(Color.BLACK).setTitle(I18n.getLoc(gw,"commands.language.title")).setDescription(text)
-                .setFooter(I18n.getLoc(gw,"commands.language.footer"), null).build()).queue((Message m) -> {
+        channel.sendMessage(MessageUtils.getEmbed(Color.BLACK).setTitle(I18n.getLoc(gw, "commands.language.title")).setDescription(text)
+                .setFooter(I18n.getLoc(gw, "commands.language.footer"), null).build()).queue((Message m) -> {
             m.addReaction(EmoteList.ENGLISH_FLAG).queue();
             m.addReaction(EmoteList.CZECH_FLAG).queue();
             m.addReaction(EmoteList.SLOVAK_FLAG).queue();
         });
     }
 
-    @Override
-    public String getCommand() {
-        return "language";
-    }
-
-    @Override
-    public String getDescription() {
-        return null;
-    }
-
-    @Override
-    public String getHelp() {
-        return null;
-    }
-
-    @Override
-    public CommandCategory getCategory() {
-        return CommandCategory.MODERATION;
-    }
-
-    @Override
-    public String[] getAliases() {
-        return new String[]{"lang","jazyk"};
-    }
 }

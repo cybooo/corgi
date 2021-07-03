@@ -2,10 +2,10 @@ package cz.wake.corgibot.objects;
 
 public class ChangeLog {
 
-    private Long date;
-    private String news;
-    private String fixes;
-    private String warning;
+    private final Long date;
+    private final String news;
+    private final String fixes;
+    private final String warning;
 
     public ChangeLog(Long date, String news, String fixes, String warning) {
         this.date = date;

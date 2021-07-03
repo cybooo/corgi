@@ -1,8 +1,9 @@
 package cz.wake.corgibot.commands.user;
 
 import com.jagrosh.jdautilities.commons.waiter.EventWaiter;
+import cz.wake.corgibot.annotations.CommandInfo;
 import cz.wake.corgibot.annotations.SinceCorgi;
-import cz.wake.corgibot.commands.Command;
+import cz.wake.corgibot.commands.CommandBase;
 import cz.wake.corgibot.commands.CommandCategory;
 import cz.wake.corgibot.objects.GuildWrapper;
 import cz.wake.corgibot.utils.EmoteList;
@@ -13,52 +14,33 @@ import net.dv8tion.jda.api.entities.MessageChannel;
 
 import java.util.Random;
 
+@CommandInfo(
+        name = "choose",
+        description = "If you do not know what to select? Corgi will choose something for you!",
+        help = "%choose question_1 ; question_2 ; question_3",
+        category = CommandCategory.FUN
+)
 @SinceCorgi(version = "3.3.0")
-public class Choose implements Command {
+public class Choose implements CommandBase {
 
     @Override
     public void onCommand(MessageChannel channel, Message message, String[] args, Member member, EventWaiter w, GuildWrapper gw) {
         if (args.length < 1) {
-            MessageUtils.sendErrorMessage("Musíš si něco vybrat!", channel);
+            MessageUtils.sendErrorMessage("You need to choose something!", channel);
         } else {
             // Format message
-            String request = message.getContentRaw().replaceAll("\\s+\\|", "|").replaceAll("\\|\\s+", "|").replaceAll("\\|", "|").replace("choose ", "").replace("volba ", "").replace(gw.getPrefix(), "");
-            String[] arguments = request.split("\\|");
+            String request = message.getContentRaw().replaceAll("\\s+\\;", ";").replaceAll("\\;\\s+", ";").replaceAll("\\;", ";").replace("choose ", "").replace(gw.getPrefix(), "");
+            String[] arguments = request.split("\\;");
             if (arguments.length == 1) {
-                MessageUtils.sendErrorMessage("Musíš zadat víc než 1 volbu!", channel);
+                MessageUtils.sendErrorMessage("You need to provide more than 1 option!", channel);
                 return;
             }
-            if (arguments[0].equalsIgnoreCase("choose") || arguments[0].equalsIgnoreCase("volba")) {
-                MessageUtils.sendErrorMessage("První možnost byla zadána špatně. Zkus to znova...", channel);
+            if (arguments[0].equalsIgnoreCase("choose")) {
+                MessageUtils.sendErrorMessage("The first option was entered incorrectly. Please try again..", channel);
                 return;
             }
-            channel.sendMessage(getRandomThinkingEmote() + " | **" + member.getUser().getName() + "**, zvolil jsem **" + arguments[(int) (Math.random() * arguments.length)] + "**!").queue();
+            channel.sendMessage(getRandomThinkingEmote() + " | **" + member.getUser().getName() + "**, " + "i chose" + " **" + arguments[(int) (Math.random() * arguments.length)] + "**!").queue();
         }
-    }
-
-    @Override
-    public String getCommand() {
-        return "choose";
-    }
-
-    @Override
-    public String getDescription() {
-        return "Nevíš co? Nech Corgiho ať rozhodne za tebe.";
-    }
-
-    @Override
-    public String getHelp() {
-        return "%choose volba1 | volba2 | volba3 - ukázka příkazu";
-    }
-
-    @Override
-    public CommandCategory getCategory() {
-        return CommandCategory.FUN;
-    }
-
-    @Override
-    public String[] getAliases() {
-        return new String[]{"volba"};
     }
 
     private String getRandomThinkingEmote() {

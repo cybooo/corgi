@@ -6,6 +6,7 @@ import com.google.common.io.Files;
 import org.apache.commons.text.translate.UnicodeUnescaper;
 
 import java.io.*;
+import java.nio.charset.StandardCharsets;
 
 public class ConfigLoader {
 
@@ -44,7 +45,7 @@ public class ConfigLoader {
         public void save() throws Exception {
             try {
                 final BufferedWriter writer = new BufferedWriter(
-                        new OutputStreamWriter(new FileOutputStream(this.configFile), "UTF-8"));
+                        new OutputStreamWriter(new FileOutputStream(this.configFile), StandardCharsets.UTF_8));
                 new UnicodeUnescaper().translate(
                         this.config.toString(4), writer);
                 writer.close();

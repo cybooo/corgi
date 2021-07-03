@@ -1,7 +1,8 @@
 package cz.wake.corgibot.commands.mod;
 
 import com.jagrosh.jdautilities.commons.waiter.EventWaiter;
-import cz.wake.corgibot.commands.Command;
+import cz.wake.corgibot.annotations.CommandInfo;
+import cz.wake.corgibot.commands.CommandBase;
 import cz.wake.corgibot.commands.CommandCategory;
 import cz.wake.corgibot.feeds.TwitterEventListener;
 import cz.wake.corgibot.feeds.TwitterFeedObserver;
@@ -20,53 +21,60 @@ import twitter4j.User;
 
 import java.awt.*;
 import java.util.ArrayList;
-import java.util.Collections;
 import java.util.Comparator;
 import java.util.List;
 
-public class Twitter implements Command {
+@CommandInfo(
+        name = "twitter",
+        description = "Follow twitter accounts in a specified channel.",
+        help = "**%twitter sub [ID]** - Begins following a twitter account\n**%twitter list** - Shows a list of followed twitter accounts\n**%twitter unsub [ID]** - Unfollows a account\n\n You can get Account IDs on: http://gettwitterid.com/",
+        category = CommandCategory.MODERATION,
+        userPerms = {Permission.MANAGE_CHANNEL}
+)
+public class Twitter implements CommandBase {
 
     @Override
     public void onCommand(MessageChannel channel, Message message, String[] args, Member member, EventWaiter w, GuildWrapper gw) {
-        if(args.length < 1){
-            channel.sendMessage(MessageUtils.getEmbed(Color.CYAN).setTitle("Nápověda k Twitter Feederu")
-                .setDescription("Twitter Feeds umožňují dostávat novinky z Twitter channelu přes Corgiho. Pokuď tedy Corgi na žádost někoho sleduje, a ten napíše tweet, Corgi zašle Tweet i na Discord.\n\n")
-                .addField("Příkazy","**%twitter sub [ID]** - Zahájí odběr tweetů v channelu\n**%twitter list** - Zobrazí seznam odebíraných Twitter účtů\n**%twitter unsub [ID]** - Zruší odběr zvolenému Twitter účtu".replace("%", gw.getPrefix()), false)
-                .addField("Kde získat ID účtu", "http://gettwitterid.com/", false).build()).queue();
+        if (args.length < 1) {
+            channel.sendMessage(MessageUtils.getEmbed(Color.CYAN).setTitle("Twitter feeds")
+                    .setDescription("Twitter Feeds allow you to receive news from the Twitter account via Corgi. \n" +
+                            "So if Corgi follows someone and he writes a tweet, Corgi will send the Tweet to a Discord channel.\n\n")
+                    .addField("Commands", "**%twitter sub [ID]** - Follows tweets in a channel\n**%twitter list** - Shows the list of followed twitter accounts\n**%twitter unsub [ID]** - Stops following a twitter account".replace("%", gw.getPrefix()), false)
+                    .addField("Where to get a Account ID?", "http://gettwitterid.com/", false).build()).queue();
         } else {
-            if(args[0].equalsIgnoreCase("subscribe") || args[0].equalsIgnoreCase("sub")){
+            if (args[0].equalsIgnoreCase("subscribe") || args[0].equalsIgnoreCase("sub")) {
                 String id = args[1];
                 long superId;
                 try {
-                    superId = Long.valueOf(id);
-                } catch (Exception e){
+                    superId = Long.parseLong(id);
+                } catch (Exception e) {
                     channel.sendMessage(MessageUtils.getEmbed(Constants.RED).setDescription("ID neodpovídá Twitter formátu nebo se nejedná o ID uživatele!")
-                            .setFooter("ID Twitter účtu lze zjistit na: http://gettwitterid.com", null).build()).queue();
+                            .setFooter("You can find a Account ID on: http://gettwitterid.com", null).build()).queue();
                     return;
                 }
                 try {
                     User u = TwitterEventListener.twitterClient.lookupUsers(superId).get(0);
-                    if(TwitterEventListener.getObserver(u.getId(), message.getGuild()) != null) {
-                        if(TwitterEventListener.getObserver(u.getId(), message.getGuild()).getDiscoChannel().equals(message.getChannel())) {
-                            MessageUtils.sendErrorMessage("Twitter účet **" + u.getScreenName() + " je již registrován v tomto channelu!", channel);
+                    if (TwitterEventListener.getObserver(u.getId(), message.getGuild()) != null) {
+                        if (TwitterEventListener.getObserver(u.getId(), message.getGuild()).getDiscoChannel().equals(message.getChannel())) {
+                            MessageUtils.sendErrorMessage("Twitter account **" + u.getScreenName() + " is already followed in this channel!", channel);
                             return;
                         }
                     }
                     try {
                         // Register
                         new TwitterFeedObserver(message.getChannel().getId(), u.getName(), true, false, false).subscribe(superId);
-                        channel.sendMessage(MessageUtils.getEmbed(Constants.LIGHT_BLUE).setDescription("Úspěšně přidaný Twitter účet **" + u.getName() + "**. Nyní sem budou chodit novinky z tohoto účtu.").build()).queue();
-                    } catch (Exception e){
+                        channel.sendMessage(MessageUtils.getEmbed(Constants.DEFAULT_PURPLE).setDescription("Succesfully followed **" + u.getName() + "**. New tweets are gonna be sent here.").build()).queue();
+                    } catch (Exception e) {
                         e.printStackTrace(); //?
                     }
-                } catch(TwitterException e) {
-                    if(e.getErrorCode() == 17) {
-                        MessageUtils.sendErrorMessage("Twitter účet **" + id + "** neexistuje!", channel);
+                } catch (TwitterException e) {
+                    if (e.getErrorCode() == 17) {
+                        MessageUtils.sendErrorMessage("Twitter account **" + id + "** not found!", channel);
                     } else {
-                        MessageUtils.sendErrorMessage("Nastala chyba při requestu API! Zkus to zachvilku...", channel);
+                        MessageUtils.sendErrorMessage("Something went wrong! Try again later..", channel);
                     }
                 }
-            } else if (args[0].equalsIgnoreCase("list")){
+            } else if (args[0].equalsIgnoreCase("list")) {
                 List<TwitterFeedObserver> thisGuilds = new ArrayList<>();
                 for (List<TwitterFeedObserver> list : TwitterEventListener.getFeed().values()) {
                     for (TwitterFeedObserver observer : list) {
@@ -76,12 +84,12 @@ public class Twitter implements Command {
                     }
                 }
                 if (thisGuilds.isEmpty()) {
-                    MessageUtils.sendErrorMessage("Na tomto serveru nejsou nastavené žádné Twitter Feeds!", channel);
+                    MessageUtils.sendErrorMessage("No twitter accounts follwed!", channel);
                 } else {
-                    Collections.sort(thisGuilds, Comparator.comparing(f -> f.getDiscoChannel().getName()));
+                    thisGuilds.sort(Comparator.comparing(f -> f.getDiscoChannel().getName()));
                     PagedTableBuilder tb = new PagedTableBuilder();
                     tb.addColumn("Channel");
-                    tb.addColumn("Twitter účet");
+                    tb.addColumn("Twitter account");
                     for (TwitterFeedObserver observer : thisGuilds) {
                         List<String> row = new ArrayList<>();
                         row.add("#" + observer.getDiscoChannel().getName());
@@ -90,56 +98,31 @@ public class Twitter implements Command {
                     }
                     PaginationUtil.sendPagedMessage(channel, tb.build(), 0, message.getAuthor(), "kek");
                 }
-            } else if (args[0].equalsIgnoreCase("unsubscribe") || args[0].equalsIgnoreCase("unsub")){
+            } else if (args[0].equalsIgnoreCase("unsubscribe") || args[0].equalsIgnoreCase("unsub")) {
                 String id = args[1];
                 long superId;
                 try {
-                    superId = Long.valueOf(id);
-                } catch (Exception e){
-                    channel.sendMessage(MessageUtils.getEmbed(Constants.RED).setDescription("ID neodpovídá Twitter formátu nebo se nejedná o ID uživatele!")
-                        .setFooter("ID Twitter účtu lze zjistit na: http://gettwitterid.com", null).build()).queue();
+                    superId = Long.parseLong(id);
+                } catch (Exception e) {
+                    channel.sendMessage(MessageUtils.getEmbed(Constants.RED).setDescription("The ID does not match the Twitter format or is not a user ID!")
+                            .setFooter("You can find a Account ID on: http://gettwitterid.com", null).build()).queue();
                     return;
                 }
                 try {
                     User u = TwitterEventListener.twitterClient.lookupUsers(superId).get(0);
-                    if(TwitterEventListener.removeTwitterFeed(u.getId(), message.getGuild())) {
-                        channel.sendMessage(MessageUtils.getEmbed(Constants.GREEN).setDescription(EmoteList.GREEN_OK + " | **" + u.getName() + "** byl úspěšně odebrán!").build()).queue();
+                    if (TwitterEventListener.removeTwitterFeed(u.getId(), message.getGuild())) {
+                        channel.sendMessage(MessageUtils.getEmbed(Constants.GREEN).setDescription(EmoteList.GREEN_OK + " | **" + u.getName() + "** has been unfollowed!!").build()).queue();
                     } else {
-                        MessageUtils.sendErrorMessage("Zadaný twitter účet není odebírán na tomto serveru, nebo neexistuje.", channel);
+                        MessageUtils.sendErrorMessage("Twitter account not followed, or not found.", channel);
                     }
-                } catch(TwitterException e) {
-                    if(e.getErrorCode() == 17) {
-                        MessageUtils.sendErrorMessage("Twitter účet **" + superId + "** neexistuje!", channel);
+                } catch (TwitterException e) {
+                    if (e.getErrorCode() == 17) {
+                        MessageUtils.sendErrorMessage("Twitter account **" + superId + "** not found!", channel);
                     } else {
-                        MessageUtils.sendErrorMessage("Nastala chyba při requestu API! Zkus to zachvilku...", channel);
+                        MessageUtils.sendErrorMessage("Something went wrong! Try again later..", channel);
                     }
                 }
             }
         }
-    }
-
-    @Override
-    public String getCommand() {
-        return "twitter";
-    }
-
-    @Override
-    public String getDescription() {
-        return "Twitter Feed pro vybrané kanály z Twittru.";
-    }
-
-    @Override
-    public String getHelp() {
-        return "**%twitter sub [ID]** - Zahájení odběru Twitter kanálu\n**%twitter list** - Zobrazí seznam odebíraných Twitter účtů\n**%twitter unsub [ID]** - Zruší odběr zvolenému Twitter účtu\n\n ID k účtům lze získat: http://gettwitterid.com/";
-    }
-
-    @Override
-    public CommandCategory getCategory() {
-        return CommandCategory.MODERATION;
-    }
-
-    @Override
-    public Permission[] userPermission() {
-        return new Permission[]{Permission.MANAGE_CHANNEL};
     }
 }

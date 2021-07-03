@@ -32,6 +32,7 @@ public class Say implements CommandBase {
         channel.sendMessage(message.getContentRaw().replace(gw.getPrefix() + "say", "")).queue();
     }
 
+
     @Override
     public boolean deleteMessage() {
         return true;

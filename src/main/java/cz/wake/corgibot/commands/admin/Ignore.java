@@ -59,6 +59,7 @@ public class Ignore implements CommandBase {
         }
     }
 
+
     private boolean getTruth(MessageChannel channel, GuildWrapper gw) {
         return gw.getIgnoredChannels().contains(channel);
     }

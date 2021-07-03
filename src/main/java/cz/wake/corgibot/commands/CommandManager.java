@@ -40,7 +40,6 @@ public class CommandManager {
         if(info.botPerms().length > 0) finalCommand.setReqBotPermissions(info.botPerms());
         if(Arrays.stream(command.getClass().getAnnotations()).anyMatch(a -> a instanceof OnlyOwner)) finalCommand.setOnlyOwner(true);
         if(Arrays.stream(command.getClass().getAnnotations()).anyMatch(a -> a instanceof Beta)) finalCommand.setBeta(true);
-        CorgiBot.getLog(this.getClass()).error("Command: "+ finalCommand.getName() +" has been registered");
         commands.add(finalCommand);
     }
 
@@ -49,13 +48,11 @@ public class CommandManager {
     }
 
     public FinalCommand getCommand(String name) {
-        CorgiBot.getLog(this.getClass()).error("Lovím príkaz: "+ name +" v časo prostoru");
         Optional<FinalCommand> cmd = commands.stream().filter(c -> c.getName().equalsIgnoreCase(name)).findFirst();
         if (cmd.isPresent()) {
             return cmd.get();
         }
         cmd = commands.stream().filter(c -> Arrays.asList(c.getAliases()).contains(name)).findFirst();
-        CorgiBot.getLog(this.getClass()).error(String.valueOf(this.getClass().hashCode()));
         return cmd.orElse(null);
     }
 

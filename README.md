@@ -5,6 +5,7 @@
     <strong>Powerful DIscord bot for everyone!</strong><br><br>
     <img src="https://forthebadge.com/images/badges/made-with-java.svg" height="30">&nbsp;
     <img src="https://forthebadge.com/images/badges/built-with-love.svg" height="30">&nbsp;
+    <a href="https://discord.gg/pR2tj432NS"><img src="https://img.shields.io/discord/860251548231532584.svg?style=for-the-badge" height="30"></a>&nbsp;
 </div>
 
 ---

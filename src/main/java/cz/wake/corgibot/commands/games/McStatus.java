@@ -36,7 +36,7 @@ public class McStatus implements CommandBase {
         for (MojangService service : MojangService.values) {
             String status;
             if (map.containsKey(service)) {
-                int time = (int) map.get(service);
+                int time = map.get(service);
                 if (time == -1) {
                     status = EmoteList.WARNING + " Connection failures";
                     state = 1;

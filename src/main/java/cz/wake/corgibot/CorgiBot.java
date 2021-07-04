@@ -71,7 +71,7 @@ public class CorgiBot {
 
     public void start() throws LoginException, InterruptedException {
         // Inform
-        CorgiLogger.infoMessage("Now wil Corgi wake up!");
+        CorgiLogger.infoMessage("Corgi is waking up!");
 
         // Logo on start
         bootLogo();
@@ -104,11 +104,11 @@ public class CorgiBot {
 
         // MySQL
         if (!isBeta) {
-            CorgiLogger.infoMessage("Connection to MySQL...");
+            CorgiLogger.infoMessage("Connecting to MySQL...");
             try {
                 // MySQL Instance
                 instance.initDatabase();
-                CorgiLogger.greatMessage("Corgi is successful connected to MySQL.");
+                CorgiLogger.greatMessage("Corgi has succesfully connected to MySQL!");
 
                 // Load configuration for guilds
                 BotManager.loadGuilds();
@@ -117,7 +117,7 @@ public class CorgiBot {
                 isBeta = false;
 
             } catch (Exception ex) {
-                CorgiLogger.dangerMessage("During connection to MySQL, error has occurred:");
+                CorgiLogger.dangerMessage("Something went wrong while connecting to MySQL:");
                 ex.printStackTrace();
                 System.exit(-1);
             }
@@ -138,7 +138,7 @@ public class CorgiBot {
         if (!isBeta) {
             CorgiLogger.infoMessage("Corgi will run as PRODUCTION bot.");
             timer.scheduleAtFixedRate(new MojangChecker(), 10, 60000);
-            timer.scheduleAtFixedRate(new ReminderTask(getInstance()), 10, 20000);
+            timer.scheduleAtFixedRate(new ReminderTask(instance), 10, 20000);
             TwitterEventListener.initTwitter();
         } else {
             CorgiLogger.warnMessage("Corgi is running as BETA bot! Some functions will not work!");
@@ -152,7 +152,7 @@ public class CorgiBot {
                         new URL(url).openStream())).complete();
                 CorgiLogger.greatMessage("New profile image has been set from: " + url);
             } catch (IOException e) {
-                CorgiLogger.dangerMessage("Error when Corgi setup image:");
+                CorgiLogger.dangerMessage("Error while setting profile image:");
                 e.printStackTrace();
             }
         }

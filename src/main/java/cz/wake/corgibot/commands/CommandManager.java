@@ -4,10 +4,7 @@ import cz.wake.corgibot.CorgiBot;
 import cz.wake.corgibot.annotations.Beta;
 import cz.wake.corgibot.annotations.CommandInfo;
 import cz.wake.corgibot.annotations.OnlyOwner;
-import cz.wake.corgibot.commands.admin.Ignore;
-import cz.wake.corgibot.commands.admin.LeaveGuild;
-import cz.wake.corgibot.commands.admin.Say;
-import cz.wake.corgibot.commands.admin.SetPrefix;
+import cz.wake.corgibot.commands.admin.*;
 import cz.wake.corgibot.commands.games.McStatus;
 import cz.wake.corgibot.commands.mod.*;
 import cz.wake.corgibot.commands.owner.Eval;
@@ -106,6 +103,8 @@ public class CommandManager {
         registerCommand(new Pin());
         registerCommand(new Bigmoji());
         registerCommand(new Hug());
+        registerCommand(new Dice());
+        registerCommand(new Covid());
         CorgiLogger.greatMessage("Corgi will respond to (" + commands.size() + ") commands.");
     }
 

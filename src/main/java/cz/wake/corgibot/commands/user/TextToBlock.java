@@ -22,7 +22,6 @@ import org.apache.commons.lang3.StringUtils;
 @SinceCorgi(version = "0.9")
 public class TextToBlock implements CommandBase {
 
-
     @Override
     public void onCommand(MessageChannel channel, Message message, String[] args, Member member, EventWaiter w, GuildWrapper gw) {
         if (args.length == 0) {

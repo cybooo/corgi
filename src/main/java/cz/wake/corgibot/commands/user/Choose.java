@@ -26,7 +26,7 @@ public class Choose implements CommandBase {
     @Override
     public void onCommand(MessageChannel channel, Message message, String[] args, Member member, EventWaiter w, GuildWrapper gw) {
         if (args.length < 1) {
-            MessageUtils.sendErrorMessage("You need to choose something!", channel);
+            MessageUtils.sendErrorMessage("Example: c!choose cat ; dog", channel);
         } else {
             // Format message
             String request = message.getContentRaw().replaceAll("\\s+\\;", ";").replaceAll("\\;\\s+", ";").replaceAll("\\;", ";").replace("choose ", "").replace(gw.getPrefix(), "");

@@ -427,6 +427,4 @@ public class SQLManager {
             pool.close(conn, ps, null);
         }
     }
-
-
 }

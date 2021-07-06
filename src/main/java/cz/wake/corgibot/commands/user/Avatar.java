@@ -40,7 +40,7 @@ public class Avatar implements CommandBase {
             return;
         }
         String url = member1.getUser().getEffectiveAvatarUrl() + "?size=1024";
-        channel.sendMessage(MessageUtils.getEmbed(Constants.GRAY).setTitle(I18n.getLoc(gw, "commands.avatar.title") + " " + member1.getUser().getName())
+        channel.sendMessage(MessageUtils.getEmbed(Constants.GRAY).setTitle(member1.getUser().getName())
                 .setImage(url).build()).queue();
     }
 

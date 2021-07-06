@@ -26,7 +26,7 @@ public class Say implements CommandBase {
     @Override
     public void onCommand(MessageChannel channel, Message message, String[] args, Member member, EventWaiter w, GuildWrapper gw) {
         if (args.length < 1) {
-            MessageUtils.sendErrorMessage(I18n.getLoc(gw, "internal.error.no-context"), channel);
+            MessageUtils.sendErrorMessage("You need to provide some text!", channel);
             return;
         }
         channel.sendMessage(message.getContentRaw().replace(gw.getPrefix() + "say", "")).queue();

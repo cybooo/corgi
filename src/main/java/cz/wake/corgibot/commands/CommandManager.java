@@ -103,6 +103,8 @@ public class CommandManager {
         registerCommand(new Pin());
         registerCommand(new Bigmoji());
         registerCommand(new Hug());
+        registerCommand(new Dice());
+        registerCommand(new Covid());
         CorgiLogger.greatMessage("Corgi will respond to (" + commands.size() + ") commands.");
     }
 

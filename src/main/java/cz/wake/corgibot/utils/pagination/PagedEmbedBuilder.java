@@ -9,9 +9,9 @@ import java.util.List;
 
 public class PagedEmbedBuilder<T> {
 
+    private final PaginationList<T> list;
     private String title;
     private String codeBlock;
-    private final PaginationList<T> list;
     private boolean hasCodeBlock = false;
     private Color color;
     private String groupPrefix = null;
@@ -107,9 +107,9 @@ public class PagedEmbedBuilder<T> {
         private final boolean pageCounts;
         private final int pageTotal;
         private final Color color;
+        private final int groupsPerPage;
         private boolean useGroups;
         private String groupPrefix;
-        private final int groupsPerPage;
         private int groupTotal;
 
         public PagedEmbed(String title, String codeBlock, boolean hasCodeBlock, PaginationList<T> list, boolean pageCounts, Color color, String groupPrefix, int groupsPerPage) {

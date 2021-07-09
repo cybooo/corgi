@@ -29,14 +29,24 @@ import java.util.regex.Pattern;
 
 public class ChatListener extends ListenerAdapter {
 
-    private EventWaiter w;
     private static final Map<String, Integer> spamMap = new ConcurrentHashMap<>();
+    private EventWaiter w;
 
     public ChatListener(EventWaiter w) {
         this.w = w;
     }
 
     public ChatListener() {
+    }
+
+    private static int getGuildUserCount(Guild guild) {
+        int i = 0;
+        for (Member member : guild.getMembers()) {
+            if (!member.getUser().isBot()) {
+                i++;
+            }
+        }
+        return i;
     }
 
     @Override
@@ -190,16 +200,6 @@ public class ChatListener extends ListenerAdapter {
         } else {
             spamMap.put(event.getGuild().getId(), 1);
         }
-    }
-
-    private static int getGuildUserCount(Guild guild) {
-        int i = 0;
-        for (Member member : guild.getMembers()) {
-            if (!member.getUser().isBot()) {
-                i++;
-            }
-        }
-        return i;
     }
 
     public void clearSpamMap() {

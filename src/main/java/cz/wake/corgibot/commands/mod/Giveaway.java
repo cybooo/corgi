@@ -44,6 +44,15 @@ public class Giveaway implements CommandBase {
             .appendSeconds().appendSuffix("s")
             .toFormatter();
 
+    private static Period getTimeFromInput(String input, MessageChannel channel) {
+        try {
+            return periodParser.parsePeriod(input);
+        } catch (IllegalArgumentException e) {
+            MessageUtils.sendErrorMessage("Invalid time format! Try this: `1d` -> for one day.",
+                    channel);
+            return null;
+        }
+    }
 
     @Override
     public void onCommand(MessageChannel channel, Message message, String[] args, Member member, EventWaiter w, GuildWrapper gw) {
@@ -147,16 +156,6 @@ public class Giveaway implements CommandBase {
                 });
                 message.delete().reason("Starting giveaway").queue();
             }
-        }
-    }
-
-    private static Period getTimeFromInput(String input, MessageChannel channel) {
-        try {
-            return periodParser.parsePeriod(input);
-        } catch (IllegalArgumentException e) {
-            MessageUtils.sendErrorMessage("Invalid time format! Try this: `1d` -> for one day.",
-                    channel);
-            return null;
         }
     }
 }

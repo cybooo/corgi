@@ -44,18 +44,14 @@ import java.util.concurrent.ConcurrentHashMap;
 
 public class CorgiBot {
 
+    public static final Logger LOGGER;
+    public static final Config config = new ConfigUtils().loadConfig();
+    private static final Map<String, Logger> LOGGERS;
+    public static long startUp;
+    public static int commands = 0;
     private static CorgiBot instance;
     private static JDA jda;
-    private final CommandManager commandManager = new CommandManager();
-    private SQLManager sql;
-    private ChatListener chatListener;
-    private final DateTimeFormatter timeFormat = DateTimeFormatter.ofPattern("MMMM yyyy HH:mm:ss");
-    public static long startUp;
-    private static final Map<String, Logger> LOGGERS;
-    public static final Logger LOGGER;
-    public static int commands = 0;
     private static boolean isBeta = true;
-    public static final Config config = new ConfigUtils().loadConfig();
 
     static {
         new File("logs/latest.log").renameTo(new File("logs/log-" + getCurrentTimeStamp() + ".log"));
@@ -64,9 +60,62 @@ public class CorgiBot {
         new File("resources/feeds").mkdirs();
     }
 
+    private final CommandManager commandManager = new CommandManager();
+    private final DateTimeFormatter timeFormat = DateTimeFormatter.ofPattern("MMMM yyyy HH:mm:ss");
+    private SQLManager sql;
+    private ChatListener chatListener;
+
     public static void main(String[] args) throws LoginException, InterruptedException {
         instance = new CorgiBot();
         instance.start();
+    }
+
+    public static CorgiBot getInstance() {
+        return instance;
+    }
+
+    private static Logger getLog(String name) {
+        return LOGGERS.computeIfAbsent(name, LoggerFactory::getLogger);
+    }
+
+    public static Logger getLog(Class<?> clazz) {
+        return getLog(clazz.getName());
+    }
+
+    public static Guild getDefaultGuild() {
+        return getJda().getGuildById("860251548231532584");
+    }
+
+    private static void bootIcon() {
+        LOGGER.info("");
+        LOGGER.info("       ______                 _ ");
+        LOGGER.info("      / ____/___  _________ _(_)");
+        LOGGER.info("     / /   / __ \\/ ___/ __ `/ / ");
+        LOGGER.info("    / /___/ /_/ / /  / /_/ / /  ");
+        LOGGER.info("    \\____/\\____/_/   \\__, /_/   ");
+        LOGGER.info("                    /____/      ");
+        LOGGER.info("");
+    }
+
+    public static String getCurrentTimeStamp() {
+        SimpleDateFormat sdfDate = new SimpleDateFormat("yyyy-MM-dd-HH-mm-ss");
+        Date now = new Date();
+        return sdfDate.format(now);
+    }
+
+    public static Config getConfig() {
+        return config;
+    }
+
+    /**
+     * @return Whether Corgi is in beta.
+     */
+    public static boolean isIsBeta() {
+        return isBeta;
+    }
+
+    public static JDA getJda() {
+        return jda;
     }
 
     public void start() throws LoginException, InterruptedException {
@@ -167,10 +216,6 @@ public class CorgiBot {
         }
     }
 
-    public static CorgiBot getInstance() {
-        return instance;
-    }
-
     private void init() {
         getLog(this.getClass()).error(String.valueOf(commandManager.getClass().hashCode()));
         commandManager.register();
@@ -184,52 +229,8 @@ public class CorgiBot {
         return dateTime.getDayOfMonth() + ". " + dateTime.format(timeFormat);
     }
 
-    private static Logger getLog(String name) {
-        return LOGGERS.computeIfAbsent(name, LoggerFactory::getLogger);
-    }
-
-    public static Logger getLog(Class<?> clazz) {
-        return getLog(clazz.getName());
-    }
-
     public TextChannel getGuildLogChannel() {
         return Objects.requireNonNull(getJda().getGuildById("860251548231532584"), "Guild is null").getTextChannelById("860299812582981643");
-    }
-
-    public static Guild getDefaultGuild() {
-        return getJda().getGuildById("860251548231532584");
-    }
-
-    private static void bootIcon() {
-        LOGGER.info("");
-        LOGGER.info("       ______                 _ ");
-        LOGGER.info("      / ____/___  _________ _(_)");
-        LOGGER.info("     / /   / __ \\/ ___/ __ `/ / ");
-        LOGGER.info("    / /___/ /_/ / /  / /_/ / /  ");
-        LOGGER.info("    \\____/\\____/_/   \\__, /_/   ");
-        LOGGER.info("                    /____/      ");
-        LOGGER.info("");
-    }
-
-    public static String getCurrentTimeStamp() {
-        SimpleDateFormat sdfDate = new SimpleDateFormat("yyyy-MM-dd-HH-mm-ss");
-        Date now = new Date();
-        return sdfDate.format(now);
-    }
-
-    public static Config getConfig() {
-        return config;
-    }
-
-    /**
-     * @return Whether Corgi is in beta.
-     */
-    public static boolean isIsBeta() {
-        return isBeta;
-    }
-
-    public static JDA getJda() {
-        return jda;
     }
 
     public CommandManager getCommandManager() {

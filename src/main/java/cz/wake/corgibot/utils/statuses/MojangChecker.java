@@ -15,8 +15,12 @@ import java.util.concurrent.ConcurrentMap;
 
 public class MojangChecker extends TimerTask {
 
-    private final JsonParser parser = new JsonParser();
     private static final ConcurrentMap<MojangService, Integer> serviceStatus = new ConcurrentHashMap<>();
+    private final JsonParser parser = new JsonParser();
+
+    public static ConcurrentMap<MojangService, Integer> getServiceStatus() {
+        return serviceStatus;
+    }
 
     @Override
     public void run() {
@@ -56,10 +60,6 @@ public class MojangChecker extends TimerTask {
             // Ignore - mojang status page refuses connection too often, don't want my console full of errors.
 //            e.printStackTrace();
         }
-    }
-
-    public static ConcurrentMap<MojangService, Integer> getServiceStatus() {
-        return serviceStatus;
     }
 
     /*

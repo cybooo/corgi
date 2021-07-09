@@ -9,8 +9,8 @@ import java.util.List;
 
 public class PagedTableBuilder {
 
-    private List<String> header;
     private final List<List<String>> body;
+    private List<String> header;
     private int rows;
     private boolean pageCounts;
 

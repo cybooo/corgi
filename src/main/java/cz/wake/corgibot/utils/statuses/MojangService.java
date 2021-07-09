@@ -23,19 +23,6 @@ public enum MojangService {
         this.url = url;
     }
 
-    @Override
-    public String toString() {
-        return name + " (" + url + ")";
-    }
-
-    public String getName() {
-        return this.name;
-    }
-
-    public String getUrl() {
-        return this.url;
-    }
-
     public static MojangService getService(String serviceUrl) {
         for (MojangService service : values) {
             if (service.getUrl().equalsIgnoreCase(serviceUrl)) {
@@ -51,5 +38,18 @@ public enum MojangService {
                 return service;
         }
         return null;
+    }
+
+    @Override
+    public String toString() {
+        return name + " (" + url + ")";
+    }
+
+    public String getName() {
+        return this.name;
+    }
+
+    public String getUrl() {
+        return this.url;
     }
 }

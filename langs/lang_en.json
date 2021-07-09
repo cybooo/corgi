@@ -51,7 +51,7 @@
   },
   "internal": {
     "error": {
-      "no-context": "Can not send empty message!",
+      "no-context": "Cannot send empty message!",
       "command-failed": "Error has occurred during executing of command! Try it again...",
       "api-failed": "Error in API! Please wait...",
       "user-not-found": "User can not be found!"

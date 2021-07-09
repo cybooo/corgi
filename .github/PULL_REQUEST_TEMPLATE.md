@@ -1,26 +1,26 @@
-### Požadavky
+### Requirements
 
-- [ ] Pull Request je dokončený, obsahuje tedy všechny opravy, změny a jiné úpravy.
-- [ ] Vše odpovídá požadavkům stylu programování
-  - [ZDE](https://github.com/CorgiBot/CorgiBot/blob/master/CONTRIBUTING.md)
-- [ ] Vše jsem odzkoušel/a a vše fungovalo.
+- [ ] The Pull Request is complete, so it contains all the fixes, changes, and other modifications.
+- [ ] Everything meets the requirements of the programming style
+  - [HERE](https://github.com/CorgiBot/CorgiBot/blob/master/CONTRIBUTING.md)
+- [ ] I tried everything and everything worked.
 
-### Přidáno
-
-- N/A
-
-### Změněno
+### Added
 
 - N/A
 
-### Odebráno
+### Changed
 
 - N/A
 
-### Opraveno
+### Removed
 
 - N/A
 
-### Bezpečnostní oprava
+### Fixed
+
+- N/A
+
+### Security patch
 
 - N/A

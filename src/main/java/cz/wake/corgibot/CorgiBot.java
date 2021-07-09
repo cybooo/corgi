@@ -73,8 +73,8 @@ public class CorgiBot {
         // Inform
         CorgiLogger.infoMessage("Corgi is waking up!");
 
-        // Logo on start
-        bootLogo();
+        // Icon on start
+        bootIcon();
 
         // JDA Event Waiter
         EventWaiter waiter = new EventWaiter();
@@ -108,7 +108,7 @@ public class CorgiBot {
             try {
                 // MySQL Instance
                 instance.initDatabase();
-                CorgiLogger.greatMessage("Corgi has succesfully connected to MySQL!");
+                CorgiLogger.greatMessage("Corgi has successfully connected to MySQL!");
 
                 // Load configuration for guilds
                 BotManager.loadGuilds();
@@ -200,7 +200,7 @@ public class CorgiBot {
         return getJda().getGuildById("860251548231532584");
     }
 
-    private static void bootLogo() {
+    private static void bootIcon() {
         LOGGER.info("");
         LOGGER.info("       ______                 _ ");
         LOGGER.info("      / ____/___  _________ _(_)");
@@ -221,8 +221,8 @@ public class CorgiBot {
         return config;
     }
 
-    /*
-        Whatever is Corgi in BETA state!
+    /**
+     * @return Whether Corgi is in beta.
      */
     public static boolean isIsBeta() {
         return isBeta;

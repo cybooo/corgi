@@ -106,14 +106,14 @@ public class ChatListener extends ListenerAdapter {
                     return;
                 }
 
-                // Info about sended command
+                // Info about sent command
                 CorgiLogger.commandMessage("'" + cmd.getCommand() + " " + Arrays.toString(Arrays.copyOfRange(split, 1, split.length)) + "', (Guild: " + e.getGuild().getName() + ", Channel: " + (e.getChannel().getName()) + "), Sender: " + e.getAuthor());
 
                 // Check bot permissions if are required
                 if (!e.getGuild().getSelfMember().hasPermission(cmd.getReqBotPermissions())) {
                     StringBuilder sb = new StringBuilder();
                     Arrays.stream(cmd.getReqBotPermissions()).forEach(c -> sb.append(c.name()).append(", "));
-                    MessageUtils.sendErrorMessage("Permissions error", "Action failed, i'm missing some permissions!\nI'm missing: `" + sb.substring(0, sb.length() - 2) + "`", e.getChannel());
+                    MessageUtils.sendErrorMessage("Permissions error", "Action failed, I'm missing some permissions!\nI'm missing: `" + sb.substring(0, sb.length() - 2) + "`", e.getChannel());
                     return;
                 }
 
@@ -136,14 +136,14 @@ public class ChatListener extends ListenerAdapter {
                     delete(e.getMessage());
                 }
 
-                // Statictics
+                // Statistics
                 CorgiBot.commands++;
             }
         } catch (StringIndexOutOfBoundsException ex) {
             // ¯\_(ツ)_/¯
         } catch (ErrorResponseException ex2) {
             if (ex2.getErrorCode() == 50007) {
-                e.getChannel().sendMessage(EmoteList.WARNING + " | " + e.getAuthor().getAsMention() + " sorry, but i can't message you, your messages are disabled!").queue();
+                e.getChannel().sendMessage(EmoteList.WARNING + " | " + e.getAuthor().getAsMention() + " sorry, but I can't message you, your messages are disabled!").queue();
             } else {
                 ex2.printStackTrace();
             }
@@ -181,7 +181,7 @@ public class ChatListener extends ListenerAdapter {
             allowed = allowed == 0 ? 1 : allowed;
             if (messages > allowed) {
                 if (!guild.isBlocked()) {
-                    MessageUtils.sendErrorMessage("**SPAM DETECTED** Commands in this server are ignored for one minute.", ch);
+                    MessageUtils.sendErrorMessage("**SPAM DETECTED** Commands in this server will be ignored for one minute.", ch);
                     guild.setBlocked(true).setBlockReason("Command spam").setUnBlockTime(System.currentTimeMillis() + TimeUnit.MINUTES.toMillis(1));
                 }
             } else {

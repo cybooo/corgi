@@ -1,4 +1,4 @@
-# CorgiBot Contribuiton guide
+# CorgiBot Contribution guide
 This is a guide on what to do and not to do if you want to contribute to this project. 
 
 ### What to do and what to avoid

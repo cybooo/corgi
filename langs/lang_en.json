@@ -2,12 +2,12 @@
   "commands": {
     "language": {
       "title": "Language settings",
-      "description": "List of all languages that Corgi knowns.",
+      "description": "List of all languages that Corgi knows.",
       "selected": "Selected",
       "footer": "For change language click on reaction."
     },
     "prefix": {
-      "corgi-is-beta-prefix": "Corgi is running as BETA! You can not edit prefix now!",
+      "corgi-is-beta-prefix": "Corgi is running in BETA! You cannot edit prefix now!",
       "reset-back": "Prefix has been reset to `c!`",
       "prefix-sets-to": "Prefix has been set on `%s`",
       "actual-prefix-is": "Prefix for this server is `%s`",
@@ -33,10 +33,10 @@
       "description": "To join Corgi's support guild use [**THIS**]({1}) link."
     },
     "cat": {
-      "title": "Random image of cat:"
+      "title": "Random image of a cat:"
     },
     "dog": {
-      "title": "Random image of dog:"
+      "title": "Random image of a dog:"
     },
     "changelog": {
       "news": "News",

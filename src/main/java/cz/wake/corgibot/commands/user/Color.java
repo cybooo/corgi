@@ -72,7 +72,7 @@ public class Color implements CommandBase {
         }
         MessageBuilder msgBuilder = new MessageBuilder();
         builder.setImage("attachment://" + Integer.toHexString(c.getRGB()).substring(2).toLowerCase() + ".png");
-        msgBuilder.setEmbed(builder.build());
+        msgBuilder.setEmbeds(builder.build());
         channel.sendMessage(msgBuilder.build()).addFile(file).queue();
         new Timer().schedule(new TimerTask() {
             @Override
@@ -85,7 +85,7 @@ public class Color implements CommandBase {
     @Override
     public void onCommand(MessageChannel channel, Message message, String[] args, Member member, EventWaiter w, GuildWrapper gw) {
         if (args.length < 1) {
-            channel.sendMessage(MessageUtils.getEmbed(Constants.GRAY).setTitle("Color command help").setDescription(getHelp().replace("%", gw.getPrefix())).build()).queue();
+            channel.sendMessageEmbeds(MessageUtils.getEmbed(Constants.GRAY).setTitle("Color command help").setDescription(getHelp().replace("%", gw.getPrefix())).build()).queue();
         } else {
             try {
                 String color = args[0];

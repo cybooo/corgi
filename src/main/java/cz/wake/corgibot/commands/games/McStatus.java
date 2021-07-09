@@ -51,6 +51,6 @@ public class McStatus implements CommandBase {
         }
         builder.setThumbnail("https://boldscandinavia.com/wp-content/uploads/2020/05/moj_hor_1080x1080_compressed.gif");
         builder.setFooter("Some services may be offline because Mojang status marked them as offline.");
-        channel.sendMessage(builder.setColor((state == 0 ? Constants.GREEN : state == 1 ? Constants.ORANGE : Constants.RED)).build()).queue();
+        channel.sendMessageEmbeds(builder.setColor((state == 0 ? Constants.GREEN : state == 1 ? Constants.ORANGE : Constants.RED)).build()).queue();
     }
 }

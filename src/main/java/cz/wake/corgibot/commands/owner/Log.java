@@ -29,7 +29,7 @@ public class Log implements CommandBase {
     public void onCommand(MessageChannel channel, Message message, String[] args, Member member, EventWaiter w, GuildWrapper gw) {
         if (args.length < 1) {
             try {
-                channel.sendMessage(MessageUtils.getEmbed(Constants.GREEN).setDescription("Generated log (latest.log) requested!").build()).queue();
+                channel.sendMessageEmbeds(MessageUtils.getEmbed(Constants.GREEN).setDescription("Generated log (latest.log) requested!").build()).queue();
                 File log = new File("logs/latest.log");
                 channel.sendFile(log, "latest.log").queue();
             } catch (Exception e) {

@@ -58,7 +58,7 @@ public class Reminder implements CommandBase {
     @Override
     public void onCommand(MessageChannel channel, Message message, String[] args, Member member, EventWaiter w, GuildWrapper gw) {
         if (args.length < 1) {
-            channel.sendMessage(MessageUtils.getEmbed(Constants.GRAY)
+            channel.sendMessageEmbeds(MessageUtils.getEmbed(Constants.GRAY)
                     .setTitle("Help" + " - reminder").setDescription(getHelp().replace("%", gw.getPrefix())).build()).queue();
         } else if (args[0].contains("list")) {
             HashSet<TemporaryReminder> list = CorgiBot.getInstance().getSql().getRemindersByUser(member.getUser().getId());
@@ -98,7 +98,7 @@ public class Reminder implements CommandBase {
                 int convertedId = Integer.parseInt(id);
                 try {
                     CorgiBot.getInstance().getSql().deleteReminderById(member.getUser().getId(), convertedId);
-                    channel.sendMessage(MessageUtils.getEmbed(Constants.GREEN)
+                    channel.sendMessageEmbeds(MessageUtils.getEmbed(Constants.GREEN)
                             .setDescription("Reminder with ID **{1}** was deleted!"
                                     .replace("{1}", String.valueOf(convertedId))).build()).queue();
                 } catch (Exception e) {
@@ -151,7 +151,7 @@ public class Reminder implements CommandBase {
             }
 
             // Reminder
-            channel.sendMessage(MessageUtils.getEmbed(Constants.GREEN)
+            channel.sendMessageEmbeds(MessageUtils.getEmbed(Constants.GREEN)
                     .setDescription(EmoteList.ALARM_CLOCK + " | " + "Sure! I'll remind you in {1}"
                             .replace("{1}", TimeUtils.toYYYYHHmmssS(millis))).build()).queue();
         }

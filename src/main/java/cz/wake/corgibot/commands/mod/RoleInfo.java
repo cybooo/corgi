@@ -58,7 +58,7 @@ public class RoleInfo implements CommandBase {
         embed.addField("Mentionable", String.valueOf(role.isMentionable()), true);
         embed.addField("Date created", CorgiBot.getInstance().formatTime(role.getTimeCreated().toLocalDateTime()), true);
 
-        channel.sendMessage(embed.build()).queue();
+        channel.sendMessageEmbeds(embed.build()).queue();
     }
 
 }

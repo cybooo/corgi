@@ -156,9 +156,7 @@ public class Paginator extends Menu {
             } catch (PermissionException e) {
             }
             int n = newPageNum;
-            message.editMessage(renderPage(newPageNum)).queue(m -> {
-                pagination(m, n);
-            });
+            message.editMessage(renderPage(newPageNum)).queue(m -> pagination(m, n));
         }, timeout, unit, () -> finalAction.accept(message));
     }
 
@@ -167,27 +165,25 @@ public class Paginator extends Menu {
         EmbedBuilder ebuilder = new EmbedBuilder();
         int start = (pageNum - 1) * itemsPerPage;
         int end = Math.min(strings.size(), pageNum * itemsPerPage);
-        switch (columns) {
-            case 1:
-                StringBuilder sbuilder = new StringBuilder();
-                for (int i = start; i < end; i++)
-                    sbuilder.append("\n").append(numberItems ? "`" + (i + 1) + ".` " : "").append(strings.get(i));
-                ebuilder.setDescription(sbuilder.toString());
-                break;
-            default:
-                int per = (int) Math.ceil((double) (end - start) / columns);
-                for (int k = 0; k < columns; k++) {
-                    StringBuilder strbuilder = new StringBuilder();
-                    for (int i = start + k * per; i < end && i < start + (k + 1) * per; i++)
-                        strbuilder.append("\n").append(numberItems ? (i + 1) + ". " : "").append(strings.get(i));
-                    ebuilder.addField("", strbuilder.toString(), true);
-                }
+        if (columns == 1) {
+            StringBuilder sbuilder = new StringBuilder();
+            for (int i = start; i < end; i++)
+                sbuilder.append("\n").append(numberItems ? "`" + (i + 1) + ".` " : "").append(strings.get(i));
+            ebuilder.setDescription(sbuilder.toString());
+        } else {
+            int per = (int) Math.ceil((double) (end - start) / columns);
+            for (int k = 0; k < columns; k++) {
+                StringBuilder strbuilder = new StringBuilder();
+                for (int i = start + k * per; i < end && i < start + (k + 1) * per; i++)
+                    strbuilder.append("\n").append(numberItems ? (i + 1) + ". " : "").append(strings.get(i));
+                ebuilder.addField("", strbuilder.toString(), true);
+            }
         }
 
         ebuilder.setColor(color.apply(pageNum, pages));
         if (showPageNumbers)
             ebuilder.setFooter("Page " + pageNum + "/" + pages, null);
-        mbuilder.setEmbed(ebuilder.build());
+        mbuilder.setEmbeds(ebuilder.build());
         if (text != null)
             mbuilder.append(text.apply(pageNum, pages));
         return mbuilder.build();

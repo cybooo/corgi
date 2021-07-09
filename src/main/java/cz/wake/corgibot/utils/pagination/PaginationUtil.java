@@ -127,26 +127,26 @@ public class PaginationUtil {
             buttonGroup.addButton(new ButtonGroup.Button("\u23EE", (ownerID, user, message) -> {
                 //Start
                 pages[0] = 0;
-                message.editMessage(pagedEmbed.getEmbed(pages[0])).queue();
+                message.editMessageEmbeds(pagedEmbed.getEmbed(pages[0])).queue();
             }));
             buttonGroup.addButton(new ButtonGroup.Button("\u23EA", (ownerID, user, message) -> {
                 //Prev
                 if (pages[0] != 0) {
                     pages[0] -= 1;
-                    message.editMessage(pagedEmbed.getEmbed(pages[0])).queue();
+                    message.editMessageEmbeds(pagedEmbed.getEmbed(pages[0])).queue();
                 }
             }));
             buttonGroup.addButton(new ButtonGroup.Button("\u23E9", (ownerID, user, message) -> {
                 //Next
                 if (pages[0] + 1 != pagedEmbed.getPageTotal()) {
                     pages[0] += 1;
-                    message.editMessage(pagedEmbed.getEmbed(pages[0])).queue();
+                    message.editMessageEmbeds(pagedEmbed.getEmbed(pages[0])).queue();
                 }
             }));
             buttonGroup.addButton(new ButtonGroup.Button("\u23ED", (ownerID, user, message) -> {
                 //Last
                 pages[0] = pagedEmbed.getPageTotal() - 1;
-                message.editMessage(pagedEmbed.getEmbed(pages[0])).queue();
+                message.editMessageEmbeds(pagedEmbed.getEmbed(pages[0])).queue();
             }));
             buttonGroup.addButton(new ButtonGroup.Button("\u274C", (ownerID, user, message) -> {
                 // Delete
@@ -160,7 +160,7 @@ public class PaginationUtil {
             }));
             ButtonUtil.sendButtonedMessage(channel, pagedEmbed.getEmbed(page), buttonGroup);
         } else {
-            channel.sendMessage(pagedEmbed.getEmbed(page)).queue();
+            channel.sendMessageEmbeds(pagedEmbed.getEmbed(page)).queue();
         }
     }
 

@@ -51,7 +51,7 @@ public class Love implements CommandBase {
             }
         }
 
-        channel.sendMessage(MessageUtils.getEmbed(Color.PINK).setTitle("Love detector :heart:").setDescription(result).build()).queue();
+        channel.sendMessageEmbeds(MessageUtils.getEmbed(Color.PINK).setTitle("Love detector :heart:").setDescription(result).build()).queue();
 
     }
 

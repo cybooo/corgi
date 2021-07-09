@@ -36,13 +36,13 @@ public class Ping implements CommandBase {
 
         if (!running) {
             running = true;
-            channel.sendMessage(MessageUtils.getEmbed(Constants.GRAY).setDescription("Calculating ping ...").build()).queue(m -> {
+            channel.sendMessageEmbeds(MessageUtils.getEmbed(Constants.GRAY).setDescription("Calculating ping ...").build()).queue(m -> {
                 int pings = 5;
                 int lastResult;
                 int sum = 0, min = 999, max = 0;
                 long start = System.currentTimeMillis();
                 for (int j = 0; j < pings; j++) {
-                    m.editMessage(MessageUtils.getEmbed(Constants.ORANGE).setDescription(pingMessages[j % pingMessages.length]).build()).queue();
+                    m.editMessageEmbeds(MessageUtils.getEmbed(Constants.ORANGE).setDescription(pingMessages[j % pingMessages.length]).build()).queue();
                     lastResult = (int) (System.currentTimeMillis() - start);
                     sum += lastResult;
                     min = Math.min(min, lastResult);
@@ -54,7 +54,7 @@ public class Ping implements CommandBase {
                     }
                     start = System.currentTimeMillis();
                 }
-                m.editMessage(MessageUtils.getEmbed(Constants.GREEN).setDescription(String.format(EmoteList.LOUDSPEAKER + " | **Average ping is:** %dms", CorgiBot.getJda().getGatewayPing())).build()).queue();
+                m.editMessageEmbeds(MessageUtils.getEmbed(Constants.GREEN).setDescription(String.format(EmoteList.LOUDSPEAKER + " | **Average ping is:** %dms", CorgiBot.getJda().getGatewayPing())).build()).queue();
                 running = false;
             });
         } else {

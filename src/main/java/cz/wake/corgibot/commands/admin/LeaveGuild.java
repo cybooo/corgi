@@ -29,24 +29,20 @@ public class LeaveGuild implements CommandBase {
     @Override
     public void onCommand(MessageChannel channel, Message message, String[] args, Member member, EventWaiter w, GuildWrapper gw) {
         if (args.length < 1) {
-            channel.sendMessage(MessageUtils.getEmbed(Constants.ORANGE).setTitle("\u26A0 Confirmation of leaving the server \u26A0")
+            channel.sendMessageEmbeds(MessageUtils.getEmbed(Constants.ORANGE).setTitle("\u26A0 Confirmation of leaving the server \u26A0")
                     .setDescription("**WARNING**: By confirming this action, Corgi is gonna leave this server!\nAre you sure you want to perform the following action?").setFooter("You have 60 seconds to react.", null).build()).queue((Message m) -> {
                 m.addReaction("\u2705").queue();
                 m.addReaction("\u26D4").queue();
                 message.delete().queue();
 
-                w.waitForEvent(MessageReactionAddEvent.class, (MessageReactionAddEvent e) -> {
-                    return e.getUser().equals(member.getUser()) && e.getMessageId().equals(m.getId()) && (e.getReaction().getReactionEmote().getName().equals("\u2705"));
-                }, (MessageReactionAddEvent ev) -> {
+                w.waitForEvent(MessageReactionAddEvent.class, (MessageReactionAddEvent e) -> e.getUser().equals(member.getUser()) && e.getMessageId().equals(m.getId()) && (e.getReaction().getReactionEmote().getName().equals("\u2705")), (MessageReactionAddEvent ev) -> {
                     m.clearReactions().queue();
-                    m.editMessage(MessageUtils.getEmbed(Constants.RED).setTitle("Action confirmed!").setDescription("Corgi is now leaving this server! :sob:").build()).queue();
+                    m.editMessageEmbeds(MessageUtils.getEmbed(Constants.RED).setTitle("Action confirmed!").setDescription("Corgi is now leaving this server! :sob:").build()).queue();
                     m.getGuild().leave().queue();
                 }, 60, TimeUnit.SECONDS, null);
 
-                w.waitForEvent(MessageReactionAddEvent.class, (MessageReactionAddEvent e) -> {
-                    return e.getUser().equals(member.getUser()) && e.getMessageId().equals(m.getId()) && (e.getReaction().getReactionEmote().getName().equals("\u26D4"));
-                }, (MessageReactionAddEvent ev) -> {
-                    m.editMessage(MessageUtils.getEmbed(Constants.GREEN).setTitle("Action cancelled!").setDescription("Yaaay, Corgi is going to stay here! :hugging:").build()).queue();
+                w.waitForEvent(MessageReactionAddEvent.class, (MessageReactionAddEvent e) -> e.getUser().equals(member.getUser()) && e.getMessageId().equals(m.getId()) && (e.getReaction().getReactionEmote().getName().equals("\u26D4")), (MessageReactionAddEvent ev) -> {
+                    m.editMessageEmbeds(MessageUtils.getEmbed(Constants.GREEN).setTitle("Action cancelled!").setDescription("Yaaay, Corgi is going to stay here! :hugging:").build()).queue();
                     m.clearReactions().queue();
                 }, 60, TimeUnit.SECONDS, null);
             });

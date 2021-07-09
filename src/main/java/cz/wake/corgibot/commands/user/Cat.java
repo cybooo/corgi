@@ -37,7 +37,7 @@ public class Cat implements CommandBase {
         } catch (Exception e) {
             MessageUtils.sendErrorMessage("Something went wrong! Try again later..", channel);
         }
-        channel.sendMessage(MessageUtils.getEmbed(Constants.ORANGE).setTitle(EmoteList.CAT + " | " + "Random cat image:").setImage(url).build()).queue();
+        channel.sendMessageEmbeds(MessageUtils.getEmbed(Constants.ORANGE).setTitle(EmoteList.CAT + " | " + "Random cat image:").setImage(url).build()).queue();
     }
 
 }

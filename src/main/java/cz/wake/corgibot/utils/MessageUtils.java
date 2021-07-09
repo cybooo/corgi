@@ -91,33 +91,33 @@ public class MessageUtils {
 
     //TODO: Dodelat try
     public static Message sendErrorMessage(EmbedBuilder builder, MessageChannel channel) {
-        return channel.sendMessage(builder.setColor(Constants.RED).build()).complete();
+        return channel.sendMessageEmbeds(builder.setColor(Constants.RED).build()).complete();
     }
 
     public static Message sendErrorMessage(String message, MessageChannel channel) {
-        return channel.sendMessage(MessageUtils.getEmbed().setColor(Constants.RED).setDescription(message).build())
+        return channel.sendMessageEmbeds(MessageUtils.getEmbed().setColor(Constants.RED).setDescription(message).build())
                 .complete();
     }
 
     public static Message sendErrorMessage(String title, String message, MessageChannel channel) {
-        return channel.sendMessage(MessageUtils.getEmbed().setColor(Constants.RED).setTitle(title).setDescription(message).build())
+        return channel.sendMessageEmbeds(MessageUtils.getEmbed().setColor(Constants.RED).setTitle(title).setDescription(message).build())
                 .complete();
     }
 
     public static void sendAutoDeletedMessage(String message, long delay, MessageChannel channel) {
-        sendAutoDeletedMessage(new MessageBuilder().setEmbed(MessageUtils.getEmbed().setColor(Constants.RED).setDescription(message).build()).build(), delay, channel);
+        sendAutoDeletedMessage(new MessageBuilder().setEmbeds(MessageUtils.getEmbed().setColor(Constants.RED).setDescription(message).build()).build(), delay, channel);
     }
 
     public static void sendAutoDeletedMessage(String title, String message, long delay, MessageChannel channel) {
-        sendAutoDeletedMessage(new MessageBuilder().setEmbed(MessageUtils.getEmbed().setTitle(title).setColor(Constants.RED).setDescription(message).build()).build(), delay, channel);
+        sendAutoDeletedMessage(new MessageBuilder().setEmbeds(MessageUtils.getEmbed().setTitle(title).setColor(Constants.RED).setDescription(message).build()).build(), delay, channel);
     }
 
     public static void sendAutoDeletedMessage(String message, long delay, MessageChannel channel, Color c) {
-        sendAutoDeletedMessage(new MessageBuilder().setEmbed(MessageUtils.getEmbed().setColor(c).setDescription(message).build()).build(), delay, channel);
+        sendAutoDeletedMessage(new MessageBuilder().setEmbeds(MessageUtils.getEmbed().setColor(c).setDescription(message).build()).build(), delay, channel);
     }
 
     public static void sendAutoDeletedMessage(MessageEmbed embed, long delay, MessageChannel channel) {
-        sendAutoDeletedMessage(new MessageBuilder().setEmbed(embed).build(), delay, channel);
+        sendAutoDeletedMessage(new MessageBuilder().setEmbeds(embed).build(), delay, channel);
     }
 
     public static void editMessage(EmbedBuilder embed, Message message) {
@@ -126,7 +126,7 @@ public class MessageUtils {
 
     public static void editMessage(String s, EmbedBuilder embed, Message message) {
         if (message != null)
-            message.editMessage(new MessageBuilder().append(s).setEmbed(embed.build()).build()).queue();
+            message.editMessage(new MessageBuilder().append(s).setEmbeds(embed.build()).build()).queue();
     }
 
     public static EmbedBuilder getEmbedError() {
@@ -168,8 +168,8 @@ public class MessageUtils {
             user.openPrivateChannel().complete()
                     .sendMessage(message.substring(0, Math.min(message.length(), 1999))).queue();
             CorgiBot.LOGGER.info("Sending message - " + user.getName() + "(" + user.getId() + ") -> " + message);
-        } catch (ErrorResponseException ignored) {
-            ignored.printStackTrace();
+        } catch (ErrorResponseException ex) {
+            ex.printStackTrace();
         }
     }
 
@@ -184,9 +184,9 @@ public class MessageUtils {
 
     public static void sendPrivateMessage(MessageChannel channel, User user, EmbedBuilder message) {
         try {
-            user.openPrivateChannel().complete().sendMessage(message.build()).complete();
+            user.openPrivateChannel().complete().sendMessageEmbeds(message.build()).complete();
         } catch (ErrorResponseException e) {
-            channel.sendMessage(message.build()).queue();
+            channel.sendMessageEmbeds(message.build()).queue();
         }
     }
 

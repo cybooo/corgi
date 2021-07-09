@@ -37,7 +37,7 @@ public class GuildInfo implements CommandBase {
         if (roles.length() > 1024)
             roles = roles.substring(0, 1024 - 4) + "...";
 
-        channel.sendMessage(new EmbedBuilder()
+        channel.sendMessageEmbeds(new EmbedBuilder()
                 .setAuthor("Guild info", null, guild.getIconUrl())
                 .setColor(guild.getOwner().getColor() == null ? Constants.BLUE : guild.getOwner().getColor())
                 .setDescription("Information for " + guild.getName())

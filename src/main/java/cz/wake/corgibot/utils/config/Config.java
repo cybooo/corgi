@@ -65,11 +65,7 @@ public class Config {
      * @throws NumberFormatException if the returned value isn't valis
      */
     public int getInt(String key) throws NumberFormatException {
-        try {
-            return config.getInt(key);
-        } catch (final NumberFormatException e) {
-            throw e;
-        }
+        return config.getInt(key);
     }
 
     /**

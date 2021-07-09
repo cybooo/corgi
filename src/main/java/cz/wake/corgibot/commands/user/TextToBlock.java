@@ -39,7 +39,7 @@ public class TextToBlock implements CommandBase {
                 sb.append(a);
             }
         }
-        channel.sendMessage(MessageUtils.getEmbed(Constants.BLUE).setDescription(sb.toString()).build()).queue();
+        channel.sendMessageEmbeds(MessageUtils.getEmbed(Constants.BLUE).setDescription(sb.toString()).build()).queue();
 
     }
 

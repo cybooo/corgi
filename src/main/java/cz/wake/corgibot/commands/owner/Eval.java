@@ -75,7 +75,7 @@ public class Eval implements CommandBase {
         if (silent)
             code = MessageUtils.getMessage(args, 1);
         else
-            code = Arrays.stream(args).collect(Collectors.joining(" "));
+            code = String.join(" ", args);
         POOL.submit(() -> {
             try {
                 String eResult = String.valueOf(engine.eval(imports + "with (imports) {\n" + code + "\n}"));
@@ -83,12 +83,12 @@ public class Eval implements CommandBase {
                     eResult = String.format("[Result](%s)", MessageUtils.hastebin(eResult));
                 } else eResult = "```js\n" + eResult + "\n```";
                 if (!silent)
-                    channel.sendMessage(MessageUtils.getEmbed(member.getUser())
+                    channel.sendMessageEmbeds(MessageUtils.getEmbed(member.getUser())
                             .addField("Code:", "```js\n" + code + "```", false)
                             .addField("Result: ", eResult, false).build()).queue();
             } catch (Exception e) {
                 CorgiBot.LOGGER.error("Error occured in the evaluator thread pool!", e);
-                channel.sendMessage(MessageUtils.getEmbed(member.getUser())
+                channel.sendMessageEmbeds(MessageUtils.getEmbed(member.getUser())
                         .addField("Code:", "```js\n" + code + "```", false)
                         .addField("Result: ", "```bf\n" + e.getMessage() + "```", false).build()).queue();
             }

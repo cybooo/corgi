@@ -23,7 +23,7 @@ public class ButtonUtil {
      * @param buttons The buttons to display.
      */
     public static void sendButtonedMessage(MessageChannel channel, MessageEmbed embed, ButtonGroup buttons) {
-        channel.sendMessage(embed).queue(message -> handleSuccessConsumer(channel, message, buttons));
+        channel.sendMessageEmbeds(embed).queue(message -> handleSuccessConsumer(channel, message, buttons));
     }
 
     /**
@@ -35,7 +35,7 @@ public class ButtonUtil {
      * @return The message we sent to discord.
      */
     public static Message sendReturnedButtonedMessage(MessageChannel channel, MessageEmbed embed, ButtonGroup buttons) {
-        Message message = channel.sendMessage(embed).complete();
+        Message message = channel.sendMessageEmbeds(embed).complete();
         handleSuccessConsumer(channel, message, buttons);
         return message;
     }

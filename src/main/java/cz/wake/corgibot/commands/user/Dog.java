@@ -41,7 +41,7 @@ public class Dog implements CommandBase {
         } catch (Exception e) {
             MessageUtils.sendErrorMessage("Something went wrong! Try again later..", channel);
         }
-        channel.sendMessage(MessageUtils.getEmbed(Constants.BLUE).setTitle(EmoteList.DOG + " | " + "Random dog image:").setImage(url).build()).queue();
+        channel.sendMessageEmbeds(MessageUtils.getEmbed(Constants.BLUE).setTitle(EmoteList.DOG + " | " + "Random dog image:").setImage(url).build()).queue();
     }
 
 }

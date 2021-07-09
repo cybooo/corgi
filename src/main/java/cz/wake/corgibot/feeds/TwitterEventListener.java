@@ -20,7 +20,7 @@ public class TwitterEventListener {
     static Configuration config;
     static TwitterStream twitterStream;
     private static long lastChange;
-    private static Map<Long, List<TwitterFeedObserver>> twitterFeed = new HashMap<Long, List<TwitterFeedObserver>>();
+    private static Map<Long, List<TwitterFeedObserver>> twitterFeed = new HashMap<>();
 
     public static void initTwitter() {
         ConfigurationBuilder cb = new ConfigurationBuilder();
@@ -58,7 +58,7 @@ public class TwitterEventListener {
      */
     public static int addTwitterFeed(long twitterId, TwitterFeedObserver observer) {
         if (!twitterFeed.containsKey(twitterId)) {
-            ArrayList<TwitterFeedObserver> toAdd = new ArrayList<TwitterFeedObserver>();
+            ArrayList<TwitterFeedObserver> toAdd = new ArrayList<>();
             toAdd.add(observer);
             twitterFeed.put(twitterId, toAdd);
             saveFeed();

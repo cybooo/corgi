@@ -34,15 +34,15 @@ public class SetPrefix implements CommandBase {
             }
             if (args[0].equalsIgnoreCase("reset")) {
                 gw.setPrefix("c!", true);
-                channel.sendMessage(MessageUtils.getEmbed(Constants.GREEN).setDescription("Prefix was changed back to `c!`").build()).queue();
+                channel.sendMessageEmbeds(MessageUtils.getEmbed(Constants.GREEN).setDescription("Prefix was changed back to `c!`").build()).queue();
             } else if (args[0].length() < 4) {
                 gw.setPrefix(args[0], true);
-                channel.sendMessage(MessageUtils.getEmbed(Constants.GREEN).setDescription(String.format("Prefix was set to `%s`", args[0])).build()).queue();
+                channel.sendMessageEmbeds(MessageUtils.getEmbed(Constants.GREEN).setDescription(String.format("Prefix was set to `%s`", args[0])).build()).queue();
             } else {
                 MessageUtils.sendErrorMessage("Prefix can't be longer than 3 characters!", channel);
             }
         } else {
-            channel.sendMessage(MessageUtils.getEmbed(Constants.BLUE).setDescription(String.format("The current prefix is `%s`", gw.getPrefix())).build()).queue();
+            channel.sendMessageEmbeds(MessageUtils.getEmbed(Constants.BLUE).setDescription(String.format("The current prefix is `%s`", gw.getPrefix())).build()).queue();
         }
     }
 

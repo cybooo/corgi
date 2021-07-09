@@ -23,7 +23,7 @@ public class Bigmoji implements CommandBase {
     @Override
     public void onCommand(MessageChannel channel, Message message, String[] args, Member member, EventWaiter w, GuildWrapper gw) {
         if (args.length < 1) {
-            channel.sendMessage(MessageUtils.getEmbed().setTitle("Help" + " - bigmoji :question:")
+            channel.sendMessageEmbeds(MessageUtils.getEmbed().setTitle("Help" + " - bigmoji :question:")
                     .setDescription(getDescription() + "\n\n**Usage**\n" + //TODO: Translate
                             getHelp().replace("%", gw.getPrefix())).build()).queue();
         } else {
@@ -33,7 +33,7 @@ public class Bigmoji implements CommandBase {
                 long longId = Long.parseLong(id);
                 Emote emote = channel.getJDA().getEmoteById(longId);
                 if (emote != null) {
-                    channel.sendMessage(MessageUtils.getEmbed().setImage(emote.getImageUrl()).build()).queue();
+                    channel.sendMessageEmbeds(MessageUtils.getEmbed().setImage(emote.getImageUrl()).build()).queue();
                 } else {
                     MessageUtils.sendErrorMessage("You can only use emojis from this server!", channel);
                 }

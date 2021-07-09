@@ -69,24 +69,20 @@ public class BotManager {
     }
 
     private static void exceptionHandler(Throwable ex, String guildId, String messageId) {
-        if (ex instanceof ErrorResponseException) {
-            ErrorResponseException e = (ErrorResponseException) ex;
+        if (ex instanceof ErrorResponseException e) {
             switch (e.getErrorCode()) {
 
-                // Giveaway deleted.. Corgi do not have access to message
-                case 10008: // message not found
-                case 10003: // channel not found
+                // Giveaway deleted.. Corgi does not have access to message
+                case 10008, 10003 -> { // 10008 = message not found | 10003 = channel not found
                     CorgiLogger.fatalMessage("Detection deleted Giveaway (G:" + guildId + " | M:" + messageId + "). Giveaway stopped!");
                     CorgiBot.getInstance().getSql().deleteGiveawayFromSQL(guildId, messageId);
-                    break;
+                }
 
                 // Missing permissions for editing message
-                case 50001: // missing access
-                case 50013: // missing permissions
+                case 50001, 50013 -> { // 50001 = missing access | 50013 = missing permissions
                     CorgiLogger.fatalMessage("Detection wrong permissions (G:" + guildId + " | M:" + messageId + "). Giveaway stopped!");
                     CorgiBot.getInstance().getSql().deleteGiveawayFromSQL(guildId, messageId);
-                    break;
-
+                }
             }
         }
     }

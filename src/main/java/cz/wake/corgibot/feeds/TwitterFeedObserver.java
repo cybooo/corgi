@@ -60,7 +60,7 @@ public class TwitterFeedObserver implements Serializable {
             em.setFooter("Tweet", null);
         }
         em.setTimestamp(Instant.now());
-        getDiscoChannel().sendMessage(em.build()).queue();
+        getDiscoChannel().sendMessageEmbeds(em.build()).queue();
         return true;
     }
 

@@ -14,7 +14,7 @@ public class LeaveEvent extends ListenerAdapter {
 
     @Override
     public void onGuildLeave(GuildLeaveEvent event) {
-        CorgiBot.getInstance().getGuildLogChannel().sendMessage(MessageUtils.getEmbed(Constants.RED)
+        CorgiBot.getInstance().getGuildLogChannel().sendMessageEmbeds(MessageUtils.getEmbed(Constants.RED)
                 .setThumbnail(event.getGuild().getIconUrl())
                 .setFooter(event.getGuild().getId(), event.getGuild().getIconUrl())
                 .setTimestamp(OffsetDateTime.now())

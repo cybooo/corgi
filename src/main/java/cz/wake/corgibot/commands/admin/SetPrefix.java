@@ -42,7 +42,7 @@ public class SetPrefix implements CommandBase {
                 MessageUtils.sendErrorMessage("Prefix can't be longer than 3 characters!", channel);
             }
         } else {
-            channel.sendMessage(MessageUtils.getEmbed(Constants.DEFAULT_PURPLE).setDescription(String.format("The current prefix is `%s`", gw.getPrefix())).build()).queue();
+            channel.sendMessage(MessageUtils.getEmbed(Constants.BLUE).setDescription(String.format("The current prefix is `%s`", gw.getPrefix())).build()).queue();
         }
     }
 

@@ -39,7 +39,7 @@ public class GuildInfo implements CommandBase {
 
         channel.sendMessage(new EmbedBuilder()
                 .setAuthor("Guild info", null, guild.getIconUrl())
-                .setColor(guild.getOwner().getColor() == null ? Constants.DEFAULT_PURPLE : guild.getOwner().getColor())
+                .setColor(guild.getOwner().getColor() == null ? Constants.BLUE : guild.getOwner().getColor())
                 .setDescription("Information for " + guild.getName())
                 .setThumbnail(guild.getIconUrl())
                 .addField("Users (Online/Unique)", (int) guild.getMembers().stream().filter(u -> !u.getOnlineStatus().equals(OnlineStatus.OFFLINE)).count() + "/" + guild.getMembers().size(), true)

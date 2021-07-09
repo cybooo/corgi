@@ -113,15 +113,15 @@ public class Reminder implements CommandBase {
                     .replace("remindme", "").replace("reminder", "");
             String[] arguments = request.split("\\;");
 
-            // .reminder 2d2h7m ; Vypnout Corgiho!
+            // .reminder 2d2h7m ; Shutdown corgi!
 
-            // 1 parametr?
+            // 1 parameter?
             if (arguments.length == 1) {
                 MessageUtils.sendErrorMessage("Incorrectly executed command! Example: %reminder 2h ; Restart Corgi!".replace("%", gw.getPrefix()), channel);
                 return;
             }
 
-            // Delsi jak 1000 znaku
+            // Longer than 1000 characters
             if (arguments[1].length() > 1000) {
                 MessageUtils.sendErrorMessage("Sorry, reminders longer than 1000 characters cannot be processed! Lenght of your reminder: {1}".replace("{1}", String.valueOf(arguments[1].length())), channel);
                 return;
@@ -134,7 +134,7 @@ public class Reminder implements CommandBase {
             DateTime start = new DateTime();  //NOW
             DateTime end = start.plus(p);
 
-            long millis = end.getMillis() - start.getMillis(); // Rozdil na upozorneni
+            long millis = end.getMillis() - start.getMillis();
 
             if (millis < 60000L) {
                 MessageUtils.sendErrorMessage("Minimum time is 1 minte!", channel);
@@ -150,7 +150,7 @@ public class Reminder implements CommandBase {
                 return;
             }
 
-            // Oznameni
+            // Reminder
             channel.sendMessage(MessageUtils.getEmbed(Constants.GREEN)
                     .setDescription(EmoteList.ALARM_CLOCK + " | " + "Sure! I'll remind you in {1}"
                             .replace("{1}", TimeUtils.toYYYYHHmmssS(millis))).build()).queue();

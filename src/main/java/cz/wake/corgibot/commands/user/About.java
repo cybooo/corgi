@@ -26,7 +26,7 @@ public class About implements CommandBase {
     @Override
     public void onCommand(MessageChannel channel, Message message, String[] args, Member member, EventWaiter w, GuildWrapper gw) {
         if (message.getContentRaw().contains("corgi")) {
-            channel.sendMessage(MessageUtils.getEmbed(Constants.DEFAULT_PURPLE).setTitle("Introducing Corgi!")
+            channel.sendMessage(MessageUtils.getEmbed(Constants.BLUE).setTitle("Introducing Corgi!")
                     .setDescription(
                             "Hey, i'm Corgi! I'm a bot for Discord!\n" +
                                     "I'm designed for a wide range of functionality from administration, obtaining statistics from games to classic commands for Discord!\n" +

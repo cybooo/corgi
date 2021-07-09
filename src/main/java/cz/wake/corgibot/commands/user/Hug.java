@@ -38,7 +38,7 @@ public class Hug implements CommandBase {
         } catch (Exception e) {
             MessageUtils.sendErrorMessage("Something went wrong! Try again later..", channel);
         }
-        channel.sendMessage(MessageUtils.getEmbed(Constants.DEFAULT_PURPLE).setTitle(EmoteList.COMET + " | " + "Random hug image").setImage(url).build()).queue();
+        channel.sendMessage(MessageUtils.getEmbed(Constants.BLUE).setTitle(EmoteList.COMET + " | " + "Random hug image").setImage(url).build()).queue();
     }
 
 }

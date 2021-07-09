@@ -63,7 +63,7 @@ public class Twitter implements CommandBase {
                     try {
                         // Register
                         new TwitterFeedObserver(message.getChannel().getId(), u.getName(), true, false, false).subscribe(superId);
-                        channel.sendMessage(MessageUtils.getEmbed(Constants.DEFAULT_PURPLE).setDescription("Succesfully followed **" + u.getName() + "**. New tweets are gonna be sent here.").build()).queue();
+                        channel.sendMessage(MessageUtils.getEmbed(Constants.BLUE).setDescription("Succesfully followed **" + u.getName() + "**. New tweets are gonna be sent here.").build()).queue();
                     } catch (Exception e) {
                         e.printStackTrace(); //?
                     }

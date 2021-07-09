@@ -62,7 +62,7 @@ public class Emote implements CommandBase {
                 MessageUtils.sendAutoDeletedMessage("Invalid emote or ID is too long!", 15000, channel);
                 return;
             }
-            StringBuilder builder = new StringBuilder(); //Normalni emotes
+            StringBuilder builder = new StringBuilder(); //Normal emotes
             str.codePoints().forEachOrdered(code -> {
                 char[] chars = Character.toChars(code);
                 StringBuilder hex = new StringBuilder(Integer.toHexString(code).toUpperCase());

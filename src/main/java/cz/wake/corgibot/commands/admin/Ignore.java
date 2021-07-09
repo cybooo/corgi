@@ -119,7 +119,7 @@ public class Ignore implements CommandBase {
             pBuilder.addItems(m.getName());
         }
 
-        Paginator p = pBuilder.setColor(Constants.DEFAULT_PURPLE).setText("Ignorred channels:").build();
+        Paginator p = pBuilder.setColor(Constants.BLUE).setText("Ignorred channels:").build();
         p.paginate(channel, 1);
 
     }

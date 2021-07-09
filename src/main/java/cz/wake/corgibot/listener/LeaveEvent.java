@@ -28,10 +28,10 @@ public class LeaveEvent extends ListenerAdapter {
         // Logger
         CorgiLogger.infoMessage("GuildLeaveEvent - " + event.getGuild().getName() + "(" + event.getGuild().getId() + ")");
 
-        // Smazani vsech ignored channelu z guildy
+        // Delete all ignored channels from guild
         CorgiBot.getInstance().getSql().deleteAllIgnoredChannels(event.getGuild().getId());
 
-        // Smazani z manageru
+        // Delete form manager
         BotManager.removeGuild(BotManager.getCustomGuild(event.getGuild().getId()));
     }
 }

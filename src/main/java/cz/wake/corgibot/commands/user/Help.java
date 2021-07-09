@@ -30,10 +30,10 @@ public class Help implements CommandBase {
     public void onCommand(MessageChannel channel, Message message, String[] args, Member member, EventWaiter w, GuildWrapper gw) {
         if (args.length < 1) {
             if (channel.getType() == ChannelType.TEXT) {
-                channel.sendMessage(MessageUtils.getEmbed(Constants.DEFAULT_PURPLE).setTitle("Check your messages!")
+                channel.sendMessage(MessageUtils.getEmbed(Constants.BLUE).setTitle("Check your messages!")
                         .setDescription(EmoteList.MAILBOX + " | I have sent the help to your DMs!").build()).queue();
             }
-            member.getUser().openPrivateChannel().queue(msg -> msg.sendMessage(MessageUtils.getEmbed(Constants.DEFAULT_PURPLE)
+            member.getUser().openPrivateChannel().queue(msg -> msg.sendMessage(MessageUtils.getEmbed(Constants.BLUE)
                     .setAuthor("Corgi's commands", null, channel.getJDA().getSelfUser().getAvatarUrl())
                     .setDescription(getContext(member, message.getGuild())).setFooter("You can find all commands on: https://corgibot.xyz/commands", null)
                     .build()).queue());
@@ -48,7 +48,7 @@ public class Help implements CommandBase {
                 }
                 channel.sendMessage(MessageUtils.getEmbed().setTitle("Help for command - " + commandName + " :question:")
                         .setDescription(c.getDescription() + "\n\n**Usage**\n" + c.getHelp().replace("%", gw.getPrefix()))
-                        .setColor(Constants.DEFAULT_PURPLE).setFooter("Aliases: " + String.join(", ", c.getAliases()), null).build()).queue();
+                        .setColor(Constants.BLUE).setFooter("Aliases: " + String.join(", ", c.getAliases()), null).build()).queue();
             });
         }
     }

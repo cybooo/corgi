@@ -58,7 +58,7 @@ public class Giveaway implements CommandBase {
     public void onCommand(MessageChannel channel, Message message, String[] args, Member member, EventWaiter w, GuildWrapper gw) {
 
         /**
-         * c!giveaway 1h30m | Výhra v loterii | 2 | :smile: | #ffffff
+         * c!giveaway 1h30m | Cookie | 2 | :smile: | #ffffff
          * c!giveaway list
          */
 

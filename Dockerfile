@@ -1,7 +1,7 @@
 FROM openjdk:11-slim
 
 # Oooo KWAK!
-MAINTAINER "MrWakeCZ"
+LABEL cz.wake.corgibot.image.authors="MrWakeCZ; cybooo"
 
 # Add basic files
 COPY ./build/libs/corgibot.jar /srv/corgibot.jar

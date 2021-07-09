@@ -26,6 +26,15 @@ import java.util.Calendar;
 @SinceCorgi(version = "1.3.0")
 public class Changelog implements CommandBase {
 
+    public static final String dateFormat = "dd.MM.yyyy";
+    private static final SimpleDateFormat simpleDateFormat = new SimpleDateFormat(dateFormat);
+
+    public static String convertMilisToDate(String milliSeconds) {
+        Calendar calendar = Calendar.getInstance();
+        calendar.setTimeInMillis(Long.parseLong(milliSeconds));
+        return simpleDateFormat.format(calendar.getTime());
+    }
+
     @Override
     public void onCommand(MessageChannel channel, Message message, String[] args, Member member, EventWaiter w, GuildWrapper gw) {
         StringBuilder changelog = new StringBuilder();
@@ -60,14 +69,5 @@ public class Changelog implements CommandBase {
         changelog.append("Do you want see old changes? Look at our changelog channel on support guild!".replace("{1}", "https://discord.gg/pR2tj432NS"));
 
         channel.sendMessage(changelog.toString()).queue();
-    }
-
-    public static final String dateFormat = "dd.MM.yyyy";
-    private static final SimpleDateFormat simpleDateFormat = new SimpleDateFormat(dateFormat);
-
-    public static String convertMilisToDate(String milliSeconds) {
-        Calendar calendar = Calendar.getInstance();
-        calendar.setTimeInMillis(Long.parseLong(milliSeconds));
-        return simpleDateFormat.format(calendar.getTime());
     }
 }

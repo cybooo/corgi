@@ -23,6 +23,12 @@ import net.dv8tion.jda.api.entities.MessageChannel;
 @SinceCorgi(version = "0.1")
 public class Ping implements CommandBase {
 
+    private static final String[] pingMessages = new String[]{
+            ":ping_pong::white_small_square::black_small_square::black_small_square::ping_pong:",
+            ":ping_pong::black_small_square::white_small_square::black_small_square::ping_pong:",
+            ":ping_pong::black_small_square::black_small_square::white_small_square::ping_pong:",
+            ":ping_pong::black_small_square::white_small_square::black_small_square::ping_pong:",
+    };
     private static boolean running = false;
 
     @Override
@@ -55,12 +61,5 @@ public class Ping implements CommandBase {
             MessageUtils.sendErrorMessage("Unable to detect ping at this time because a scan is already in progress. Try it for a moment!", channel);
         }
     }
-
-    private static final String[] pingMessages = new String[]{
-            ":ping_pong::white_small_square::black_small_square::black_small_square::ping_pong:",
-            ":ping_pong::black_small_square::white_small_square::black_small_square::ping_pong:",
-            ":ping_pong::black_small_square::black_small_square::white_small_square::ping_pong:",
-            ":ping_pong::black_small_square::white_small_square::black_small_square::ping_pong:",
-    };
 
 }

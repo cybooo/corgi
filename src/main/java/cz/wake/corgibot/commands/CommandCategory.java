@@ -25,12 +25,12 @@ public enum CommandCategory {
         this.emote = e;
     }
 
-    public String toString() {
-        return name().charAt(0) + name().substring(1).toLowerCase();
-    }
-
     public static CommandCategory[] getTypes() {
         return new CommandCategory[]{GENERAL, GAMES, FUN, MODERATION, ADMINISTRATOR, MUSIC, HIDDEN, BOT_OWNER};
+    }
+
+    public String toString() {
+        return name().charAt(0) + name().substring(1).toLowerCase();
     }
 
     public List<FinalCommand> getCommands() {

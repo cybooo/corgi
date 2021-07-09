@@ -25,9 +25,9 @@ import java.util.concurrent.TimeUnit;
  * @author John Grosh
  */
 public abstract class MenuBuilder<T extends MenuBuilder<T, V>, V extends Menu> {
-    protected EventWaiter waiter;
     protected final Set<User> users = new HashSet<>();
     protected final Set<Role> roles = new HashSet<>();
+    protected EventWaiter waiter;
     protected long timeout = 1;
     protected TimeUnit unit = TimeUnit.MINUTES;
 

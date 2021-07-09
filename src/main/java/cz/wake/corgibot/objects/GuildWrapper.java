@@ -123,6 +123,16 @@ public class GuildWrapper {
         return ignoredChannels;
     }
 
+    /**
+     * Sets ignored channels for this guild
+     *
+     * @param ignoredChannel Ignored channels
+     * @return {@link GuildWrapper}
+     */
+    public GuildWrapper setIgnoredChannels(Set<MessageChannel> ignoredChannel) {
+        this.ignoredChannels = ignoredChannel;
+        return this;
+    }
 
     /**
      * List of ignored channels by selected member
@@ -150,12 +160,34 @@ public class GuildWrapper {
     }
 
     /**
+     * Sets blocked commands for this guild
+     *
+     * @param blockedCmds Blocked cmds
+     * @return {@link GuildWrapper}
+     */
+    public GuildWrapper setBlockedCmds(Set<String> blockedCmds) {
+        this.blockedCmds = blockedCmds;
+        return this;
+    }
+
+    /**
      * Map of Tags for the guild
      *
      * @return {@link Map} of tags
      */
     public Map<String, String> getTags() {
         return tags;
+    }
+
+    /**
+     * Sets map of custom tags in the guild
+     *
+     * @param tags Map of tags
+     * @return {@link GuildWrapper}
+     */
+    public GuildWrapper setTags(Map<String, String> tags) {
+        this.tags = tags;
+        return this;
     }
 
     /**
@@ -186,6 +218,17 @@ public class GuildWrapper {
     }
 
     /**
+     * Sets the guild to blocked state
+     *
+     * @param blocked Boolean value
+     * @return {@link GuildWrapper}
+     */
+    public GuildWrapper setBlocked(boolean blocked) {
+        isBlocked = blocked;
+        return this;
+    }
+
+    /**
      * Return time in {@link Long} value when will
      * be Corgi unblocked for the guild.
      *
@@ -193,6 +236,17 @@ public class GuildWrapper {
      */
     public long getUnBlockTime() {
         return unBlockTime;
+    }
+
+    /**
+     * Time for unblocking this guild
+     *
+     * @param unBlockTime Long value of time
+     * @return {@link GuildWrapper}
+     */
+    public GuildWrapper setUnBlockTime(long unBlockTime) {
+        this.unBlockTime = unBlockTime;
+        return this;
     }
 
     /**
@@ -205,12 +259,35 @@ public class GuildWrapper {
     }
 
     /**
+     * Sets reason, why is this guild blocked in Corgi.
+     *
+     * @param blockReason Reason for blocking
+     * @return {@link GuildWrapper}
+     */
+    public GuildWrapper setBlockReason(String blockReason) {
+        this.blockReason = blockReason;
+        return this;
+    }
+
+    /**
      * Returns Id of role that is proposed to use like muted
      *
      * @return Id of role
      */
     public String getMutedRoleID() {
         return mutedRoleID;
+    }
+
+    /**
+     * Sets Id for muted role
+     * Muted role is role that can not write into all channels.
+     *
+     * @param mutedRoleID Id of role
+     * @return {@link GuildWrapper}
+     */
+    public GuildWrapper setMutedRoleID(String mutedRoleID) {
+        this.mutedRoleID = mutedRoleID;
+        return this;
     }
 
     /**
@@ -224,6 +301,17 @@ public class GuildWrapper {
     }
 
     /**
+     * Sets custom color for all embeds in the guild
+     *
+     * @param customColor {@link Color} of embeds
+     * @return {@link GuildWrapper}
+     */
+    public GuildWrapper setCustomColor(Color customColor) {
+        this.customColor = customColor;
+        return this;
+    }
+
+    /**
      * If is true the guild have access to beta
      * commands.
      *
@@ -231,6 +319,17 @@ public class GuildWrapper {
      */
     public boolean isBeta() {
         return isBeta;
+    }
+
+    /**
+     * If is the guild has access to beta commands
+     *
+     * @param beta Boolean of this fact :D
+     * @return {@link GuildWrapper}
+     */
+    public GuildWrapper setBeta(boolean beta) {
+        isBeta = beta;
+        return this;
     }
 
     public String getLanguage() {
@@ -267,17 +366,6 @@ public class GuildWrapper {
     }
 
     /**
-     * Sets ignored channels for this guild
-     *
-     * @param ignoredChannel Ignored channels
-     * @return {@link GuildWrapper}
-     */
-    public GuildWrapper setIgnoredChannels(Set<MessageChannel> ignoredChannel) {
-        this.ignoredChannels = ignoredChannel;
-        return this;
-    }
-
-    /**
      * Update ignored channels in the guild
      * If textchannels exists will be deleted from list, if not will be added
      *
@@ -300,28 +388,6 @@ public class GuildWrapper {
         } catch (Exception e) {
             CorgiBot.LOGGER.error("Error while adding ignored channel!", e);
         }
-        return this;
-    }
-
-    /**
-     * Sets blocked commands for this guild
-     *
-     * @param blockedCmds Blocked cmds
-     * @return {@link GuildWrapper}
-     */
-    public GuildWrapper setBlockedCmds(Set<String> blockedCmds) {
-        this.blockedCmds = blockedCmds;
-        return this;
-    }
-
-    /**
-     * Sets map of custom tags in the guild
-     *
-     * @param tags Map of tags
-     * @return {@link GuildWrapper}
-     */
-    public GuildWrapper setTags(Map<String, String> tags) {
-        this.tags = tags;
         return this;
     }
 
@@ -349,79 +415,12 @@ public class GuildWrapper {
     }
 
     /**
-     * Sets the guild to blocked state
-     *
-     * @param blocked Boolean value
-     * @return {@link GuildWrapper}
-     */
-    public GuildWrapper setBlocked(boolean blocked) {
-        isBlocked = blocked;
-        return this;
-    }
-
-    /**
-     * Time for unblocking this guild
-     *
-     * @param unBlockTime Long value of time
-     * @return {@link GuildWrapper}
-     */
-    public GuildWrapper setUnBlockTime(long unBlockTime) {
-        this.unBlockTime = unBlockTime;
-        return this;
-    }
-
-    /**
      * Revoke blocking
      */
     public GuildWrapper revokeBlock() {
         this.unBlockTime = -1; // -1 infinite and revoked
         this.blockReason = "";
         this.isBlocked = false;
-        return this;
-    }
-
-    /**
-     * Sets reason, why is this guild blocked in Corgi.
-     *
-     * @param blockReason Reason for blocking
-     * @return {@link GuildWrapper}
-     */
-    public GuildWrapper setBlockReason(String blockReason) {
-        this.blockReason = blockReason;
-        return this;
-    }
-
-    /**
-     * Sets Id for muted role
-     * Muted role is role that can not write into all channels.
-     *
-     * @param mutedRoleID Id of role
-     * @return {@link GuildWrapper}
-     */
-    public GuildWrapper setMutedRoleID(String mutedRoleID) {
-        this.mutedRoleID = mutedRoleID;
-        return this;
-    }
-
-    /**
-     * Sets custom color for all embeds in the guild
-     *
-     * @param customColor {@link Color} of embeds
-     * @return {@link GuildWrapper}
-     */
-    public GuildWrapper setCustomColor(Color customColor) {
-        this.customColor = customColor;
-        return this;
-    }
-
-    /**
-     * If is the guild has access to beta commands
-     *
-     * @param beta Boolean of this fact :D
-     * @return {@link GuildWrapper}
-     */
-    public GuildWrapper setBeta(boolean beta) {
-        isBeta = beta;
         return this;
     }
 

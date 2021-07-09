@@ -32,7 +32,7 @@ public class PaginationUtil {
                 int splitIndex = substring.lastIndexOf("\n") == -1 ? substring.length() : substring.lastIndexOf("\n");
                 pages.add(substring.substring(0, splitIndex));
                 if (i != (pagesCount - 1)) {
-                    workingString = workingString.substring(splitIndex + 1, workingString.length());
+                    workingString = workingString.substring(splitIndex + 1);
                 }
             }
 

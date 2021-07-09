@@ -45,6 +45,16 @@ public class Reminder implements CommandBase {
             .appendSeconds().appendSuffix("s")
             .toFormatter();
 
+    private static Period getTimeFromInput(String input, MessageChannel channel) {
+        try {
+            return periodParser.parsePeriod(input);
+        } catch (IllegalArgumentException e) {
+            MessageUtils.sendErrorMessage("Invalid time format! Try: `1d` -> for 1 day.",
+                    channel);
+            return null;
+        }
+    }
+
     @Override
     public void onCommand(MessageChannel channel, Message message, String[] args, Member member, EventWaiter w, GuildWrapper gw) {
         if (args.length < 1) {
@@ -144,16 +154,6 @@ public class Reminder implements CommandBase {
             channel.sendMessage(MessageUtils.getEmbed(Constants.GREEN)
                     .setDescription(EmoteList.ALARM_CLOCK + " | " + "Sure! I'll remind you in {1}"
                             .replace("{1}", TimeUtils.toYYYYHHmmssS(millis))).build()).queue();
-        }
-    }
-
-    private static Period getTimeFromInput(String input, MessageChannel channel) {
-        try {
-            return periodParser.parsePeriod(input);
-        } catch (IllegalArgumentException e) {
-            MessageUtils.sendErrorMessage("Invalid time format! Try: `1d` -> for 1 day.",
-                    channel);
-            return null;
         }
     }
 }

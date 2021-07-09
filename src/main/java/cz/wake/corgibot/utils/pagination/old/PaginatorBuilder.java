@@ -19,6 +19,7 @@ import java.util.function.Consumer;
  */
 public class PaginatorBuilder extends MenuBuilder<PaginatorBuilder, Paginator> {
 
+    private final List<String> strings = new LinkedList<>();
     private BiFunction<Integer, Integer, Color> color = (page, pages) -> null;
     private BiFunction<Integer, Integer, String> text = (page, pages) -> null;
     private Consumer<Message> finalAction = m -> m.delete().queue();
@@ -27,8 +28,6 @@ public class PaginatorBuilder extends MenuBuilder<PaginatorBuilder, Paginator> {
     private boolean showPageNumbers = true;
     private boolean numberItems = false;
     private boolean waitOnSinglePage = false;
-
-    private final List<String> strings = new LinkedList<>();
 
     @Override
     public Paginator build() {

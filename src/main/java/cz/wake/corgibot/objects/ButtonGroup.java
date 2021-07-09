@@ -46,9 +46,9 @@ public class ButtonGroup {
 
     public static class Button {
 
+        private final ButtonRunnable runnable;
         private String unicode;
         private long emoteId;
-        private final ButtonRunnable runnable;
         private Message message;
 
         public Button(String unicode, ButtonRunnable runnable) {

@@ -29,6 +29,9 @@ import java.util.function.Consumer;
  */
 public class Paginator extends Menu {
 
+    public static final String LEFT = "\u25C0";
+    public static final String STOP = "\u23F9";
+    public static final String RIGHT = "\u25B6";
     private final BiFunction<Integer, Integer, Color> color;
     private final BiFunction<Integer, Integer, String> text;
     private final int columns;
@@ -39,10 +42,6 @@ public class Paginator extends Menu {
     private final int pages;
     private final Consumer<Message> finalAction;
     private final boolean waitOnSinglePage;
-
-    public static final String LEFT = "\u25C0";
-    public static final String STOP = "\u23F9";
-    public static final String RIGHT = "\u25B6";
 
     protected Paginator(EventWaiter waiter, Set<User> users, Set<Role> roles, long timeout, TimeUnit unit,
                         BiFunction<Integer, Integer, Color> color, BiFunction<Integer, Integer, String> text, Consumer<Message> finalAction,

@@ -45,8 +45,7 @@ public class Color implements CommandBase {
         float m = (1f - g - k) / (1f - k);
         float y = (1f - b - k) / (1f - k);
         float[] cmykArray = {c * 100, m * 100, y * 100, k * 100};
-        String cmyk = Math.round(cmykArray[0]) + "%, " + Math.round(cmykArray[1]) + "%, " + Math.round(cmykArray[2]) + "%, " + Math.round(cmykArray[3]) + "%";
-        return cmyk;
+        return Math.round(cmykArray[0]) + "%, " + Math.round(cmykArray[1]) + "%, " + Math.round(cmykArray[2]) + "%, " + Math.round(cmykArray[3]) + "%";
     }
 
     /**

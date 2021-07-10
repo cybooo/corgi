@@ -23,7 +23,6 @@ public class ErrorCatcher extends Filter<ILoggingEvent> {
                 && CorgiBot.getInstance() != null
                 //&& CorgiBot.getInstance().isReady()
                 && event.getLevel() == Level.ERROR) {
-            String finalMsg = msg;
             if (event.getThreadName().startsWith("lava-daemon-pool")) {
                 return FilterReply.NEUTRAL;
             }

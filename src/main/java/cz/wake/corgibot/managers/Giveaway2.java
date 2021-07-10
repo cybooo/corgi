@@ -145,7 +145,7 @@ public class Giveaway2 {
                         } else {
                             winners.forEach(winner -> {
                                 if (winner != null) {
-                                    message.getChannel().sendMessage("Gratulujeme " + message.getJDA().getUserById(winner).getAsMention() + (prize != null ? "! You won **" + prize + "**" : "You won!")).queue();
+                                    message.getChannel().sendMessage("Congratulations " + message.getJDA().getUserById(winner).getAsMention() + (prize != null ? "! You won **" + prize + "**" : "You won!")).queue();
                                 }
                             });
                         }

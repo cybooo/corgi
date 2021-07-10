@@ -30,7 +30,7 @@ public class Uptime implements CommandBase {
         long minutes = seconds / 60;
         long hours = minutes / 60;
         long days = hours / 24;
-        channel.sendMessage(MessageUtils.getEmbed(Constants.DEFAULT_PURPLE).setTitle("Uptime", null).setDescription(":stopwatch: | " + String.format("%d days, %02d hours, %02d minutes", days, hours % 24, minutes % 60)).build()).queue();
+        channel.sendMessageEmbeds(MessageUtils.getEmbed(Constants.BLUE).setTitle("Uptime", null).setDescription(":stopwatch: | " + String.format("%d days, %02d hours, %02d minutes", days, hours % 24, minutes % 60)).build()).queue();
     }
 
 }

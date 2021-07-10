@@ -30,32 +30,6 @@ import java.util.regex.Pattern;
 )
 public class Color implements CommandBase {
 
-    @Override
-    public void onCommand(MessageChannel channel, Message message, String[] args, Member member, EventWaiter w, GuildWrapper gw) {
-        if (args.length < 1) {
-            channel.sendMessage(MessageUtils.getEmbed(Constants.GRAY).setTitle("Color command help").setDescription(getHelp().replace("%", gw.getPrefix())).build()).queue();
-        } else {
-            try {
-                String color = args[0];
-                if (Pattern.compile("#?([A-Fa-f\\d]){6}").matcher(color).find()) {
-                    EmbedBuilder builder = new EmbedBuilder();
-                    String HEX = color.startsWith("#") ? color : "#" + color;
-                    String RGB = java.awt.Color.decode(HEX).getRed() + ", " + java.awt.Color.decode(HEX).getGreen() + ", " + java.awt.Color.decode(HEX).getBlue();
-                    int DEC = Integer.parseInt(HEX.replace("#", ""), 16);
-                    String CMYK = rgbToCmyk(java.awt.Color.decode(HEX).getRed(), java.awt.Color.decode(HEX).getGreen(), java.awt.Color.decode(HEX).getBlue());
-                    builder.setColor(java.awt.Color.decode(HEX));
-                    builder.setDescription("**HEX**: " + HEX.toLowerCase() + "\n**RGB**: " + RGB + "\n**DEC**: " + DEC + "\n**CMYK**: " + CMYK);
-                    builder.setAuthor(HEX + ":");
-                    colorCommand(java.awt.Color.decode(HEX), channel, builder);
-                } else {
-                    MessageUtils.sendErrorMessage("Incorrectly entered command! Example: `%color #B0171F`".replace("%", gw.getPrefix()), channel);
-                }
-            } catch (NumberFormatException e) {
-                MessageUtils.sendErrorMessage("Incorrectly entered command! Example: %color #B0171F`".replace("%", gw.getPrefix()), channel);
-            }
-        }
-    }
-
     /**
      * @param red   - red (0 - 255)
      * @param green - green (0 - 255)
@@ -71,8 +45,7 @@ public class Color implements CommandBase {
         float m = (1f - g - k) / (1f - k);
         float y = (1f - b - k) / (1f - k);
         float[] cmykArray = {c * 100, m * 100, y * 100, k * 100};
-        String cmyk = Math.round(cmykArray[0]) + "%, " + Math.round(cmykArray[1]) + "%, " + Math.round(cmykArray[2]) + "%, " + Math.round(cmykArray[3]) + "%";
-        return cmyk;
+        return Math.round(cmykArray[0]) + "%, " + Math.round(cmykArray[1]) + "%, " + Math.round(cmykArray[2]) + "%, " + Math.round(cmykArray[3]) + "%";
     }
 
     /**
@@ -98,7 +71,7 @@ public class Color implements CommandBase {
         }
         MessageBuilder msgBuilder = new MessageBuilder();
         builder.setImage("attachment://" + Integer.toHexString(c.getRGB()).substring(2).toLowerCase() + ".png");
-        msgBuilder.setEmbed(builder.build());
+        msgBuilder.setEmbeds(builder.build());
         channel.sendMessage(msgBuilder.build()).addFile(file).queue();
         new Timer().schedule(new TimerTask() {
             @Override
@@ -106,5 +79,31 @@ public class Color implements CommandBase {
                 file.delete();
             }
         }, 7500);
+    }
+
+    @Override
+    public void onCommand(MessageChannel channel, Message message, String[] args, Member member, EventWaiter w, GuildWrapper gw) {
+        if (args.length < 1) {
+            channel.sendMessageEmbeds(MessageUtils.getEmbed(Constants.GRAY).setTitle("Color command help").setDescription(getHelp().replace("%", gw.getPrefix())).build()).queue();
+        } else {
+            try {
+                String color = args[0];
+                if (Pattern.compile("#?([A-Fa-f\\d]){6}").matcher(color).find()) {
+                    EmbedBuilder builder = new EmbedBuilder();
+                    String HEX = color.startsWith("#") ? color : "#" + color;
+                    String RGB = java.awt.Color.decode(HEX).getRed() + ", " + java.awt.Color.decode(HEX).getGreen() + ", " + java.awt.Color.decode(HEX).getBlue();
+                    int DEC = Integer.parseInt(HEX.replace("#", ""), 16);
+                    String CMYK = rgbToCmyk(java.awt.Color.decode(HEX).getRed(), java.awt.Color.decode(HEX).getGreen(), java.awt.Color.decode(HEX).getBlue());
+                    builder.setColor(java.awt.Color.decode(HEX));
+                    builder.setDescription("**HEX**: " + HEX.toLowerCase() + "\n**RGB**: " + RGB + "\n**DEC**: " + DEC + "\n**CMYK**: " + CMYK);
+                    builder.setAuthor(HEX + ":");
+                    colorCommand(java.awt.Color.decode(HEX), channel, builder);
+                } else {
+                    MessageUtils.sendErrorMessage("Incorrectly entered command! Example: `%color #B0171F`".replace("%", gw.getPrefix()), channel);
+                }
+            } catch (NumberFormatException e) {
+                MessageUtils.sendErrorMessage("Incorrectly entered command! Example: %color #B0171F`".replace("%", gw.getPrefix()), channel);
+            }
+        }
     }
 }

@@ -1,15 +1,19 @@
-### Popis chyby
+### Description of the error
+
 N/A
 
-### Postupné kroky k replikování chyby
+### Step-by-step steps to replicate the error
+
 1.
 2.
 3.
 4.
 
 ### Context
-* Typ serveru:
-* Počet uživatelů:
 
-### Dodatečné informace a screeny
+* Server type:
+* Member count:
+
+### Additional information and screenshots
+
 N/A

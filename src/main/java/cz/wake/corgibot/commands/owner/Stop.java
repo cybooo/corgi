@@ -25,9 +25,7 @@ public class Stop implements CommandBase {
 
     @Override
     public void onCommand(MessageChannel channel, Message message, String[] args, Member member, EventWaiter w, GuildWrapper gw) {
-        channel.sendMessage(MessageUtils.getEmbed(Constants.RED).setDescription(":skull_crossbones: | Stop requested! Shutting down..").build()).queue((message1) -> {
-            System.exit(0);
-        });
+        channel.sendMessageEmbeds(MessageUtils.getEmbed(Constants.RED).setDescription(":skull_crossbones: | Stop requested! Shutting down..").build()).queue((message1) -> System.exit(0));
     }
 
 }

@@ -26,7 +26,7 @@ public class Emote implements CommandBase {
     @Override
     public void onCommand(MessageChannel channel, Message message, String[] args, Member member, EventWaiter w, GuildWrapper gw) {
         if (args.length < 1) {
-            channel.sendMessage(MessageUtils.getEmbed().setTitle("Help - emote :question:")
+            channel.sendMessageEmbeds(MessageUtils.getEmbed().setTitle("Help - emote :question:")
                     .setDescription(getDescription() + "\n\n**Usage**\n" + getHelp().replace("%", gw.getPrefix())).build()).queue();
         } else if (args[0].equalsIgnoreCase("list")) {
             if (member.getGuild().getEmotes().isEmpty()) {
@@ -44,14 +44,14 @@ public class Emote implements CommandBase {
                 long longId = Long.parseLong(id);
                 net.dv8tion.jda.api.entities.Emote emote = channel.getJDA().getEmoteById(longId);
                 if (emote == null) {
-                    channel.sendMessage(MessageUtils.getEmbed(member.getUser(), Constants.RED).setTitle("**Unknown emote**")
+                    channel.sendMessageEmbeds(MessageUtils.getEmbed(member.getUser(), Constants.RED).setTitle("**Unknown emote**")
                             .setDescription("**ID:** " + id + "\n" +
                                     "**Guild:** Unknown\n" +
                                     "**URL:** [Click me](https://cdn.discordapp.com/emojis/" + id + ".png)")
                             .setThumbnail("https://cdn.discordapp.com/emojis/" + id + ".png").build()).queue();
                     return;
                 } else {
-                    channel.sendMessage(MessageUtils.getEmbed(member.getUser(), Constants.GREEN).setTitle("**Emote info** (" + emote.getName() + ")")
+                    channel.sendMessageEmbeds(MessageUtils.getEmbed(member.getUser(), Constants.GREEN).setTitle("**Emote info** (" + emote.getName() + ")")
                             .setDescription("**ID:** " + emote.getId() + "\n" +
                                     "**Guild:** " + (emote.getGuild() == null ? "Unknown" : "" + emote.getGuild().getName() + "\n") +
                                     "**URL:** " + "[Click me](" + emote.getImageUrl() + ")").setThumbnail(emote.getImageUrl()).build()).queue();
@@ -62,7 +62,7 @@ public class Emote implements CommandBase {
                 MessageUtils.sendAutoDeletedMessage("Invalid emote or ID is too long!", 15000, channel);
                 return;
             }
-            StringBuilder builder = new StringBuilder(""); //Normalni emotes
+            StringBuilder builder = new StringBuilder(); //Normal emotes
             str.codePoints().forEachOrdered(code -> {
                 char[] chars = Character.toChars(code);
                 StringBuilder hex = new StringBuilder(Integer.toHexString(code).toUpperCase());
@@ -80,7 +80,7 @@ public class Emote implements CommandBase {
                 }
                 builder.append(String.valueOf(chars)).append("   _").append(Character.getName(code)).append("_");
             });
-            channel.sendMessage(MessageUtils.getEmbed(member.getUser(), Constants.GREEN).setTitle("**Emote info**")
+            channel.sendMessageEmbeds(MessageUtils.getEmbed(member.getUser(), Constants.GREEN).setTitle("**Emote info**")
                     .setDescription(builder.toString()).build()).queue();
         }
     }

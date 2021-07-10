@@ -205,7 +205,7 @@ public class SQLManager {
                     if (tx != null) {
                         list.add(tx);
                     }
-                    //TODO: Event pri smazani channelu smaze i z SQL, pokud je ignorovany!
+                    //TODO: Delete the ignored channel from SQL if it's deleted.
                 } catch (NullPointerException e) {
                     CorgiBot.LOGGER.error(e.getMessage());
                 }

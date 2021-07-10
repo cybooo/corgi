@@ -49,7 +49,7 @@ public class Stats implements CommandBase {
             embed.addField(EmoteList.JAVA + " Java", System.getProperty("java.version"), true);
             embed.setAuthor("Corgi's statistics", null, CorgiBot.getJda().getSelfUser().getAvatarUrl());
             embed.setColor(Constants.BLACK);
-            channel.sendMessage(embed.build()).queue();
+            channel.sendMessageEmbeds(embed.build()).queue();
         }
 
     }

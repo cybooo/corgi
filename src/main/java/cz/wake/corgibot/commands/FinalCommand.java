@@ -56,36 +56,36 @@ public class FinalCommand {
         return aliases;
     }
 
-    public boolean isBeta() {
-        return beta;
-    }
-
-    public boolean isOnlyOwner() {
-        return onlyOwner;
-    }
-
-    public Permission[] getReqUserPermissions() {
-        return reqUserPermissions;
-    }
-
-    public Permission[] getReqBotPermissions() {
-        return reqBotPermissions;
-    }
-
     public void setAliases(String[] aliases) {
         this.aliases = aliases;
+    }
+
+    public boolean isBeta() {
+        return beta;
     }
 
     public void setBeta(boolean beta) {
         this.beta = beta;
     }
 
+    public boolean isOnlyOwner() {
+        return onlyOwner;
+    }
+
     public void setOnlyOwner(boolean onlyOwner) {
         this.onlyOwner = onlyOwner;
     }
 
+    public Permission[] getReqUserPermissions() {
+        return reqUserPermissions;
+    }
+
     public void setReqUserPermissions(Permission[] reqUserPermissions) {
         this.reqUserPermissions = reqUserPermissions;
+    }
+
+    public Permission[] getReqBotPermissions() {
+        return reqBotPermissions;
     }
 
     public void setReqBotPermissions(Permission[] reqBotPermissions) {

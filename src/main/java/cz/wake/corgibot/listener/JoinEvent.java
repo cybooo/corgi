@@ -52,7 +52,7 @@ public class JoinEvent extends ListenerAdapter {
 
         // Info into dev chanel
         if (event.getJDA().getStatus() == JDA.Status.CONNECTED) {
-            CorgiBot.getInstance().getGuildLogChannel().sendMessage(MessageUtils.getEmbed(Constants.GREEN)
+            CorgiBot.getInstance().getGuildLogChannel().sendMessageEmbeds(MessageUtils.getEmbed(Constants.GREEN)
                     .setThumbnail(event.getGuild().getIconUrl())
                     .setFooter(event.getGuild().getId(), event.getGuild().getIconUrl())
                     .setTitle("Corgi has joined a new guild!")

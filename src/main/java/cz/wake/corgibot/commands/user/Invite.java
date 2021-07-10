@@ -24,7 +24,7 @@ public class Invite implements CommandBase {
 
     @Override
     public void onCommand(MessageChannel channel, Message message, String[] args, Member member, EventWaiter w, GuildWrapper gw) {
-        channel.sendMessage(MessageUtils.getEmbed(Constants.GREEN).setTitle("Invite me to your server!")
+        channel.sendMessageEmbeds(MessageUtils.getEmbed(Constants.GREEN).setTitle("Invite me to your server!")
                 .setDescription("To invite me, [**click here!**](https://discord.com/api/oauth2/authorize?client_id=860244075138383922&permissions=3220700791&scope=bot)").build()).queue();
     }
 

@@ -23,8 +23,8 @@ public class Giveaway2 {
     private final String prize;
     private final int maxWinners;
     private final String emoji;
-    private Color color;
     private final Message message;
+    private Color color;
     private long seconds;
     private volatile boolean exit = false;
 
@@ -41,91 +41,6 @@ public class Giveaway2 {
         this.message = message;
         this.seconds = (endTime - System.currentTimeMillis()) / 1000;
         this.giveawayId = 0;
-    }
-
-    public void start() {
-        new Thread(() -> {
-            try {
-                if (exit) {
-                    return;
-                }
-                while (seconds > 10 && !exit) {
-                    message.editMessage(new EmbedBuilder().setTitle(":confetti_ball:  **GIVEAWAY!**  :confetti_ball:", null).setDescription((prize != null ? "\n**" + prize + "**" : "\n") + "\nReact with" + emoji + " to join!\nRemaining time: " + secondsToTime(seconds)).setColor(color).setFooter("Winners: " + maxWinners, null).setTimestamp(Instant.ofEpochMilli(endTime)).build()).queue(m -> {
-                    }, this::exceptionHandler);
-                    seconds -= 5;
-                    if (!message.getReactions().equals(emoji)) {
-                        message.addReaction(emoji).queue();
-                    }
-                    Thread.sleep(5000);
-                }
-                while (seconds > 0 && !exit) {
-                    message.editMessage(new EmbedBuilder().setTitle(":confetti_ball:  **GIVEAWAY IS ENDING SOON!**  :confetti_ball:", null).setDescription((prize != null ? "\n**" + prize + "**" : "\n") + "\nReact with " + emoji + " to join!\nRemaining time: " + secondsToTime(seconds)).setColor(Constants.RED).setFooter("Winners: " + maxWinners, null).setTimestamp(Instant.ofEpochMilli(endTime)).build()).queue(m -> {
-                    }, this::exceptionHandler);
-                    seconds--;
-                    if (!message.getReactions().equals(emoji)) {
-                        message.addReaction(emoji).queue();
-                    }
-                    Thread.sleep(1000);
-                }
-                try {
-                    message.getChannel().retrieveMessageById(message.getId()).complete().getReactions().stream().filter(mr -> mr.getReactionEmote().getName().equals(emoji)).findAny().ifPresent(mr -> {
-                        List<User> users = new LinkedList<>(mr.retrieveUsers().complete());
-                        users.remove(message.getJDA().getSelfUser()); // Remove Corgi
-                        List<String> winners = new ArrayList<>();
-                        int failed = 0;
-                        while (winners.size() < maxWinners) {
-                            String id = users.get((int) (Math.random() * users.size())).getId();
-                            if (!winners.contains(id)) {
-                                winners.add(id);
-                            } else {
-                                if (failed >= 5) {
-                                    winners.add(null);
-                                }
-                                failed++;
-                            }
-                        }
-                        StringBuilder finalWinners = new StringBuilder();
-                        AtomicInteger c = new AtomicInteger();
-                        winners.forEach(w -> {
-                            c.getAndIncrement();
-                            if (w == null) {
-                                finalWinners.append(c).append(". `Noone`\n");
-                            } else {
-                                finalWinners.append(winners.size() > 1 ? c + ". " : "Winnner ").append(message.getJDA().getUserById(w).getAsMention()).append("\n");
-                            }
-                        });
-                        message.editMessage(new EmbedBuilder().setTitle(":confetti_ball:  **GIVEAWAY ENDED!**  :confetti_ball:", null).setDescription((prize != null ? "\n**" + prize + "**" : "\n") + "\n" + finalWinners).setColor(Constants.GREEN).setFooter("Ended ", null).setTimestamp(Instant.ofEpochMilli(System.currentTimeMillis())).build()).queue(m -> {
-                        }, this::exceptionHandler);
-
-                        if (winners.size() > 1) {
-                            StringBuilder finalList = new StringBuilder();
-                            winners.forEach(winner -> {
-                                if (winner != null) {
-                                    finalList.append(message.getJDA().getUserById(winner).getAsMention()).append(", ");
-                                }
-                            });
-                            message.getChannel().sendMessage("Congratulations " + StringUtils.removeEnd(finalList.toString(), ", ") + (prize != null ? "! You won **" + prize + "**" : "You won!")).queue();
-                        } else {
-                            winners.forEach(winner -> {
-                                if (winner != null) {
-                                    message.getChannel().sendMessage("Gratulujeme " + message.getJDA().getUserById(winner).getAsMention() + (prize != null ? "! You won **" + prize + "**" : "You won!")).queue();
-                                }
-                            });
-                        }
-                        CorgiBot.getInstance().getSql().deleteGiveawayFromSQL(message.getGuild().getId(), message.getId());
-                    });
-                } catch (Exception ex) {
-                    message.editMessage(new EmbedBuilder().setTitle(":fire:  **GIVEAWAY ERROR!**  :fire:", null).setDescription("No winner found, noone has joined the giveaway!").setColor(Constants.ORANGE).build()).queue();
-                    message.clearReactions().queue();
-                    CorgiBot.getInstance().getSql().deleteGiveawayFromSQL(message.getGuild().getId(), message.getId());
-                }
-            } catch (Exception ex) {
-                Thread.currentThread().interrupt();
-                CorgiLogger.fatalMessage("Corgi can not generate winners in giveaway in Guild (ID: " + message.getGuild().getId() + ").");
-                CorgiBot.getInstance().getSql().deleteGiveawayFromSQL(message.getGuild().getId(), message.getId());
-                CorgiLogger.infoMessage("Corgi removed corrupted giveaway.");
-            }
-        }).start();
     }
 
     private static String secondsToTime(long timeseconds) {
@@ -165,27 +80,107 @@ public class Giveaway2 {
         return str;
     }
 
+    public void start() {
+        new Thread(() -> {
+            try {
+                if (exit) {
+                    return;
+                }
+                while (seconds > 10 && !exit) {
+                    message.editMessageEmbeds(new EmbedBuilder().setTitle(":confetti_ball:  **GIVEAWAY!**  :confetti_ball:", null).setDescription((prize != null ? "\n**" + prize + "**" : "\n") + "\nReact with" + emoji + " to join!\nRemaining time: " + secondsToTime(seconds)).setColor(color).setFooter("Winners: " + maxWinners, null).setTimestamp(Instant.ofEpochMilli(endTime)).build()).queue(m -> {
+                    }, this::exceptionHandler);
+                    seconds -= 5;
+                    if (!message.getReactions().equals(emoji)) {
+                        message.addReaction(emoji).queue();
+                    }
+                    Thread.sleep(5000);
+                }
+                while (seconds > 0 && !exit) {
+                    message.editMessageEmbeds(new EmbedBuilder().setTitle(":confetti_ball:  **GIVEAWAY IS ENDING SOON!**  :confetti_ball:", null).setDescription((prize != null ? "\n**" + prize + "**" : "\n") + "\nReact with " + emoji + " to join!\nRemaining time: " + secondsToTime(seconds)).setColor(Constants.RED).setFooter("Winners: " + maxWinners, null).setTimestamp(Instant.ofEpochMilli(endTime)).build()).queue(m -> {
+                    }, this::exceptionHandler);
+                    seconds--;
+                    if (!message.getReactions().equals(emoji)) {
+                        message.addReaction(emoji).queue();
+                    }
+                    Thread.sleep(1000);
+                }
+                try {
+                    message.getChannel().retrieveMessageById(message.getId()).complete().getReactions().stream().filter(mr -> mr.getReactionEmote().getName().equals(emoji)).findAny().ifPresent(mr -> {
+                        List<User> users = new LinkedList<>(mr.retrieveUsers().complete());
+                        users.remove(message.getJDA().getSelfUser()); // Remove Corgi
+                        List<String> winners = new ArrayList<>();
+                        int failed = 0;
+                        while (winners.size() < maxWinners) {
+                            String id = users.get((int) (Math.random() * users.size())).getId();
+                            if (!winners.contains(id)) {
+                                winners.add(id);
+                            } else {
+                                if (failed >= 5) {
+                                    winners.add(null);
+                                }
+                                failed++;
+                            }
+                        }
+                        StringBuilder finalWinners = new StringBuilder();
+                        AtomicInteger c = new AtomicInteger();
+                        winners.forEach(w -> {
+                            c.getAndIncrement();
+                            if (w == null) {
+                                finalWinners.append(c).append(". `Noone`\n");
+                            } else {
+                                finalWinners.append(winners.size() > 1 ? c + ". " : "Winnner ").append(message.getJDA().getUserById(w).getAsMention()).append("\n");
+                            }
+                        });
+                        message.editMessageEmbeds(new EmbedBuilder().setTitle(":confetti_ball:  **GIVEAWAY ENDED!**  :confetti_ball:", null).setDescription((prize != null ? "\n**" + prize + "**" : "\n") + "\n" + finalWinners).setColor(Constants.GREEN).setFooter("Ended ", null).setTimestamp(Instant.ofEpochMilli(System.currentTimeMillis())).build()).queue(m -> {
+                        }, this::exceptionHandler);
+
+                        if (winners.size() > 1) {
+                            StringBuilder finalList = new StringBuilder();
+                            winners.forEach(winner -> {
+                                if (winner != null) {
+                                    finalList.append(message.getJDA().getUserById(winner).getAsMention()).append(", ");
+                                }
+                            });
+                            message.getChannel().sendMessage("Congratulations " + StringUtils.removeEnd(finalList.toString(), ", ") + (prize != null ? "! You won **" + prize + "**" : "You won!")).queue();
+                        } else {
+                            winners.forEach(winner -> {
+                                if (winner != null) {
+                                    message.getChannel().sendMessage("Congratulations " + message.getJDA().getUserById(winner).getAsMention() + (prize != null ? "! You won **" + prize + "**" : "You won!")).queue();
+                                }
+                            });
+                        }
+                        CorgiBot.getInstance().getSql().deleteGiveawayFromSQL(message.getGuild().getId(), message.getId());
+                    });
+                } catch (Exception ex) {
+                    message.editMessageEmbeds(new EmbedBuilder().setTitle(":fire:  **GIVEAWAY ERROR!**  :fire:", null).setDescription("No winner found, noone has joined the giveaway!").setColor(Constants.ORANGE).build()).queue();
+                    message.clearReactions().queue();
+                    CorgiBot.getInstance().getSql().deleteGiveawayFromSQL(message.getGuild().getId(), message.getId());
+                }
+            } catch (Exception ex) {
+                Thread.currentThread().interrupt();
+                CorgiLogger.fatalMessage("Corgi can not generate winners in giveaway in Guild (ID: " + message.getGuild().getId() + ").");
+                CorgiBot.getInstance().getSql().deleteGiveawayFromSQL(message.getGuild().getId(), message.getId());
+                CorgiLogger.infoMessage("Corgi removed corrupted giveaway.");
+            }
+        }).start();
+    }
+
     private void exceptionHandler(Throwable ex) {
-        if (ex instanceof ErrorResponseException) {
-            ErrorResponseException e = (ErrorResponseException) ex;
+        if (ex instanceof ErrorResponseException e) {
             switch (e.getErrorCode()) {
 
-                // Giveaway deleted.. Corgi do not have access to message
-                case 10008: // message not found
-                case 10003: // channel not found
+                // Giveaway deleted.. Corgi does not have access to message
+                case 10008, 10003 -> { // 10008 = message not found | 10003 = channel not found
                     CorgiLogger.fatalMessage("Giveaway has been deleted! Corgi will stop giveaway and remove data.");
                     requestExit();
                     Thread.currentThread().interrupt();
-                    break;
+                }
 
-                // Missing permissions for editing message
-                case 50001: // missing access
-                case 50013: // missing permissions
+                case 50001, 50013 -> { // 50001 = missing access | 50013 = missing permissions
                     CorgiLogger.fatalMessage("Corgi can not edit giveaway. Thread stopped and removed.");
                     requestExit();
                     Thread.currentThread().interrupt();
-                    break;
-
+                }
             }
         }
     }

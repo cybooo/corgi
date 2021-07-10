@@ -28,6 +28,33 @@ import java.util.stream.Collectors;
 @SinceCorgi(version = "1.2.3.2")
 public class UserInfo implements CommandBase {
 
+    private static String convertStatus(OnlineStatus status) {
+        return switch (status) {
+            case ONLINE -> "<:online:860297938911887370>";
+            case IDLE -> "<:away:86029793893639785>";
+            case DO_NOT_DISTURB -> "<:dnd:860297938897731604>";
+            default -> "<:offline:860297938873614378>";
+        };
+    }
+
+    private static String gameToString(List<Activity> activities, Member member) {
+        if (activities.size() == 0) {
+            return "no game";
+        }
+        Activity g = member.getActivities().get(0);
+        if (g == null) return "no game";
+
+        String gameType = switch (g.getType().getKey()) {
+            case 1 -> "Streaming";
+            case 2 -> "Listening to";
+            case 3 -> "Watching";
+            default -> "Playing";
+        };
+
+        String gameName = g.getName();
+        return gameType + " " + gameName;
+    }
+
     @Override
     public void onCommand(MessageChannel channel, Message message, String[] args, Member member, EventWaiter w, GuildWrapper gw) {
         String id;
@@ -67,7 +94,7 @@ public class UserInfo implements CommandBase {
             joinOrder.append(" > ").append(name);
         }
 
-        channel.sendMessage(MessageUtils.getEmbed(member.getUser(), member.getGuild().getMember(guildMember.getUser()).getColor())
+        channel.sendMessageEmbeds(MessageUtils.getEmbed(member.getUser(), member.getGuild().getMember(guildMember.getUser()).getColor())
                 .setThumbnail(guildMember.getUser().getEffectiveAvatarUrl())
                 .addField("Real name", guildMember.getUser().getName() + "#" + guildMember.getUser().getDiscriminator() + " " + getDiscordRank(guildMember.getUser()), true)
                 .addField("ID", guildMember.getUser().getId(), true)
@@ -109,42 +136,5 @@ public class UserInfo implements CommandBase {
         } else {
             return "";
         }
-    }
-
-    private static String convertStatus(OnlineStatus status) {
-        switch (status) {
-            case ONLINE:
-                return "<:online:860297938911887370>";
-            case IDLE:
-                return "<:away:86029793893639785>";
-            case DO_NOT_DISTURB:
-                return "<:dnd:860297938897731604>";
-            default:
-                return "<:offline:860297938873614378>";
-        }
-    }
-
-    private static String gameToString(List<Activity> activities, Member member) {
-        if (activities.size() == 0) {
-            return "no game";
-        }
-        Activity g = member.getActivities().get(0);
-        if (g == null) return "no game";
-
-        String gameType = "Playing";
-
-        switch (g.getType().getKey()) {
-            case 1:
-                gameType = "Streaming";
-                break;
-            case 2:
-                gameType = "Listening to";
-                break;
-            case 3:
-                gameType = "Watching";
-        }
-
-        String gameName = g.getName();
-        return gameType + " " + gameName;
     }
 }

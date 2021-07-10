@@ -36,7 +36,7 @@ public class Lang implements CommandBase {
             }
         }
 
-        channel.sendMessage(MessageUtils.getEmbed(Color.BLACK).setTitle(I18n.getLoc(gw, "commands.language.title")).setDescription(text)
+        channel.sendMessageEmbeds(MessageUtils.getEmbed(Color.BLACK).setTitle(I18n.getLoc(gw, "commands.language.title")).setDescription(text)
                 .setFooter(I18n.getLoc(gw, "commands.language.footer"), null).build()).queue((Message m) -> {
             m.addReaction(EmoteList.ENGLISH_FLAG).queue();
             m.addReaction(EmoteList.CZECH_FLAG).queue();

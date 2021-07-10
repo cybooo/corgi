@@ -8,7 +8,6 @@ import cz.wake.corgibot.commands.CommandCategory;
 import cz.wake.corgibot.objects.GuildWrapper;
 import cz.wake.corgibot.utils.Constants;
 import cz.wake.corgibot.utils.MessageUtils;
-import cz.wake.corgibot.utils.lang.I18n;
 import net.dv8tion.jda.api.entities.Member;
 import net.dv8tion.jda.api.entities.Message;
 import net.dv8tion.jda.api.entities.MessageChannel;
@@ -40,7 +39,7 @@ public class Avatar implements CommandBase {
             return;
         }
         String url = member1.getUser().getEffectiveAvatarUrl() + "?size=1024";
-        channel.sendMessage(MessageUtils.getEmbed(Constants.GRAY).setTitle(member1.getUser().getName())
+        channel.sendMessageEmbeds(MessageUtils.getEmbed(Constants.GRAY).setTitle(member1.getUser().getName())
                 .setImage(url).build()).queue();
     }
 

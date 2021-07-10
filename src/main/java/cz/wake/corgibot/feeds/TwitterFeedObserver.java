@@ -40,8 +40,8 @@ public class TwitterFeedObserver implements Serializable {
         EmbedBuilder em = new EmbedBuilder();
         String text = status.getText();
         em.setTitle("New tweet from \\@" + status.getUser().getScreenName(),
-                "https://twitter.com/" + status.getUser().getScreenName()
-                        + "/status/" + status.getId())
+                        "https://twitter.com/" + status.getUser().getScreenName()
+                                + "/status/" + status.getId())
                 .setColor(ColorSelector.getRandomColor()) //TODO: Twitter color
                 .setThumbnail(status.getUser().getProfileImageURL())
                 .setDescription(text);
@@ -60,7 +60,7 @@ public class TwitterFeedObserver implements Serializable {
             em.setFooter("Tweet", null);
         }
         em.setTimestamp(Instant.now());
-        getDiscoChannel().sendMessage(em.build()).queue();
+        getDiscoChannel().sendMessageEmbeds(em.build()).queue();
         return true;
     }
 

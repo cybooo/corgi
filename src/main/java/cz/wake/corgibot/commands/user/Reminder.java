@@ -45,10 +45,20 @@ public class Reminder implements CommandBase {
             .appendSeconds().appendSuffix("s")
             .toFormatter();
 
+    private static Period getTimeFromInput(String input, MessageChannel channel) {
+        try {
+            return periodParser.parsePeriod(input);
+        } catch (IllegalArgumentException e) {
+            MessageUtils.sendErrorMessage("Invalid time format! Try: `1d` -> for 1 day.",
+                    channel);
+            return null;
+        }
+    }
+
     @Override
     public void onCommand(MessageChannel channel, Message message, String[] args, Member member, EventWaiter w, GuildWrapper gw) {
         if (args.length < 1) {
-            channel.sendMessage(MessageUtils.getEmbed(Constants.GRAY)
+            channel.sendMessageEmbeds(MessageUtils.getEmbed(Constants.GRAY)
                     .setTitle("Help" + " - reminder").setDescription(getHelp().replace("%", gw.getPrefix())).build()).queue();
         } else if (args[0].contains("list")) {
             HashSet<TemporaryReminder> list = CorgiBot.getInstance().getSql().getRemindersByUser(member.getUser().getId());
@@ -88,7 +98,7 @@ public class Reminder implements CommandBase {
                 int convertedId = Integer.parseInt(id);
                 try {
                     CorgiBot.getInstance().getSql().deleteReminderById(member.getUser().getId(), convertedId);
-                    channel.sendMessage(MessageUtils.getEmbed(Constants.GREEN)
+                    channel.sendMessageEmbeds(MessageUtils.getEmbed(Constants.GREEN)
                             .setDescription("Reminder with ID **{1}** was deleted!"
                                     .replace("{1}", String.valueOf(convertedId))).build()).queue();
                 } catch (Exception e) {
@@ -103,15 +113,15 @@ public class Reminder implements CommandBase {
                     .replace("remindme", "").replace("reminder", "");
             String[] arguments = request.split("\\;");
 
-            // .reminder 2d2h7m ; Vypnout Corgiho!
+            // .reminder 2d2h7m ; Shutdown corgi!
 
-            // 1 parametr?
+            // 1 parameter?
             if (arguments.length == 1) {
                 MessageUtils.sendErrorMessage("Incorrectly executed command! Example: %reminder 2h ; Restart Corgi!".replace("%", gw.getPrefix()), channel);
                 return;
             }
 
-            // Delsi jak 1000 znaku
+            // Longer than 1000 characters
             if (arguments[1].length() > 1000) {
                 MessageUtils.sendErrorMessage("Sorry, reminders longer than 1000 characters cannot be processed! Lenght of your reminder: {1}".replace("{1}", String.valueOf(arguments[1].length())), channel);
                 return;
@@ -124,7 +134,7 @@ public class Reminder implements CommandBase {
             DateTime start = new DateTime();  //NOW
             DateTime end = start.plus(p);
 
-            long millis = end.getMillis() - start.getMillis(); // Rozdil na upozorneni
+            long millis = end.getMillis() - start.getMillis();
 
             if (millis < 60000L) {
                 MessageUtils.sendErrorMessage("Minimum time is 1 minte!", channel);
@@ -140,20 +150,10 @@ public class Reminder implements CommandBase {
                 return;
             }
 
-            // Oznameni
-            channel.sendMessage(MessageUtils.getEmbed(Constants.GREEN)
+            // Reminder
+            channel.sendMessageEmbeds(MessageUtils.getEmbed(Constants.GREEN)
                     .setDescription(EmoteList.ALARM_CLOCK + " | " + "Sure! I'll remind you in {1}"
                             .replace("{1}", TimeUtils.toYYYYHHmmssS(millis))).build()).queue();
-        }
-    }
-
-    private static Period getTimeFromInput(String input, MessageChannel channel) {
-        try {
-            return periodParser.parsePeriod(input);
-        } catch (IllegalArgumentException e) {
-            MessageUtils.sendErrorMessage("Invalid time format! Try: `1d` -> for 1 day.",
-                    channel);
-            return null;
         }
     }
 }

@@ -47,7 +47,7 @@ public class Archive implements CommandBase {
             }
 
             MessageEmbed logMess = MessageUtils.getEmbed(Constants.GREEN).setDescription("Generating log, please wait!").build();
-            channel.sendMessage(logMess).queue();
+            channel.sendMessageEmbeds(logMess).queue();
 
             TextChannel tx = member.getGuild().getTextChannelById(channel.getId());
             MessageHistory mh;
@@ -65,7 +65,7 @@ public class Archive implements CommandBase {
 
             MessageEmbed mess = MessageUtils.getEmbed(Constants.GREEN).setTitle("Generated log file").setDescription("Sending the generated log file with " + numposts + " messages.\n" +
                     "**Odkaz**: " + MessageUtils.hastebin(builder.toString())).build();
-            channel.sendMessage(mess).queue();
+            channel.sendMessageEmbeds(mess).queue();
         } catch (ArrayIndexOutOfBoundsException ax) {
             MessageUtils.sendAutoDeletedMessage("You need to provide the amount of lines! Example: `" + gw.getPrefix() + "archive 10`", 20000, channel);
         } catch (Exception e) {

@@ -12,17 +12,15 @@ import java.util.*;
 
 public class TwitterEventListener {
 
+    public static final long DELAY = 60;
+    static final FilterQuery filter = new FilterQuery();
     private static final File serializedFile = new File("resources/feeds/Twitter.bin");
     // twitterClient is null if no API keys set
     public static Twitter twitterClient;
     static Configuration config;
-    static final FilterQuery filter = new FilterQuery();
     static TwitterStream twitterStream;
-
     private static long lastChange;
-    public static final long DELAY = 60;
-
-    private static Map<Long, List<TwitterFeedObserver>> twitterFeed = new HashMap<Long, List<TwitterFeedObserver>>();
+    private static Map<Long, List<TwitterFeedObserver>> twitterFeed = new HashMap<>();
 
     public static void initTwitter() {
         ConfigurationBuilder cb = new ConfigurationBuilder();
@@ -60,7 +58,7 @@ public class TwitterEventListener {
      */
     public static int addTwitterFeed(long twitterId, TwitterFeedObserver observer) {
         if (!twitterFeed.containsKey(twitterId)) {
-            ArrayList<TwitterFeedObserver> toAdd = new ArrayList<TwitterFeedObserver>();
+            ArrayList<TwitterFeedObserver> toAdd = new ArrayList<>();
             toAdd.add(observer);
             twitterFeed.put(twitterId, toAdd);
             saveFeed();

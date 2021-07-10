@@ -23,6 +23,12 @@ import net.dv8tion.jda.api.entities.MessageChannel;
 @SinceCorgi(version = "0.1")
 public class Ping implements CommandBase {
 
+    private static final String[] pingMessages = new String[]{
+            ":ping_pong::white_small_square::black_small_square::black_small_square::ping_pong:",
+            ":ping_pong::black_small_square::white_small_square::black_small_square::ping_pong:",
+            ":ping_pong::black_small_square::black_small_square::white_small_square::ping_pong:",
+            ":ping_pong::black_small_square::white_small_square::black_small_square::ping_pong:",
+    };
     private static boolean running = false;
 
     @Override
@@ -30,13 +36,13 @@ public class Ping implements CommandBase {
 
         if (!running) {
             running = true;
-            channel.sendMessage(MessageUtils.getEmbed(Constants.GRAY).setDescription("Calculating ping ...").build()).queue(m -> {
+            channel.sendMessageEmbeds(MessageUtils.getEmbed(Constants.GRAY).setDescription("Calculating ping ...").build()).queue(m -> {
                 int pings = 5;
                 int lastResult;
                 int sum = 0, min = 999, max = 0;
                 long start = System.currentTimeMillis();
                 for (int j = 0; j < pings; j++) {
-                    m.editMessage(MessageUtils.getEmbed(Constants.ORANGE).setDescription(pingMessages[j % pingMessages.length]).build()).queue();
+                    m.editMessageEmbeds(MessageUtils.getEmbed(Constants.ORANGE).setDescription(pingMessages[j % pingMessages.length]).build()).queue();
                     lastResult = (int) (System.currentTimeMillis() - start);
                     sum += lastResult;
                     min = Math.min(min, lastResult);
@@ -48,19 +54,12 @@ public class Ping implements CommandBase {
                     }
                     start = System.currentTimeMillis();
                 }
-                m.editMessage(MessageUtils.getEmbed(Constants.GREEN).setDescription(String.format(EmoteList.LOUDSPEAKER + " | **Average ping is:** %dms", CorgiBot.getJda().getGatewayPing())).build()).queue();
+                m.editMessageEmbeds(MessageUtils.getEmbed(Constants.GREEN).setDescription(String.format(EmoteList.LOUDSPEAKER + " | **Average ping is:** %dms", CorgiBot.getJda().getGatewayPing())).build()).queue();
                 running = false;
             });
         } else {
             MessageUtils.sendErrorMessage("Unable to detect ping at this time because a scan is already in progress. Try it for a moment!", channel);
         }
     }
-
-    private static final String[] pingMessages = new String[]{
-            ":ping_pong::white_small_square::black_small_square::black_small_square::ping_pong:",
-            ":ping_pong::black_small_square::white_small_square::black_small_square::ping_pong:",
-            ":ping_pong::black_small_square::black_small_square::white_small_square::ping_pong:",
-            ":ping_pong::black_small_square::white_small_square::black_small_square::ping_pong:",
-    };
 
 }

@@ -16,10 +16,10 @@ public class ChannelDeleteEvent extends ListenerAdapter {
         }
 
         try {
-            // Smazani z manageru
+            // Delete from manager
             BotManager.getCustomGuild(e.getGuild().getId()).getIgnoredChannels().remove(e.getChannel());
 
-            // Smazani z SQL
+            // Delete from SQL
             CorgiBot.getInstance().getSql().deleteIgnoredChannel(e.getChannel().getId());
         } catch (Exception ex) {
             ex.printStackTrace();

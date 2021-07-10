@@ -31,7 +31,6 @@ import java.util.stream.Collectors;
 @SinceCorgi(version = "1.2.2")
 public class Eval implements CommandBase {
 
-    private final ScriptEngineManager manager = new ScriptEngineManager();
     private static final ThreadGroup EVALS = new ThreadGroup("EvalCommand Thread Pool");
     private static final ExecutorService POOL = Executors.newCachedThreadPool(r -> new Thread(EVALS, r,
             EVALS.getName() + EVALS.activeCount()));
@@ -59,6 +58,7 @@ public class Eval implements CommandBase {
             "java.nio",
             "java.nio.files",
             "java.util.stream");
+    private final ScriptEngineManager manager = new ScriptEngineManager();
 
     @Override
     public void onCommand(MessageChannel channel, Message message, String[] args, Member member, EventWaiter w, GuildWrapper gw) {
@@ -75,7 +75,7 @@ public class Eval implements CommandBase {
         if (silent)
             code = MessageUtils.getMessage(args, 1);
         else
-            code = Arrays.stream(args).collect(Collectors.joining(" "));
+            code = String.join(" ", args);
         POOL.submit(() -> {
             try {
                 String eResult = String.valueOf(engine.eval(imports + "with (imports) {\n" + code + "\n}"));
@@ -83,12 +83,12 @@ public class Eval implements CommandBase {
                     eResult = String.format("[Result](%s)", MessageUtils.hastebin(eResult));
                 } else eResult = "```js\n" + eResult + "\n```";
                 if (!silent)
-                    channel.sendMessage(MessageUtils.getEmbed(member.getUser())
+                    channel.sendMessageEmbeds(MessageUtils.getEmbed(member.getUser())
                             .addField("Code:", "```js\n" + code + "```", false)
                             .addField("Result: ", eResult, false).build()).queue();
             } catch (Exception e) {
                 CorgiBot.LOGGER.error("Error occured in the evaluator thread pool!", e);
-                channel.sendMessage(MessageUtils.getEmbed(member.getUser())
+                channel.sendMessageEmbeds(MessageUtils.getEmbed(member.getUser())
                         .addField("Code:", "```js\n" + code + "```", false)
                         .addField("Result: ", "```bf\n" + e.getMessage() + "```", false).build()).queue();
             }

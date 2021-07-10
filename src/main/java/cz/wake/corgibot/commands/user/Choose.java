@@ -46,15 +46,11 @@ public class Choose implements CommandBase {
     private String getRandomThinkingEmote() {
         Random r = new Random();
         int number = r.nextInt(3) + 1;
-        switch (number) {
-            case 1:
-                return EmoteList.THINKING_1;
-            case 2:
-                return EmoteList.THINKING_2;
-            case 3:
-                return EmoteList.THINKING_3;
-            default:
-                return EmoteList.THINKING_1;
-        }
+        return switch (number) {
+            case 1 -> EmoteList.THINKING_1;
+            case 2 -> EmoteList.THINKING_2;
+            case 3 -> EmoteList.THINKING_3;
+            default -> EmoteList.THINKING_1;
+        };
     }
 }

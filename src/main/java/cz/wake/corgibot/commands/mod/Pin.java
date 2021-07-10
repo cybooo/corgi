@@ -35,13 +35,13 @@ public class Pin implements CommandBase {
             msg.pin().complete();
             channel.getHistory().retrievePast(1).complete().get(0).delete().queue();
         } else if (args.length != 0) {
-            Message msg = channel.sendMessage(new EmbedBuilder().setTitle(member.getUser().getName(), null)
+            Message msg = channel.sendMessageEmbeds(new EmbedBuilder().setTitle(member.getUser().getName(), null)
                     .setThumbnail(MessageUtils.getAvatar(member.getUser())).setDescription(MessageUtils.getMessage(args, 0))
                     .build()).complete();
             msg.pin().complete();
             channel.getHistory().retrievePast(1).complete().get(0).delete().queue();
         } else {
-            channel.sendMessage(MessageUtils.getEmbed(Constants.GRAY).setTitle("Help for command %ping".replace("%", gw.getPrefix()))
+            channel.sendMessageEmbeds(MessageUtils.getEmbed(Constants.GRAY).setTitle("Help for command %ping".replace("%", gw.getPrefix()))
                     .setDescription(getDescription()).build()).queue();
         }
     }

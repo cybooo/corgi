@@ -6,9 +6,6 @@ import java.util.concurrent.atomic.AtomicReference;
 
 public final class CPUDaemon {
 
-    private CPUDaemon() {
-    }
-
     private static final AtomicReference<Double> PERCENTAGE = new AtomicReference<>(-1d);
     private static final String PROCPATH = "/proc/stat";
     private static final File PROCFILE = new File(PROCPATH);
@@ -16,6 +13,9 @@ public final class CPUDaemon {
 
     static {
         RUNNER.start();
+    }
+
+    private CPUDaemon() {
     }
 
     public static double get() {

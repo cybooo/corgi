@@ -36,7 +36,7 @@ public class Twitter implements CommandBase {
     @Override
     public void onCommand(MessageChannel channel, Message message, String[] args, Member member, EventWaiter w, GuildWrapper gw) {
         if (args.length < 1) {
-            channel.sendMessage(MessageUtils.getEmbed(Color.CYAN).setTitle("Twitter feeds")
+            channel.sendMessageEmbeds(MessageUtils.getEmbed(Color.CYAN).setTitle("Twitter feeds")
                     .setDescription("Twitter Feeds allow you to receive news from the Twitter account via Corgi. \n" +
                             "So if Corgi follows someone and he writes a tweet, Corgi will send the Tweet to a Discord channel.\n\n")
                     .addField("Commands", "**%twitter sub [ID]** - Follows tweets in a channel\n**%twitter list** - Shows the list of followed twitter accounts\n**%twitter unsub [ID]** - Stops following a twitter account".replace("%", gw.getPrefix()), false)
@@ -48,7 +48,7 @@ public class Twitter implements CommandBase {
                 try {
                     superId = Long.parseLong(id);
                 } catch (Exception e) {
-                    channel.sendMessage(MessageUtils.getEmbed(Constants.RED).setDescription("ID neodpovídá Twitter formátu nebo se nejedná o ID uživatele!")
+                    channel.sendMessageEmbeds(MessageUtils.getEmbed(Constants.RED).setDescription("ID neodpovídá Twitter formátu nebo se nejedná o ID uživatele!")
                             .setFooter("You can find a Account ID on: http://gettwitterid.com", null).build()).queue();
                     return;
                 }
@@ -63,7 +63,7 @@ public class Twitter implements CommandBase {
                     try {
                         // Register
                         new TwitterFeedObserver(message.getChannel().getId(), u.getName(), true, false, false).subscribe(superId);
-                        channel.sendMessage(MessageUtils.getEmbed(Constants.DEFAULT_PURPLE).setDescription("Succesfully followed **" + u.getName() + "**. New tweets are gonna be sent here.").build()).queue();
+                        channel.sendMessageEmbeds(MessageUtils.getEmbed(Constants.BLUE).setDescription("Succesfully followed **" + u.getName() + "**. New tweets are gonna be sent here.").build()).queue();
                     } catch (Exception e) {
                         e.printStackTrace(); //?
                     }
@@ -104,14 +104,14 @@ public class Twitter implements CommandBase {
                 try {
                     superId = Long.parseLong(id);
                 } catch (Exception e) {
-                    channel.sendMessage(MessageUtils.getEmbed(Constants.RED).setDescription("The ID does not match the Twitter format or is not a user ID!")
+                    channel.sendMessageEmbeds(MessageUtils.getEmbed(Constants.RED).setDescription("The ID does not match the Twitter format or is not a user ID!")
                             .setFooter("You can find a Account ID on: http://gettwitterid.com", null).build()).queue();
                     return;
                 }
                 try {
                     User u = TwitterEventListener.twitterClient.lookupUsers(superId).get(0);
                     if (TwitterEventListener.removeTwitterFeed(u.getId(), message.getGuild())) {
-                        channel.sendMessage(MessageUtils.getEmbed(Constants.GREEN).setDescription(EmoteList.GREEN_OK + " | **" + u.getName() + "** has been unfollowed!!").build()).queue();
+                        channel.sendMessageEmbeds(MessageUtils.getEmbed(Constants.GREEN).setDescription(EmoteList.GREEN_OK + " | **" + u.getName() + "** has been unfollowed!!").build()).queue();
                     } else {
                         MessageUtils.sendErrorMessage("Twitter account not followed, or not found.", channel);
                     }

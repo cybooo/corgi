@@ -77,7 +77,7 @@ public class Covid implements CommandBase {
                         .addField("Critical cases", formatNum(critical), true)
 
                         .addField("Total tests", formatNum(totalTests), true)
-                        .addField("Tests oer million", formatNum(testsPerOneMillion), true)
+                        .addField("Tests per million", formatNum(testsPerOneMillion), true)
                         .setFooter("Data accuracy is not guaranteed!");
 
                 channel.sendMessageEmbeds(embed.build()).queue();

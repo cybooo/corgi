@@ -104,6 +104,7 @@ public class CommandManager {
         registerCommand(new Dice());
         registerCommand(new Covid());
         registerCommand(new AllowMusic());
+        registerCommand(new DisallowMusic());
         registerCommand(new NowPlaying());
         registerCommand(new Play());
         registerCommand(new Skip());

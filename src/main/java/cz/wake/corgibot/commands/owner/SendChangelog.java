@@ -68,8 +68,6 @@ public class SendChangelog implements CommandBase {
             changelog.append("\n\n");
         }
 
-        changelog.append("Do you want see old changes? Look at our changelog channel on support guild!".replace("{1}", "https://discord.gg/pR2tj432NS"));
-
         CorgiBot.getDefaultGuild().getTextChannelById("860521900039602186").sendMessage(changelog.toString()).queue();
     }
 }

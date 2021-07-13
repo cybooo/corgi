@@ -11,6 +11,7 @@ import net.dv8tion.jda.api.entities.User;
 
 import java.sql.Connection;
 import java.sql.PreparedStatement;
+import java.util.ArrayList;
 import java.util.HashSet;
 
 public class SQLManager {
@@ -48,6 +49,22 @@ public class SQLManager {
         }
     }
 
+    public final void addIgnoredChannel(final String guildId, final String channelId) {
+        Connection conn = null;
+        PreparedStatement ps = null;
+        try {
+            conn = pool.getConnection();
+            ps = conn.prepareStatement("INSERT INTO s7753_corgi.ignored_channels (guild_id, channel_id) VALUES (?, ?);");
+            ps.setString(1, guildId);
+            ps.setString(2, channelId);
+            ps.executeUpdate();
+        } catch (Exception e) {
+            e.printStackTrace();
+        } finally {
+            pool.close(conn, ps, null);
+        }
+    }
+
     public final void deleteIgnoredChannel(final String channelId) {
         Connection conn = null;
         PreparedStatement ps = null;
@@ -76,6 +93,34 @@ public class SQLManager {
         } finally {
             pool.close(conn, ps, null);
         }
+    }
+
+    public final HashSet<MessageChannel> getIgnoredChannels(final String guildId) {
+        HashSet<MessageChannel> list = new HashSet<>();
+        Connection conn = null;
+        PreparedStatement ps = null;
+        try {
+            conn = pool.getConnection();
+            ps = conn.prepareStatement("SELECT channel_id FROM s7753_corgi.ignored_channels WHERE guild_id = ?;");
+            ps.setString(1, guildId);
+            ps.executeQuery();
+            while (ps.getResultSet().next()) {
+                try {
+                    MessageChannel tx = CorgiBot.getJda().getGuildById(guildId).getTextChannelById(ps.getResultSet().getString("channel_id"));
+                    if (tx != null) {
+                        list.add(tx);
+                    }
+                    //TODO: Delete the ignored channel from SQL if it's deleted.
+                } catch (NullPointerException e) {
+                    CorgiBot.LOGGER.error(e.getMessage());
+                }
+            }
+        } catch (Exception e) {
+            e.printStackTrace();
+        } finally {
+            pool.close(conn, ps, null);
+        }
+        return list;
     }
 
     public final void addReminder(final String userId, final long remindTime, final String message) {
@@ -119,22 +164,6 @@ public class SQLManager {
             ps = conn.prepareStatement("DELETE FROM s7753_corgi.reminders WHERE user_id = ? AND id = ?");
             ps.setString(1, userId);
             ps.setInt(2, reminderId);
-            ps.executeUpdate();
-        } catch (Exception e) {
-            e.printStackTrace();
-        } finally {
-            pool.close(conn, ps, null);
-        }
-    }
-
-    public final void addIgnoredChannel(final String guildId, final String channelId) {
-        Connection conn = null;
-        PreparedStatement ps = null;
-        try {
-            conn = pool.getConnection();
-            ps = conn.prepareStatement("INSERT INTO s7753_corgi.ignored_channels (guild_id, channel_id) VALUES (?, ?);");
-            ps.setString(1, guildId);
-            ps.setString(2, channelId);
             ps.executeUpdate();
         } catch (Exception e) {
             e.printStackTrace();
@@ -188,34 +217,6 @@ public class SQLManager {
         } finally {
             pool.close(conn, ps, null);
         }
-    }
-
-    public final HashSet<MessageChannel> getIgnoredChannels(final String guildId) {
-        HashSet<MessageChannel> list = new HashSet<>();
-        Connection conn = null;
-        PreparedStatement ps = null;
-        try {
-            conn = pool.getConnection();
-            ps = conn.prepareStatement("SELECT channel_id FROM s7753_corgi.ignored_channels WHERE guild_id = ?;");
-            ps.setString(1, guildId);
-            ps.executeQuery();
-            while (ps.getResultSet().next()) {
-                try {
-                    MessageChannel tx = CorgiBot.getJda().getGuildById(guildId).getTextChannelById(ps.getResultSet().getString("channel_id"));
-                    if (tx != null) {
-                        list.add(tx);
-                    }
-                    //TODO: Delete the ignored channel from SQL if it's deleted.
-                } catch (NullPointerException e) {
-                    CorgiBot.LOGGER.error(e.getMessage());
-                }
-            }
-        } catch (Exception e) {
-            e.printStackTrace();
-        } finally {
-            pool.close(conn, ps, null);
-        }
-        return list;
     }
 
     public final void insertDefaultServerData(final String guildId, final String prefix) {
@@ -427,4 +428,89 @@ public class SQLManager {
             pool.close(conn, ps, null);
         }
     }
+
+    public final void addRoleMusicCommand(final String guildId, final String roleId, final String commandName) {
+        Connection conn = null;
+        PreparedStatement ps = null;
+        try {
+            conn = pool.getConnection();
+            ps = conn.prepareStatement("INSERT INTO s7753_corgi.music_permission_data (guild_id, role_id, command_name) VALUES (?, ?, ?);");
+            ps.setString(1, guildId);
+            ps.setString(2, roleId);
+            ps.setString(3, commandName);
+            ps.executeUpdate();
+        } catch (Exception e) {
+            e.printStackTrace();
+        } finally {
+            pool.close(conn, ps, null);
+        }
+    }
+
+    public final void deleteRoleMusicCommand(final String guildId, final String roleId, final String commandName) {
+        Connection conn = null;
+        PreparedStatement ps = null;
+        try {
+            conn = pool.getConnection();
+            ps = conn.prepareStatement("DELETE FROM s7753_corgi.music_permission_data WHERE guild_id = ? AND role_id = ? AND command_name = ?;");
+            ps.setString(1, guildId);
+            ps.setString(2, roleId);
+            ps.setString(3, commandName);
+            ps.executeUpdate();
+        } catch (Exception e) {
+            e.printStackTrace();
+        } finally {
+            pool.close(conn, ps, null);
+        }
+    }
+
+    public final ArrayList<String> getRoleMusicCommands(final String guildId, final String roleId) {
+        ArrayList<String> commands = new ArrayList<>();
+        Connection conn = null;
+        PreparedStatement ps = null;
+        try {
+            conn = pool.getConnection();
+            ps = conn.prepareStatement("SELECT command_name FROM s7753_corgi.music_permission_data WHERE guild_id = ? AND role_id = ?;");
+            ps.setString(1, guildId);
+            ps.setString(2, roleId);
+            ps.executeQuery();
+            while (ps.getResultSet().next()) {
+                try {
+                    commands.add(ps.getResultSet().getString("command_name"));
+                } catch (NullPointerException e) {
+                    CorgiBot.LOGGER.error(e.getMessage());
+                }
+            }
+        } catch (Exception e) {
+            e.printStackTrace();
+        } finally {
+            pool.close(conn, ps, null);
+        }
+        return commands;
+    }
+
+    public final ArrayList<String> getRoleMusicRoles(final String guildId, final String commandName) {
+        ArrayList<String> commands = new ArrayList<>();
+        Connection conn = null;
+        PreparedStatement ps = null;
+        try {
+            conn = pool.getConnection();
+            ps = conn.prepareStatement("SELECT role_id FROM s7753_corgi.music_permission_data WHERE guild_id = ? AND command_name = ?;");
+            ps.setString(1, guildId);
+            ps.setString(2, commandName);
+            ps.executeQuery();
+            while (ps.getResultSet().next()) {
+                try {
+                    commands.add(ps.getResultSet().getString("role_id"));
+                } catch (NullPointerException e) {
+                    CorgiBot.LOGGER.error(e.getMessage());
+                }
+            }
+        } catch (Exception e) {
+            e.printStackTrace();
+        } finally {
+            pool.close(conn, ps, null);
+        }
+        return commands;
+    }
+
 }

@@ -25,7 +25,7 @@ import java.util.List;
         name = "covid",
         description = "Display covid statistics of a country",
         help = "%covid <country> - Displays statistics of a country",
-        category = CommandCategory.FUN
+        category = CommandCategory.GENERAL
 )
 @SinceCorgi(version = "1.3.4")
 public class Covid implements CommandBase {

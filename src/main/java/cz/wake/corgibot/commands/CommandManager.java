@@ -4,16 +4,11 @@ import cz.wake.corgibot.CorgiBot;
 import cz.wake.corgibot.annotations.Beta;
 import cz.wake.corgibot.annotations.CommandInfo;
 import cz.wake.corgibot.annotations.OnlyOwner;
-import cz.wake.corgibot.commands.admin.Ignore;
-import cz.wake.corgibot.commands.admin.LeaveGuild;
-import cz.wake.corgibot.commands.admin.Say;
-import cz.wake.corgibot.commands.admin.SetPrefix;
+import cz.wake.corgibot.commands.admin.*;
 import cz.wake.corgibot.commands.games.McStatus;
 import cz.wake.corgibot.commands.mod.*;
-import cz.wake.corgibot.commands.owner.Eval;
-import cz.wake.corgibot.commands.owner.GuildList;
-import cz.wake.corgibot.commands.owner.Log;
-import cz.wake.corgibot.commands.owner.Stop;
+import cz.wake.corgibot.commands.music.*;
+import cz.wake.corgibot.commands.owner.*;
 import cz.wake.corgibot.commands.user.*;
 import cz.wake.corgibot.utils.CorgiLogger;
 
@@ -69,7 +64,7 @@ public class CommandManager {
         registerCommand(new Ping());
         registerCommand(new Roles());
         registerCommand(new UserInfo());
-        registerCommand(new Stop());
+        registerCommand(new StopCorgi());
         registerCommand(new Say());
         registerCommand(new Fact());
         registerCommand(new Uptime());
@@ -108,6 +103,14 @@ public class CommandManager {
         registerCommand(new Hug());
         registerCommand(new Dice());
         registerCommand(new Covid());
+        registerCommand(new AllowMusic());
+        registerCommand(new DisallowMusic());
+        registerCommand(new NowPlaying());
+        registerCommand(new Play());
+        registerCommand(new Skip());
+        registerCommand(new Stop());
+        registerCommand(new Volume());
+        registerCommand(new SendChangelog());
         CorgiLogger.greatMessage("Corgi will respond to (" + commands.size() + ") commands.");
     }
 

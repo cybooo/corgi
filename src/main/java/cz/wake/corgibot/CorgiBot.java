@@ -39,8 +39,10 @@ import java.time.format.DateTimeFormatter;
 import java.util.Date;
 import java.util.Map;
 import java.util.Objects;
-import java.util.Timer;
 import java.util.concurrent.ConcurrentHashMap;
+import java.util.concurrent.Executors;
+import java.util.concurrent.ScheduledExecutorService;
+import java.util.concurrent.TimeUnit;
 
 public class CorgiBot {
 
@@ -175,9 +177,10 @@ public class CorgiBot {
             CorgiLogger.infoMessage("Basic prefix is: " + Constants.PREFIX);
         }
 
+        ScheduledExecutorService scheduledExecutorService = Executors.newSingleThreadScheduledExecutor();
+
         // Startup timer
-        Timer timer = new Timer();
-        timer.scheduleAtFixedRate(new SpamHandler(), 10, 1500); // 1.5s clear, higher = disaster
+        scheduledExecutorService.scheduleAtFixedRate(new SpamHandler(), 10, 1500, TimeUnit.MILLISECONDS); // 1.5s clear, higher = disaster
 
         // Languages
         CorgiLogger.infoMessage("Loading language files...");
@@ -186,8 +189,9 @@ public class CorgiBot {
         // Is Corgi beta?
         if (!isBeta) {
             CorgiLogger.infoMessage("Corgi will run as PRODUCTION bot.");
-            timer.scheduleAtFixedRate(new MojangChecker(), 10, 60000);
-            timer.scheduleAtFixedRate(new ReminderTask(instance), 10, 20000);
+            scheduledExecutorService.scheduleAtFixedRate(new MojangChecker(), 10, 60000, TimeUnit.MILLISECONDS);
+            scheduledExecutorService.scheduleAtFixedRate(new ReminderTask(instance), 10, 20000, TimeUnit.MILLISECONDS);
+            scheduledExecutorService.scheduleAtFixedRate(new ReminderTask(instance), 10, 20000, TimeUnit.MILLISECONDS);
             TwitterEventListener.initTwitter();
         } else {
             CorgiLogger.warnMessage("Corgi is running as BETA bot! Some functions will not work!");

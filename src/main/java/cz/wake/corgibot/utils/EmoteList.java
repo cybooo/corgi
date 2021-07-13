@@ -42,6 +42,7 @@ public class EmoteList {
     final public static String BUG = "\uD83D\uDC1B";
     final public static String DOG = "\uD83D\uDC36";
     final public static String CAT = "\uD83D\uDC31";
+    final public static String MUSIC_NOTE = "\uD83C\uDFB5";
 
 
     /*

@@ -18,8 +18,8 @@ import java.awt.*;
 import java.awt.image.BufferedImage;
 import java.io.File;
 import java.io.IOException;
-import java.util.Timer;
-import java.util.TimerTask;
+import java.util.concurrent.Executors;
+import java.util.concurrent.TimeUnit;
 import java.util.regex.Pattern;
 
 @CommandInfo(
@@ -73,12 +73,7 @@ public class Color implements CommandBase {
         builder.setImage("attachment://" + Integer.toHexString(c.getRGB()).substring(2).toLowerCase() + ".png");
         msgBuilder.setEmbeds(builder.build());
         channel.sendMessage(msgBuilder.build()).addFile(file).queue();
-        new Timer().schedule(new TimerTask() {
-            @Override
-            public void run() {
-                file.delete();
-            }
-        }, 7500);
+        Executors.newSingleThreadScheduledExecutor().schedule((Runnable) file::delete, 7500, TimeUnit.MILLISECONDS);
     }
 
     @Override

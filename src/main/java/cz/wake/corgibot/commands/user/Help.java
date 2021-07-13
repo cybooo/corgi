@@ -62,7 +62,7 @@ public class Help implements CommandBase {
             builder.append("Prefix for commands is `c!`\nView additional info using `c!help <command>`");
         }
         for (CommandCategory type : CommandCategory.getTypes()) {
-            if (type == CommandCategory.MUSIC || type == CommandCategory.BOT_OWNER || type == CommandCategory.HIDDEN) { // Neexistujici kategorie (zatim)
+            if (type == CommandCategory.BOT_OWNER || type == CommandCategory.HIDDEN) { // Neexistujici kategorie (zatim)
                 return builder;
             }
             builder.append("\n\n");

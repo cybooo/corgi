@@ -3,6 +3,7 @@ package cz.wake.corgibot.managers;
 import cz.wake.corgibot.CorgiBot;
 import cz.wake.corgibot.objects.GuildWrapper;
 import cz.wake.corgibot.utils.CorgiLogger;
+import net.dv8tion.jda.api.entities.Guild;
 import net.dv8tion.jda.api.entities.MessageChannel;
 import net.dv8tion.jda.api.exceptions.ErrorResponseException;
 
@@ -12,6 +13,23 @@ import java.util.Set;
 public class BotManager {
 
     private static final HashSet<GuildWrapper> listGuilds = new HashSet<>();
+
+    public static void registerOrLoadGuild(Guild guild) {
+        if (CorgiBot.getInstance().getSql().existsGuildData(guild.getId())) {
+            // Load dat from SQL + load into BotManager
+            Set<MessageChannel> ignoredChannels = CorgiBot.getInstance().getSql().getIgnoredChannels(guild.getId());
+            GuildWrapper gw = CorgiBot.getInstance().getSql().createGuildWrappers(guild.getId());
+            gw.setIgnoredChannels(ignoredChannels);
+            gw.setPrefix("c!", true); // Reset prefixu to c!
+            BotManager.addGuild(gw);
+        } else {
+            // INSERT DAT + insert into BotManager
+            CorgiBot.getInstance().getSql().insertDefaultServerData(guild.getId(), "c!");
+            GuildWrapper gw = new GuildWrapper(guild.getId());
+            gw.setPrefix("c!", false);
+            BotManager.addGuild(gw);
+        }
+    }
 
     public static void loadGuilds() {
         CorgiBot.getJda().getGuilds().forEach(guild -> {
@@ -36,7 +54,7 @@ public class BotManager {
                 System.exit(-1);
             }
         });
-        CorgiLogger.greatMessage("Connected on (" + listGuilds.size() + ") serveru!");
+        CorgiLogger.greatMessage("Connected on (" + listGuilds.size() + ") servers!");
         CorgiLogger.infoMessage("Loading Giveaways on guilds.");
         CorgiBot.getInstance().getSql().getAllGiveaways().forEach(go -> {
             try {

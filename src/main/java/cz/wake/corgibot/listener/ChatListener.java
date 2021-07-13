@@ -10,10 +10,7 @@ import cz.wake.corgibot.utils.CorgiLogger;
 import cz.wake.corgibot.utils.EmoteList;
 import cz.wake.corgibot.utils.MessageUtils;
 import net.dv8tion.jda.api.Permission;
-import net.dv8tion.jda.api.entities.Guild;
-import net.dv8tion.jda.api.entities.Member;
-import net.dv8tion.jda.api.entities.Message;
-import net.dv8tion.jda.api.entities.TextChannel;
+import net.dv8tion.jda.api.entities.*;
 import net.dv8tion.jda.api.events.DisconnectEvent;
 import net.dv8tion.jda.api.events.ShutdownEvent;
 import net.dv8tion.jda.api.events.message.guild.GuildMessageReceivedEvent;
@@ -23,6 +20,7 @@ import net.dv8tion.jda.api.hooks.ListenerAdapter;
 import java.util.Arrays;
 import java.util.Map;
 import java.util.Objects;
+import java.util.Set;
 import java.util.concurrent.ConcurrentHashMap;
 import java.util.concurrent.TimeUnit;
 import java.util.regex.Pattern;
@@ -64,6 +62,7 @@ public class ChatListener extends ListenerAdapter {
         if (!CorgiBot.isIsBeta()) {
             // Custom Guild prefix from SQL
             guildWrapper = BotManager.getCustomGuild(e.getMember().getGuild().getId());
+
             if (guildWrapper.getPrefix() != null) {
                 prefix = guildWrapper.getPrefix();
             }
@@ -157,6 +156,15 @@ public class ChatListener extends ListenerAdapter {
             } else {
                 ex2.printStackTrace();
             }
+        } catch (NullPointerException ex3) {
+            BotManager.registerOrLoadGuild(e.getGuild());
+            MessageUtils.sendAutoDeletedMessage(
+                    """ 
+                            Something went wrong while executing this command!
+                            If you just invited Corgi, it's possible that we had some downtime, and your server data was not registered correctly!
+                            If this issue persists, or you have been using Corgi already, contact the support!
+                            Sorry for the issues :(
+                            """, 20000, e.getChannel());
         }
     }
 

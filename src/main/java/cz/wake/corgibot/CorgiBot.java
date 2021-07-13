@@ -188,6 +188,7 @@ public class CorgiBot {
             CorgiLogger.infoMessage("Corgi will run as PRODUCTION bot.");
             timer.scheduleAtFixedRate(new MojangChecker(), 10, 60000);
             timer.scheduleAtFixedRate(new ReminderTask(instance), 10, 20000);
+            timer.scheduleAtFixedRate(new ReminderTask(instance), 10, 20000);
             TwitterEventListener.initTwitter();
         } else {
             CorgiLogger.warnMessage("Corgi is running as BETA bot! Some functions will not work!");

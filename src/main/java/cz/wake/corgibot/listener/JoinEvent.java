@@ -8,6 +8,7 @@ import cz.wake.corgibot.utils.Constants;
 import cz.wake.corgibot.utils.CorgiLogger;
 import cz.wake.corgibot.utils.MessageUtils;
 import net.dv8tion.jda.api.JDA;
+import net.dv8tion.jda.api.entities.Guild;
 import net.dv8tion.jda.api.entities.MessageChannel;
 import net.dv8tion.jda.api.events.guild.GuildJoinEvent;
 import net.dv8tion.jda.api.exceptions.InsufficientPermissionException;
@@ -23,20 +24,7 @@ public class JoinEvent extends ListenerAdapter {
         /*
             Initial setup
          */
-        if (CorgiBot.getInstance().getSql().existsGuildData(event.getGuild().getId())) {
-            // Load dat from SQL + load into BotManager
-            Set<MessageChannel> ignoredChannels = CorgiBot.getInstance().getSql().getIgnoredChannels(event.getGuild().getId());
-            GuildWrapper gw = CorgiBot.getInstance().getSql().createGuildWrappers(event.getGuild().getId());
-            gw.setIgnoredChannels(ignoredChannels);
-            gw.setPrefix("c!", true); // Reset prefixu na c!
-            BotManager.addGuild(gw);
-        } else {
-            // INSERT DAT + insert into BotManager
-            CorgiBot.getInstance().getSql().insertDefaultServerData(event.getGuild().getId(), "c!");
-            GuildWrapper gw = new GuildWrapper(event.getGuild().getId());
-            gw.setPrefix("c!", false);
-            BotManager.addGuild(gw);
-        }
+        BotManager.registerOrLoadGuild(event.getGuild());
 
         // Logger
         CorgiLogger.infoMessage("GuildJoinEvent - " + event.getGuild().getName() + "(" + event.getGuild().getId() + ")");

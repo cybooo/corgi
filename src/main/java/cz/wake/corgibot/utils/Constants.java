@@ -12,7 +12,7 @@ public class Constants {
     /*
         Basic colors for Embeds
      */
-    final public static Color BLUE = new Color(48, 50, 102);
+    final public static Color BLUE = new Color(58, 170, 255);
     final public static Color RED = new Color(234, 88, 88);
     final public static Color GREEN = new Color(105, 206, 111);
     final public static Color PINK = new Color(255, 159, 243);

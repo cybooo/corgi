@@ -15,13 +15,13 @@ import net.dv8tion.jda.api.entities.MessageChannel;
 
 @OnlyOwner
 @CommandInfo(
-        name = "stop",
+        name = "stopcorgi",
         description = "This commands shuts down the bot. (Only bot owner)",
-        help = "%stop",
+        help = "%stopcorgi",
         category = CommandCategory.BOT_OWNER
 )
 @SinceCorgi(version = "0.1")
-public class Stop implements CommandBase {
+public class StopCorgi implements CommandBase {
 
     @Override
     public void onCommand(MessageChannel channel, Message message, String[] args, Member member, EventWaiter w, GuildWrapper gw) {

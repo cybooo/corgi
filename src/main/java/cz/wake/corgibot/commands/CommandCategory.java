@@ -11,7 +11,7 @@ public enum CommandCategory {
     MODERATION(EmoteList.MODERATION),
     GAMES(EmoteList.VIDEO_GAME),
     FUN(EmoteList.COMET),
-    MUSIC,
+    MUSIC(EmoteList.MUSIC_NOTE),
     ADMINISTRATOR(EmoteList.PLAYING_CARD),
     HIDDEN,
     BOT_OWNER;

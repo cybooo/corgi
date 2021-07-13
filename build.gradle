@@ -45,7 +45,7 @@ dependencies {
 
     // JDA
     implementation group: 'net.dv8tion', name: 'JDA', version: '4.3.0_296'
-    implementation group: 'com.jagrosh', name: 'jda-utilities', version: '3.0.4'
+    implementation group: 'com.jagrosh', name: 'jda-utilities', version: '3.0.5'
     implementation group: 'me.duncte123', name: 'botCommons', version: '2.3.8'
 
     // Others

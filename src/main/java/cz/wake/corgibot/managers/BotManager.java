@@ -16,12 +16,14 @@ public class BotManager {
 
     public static void registerOrLoadGuild(Guild guild) {
         if (CorgiBot.getInstance().getSql().existsGuildData(guild.getId())) {
-            // Load dat from SQL + load into BotManager
-            Set<MessageChannel> ignoredChannels = CorgiBot.getInstance().getSql().getIgnoredChannels(guild.getId());
-            GuildWrapper gw = CorgiBot.getInstance().getSql().createGuildWrappers(guild.getId());
-            gw.setIgnoredChannels(ignoredChannels);
-            gw.setPrefix("c!", true); // Reset prefixu to c!
-            BotManager.addGuild(gw);
+            if (getCustomGuild(guild.getId()) == null) {
+                // Load dat from SQL + load into BotManager
+                Set<MessageChannel> ignoredChannels = CorgiBot.getInstance().getSql().getIgnoredChannels(guild.getId());
+                GuildWrapper gw = CorgiBot.getInstance().getSql().createGuildWrappers(guild.getId());
+                gw.setIgnoredChannels(ignoredChannels);
+                gw.setPrefix("c!", true); // Reset prefix to c!
+                BotManager.addGuild(gw);
+            }
         } else {
             // INSERT DAT + insert into BotManager
             CorgiBot.getInstance().getSql().insertDefaultServerData(guild.getId(), "c!");

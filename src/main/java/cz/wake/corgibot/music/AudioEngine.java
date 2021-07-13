@@ -212,9 +212,6 @@ public class AudioEngine {
 
     public static void connectVoice(AudioManager audioManager, VoiceChannel voice) {
 
-        if (audioManager.isAttemptingToConnect())
-            return;
-
         if (audioManager.isConnected()) {
             if (!Objects.equals(audioManager.getConnectedChannel(), voice)) {
                 audioManager.closeAudioConnection();

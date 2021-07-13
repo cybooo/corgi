@@ -59,7 +59,7 @@ public class Play implements CommandBase {
                     return;
                 }
             }
-            AudioEngine.loadAndPlay(channel, member.getVoiceState().getChannel(), args[0]);
+            AudioEngine.loadAndPlay(member, channel, member.getVoiceState().getChannel(), args[0]);
         }
     }
 }

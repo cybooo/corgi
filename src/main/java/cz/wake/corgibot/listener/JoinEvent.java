@@ -2,19 +2,14 @@ package cz.wake.corgibot.listener;
 
 import cz.wake.corgibot.CorgiBot;
 import cz.wake.corgibot.managers.BotManager;
-import cz.wake.corgibot.objects.GuildWrapper;
 import cz.wake.corgibot.utils.ColorSelector;
 import cz.wake.corgibot.utils.Constants;
 import cz.wake.corgibot.utils.CorgiLogger;
 import cz.wake.corgibot.utils.MessageUtils;
 import net.dv8tion.jda.api.JDA;
-import net.dv8tion.jda.api.entities.Guild;
-import net.dv8tion.jda.api.entities.MessageChannel;
 import net.dv8tion.jda.api.events.guild.GuildJoinEvent;
 import net.dv8tion.jda.api.exceptions.InsufficientPermissionException;
 import net.dv8tion.jda.api.hooks.ListenerAdapter;
-
-import java.util.Set;
 
 public class JoinEvent extends ListenerAdapter {
 

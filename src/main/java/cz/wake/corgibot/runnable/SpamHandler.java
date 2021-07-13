@@ -2,9 +2,7 @@ package cz.wake.corgibot.runnable;
 
 import cz.wake.corgibot.listener.ChatListener;
 
-import java.util.TimerTask;
-
-public class SpamHandler extends TimerTask {
+public class SpamHandler implements Runnable {
 
     private final ChatListener ch = new ChatListener();
 

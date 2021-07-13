@@ -20,7 +20,6 @@ import net.dv8tion.jda.api.hooks.ListenerAdapter;
 import java.util.Arrays;
 import java.util.Map;
 import java.util.Objects;
-import java.util.Set;
 import java.util.concurrent.ConcurrentHashMap;
 import java.util.concurrent.TimeUnit;
 import java.util.regex.Pattern;

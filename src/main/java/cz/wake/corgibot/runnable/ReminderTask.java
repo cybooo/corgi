@@ -6,15 +6,8 @@ import cz.wake.corgibot.utils.CorgiLogger;
 import cz.wake.corgibot.utils.MessageUtils;
 
 import java.util.HashSet;
-import java.util.TimerTask;
 
-public class ReminderTask extends TimerTask {
-
-    private final CorgiBot plugin;
-
-    public ReminderTask(CorgiBot plugin) {
-        this.plugin = plugin;
-    }
+public record ReminderTask(CorgiBot plugin) implements Runnable {
 
     @Override
     public void run() {

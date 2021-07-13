@@ -9,14 +9,12 @@ import cz.wake.corgibot.commands.CommandBase;
 import cz.wake.corgibot.commands.CommandCategory;
 import cz.wake.corgibot.objects.ChangeLog;
 import cz.wake.corgibot.objects.GuildWrapper;
-import cz.wake.corgibot.utils.Constants;
 import cz.wake.corgibot.utils.EmoteList;
 import cz.wake.corgibot.utils.MessageUtils;
 import net.dv8tion.jda.api.entities.Member;
 import net.dv8tion.jda.api.entities.Message;
 import net.dv8tion.jda.api.entities.MessageChannel;
 
-import java.io.File;
 import java.text.SimpleDateFormat;
 import java.util.Calendar;
 

@@ -520,7 +520,7 @@ public class SQLManager {
         PreparedStatement ps = null;
         try {
             conn = pool.getConnection();
-            ps = conn.prepareStatement("SELECT opened_tickets FROM s7753_corgi.ticket_guild_data WHERE guild_id = ?;");
+            ps = conn.prepareStatement("SELECT * FROM s7753_corgi.ticket_guild_data WHERE guild_id = ?;");
             ps.setString(1, guildId);
             ps.executeQuery();
             return ps.getResultSet().next();
@@ -537,9 +537,9 @@ public class SQLManager {
         PreparedStatement ps = null;
         try {
             conn = pool.getConnection();
-            ps = conn.prepareStatement("INSERT INTO s7753_corgi.ticket_guild_data (guild_id, opened_tickets, ticket_closed_category, ticket_transcript_category, ticket_opened_category, maximum_tickets, maximum_user_tickets) VALUES (?, ?, ?, ?, ?, ?, ?);");
+            ps = conn.prepareStatement("INSERT INTO s7753_corgi.ticket_guild_data (guild_id, opened_tickets, ticket_closed_category, ticket_transcript_channel, ticket_opened_category, maximum_tickets, maximum_user_tickets) VALUES (?, ?, ?, ?, ?, ?, ?);");
             ps.setString(1, guildId);
-            ps.setInt(2, 1);
+            ps.setInt(2, 0);
             ps.setString(3, "0");
             ps.setString(4, "0");
             ps.setString(5, "0");
@@ -682,7 +682,7 @@ public class SQLManager {
         PreparedStatement ps = null;
         try {
             conn = pool.getConnection();
-            ps = conn.prepareStatement("SET opened_tickets = ? FROM s7753_corgi.ticket_guild_data WHERE guild_id = ?;");
+            ps = conn.prepareStatement("UPDATE s7753_corgi.ticket_guild_data SET opened_tickets = ? WHERE guild_id = ?");
             ps.setInt(1, openedTickets);
             ps.setString(2, guildId);
             ps.executeUpdate();
@@ -717,7 +717,7 @@ public class SQLManager {
         PreparedStatement ps = null;
         try {
             conn = pool.getConnection();
-            ps = conn.prepareStatement("SET maximum_tickets = ? FROM s7753_corgi.ticket_guild_data WHERE guild_id = ?;");
+            ps = conn.prepareStatement("UPDATE s7753_corgi.ticket_guild_data SET maximum_tickets = ? WHERE guild_id = ?");
             ps.setInt(1, maximumTickets);
             ps.setString(2, guildId);
             ps.executeUpdate();
@@ -752,7 +752,7 @@ public class SQLManager {
         PreparedStatement ps = null;
         try {
             conn = pool.getConnection();
-            ps = conn.prepareStatement("SET maximum_user_tickets = ? FROM s7753_corgi.ticket_guild_data WHERE guild_id = ?;");
+            ps = conn.prepareStatement("UPDATE s7753_corgi.ticket_guild_data SET maximum_user_tickets = ? WHERE guild_id = ?");
             ps.setInt(1, maximumUserTickets);
             ps.setString(2, guildId);
             ps.executeUpdate();

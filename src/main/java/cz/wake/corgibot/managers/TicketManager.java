@@ -7,18 +7,16 @@ import cz.wake.corgibot.utils.Constants;
 import cz.wake.corgibot.utils.EmoteList;
 import net.dv8tion.jda.api.EmbedBuilder;
 import net.dv8tion.jda.api.Permission;
-import net.dv8tion.jda.api.entities.Guild;
-import net.dv8tion.jda.api.entities.Member;
-import net.dv8tion.jda.api.entities.Role;
+import net.dv8tion.jda.api.entities.*;
 import net.dv8tion.jda.api.interactions.components.Button;
+import net.dv8tion.jda.api.interactions.components.Component;
 
 import java.util.HashSet;
 
 public class TicketManager {
 
-    private static final HashSet<Ticket> tickets = new HashSet<>();
-
     public static void createTicket(Guild guild, Member author) {
+        CorgiBot.getInstance().getSql().setOpenedTickets(guild.getId(), CorgiBot.getInstance().getSql().getOpenedTickets(guild.getId()) + 1);
         String categoryId = CorgiBot.getInstance().getSql().getTicketOpenedCategory(guild.getId());
         guild.createTextChannel("ticket-" + CorgiBot.getInstance().getSql().getOpenedTickets(guild.getId()), categoryId == null || categoryId.equals("0") ? null : guild.getCategoryById(categoryId)).queue(textChannel -> {
             // TODO: Make customizable (Webpanel?)
@@ -63,16 +61,51 @@ public class TicketManager {
 
             textChannel.sendMessageEmbeds(new EmbedBuilder()
                     .setTitle("Ticket - " + author.getUser().getAsTag())
-                    .setDescription("Click :envelope_with_arrow: to close this ticket!")
+                    .setDescription("Click " + EmoteList.LOCK + " to close this ticket!")
                     .setColor(Constants.BLUE)
                     .build())
                     .setActionRow(Button.primary("closeticket", EmoteList.LOCK + " Close ticket"))
                     .queue();
         });
-        CorgiBot.getInstance().getSql().setOpenedTickets(guild.getId(), CorgiBot.getInstance().getSql().getOpenedTickets(guild.getId()) + 1);
     }
 
-    public static HashSet<Ticket> getTickets() {
-        return tickets;
+    public static void closeTicket(TextChannel textChannel, Member closedBy) {
+        textChannel.sendMessageEmbeds(new EmbedBuilder()
+                .setColor(Constants.BLUE)
+                .setTitle("Ticket closed")
+                .setDescription("Ticket closed by " + closedBy.getAsMention())
+                .build())
+                .setActionRow(Button.primary("deleteticket", EmoteList.NO_ENTRY + " Delete ticket"), Button.primary("reopenticket", EmoteList.MAILBOX + " Open ticket"))
+                .queue();
+
+
+        textChannel.getPermissionOverride(textChannel.getGuild().getPublicRole()).getManager().deny(Permission.MESSAGE_WRITE).queue();
+
+        for (Role role : CorgiBot.getInstance().getSql().getTicketStaffRoles(textChannel.getGuild().getId())) {
+            textChannel.getPermissionOverride(role).getManager().setAllow(
+                    Permission.MESSAGE_WRITE
+            ).queue();
+        }
     }
+
+    public static void reopenTicket(TextChannel textChannel, Member openedBy) {
+        textChannel.sendMessageEmbeds(new EmbedBuilder()
+                        .setColor(Constants.BLUE)
+                        .setTitle("Ticket opened")
+                        .setDescription("Ticket opened by " + openedBy.getAsMention())
+                        .build())
+                .setActionRow(Button.primary("closeticket", EmoteList.LOCK + " Close ticket"))
+                .queue();
+
+        for (PermissionOverride permissionOverride : textChannel.getPermissionOverrides()) {
+            permissionOverride.getManager().setAllow(Permission.MESSAGE_WRITE).queue();
+        }
+    }
+
+    public static void generateTranscript(TextChannel textChannel) {
+
+        // TODO: Generate HTML transcript based on transcript_template.html
+
+    }
+
 }

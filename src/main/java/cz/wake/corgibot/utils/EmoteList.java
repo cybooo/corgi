@@ -25,6 +25,7 @@ public class EmoteList {
     public static final String ALARM_CLOCK = "\u23F0";
     public static final String LOCK = "\uD83D\uDD12";
     public static final String ENVELOPE_WITH_ARROW = "\uD83D\uDCE9";
+    public static final String NO_ENTRY = "⛔";
 
     public static final String GREEN_OK = "\u2705";
     public static final String RED_DENY = "\u26D4";

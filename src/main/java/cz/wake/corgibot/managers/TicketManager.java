@@ -1,17 +1,12 @@
 package cz.wake.corgibot.managers;
 
 import cz.wake.corgibot.CorgiBot;
-import cz.wake.corgibot.objects.Ticket;
-import cz.wake.corgibot.sql.SQLManager;
 import cz.wake.corgibot.utils.Constants;
 import cz.wake.corgibot.utils.EmoteList;
 import net.dv8tion.jda.api.EmbedBuilder;
 import net.dv8tion.jda.api.Permission;
 import net.dv8tion.jda.api.entities.*;
 import net.dv8tion.jda.api.interactions.components.Button;
-import net.dv8tion.jda.api.interactions.components.Component;
-
-import java.util.HashSet;
 
 public class TicketManager {
 

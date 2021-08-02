@@ -3,10 +3,7 @@ package cz.wake.corgibot;
 import com.jagrosh.jdautilities.commons.waiter.EventWaiter;
 import cz.wake.corgibot.commands.CommandManager;
 import cz.wake.corgibot.feeds.TwitterEventListener;
-import cz.wake.corgibot.listener.ChannelDeleteEvent;
-import cz.wake.corgibot.listener.ChatListener;
-import cz.wake.corgibot.listener.JoinEvent;
-import cz.wake.corgibot.listener.LeaveEvent;
+import cz.wake.corgibot.listener.*;
 import cz.wake.corgibot.managers.BotManager;
 import cz.wake.corgibot.runnable.ReminderTask;
 import cz.wake.corgibot.runnable.SpamHandler;
@@ -142,6 +139,7 @@ public class CorgiBot {
                 .addEventListeners(new LeaveEvent())
                 .addEventListeners(new JoinEvent())
                 .addEventListeners(new ChannelDeleteEvent())
+                .addEventListeners(new TicketListener())
                 .addEventListeners(waiter)
                 .setActivity(Activity.playing("Loading..."))
                 .setStatus(OnlineStatus.IDLE)

@@ -1,7 +1,10 @@
 package cz.wake.corgibot.exceptions;
 
+import java.io.Serial;
+
 public class NoAPIKeyException extends Exception {
 
+    @Serial
     private static final long serialVersionUID = -501369307171514453L;
 
     public NoAPIKeyException() {

@@ -97,6 +97,11 @@ public class ChatListener extends ListenerAdapter {
                     return;
                 }
 
+                // Check if server is beta
+                if (cmd.isBeta() && !guildWrapper.isBeta()) {
+                    return;
+                }
+
                 // Spam detection
                 handleSpamDetection(e, guildWrapper, e.getChannel());
 
@@ -193,9 +198,16 @@ public class ChatListener extends ListenerAdapter {
 
     private void handleSpamDetection(GuildMessageReceivedEvent event, GuildWrapper guild, TextChannel ch) {
         if (spamMap.containsKey(event.getGuild().getId())) {
+
             int messages = spamMap.get(event.getGuild().getId());
-            double allowed = Math.floor(Math.sqrt(getGuildUserCount(event.getGuild()) / 2.5));
-            allowed = allowed == 0 ? 1 : allowed;
+            int allowed;
+
+            if (getGuildUserCount(event.getGuild()) < 100) {
+                allowed = 10;
+            } else {
+                allowed = Math.round((float) getGuildUserCount(event.getGuild()) / 10);
+            }
+
             if (messages > allowed) {
                 if (!guild.isBlocked()) {
                     MessageUtils.sendErrorMessage("**SPAM DETECTED** Commands in this server will be ignored for one minute.", ch);

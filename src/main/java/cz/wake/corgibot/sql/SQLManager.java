@@ -7,12 +7,14 @@ import cz.wake.corgibot.objects.GiveawayObject;
 import cz.wake.corgibot.objects.GuildWrapper;
 import cz.wake.corgibot.objects.TemporaryReminder;
 import net.dv8tion.jda.api.entities.MessageChannel;
+import net.dv8tion.jda.api.entities.Role;
 import net.dv8tion.jda.api.entities.User;
 
 import java.sql.Connection;
 import java.sql.PreparedStatement;
 import java.util.ArrayList;
 import java.util.HashSet;
+import java.util.Random;
 
 public class SQLManager {
 
@@ -335,7 +337,7 @@ public class SQLManager {
         PreparedStatement ps = null;
         try {
             conn = pool.getConnection();
-            ps = conn.prepareStatement("SET NAMES utf8mb4;INSERT INTO s7753_corgi.giveaways (guild_id,textchannel_id, message_id, start_time, end_time, prize, max_winners, emoji, embed_color) VALUES (?,?,?,?,?,?,?,?,?);");
+            ps = conn.prepareStatement("SET NAMES utf8mb4;INSERT INTO s7753_corgi.giveaways (guild_id, textchannel_id, message_id, start_time, end_time, prize, max_winners, emoji, embed_color) VALUES (?, ?, ?, ?, ?, ?, ?, ?, ?);");
             ps.setString(1, guildId);
             ps.setString(2, textChannelId);
             ps.setString(3, messageId);
@@ -512,5 +514,313 @@ public class SQLManager {
         }
         return commands;
     }
+
+    public final boolean registeredTicketData(String guildId) {
+        Connection conn = null;
+        PreparedStatement ps = null;
+        try {
+            conn = pool.getConnection();
+            ps = conn.prepareStatement("SELECT * FROM s7753_corgi.ticket_guild_data WHERE guild_id = ?;");
+            ps.setString(1, guildId);
+            ps.executeQuery();
+            return ps.getResultSet().next();
+        } catch (Exception e) {
+            e.printStackTrace();
+            return false;
+        } finally {
+            pool.close(conn, ps, null);
+        }
+    }
+
+    public final void registerTicketData(String guildId) {
+        Connection conn = null;
+        PreparedStatement ps = null;
+        try {
+            conn = pool.getConnection();
+            ps = conn.prepareStatement("INSERT INTO s7753_corgi.ticket_guild_data (guild_id, opened_tickets, ticket_closed_category, ticket_transcript_channel, ticket_opened_category, maximum_tickets, maximum_user_tickets) VALUES (?, ?, ?, ?, ?, ?, ?);");
+            ps.setString(1, guildId);
+            ps.setInt(2, 0);
+            ps.setString(3, "0");
+            ps.setString(4, "0");
+            ps.setString(5, "0");
+            ps.setString(6, "10");
+            ps.setString(7, "5");
+            ps.executeUpdate();
+        } catch (Exception e) {
+            e.printStackTrace();
+        } finally {
+            pool.close(conn, ps, null);
+        }
+    }
+
+    public final String getTicketOpenedCategory(String guildId) {
+        Connection conn = null;
+        PreparedStatement ps = null;
+        try {
+            conn = pool.getConnection();
+            ps = conn.prepareStatement("SELECT ticket_opened_category FROM s7753_corgi.ticket_guild_data WHERE guild_id = ?;");
+            ps.setString(1, guildId);
+            ps.executeQuery();
+            if (ps.getResultSet().next()) {
+                return ps.getResultSet().getString("ticket_opened_category");
+            }
+        } catch (Exception e) {
+            e.printStackTrace();
+        } finally {
+            pool.close(conn, ps, null);
+        }
+        return null;
+    }
+
+    public final void setTicketOpenedCategory(String guildId, String categoryId) {
+        Connection conn = null;
+        PreparedStatement ps = null;
+        try {
+            conn = pool.getConnection();
+            ps = conn.prepareStatement("SET ticket_opened_category = ? FROM s7753_corgi.ticket_guild_data WHERE guild_id = ?;");
+            ps.setString(1, categoryId);
+            ps.setString(2, guildId);
+            ps.executeUpdate();
+        } catch (Exception e) {
+            e.printStackTrace();
+        } finally {
+            pool.close(conn, ps, null);
+        }
+    }
+
+    public final String getTicketClosedCategory(String guildId) {
+        Connection conn = null;
+        PreparedStatement ps = null;
+        try {
+            conn = pool.getConnection();
+            ps = conn.prepareStatement("SELECT ticket_closed_category FROM s7753_corgi.ticket_guild_data WHERE guild_id = ?;");
+            ps.setString(1, guildId);
+            ps.executeQuery();
+            if (ps.getResultSet().next()) {
+                return ps.getResultSet().getString("ticket_closed_category");
+            }
+        } catch (Exception e) {
+            e.printStackTrace();
+        } finally {
+            pool.close(conn, ps, null);
+        }
+        return null;
+    }
+
+    public final void setTicketClosedCategory(String guildId, String categoryId) {
+        Connection conn = null;
+        PreparedStatement ps = null;
+        try {
+            conn = pool.getConnection();
+            ps = conn.prepareStatement("SET ticket_closed_category = ? FROM s7753_corgi.ticket_guild_data WHERE guild_id = ?;");
+            ps.setString(1, categoryId);
+            ps.setString(2, guildId);
+            ps.executeUpdate();
+        } catch (Exception e) {
+            e.printStackTrace();
+        } finally {
+            pool.close(conn, ps, null);
+        }
+    }
+
+    public final String getTicketTranscriptChannel(String guildId) {
+        Connection conn = null;
+        PreparedStatement ps = null;
+        try {
+            conn = pool.getConnection();
+            ps = conn.prepareStatement("SELECT ticket_transcript_channel FROM s7753_corgi.ticket_guild_data WHERE guild_id = ?;");
+            ps.setString(1, guildId);
+            ps.executeQuery();
+            if (ps.getResultSet().next()) {
+                return ps.getResultSet().getString("ticket_transcript_channel");
+            }
+        } catch (Exception e) {
+            e.printStackTrace();
+        } finally {
+            pool.close(conn, ps, null);
+        }
+        return null;
+    }
+
+    public final void setTicketTranscriptChannel(String guildId, String channelId) {
+        Connection conn = null;
+        PreparedStatement ps = null;
+        try {
+            conn = pool.getConnection();
+            ps = conn.prepareStatement("SET ticket_transcript_channel = ? FROM s7753_corgi.ticket_guild_data WHERE guild_id = ?;");
+            ps.setString(1, channelId);
+            ps.setString(2, guildId);
+            ps.executeUpdate();
+        } catch (Exception e) {
+            e.printStackTrace();
+        } finally {
+            pool.close(conn, ps, null);
+        }
+    }
+
+    public final int getOpenedTickets(String guildId) {
+        Connection conn = null;
+        PreparedStatement ps = null;
+        try {
+            conn = pool.getConnection();
+            ps = conn.prepareStatement("SELECT opened_tickets FROM s7753_corgi.ticket_guild_data WHERE guild_id = ?;");
+            ps.setString(1, guildId);
+            ps.executeQuery();
+            if (ps.getResultSet().next()) {
+                return ps.getResultSet().getInt("opened_tickets");
+            }
+        } catch (Exception e) {
+            e.printStackTrace();
+        } finally {
+            pool.close(conn, ps, null);
+        }
+        return new Random().nextInt(9999); // If anything goes wrong, try to assign a random id to the ticket.
+    }
+
+    public final void setOpenedTickets(String guildId, int openedTickets) {
+        Connection conn = null;
+        PreparedStatement ps = null;
+        try {
+            conn = pool.getConnection();
+            ps = conn.prepareStatement("UPDATE s7753_corgi.ticket_guild_data SET opened_tickets = ? WHERE guild_id = ?");
+            ps.setInt(1, openedTickets);
+            ps.setString(2, guildId);
+            ps.executeUpdate();
+        } catch (Exception e) {
+            e.printStackTrace();
+        } finally {
+            pool.close(conn, ps, null);
+        }
+    }
+
+    public final int getMaximumTickets(String guildId) {
+        Connection conn = null;
+        PreparedStatement ps = null;
+        try {
+            conn = pool.getConnection();
+            ps = conn.prepareStatement("SELECT maximum_tickets FROM s7753_corgi.ticket_guild_data WHERE guild_id = ?;");
+            ps.setString(1, guildId);
+            ps.executeQuery();
+            if (ps.getResultSet().next()) {
+                return ps.getResultSet().getInt("maximum_tickets");
+            }
+        } catch (Exception e) {
+            e.printStackTrace();
+        } finally {
+            pool.close(conn, ps, null);
+        }
+        return 10;
+    }
+
+    public final void setMaximumTickets(String guildId, int maximumTickets) {
+        Connection conn = null;
+        PreparedStatement ps = null;
+        try {
+            conn = pool.getConnection();
+            ps = conn.prepareStatement("UPDATE s7753_corgi.ticket_guild_data SET maximum_tickets = ? WHERE guild_id = ?");
+            ps.setInt(1, maximumTickets);
+            ps.setString(2, guildId);
+            ps.executeUpdate();
+        } catch (Exception e) {
+            e.printStackTrace();
+        } finally {
+            pool.close(conn, ps, null);
+        }
+    }
+
+    public final int getMaximumUserTickets(String guildId) {
+        Connection conn = null;
+        PreparedStatement ps = null;
+        try {
+            conn = pool.getConnection();
+            ps = conn.prepareStatement("SELECT maximum_user_tickets FROM s7753_corgi.ticket_guild_data WHERE guild_id = ?;");
+            ps.setString(1, guildId);
+            ps.executeQuery();
+            if (ps.getResultSet().next()) {
+                return ps.getResultSet().getInt("maximum_user_tickets");
+            }
+        } catch (Exception e) {
+            e.printStackTrace();
+        } finally {
+            pool.close(conn, ps, null);
+        }
+        return 2;
+    }
+
+    public final void setMaximumUserTickets(String guildId, int maximumUserTickets) {
+        Connection conn = null;
+        PreparedStatement ps = null;
+        try {
+            conn = pool.getConnection();
+            ps = conn.prepareStatement("UPDATE s7753_corgi.ticket_guild_data SET maximum_user_tickets = ? WHERE guild_id = ?");
+            ps.setInt(1, maximumUserTickets);
+            ps.setString(2, guildId);
+            ps.executeUpdate();
+        } catch (Exception e) {
+            e.printStackTrace();
+        } finally {
+            pool.close(conn, ps, null);
+        }
+    }
+
+    public final HashSet<Role> getTicketStaffRoles(String guildId) {
+        HashSet<Role> list = new HashSet<>();
+        Connection conn = null;
+        PreparedStatement ps = null;
+        try {
+            conn = pool.getConnection();
+            ps = conn.prepareStatement("SELECT role_id FROM s7753_corgi.ticket_guild_data_staffroles WHERE guild_id = ?;");
+            ps.setString(1, guildId);
+            ps.executeQuery();
+            while (ps.getResultSet().next()) {
+                try {
+                    Role role = CorgiBot.getJda().getGuildById(guildId).getRoleById(ps.getResultSet().getString("roleid"));
+                    if (role != null) {
+                        list.add(role);
+                    }
+                } catch (NullPointerException e) {
+                    CorgiBot.LOGGER.error(e.getMessage());
+                }
+            }
+        } catch (Exception e) {
+            e.printStackTrace();
+        } finally {
+            pool.close(conn, ps, null);
+        }
+        return list;
+    }
+
+    public final void addTicketStaffRole(String guildId, String roleId) {
+        Connection conn = null;
+        PreparedStatement ps = null;
+        try {
+            conn = pool.getConnection();
+            ps = conn.prepareStatement("INSERT INTO s7753_corgi.ticket_guild_data_staffroles (guild_id, role_id) VALUES (?, ?);");
+            ps.setString(1, guildId);
+            ps.setString(2, roleId);
+            ps.executeUpdate();
+        } catch (Exception e) {
+            e.printStackTrace();
+        } finally {
+            pool.close(conn, ps, null);
+        }
+    }
+
+    public final void deleteTicketStaffRole(String guildId, String roleId) {
+        Connection conn = null;
+        PreparedStatement ps = null;
+        try {
+            conn = pool.getConnection();
+            ps = conn.prepareStatement("DELETE FROM s7753_corgi.ticket_guild_data_staffroles WHERE guild_id = ? AND role_id = ?;");
+            ps.setString(1, guildId);
+            ps.setString(2, roleId);
+            ps.executeUpdate();
+        } catch (Exception e) {
+            e.printStackTrace();
+        } finally {
+            pool.close(conn, ps, null);
+        }
+    }
+
 
 }

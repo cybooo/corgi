@@ -10,11 +10,10 @@ import com.sedmelluq.discord.lavaplayer.track.AudioTrack;
 import cz.wake.corgibot.utils.Constants;
 import cz.wake.corgibot.utils.MessageUtils;
 import cz.wake.corgibot.utils.TimeUtils;
-import net.dv8tion.jda.api.entities.Guild;
-import net.dv8tion.jda.api.entities.MessageChannel;
-import net.dv8tion.jda.api.entities.TextChannel;
-import net.dv8tion.jda.api.entities.VoiceChannel;
+import net.dv8tion.jda.api.Permission;
+import net.dv8tion.jda.api.entities.*;
 import net.dv8tion.jda.api.managers.AudioManager;
+import net.dv8tion.jda.internal.utils.PermissionUtil;
 
 import java.util.HashMap;
 import java.util.Map;
@@ -81,7 +80,7 @@ public class AudioEngine {
 
     }
 
-    public static void loadAndPlay(MessageChannel channel, VoiceChannel voice, String trackUrl) {
+    public static void loadAndPlay(Member member, MessageChannel channel, VoiceChannel voice, String trackUrl) {
 
         GuildMusicManager musicManager = getGuildAudioPlayer(voice.getGuild());
 
@@ -92,7 +91,7 @@ public class AudioEngine {
 
                 long duration = track.getDuration() / 1000;
 
-                if (duration > 600) {
+                if (duration > 600 && !PermissionUtil.checkPermission(member, Permission.MANAGE_CHANNEL)) {
                     channel.sendMessageEmbeds(MessageUtils.getEmbed(Constants.BLUE)
                             .setTitle("Music Queue")
                             .setDescription("Maximum length of a track is **10 minutes**!")
@@ -128,7 +127,7 @@ public class AudioEngine {
 
                 for (AudioTrack track : playlist.getTracks()) {
 
-                    if (track.getDuration() > 600) {
+                    if (track.getDuration() > 600 && !PermissionUtil.checkPermission(member, Permission.MANAGE_CHANNEL)) {
                         playlist.getTracks().remove(track);
                         failedTracks++;
                     } else {

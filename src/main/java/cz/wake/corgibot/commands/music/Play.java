@@ -16,6 +16,7 @@ import net.dv8tion.jda.api.entities.MessageChannel;
 import net.dv8tion.jda.api.entities.Role;
 import net.dv8tion.jda.internal.utils.PermissionUtil;
 
+import java.awt.desktop.ScreenSleepEvent;
 import java.util.ArrayList;
 import java.util.Objects;
 
@@ -34,10 +35,17 @@ public class Play implements CommandBase {
 
         boolean canUse = false;
         ArrayList<String> roles = CorgiBot.getInstance().getSql().getRoleMusicRoles(message.getGuild().getId(), getCommand());
-        for (Role role : member.getRoles()) {
-            if (roles.isEmpty() || roles.contains(role.getId()) || PermissionUtil.checkPermission(member, Permission.MANAGE_CHANNEL)) {
+
+        if (member.getRoles().isEmpty()) {
+            if (roles.isEmpty() || PermissionUtil.checkPermission(member, Permission.MANAGE_CHANNEL)) {
                 canUse = true;
-                break;
+            }
+        } else {
+            for (Role role : member.getRoles()) {
+                if (roles.isEmpty() || roles.contains(role.getId()) || PermissionUtil.checkPermission(member, Permission.MANAGE_CHANNEL)) {
+                    canUse = true;
+                    break;
+                }
             }
         }
         if (!canUse) {
@@ -59,7 +67,7 @@ public class Play implements CommandBase {
                     return;
                 }
             }
-            AudioEngine.loadAndPlay(channel, member.getVoiceState().getChannel(), args[0]);
+            AudioEngine.loadAndPlay(member, channel, member.getVoiceState().getChannel(), args[0]);
         }
     }
 }

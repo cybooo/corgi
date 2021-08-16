@@ -3,6 +3,7 @@ package cz.wake.corgibot.managers;
 import cz.wake.corgibot.CorgiBot;
 import cz.wake.corgibot.utils.Constants;
 import cz.wake.corgibot.utils.EmoteList;
+import cz.wake.corgibot.utils.MessageUtils;
 import net.dv8tion.jda.api.EmbedBuilder;
 import net.dv8tion.jda.api.Permission;
 import net.dv8tion.jda.api.entities.*;
@@ -11,6 +12,21 @@ import net.dv8tion.jda.api.interactions.components.Button;
 public class TicketManager {
 
     public static void createTicket(Guild guild, Member author) {
+
+        int openedTickets = 0;
+
+        // TODO: figure out a better way + add maximum user tickets (SQL Storing?)
+        for (TextChannel textChannel : guild.getTextChannels()) {
+            if (textChannel.getName().toLowerCase().contains("ticket-")) {
+                openedTickets++;
+            }
+        }
+
+        if (openedTickets >= CorgiBot.getInstance().getSql().getMaximumTickets(guild.getId())) {
+            MessageUtils.sendPrivateMessage(author.getUser(), "You can't currently create any more tickets!");
+            return;
+        }
+
         CorgiBot.getInstance().getSql().setOpenedTickets(guild.getId(), CorgiBot.getInstance().getSql().getOpenedTickets(guild.getId()) + 1);
         String categoryId = CorgiBot.getInstance().getSql().getTicketOpenedCategory(guild.getId());
         guild.createTextChannel("ticket-" + CorgiBot.getInstance().getSql().getOpenedTickets(guild.getId()), categoryId == null || categoryId.equals("0") ? null : guild.getCategoryById(categoryId)).queue(textChannel -> {

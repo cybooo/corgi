@@ -97,6 +97,11 @@ public class ChatListener extends ListenerAdapter {
                     return;
                 }
 
+                // Check if server is beta
+                if (cmd.isBeta() && !guildWrapper.isBeta()) {
+                    return;
+                }
+
                 // Spam detection
                 handleSpamDetection(e, guildWrapper, e.getChannel());
 

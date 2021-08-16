@@ -2,6 +2,7 @@ package cz.wake.corgibot.commands.admin;
 
 import com.jagrosh.jdautilities.commons.waiter.EventWaiter;
 import cz.wake.corgibot.CorgiBot;
+import cz.wake.corgibot.annotations.Beta;
 import cz.wake.corgibot.annotations.CommandInfo;
 import cz.wake.corgibot.annotations.SinceCorgi;
 import cz.wake.corgibot.commands.CommandBase;
@@ -25,6 +26,7 @@ import net.dv8tion.jda.api.interactions.components.Button;
         userPerms = {Permission.MANAGE_CHANNEL}
 
 )
+@Beta
 @SinceCorgi(version = "1.3.6")
 public class CreateTicketEmbed implements CommandBase {
 

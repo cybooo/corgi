@@ -114,6 +114,7 @@ public class CommandManager {
         registerCommand(new CreateTicketEmbed());
         registerCommand(new Ticket());
         registerCommand(new ToggleBeta());
+        registerCommand(new Support());
         CorgiLogger.greatMessage("Corgi will respond to (" + commands.size() + ") commands.");
     }
 

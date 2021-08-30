@@ -40,7 +40,7 @@ public class SQLManager {
         PreparedStatement ps = null;
         try {
             conn = pool.getConnection();
-            ps = conn.prepareStatement("UPDATE s7753_corgi.guild_data SET prefix = ? WHERE guild_id = ?;");
+            ps = conn.prepareStatement("UPDATE s3_corgi.guild_data SET prefix = ? WHERE guild_id = ?;");
             ps.setString(1, prefix);
             ps.setString(2, guildId);
             ps.executeUpdate();
@@ -56,7 +56,7 @@ public class SQLManager {
         PreparedStatement ps = null;
         try {
             conn = pool.getConnection();
-            ps = conn.prepareStatement("INSERT INTO s7753_corgi.ignored_channels (guild_id, channel_id) VALUES (?, ?);");
+            ps = conn.prepareStatement("INSERT INTO s3_corgi.ignored_channels (guild_id, channel_id) VALUES (?, ?);");
             ps.setString(1, guildId);
             ps.setString(2, channelId);
             ps.executeUpdate();
@@ -72,7 +72,7 @@ public class SQLManager {
         PreparedStatement ps = null;
         try {
             conn = pool.getConnection();
-            ps = conn.prepareStatement("DELETE FROM s7753_corgi.ignored_channels WHERE channel_id = ?");
+            ps = conn.prepareStatement("DELETE FROM s3_corgi.ignored_channels WHERE channel_id = ?");
             ps.setString(1, channelId);
             ps.executeUpdate();
         } catch (Exception e) {
@@ -87,7 +87,7 @@ public class SQLManager {
         PreparedStatement ps = null;
         try {
             conn = pool.getConnection();
-            ps = conn.prepareStatement("DELETE FROM s7753_corgi.ignored_channels WHERE guild_id = ?");
+            ps = conn.prepareStatement("DELETE FROM s3_corgi.ignored_channels WHERE guild_id = ?");
             ps.setString(1, guildId);
             ps.executeUpdate();
         } catch (Exception e) {
@@ -103,7 +103,7 @@ public class SQLManager {
         PreparedStatement ps = null;
         try {
             conn = pool.getConnection();
-            ps = conn.prepareStatement("SELECT channel_id FROM s7753_corgi.ignored_channels WHERE guild_id = ?;");
+            ps = conn.prepareStatement("SELECT channel_id FROM s3_corgi.ignored_channels WHERE guild_id = ?;");
             ps.setString(1, guildId);
             ps.executeQuery();
             while (ps.getResultSet().next()) {
@@ -130,7 +130,7 @@ public class SQLManager {
         PreparedStatement ps = null;
         try {
             conn = pool.getConnection();
-            ps = conn.prepareStatement("SET NAMES utf8mb4;INSERT INTO s7753_corgi.reminders (user_id, remind_time, reminder) VALUES (?, ?, ?);");
+            ps = conn.prepareStatement("SET NAMES utf8mb4;INSERT INTO s3_corgi.reminders (user_id, remind_time, reminder) VALUES (?, ?, ?);");
             ps.setString(1, userId);
             ps.setLong(2, remindTime);
             ps.setString(3, message);
@@ -147,7 +147,7 @@ public class SQLManager {
         PreparedStatement ps = null;
         try {
             conn = pool.getConnection();
-            ps = conn.prepareStatement("DELETE FROM s7753_corgi.reminders WHERE user_id = ? AND remind_time = ?");
+            ps = conn.prepareStatement("DELETE FROM s3_corgi.reminders WHERE user_id = ? AND remind_time = ?");
             ps.setString(1, userId);
             ps.setLong(2, remindTime);
             ps.executeUpdate();
@@ -163,7 +163,7 @@ public class SQLManager {
         PreparedStatement ps = null;
         try {
             conn = pool.getConnection();
-            ps = conn.prepareStatement("DELETE FROM s7753_corgi.reminders WHERE user_id = ? AND id = ?");
+            ps = conn.prepareStatement("DELETE FROM s3_corgi.reminders WHERE user_id = ? AND id = ?");
             ps.setString(1, userId);
             ps.setInt(2, reminderId);
             ps.executeUpdate();
@@ -179,7 +179,7 @@ public class SQLManager {
         PreparedStatement ps = null;
         try {
             conn = pool.getConnection();
-            ps = conn.prepareStatement("INSERT INTO s7753_corgi.user_data (discord_id) VALUES (?);");
+            ps = conn.prepareStatement("INSERT INTO s3_corgi.user_data (discord_id) VALUES (?);");
             ps.setString(1, user.getId());
             ps.executeUpdate();
         } catch (Exception e) {
@@ -194,7 +194,7 @@ public class SQLManager {
         PreparedStatement ps = null;
         try {
             conn = pool.getConnection();
-            ps = conn.prepareStatement("SELECT * FROM s7753_corgi.user_data WHERE discord_id = '" + u.getId() + "';");
+            ps = conn.prepareStatement("SELECT * FROM s3_corgi.user_data WHERE discord_id = '" + u.getId() + "';");
             ps.executeQuery();
             return ps.getResultSet().next();
         } catch (Exception e) {
@@ -210,7 +210,7 @@ public class SQLManager {
         PreparedStatement ps = null;
         try {
             conn = pool.getConnection();
-            ps = conn.prepareStatement("SELECT * FROM s7753_corgi.guild_data WHERE guild_id = '" + guildId + "';");
+            ps = conn.prepareStatement("SELECT * FROM s3_corgi.guild_data WHERE guild_id = '" + guildId + "';");
             ps.executeQuery();
             return ps.getResultSet().next();
         } catch (Exception e) {
@@ -226,7 +226,7 @@ public class SQLManager {
         PreparedStatement ps = null;
         try {
             conn = pool.getConnection();
-            ps = conn.prepareStatement("INSERT INTO s7753_corgi.guild_data (guild_id, prefix) VALUES (?,?);");
+            ps = conn.prepareStatement("INSERT INTO s3_corgi.guild_data (guild_id, prefix) VALUES (?,?);");
             ps.setString(1, guildId);
             ps.setString(2, prefix);
             ps.executeUpdate();
@@ -242,7 +242,7 @@ public class SQLManager {
         PreparedStatement ps = null;
         try {
             conn = pool.getConnection();
-            ps = conn.prepareStatement("DELETE FROM s7753_corgi.prefixes WHERE guild_id = ?");
+            ps = conn.prepareStatement("DELETE FROM s3_corgi.prefixes WHERE guild_id = ?");
             ps.setString(1, guildId);
             ps.executeUpdate();
         } catch (Exception e) {
@@ -258,7 +258,7 @@ public class SQLManager {
         PreparedStatement ps = null;
         try {
             conn = pool.getConnection();
-            ps = conn.prepareStatement("SELECT * FROM s7753_corgi.reminders WHERE user_id = ?;");
+            ps = conn.prepareStatement("SELECT * FROM s3_corgi.reminders WHERE user_id = ?;");
             ps.setString(1, userId);
             ps.executeQuery();
             while (ps.getResultSet().next()) {
@@ -278,7 +278,7 @@ public class SQLManager {
         PreparedStatement ps = null;
         try {
             conn = pool.getConnection();
-            ps = conn.prepareStatement("SELECT * FROM s7753_corgi.reminders;");
+            ps = conn.prepareStatement("SELECT * FROM s3_corgi.reminders;");
             ps.executeQuery();
             while (ps.getResultSet().next()) {
                 list.add(new TemporaryReminder(ps.getResultSet().getInt("id"), ps.getResultSet().getString("user_id"), ps.getResultSet().getLong("remind_time"), ps.getResultSet().getString("reminder")));
@@ -296,7 +296,7 @@ public class SQLManager {
         PreparedStatement ps = null;
         try {
             conn = pool.getConnection();
-            ps = conn.prepareStatement("SELECT * FROM s7753_corgi.guild_data WHERE guild_id = ?;");
+            ps = conn.prepareStatement("SELECT * FROM s3_corgi.guild_data WHERE guild_id = ?;");
             ps.setString(1, id);
             ps.executeQuery();
             if (ps.getResultSet().next()) {
@@ -315,7 +315,7 @@ public class SQLManager {
         PreparedStatement ps = null;
         try {
             conn = pool.getConnection();
-            ps = conn.prepareStatement("SELECT * FROM s7753_corgi.changelog;");
+            ps = conn.prepareStatement("SELECT * FROM s3_corgi.changelog;");
             ps.executeQuery();
             if (ps.getResultSet().next()) {
                 return new ChangeLog(ps.getResultSet().getLong("date"),
@@ -337,7 +337,7 @@ public class SQLManager {
         PreparedStatement ps = null;
         try {
             conn = pool.getConnection();
-            ps = conn.prepareStatement("SET NAMES utf8mb4;INSERT INTO s7753_corgi.giveaways (guild_id, textchannel_id, message_id, start_time, end_time, prize, max_winners, emoji, embed_color) VALUES (?, ?, ?, ?, ?, ?, ?, ?, ?);");
+            ps = conn.prepareStatement("SET NAMES utf8mb4;INSERT INTO s3_corgi.giveaways (guild_id, textchannel_id, message_id, start_time, end_time, prize, max_winners, emoji, embed_color) VALUES (?, ?, ?, ?, ?, ?, ?, ?, ?);");
             ps.setString(1, guildId);
             ps.setString(2, textChannelId);
             ps.setString(3, messageId);
@@ -360,7 +360,7 @@ public class SQLManager {
         PreparedStatement ps = null;
         try {
             conn = pool.getConnection();
-            ps = conn.prepareStatement("DELETE FROM s7753_corgi.giveaways WHERE message_id = ?");
+            ps = conn.prepareStatement("DELETE FROM s3_corgi.giveaways WHERE message_id = ?");
             ps.setString(1, messageId);
             ps.executeUpdate();
         } catch (Exception e) {
@@ -376,7 +376,7 @@ public class SQLManager {
         PreparedStatement ps = null;
         try {
             conn = pool.getConnection();
-            ps = conn.prepareStatement("SELECT * FROM s7753_corgi.giveaways;");
+            ps = conn.prepareStatement("SELECT * FROM s3_corgi.giveaways;");
             ps.executeQuery();
             while (ps.getResultSet().next()) {
                 list.add(new GiveawayObject(ps.getResultSet().getInt("id"),
@@ -402,7 +402,7 @@ public class SQLManager {
         PreparedStatement ps = null;
         try {
             conn = pool.getConnection();
-            ps = conn.prepareStatement("SELECT fact FROM s7753_corgi.fakty ORDER BY RAND() LIMIT 1;");
+            ps = conn.prepareStatement("SELECT fact FROM s3_corgi.fakty ORDER BY RAND() LIMIT 1;");
             ps.executeQuery();
             if (ps.getResultSet().next()) {
                 return ps.getResultSet().getString("fact");
@@ -420,7 +420,7 @@ public class SQLManager {
         PreparedStatement ps = null;
         try {
             conn = pool.getConnection();
-            ps = conn.prepareStatement("UPDATE s7753_corgi.guild_data SET language = ? WHERE guild_id = ?;");
+            ps = conn.prepareStatement("UPDATE s3_corgi.guild_data SET language = ? WHERE guild_id = ?;");
             ps.setString(1, language);
             ps.setString(2, guildId);
             ps.executeUpdate();
@@ -436,7 +436,7 @@ public class SQLManager {
         PreparedStatement ps = null;
         try {
             conn = pool.getConnection();
-            ps = conn.prepareStatement("INSERT INTO s7753_corgi.music_permission_data (guild_id, role_id, command_name) VALUES (?, ?, ?);");
+            ps = conn.prepareStatement("INSERT INTO s3_corgi.music_permission_data (guild_id, role_id, command_name) VALUES (?, ?, ?);");
             ps.setString(1, guildId);
             ps.setString(2, roleId);
             ps.setString(3, commandName);
@@ -453,7 +453,7 @@ public class SQLManager {
         PreparedStatement ps = null;
         try {
             conn = pool.getConnection();
-            ps = conn.prepareStatement("DELETE FROM s7753_corgi.music_permission_data WHERE guild_id = ? AND role_id = ? AND command_name = ?;");
+            ps = conn.prepareStatement("DELETE FROM s3_corgi.music_permission_data WHERE guild_id = ? AND role_id = ? AND command_name = ?;");
             ps.setString(1, guildId);
             ps.setString(2, roleId);
             ps.setString(3, commandName);
@@ -471,7 +471,7 @@ public class SQLManager {
         PreparedStatement ps = null;
         try {
             conn = pool.getConnection();
-            ps = conn.prepareStatement("SELECT command_name FROM s7753_corgi.music_permission_data WHERE guild_id = ? AND role_id = ?;");
+            ps = conn.prepareStatement("SELECT command_name FROM s3_corgi.music_permission_data WHERE guild_id = ? AND role_id = ?;");
             ps.setString(1, guildId);
             ps.setString(2, roleId);
             ps.executeQuery();
@@ -496,7 +496,7 @@ public class SQLManager {
         PreparedStatement ps = null;
         try {
             conn = pool.getConnection();
-            ps = conn.prepareStatement("SELECT role_id FROM s7753_corgi.music_permission_data WHERE guild_id = ? AND command_name = ?;");
+            ps = conn.prepareStatement("SELECT role_id FROM s3_corgi.music_permission_data WHERE guild_id = ? AND command_name = ?;");
             ps.setString(1, guildId);
             ps.setString(2, commandName);
             ps.executeQuery();
@@ -520,7 +520,7 @@ public class SQLManager {
         PreparedStatement ps = null;
         try {
             conn = pool.getConnection();
-            ps = conn.prepareStatement("SELECT * FROM s7753_corgi.ticket_guild_data WHERE guild_id = ?;");
+            ps = conn.prepareStatement("SELECT * FROM s3_corgi.ticket_guild_data WHERE guild_id = ?;");
             ps.setString(1, guildId);
             ps.executeQuery();
             return ps.getResultSet().next();
@@ -537,7 +537,7 @@ public class SQLManager {
         PreparedStatement ps = null;
         try {
             conn = pool.getConnection();
-            ps = conn.prepareStatement("INSERT INTO s7753_corgi.ticket_guild_data (guild_id, opened_tickets, ticket_closed_category, ticket_transcript_channel, ticket_opened_category, maximum_tickets, maximum_user_tickets) VALUES (?, ?, ?, ?, ?, ?, ?);");
+            ps = conn.prepareStatement("INSERT INTO s3_corgi.ticket_guild_data (guild_id, opened_tickets, ticket_closed_category, ticket_transcript_channel, ticket_opened_category, maximum_tickets, maximum_user_tickets) VALUES (?, ?, ?, ?, ?, ?, ?);");
             ps.setString(1, guildId);
             ps.setInt(2, 0);
             ps.setString(3, "0");
@@ -558,7 +558,7 @@ public class SQLManager {
         PreparedStatement ps = null;
         try {
             conn = pool.getConnection();
-            ps = conn.prepareStatement("SELECT ticket_opened_category FROM s7753_corgi.ticket_guild_data WHERE guild_id = ?;");
+            ps = conn.prepareStatement("SELECT ticket_opened_category FROM s3_corgi.ticket_guild_data WHERE guild_id = ?;");
             ps.setString(1, guildId);
             ps.executeQuery();
             if (ps.getResultSet().next()) {
@@ -577,7 +577,7 @@ public class SQLManager {
         PreparedStatement ps = null;
         try {
             conn = pool.getConnection();
-            ps = conn.prepareStatement("SET ticket_opened_category = ? FROM s7753_corgi.ticket_guild_data WHERE guild_id = ?;");
+            ps = conn.prepareStatement("UPDATE s3_corgi.ticket_guild_data SET ticket_opened_category = ? WHERE guild_id = ?;");
             ps.setString(1, categoryId);
             ps.setString(2, guildId);
             ps.executeUpdate();
@@ -593,7 +593,7 @@ public class SQLManager {
         PreparedStatement ps = null;
         try {
             conn = pool.getConnection();
-            ps = conn.prepareStatement("SELECT ticket_closed_category FROM s7753_corgi.ticket_guild_data WHERE guild_id = ?;");
+            ps = conn.prepareStatement("SELECT ticket_closed_category FROM s3_corgi.ticket_guild_data WHERE guild_id = ?;");
             ps.setString(1, guildId);
             ps.executeQuery();
             if (ps.getResultSet().next()) {
@@ -612,7 +612,7 @@ public class SQLManager {
         PreparedStatement ps = null;
         try {
             conn = pool.getConnection();
-            ps = conn.prepareStatement("SET ticket_closed_category = ? FROM s7753_corgi.ticket_guild_data WHERE guild_id = ?;");
+            ps = conn.prepareStatement("UPDATE s3_corgi.ticket_guild_data SET ticket_closed_category = ? WHERE guild_id = ?;");
             ps.setString(1, categoryId);
             ps.setString(2, guildId);
             ps.executeUpdate();
@@ -628,7 +628,7 @@ public class SQLManager {
         PreparedStatement ps = null;
         try {
             conn = pool.getConnection();
-            ps = conn.prepareStatement("SELECT ticket_transcript_channel FROM s7753_corgi.ticket_guild_data WHERE guild_id = ?;");
+            ps = conn.prepareStatement("SELECT ticket_transcript_channel FROM s3_corgi.ticket_guild_data WHERE guild_id = ?;");
             ps.setString(1, guildId);
             ps.executeQuery();
             if (ps.getResultSet().next()) {
@@ -647,7 +647,7 @@ public class SQLManager {
         PreparedStatement ps = null;
         try {
             conn = pool.getConnection();
-            ps = conn.prepareStatement("SET ticket_transcript_channel = ? FROM s7753_corgi.ticket_guild_data WHERE guild_id = ?;");
+            ps = conn.prepareStatement("UPDATE s3_corgi.ticket_guild_data SET ticket_transcript_channel = ? WHERE guild_id = ?;");
             ps.setString(1, channelId);
             ps.setString(2, guildId);
             ps.executeUpdate();
@@ -663,7 +663,7 @@ public class SQLManager {
         PreparedStatement ps = null;
         try {
             conn = pool.getConnection();
-            ps = conn.prepareStatement("SELECT opened_tickets FROM s7753_corgi.ticket_guild_data WHERE guild_id = ?;");
+            ps = conn.prepareStatement("SELECT opened_tickets FROM s3_corgi.ticket_guild_data WHERE guild_id = ?;");
             ps.setString(1, guildId);
             ps.executeQuery();
             if (ps.getResultSet().next()) {
@@ -682,7 +682,7 @@ public class SQLManager {
         PreparedStatement ps = null;
         try {
             conn = pool.getConnection();
-            ps = conn.prepareStatement("UPDATE s7753_corgi.ticket_guild_data SET opened_tickets = ? WHERE guild_id = ?");
+            ps = conn.prepareStatement("UPDATE s3_corgi.ticket_guild_data SET opened_tickets = ? WHERE guild_id = ?");
             ps.setInt(1, openedTickets);
             ps.setString(2, guildId);
             ps.executeUpdate();
@@ -698,7 +698,7 @@ public class SQLManager {
         PreparedStatement ps = null;
         try {
             conn = pool.getConnection();
-            ps = conn.prepareStatement("SELECT maximum_tickets FROM s7753_corgi.ticket_guild_data WHERE guild_id = ?;");
+            ps = conn.prepareStatement("SELECT maximum_tickets FROM s3_corgi.ticket_guild_data WHERE guild_id = ?;");
             ps.setString(1, guildId);
             ps.executeQuery();
             if (ps.getResultSet().next()) {
@@ -717,7 +717,7 @@ public class SQLManager {
         PreparedStatement ps = null;
         try {
             conn = pool.getConnection();
-            ps = conn.prepareStatement("UPDATE s7753_corgi.ticket_guild_data SET maximum_tickets = ? WHERE guild_id = ?");
+            ps = conn.prepareStatement("UPDATE s3_corgi.ticket_guild_data SET maximum_tickets = ? WHERE guild_id = ?");
             ps.setInt(1, maximumTickets);
             ps.setString(2, guildId);
             ps.executeUpdate();
@@ -733,7 +733,7 @@ public class SQLManager {
         PreparedStatement ps = null;
         try {
             conn = pool.getConnection();
-            ps = conn.prepareStatement("SELECT maximum_user_tickets FROM s7753_corgi.ticket_guild_data WHERE guild_id = ?;");
+            ps = conn.prepareStatement("SELECT maximum_user_tickets FROM s3_corgi.ticket_guild_data WHERE guild_id = ?;");
             ps.setString(1, guildId);
             ps.executeQuery();
             if (ps.getResultSet().next()) {
@@ -752,7 +752,7 @@ public class SQLManager {
         PreparedStatement ps = null;
         try {
             conn = pool.getConnection();
-            ps = conn.prepareStatement("UPDATE s7753_corgi.ticket_guild_data SET maximum_user_tickets = ? WHERE guild_id = ?");
+            ps = conn.prepareStatement("UPDATE s3_corgi.ticket_guild_data SET maximum_user_tickets = ? WHERE guild_id = ?");
             ps.setInt(1, maximumUserTickets);
             ps.setString(2, guildId);
             ps.executeUpdate();
@@ -769,7 +769,7 @@ public class SQLManager {
         PreparedStatement ps = null;
         try {
             conn = pool.getConnection();
-            ps = conn.prepareStatement("SELECT role_id FROM s7753_corgi.ticket_guild_data_staffroles WHERE guild_id = ?;");
+            ps = conn.prepareStatement("SELECT role_id FROM s3_corgi.ticket_guild_data_staffroles WHERE guild_id = ?;");
             ps.setString(1, guildId);
             ps.executeQuery();
             while (ps.getResultSet().next()) {
@@ -795,7 +795,7 @@ public class SQLManager {
         PreparedStatement ps = null;
         try {
             conn = pool.getConnection();
-            ps = conn.prepareStatement("INSERT INTO s7753_corgi.ticket_guild_data_staffroles (guild_id, role_id) VALUES (?, ?);");
+            ps = conn.prepareStatement("INSERT INTO s3_corgi.ticket_guild_data_staffroles (guild_id, role_id) VALUES (?, ?);");
             ps.setString(1, guildId);
             ps.setString(2, roleId);
             ps.executeUpdate();
@@ -811,7 +811,7 @@ public class SQLManager {
         PreparedStatement ps = null;
         try {
             conn = pool.getConnection();
-            ps = conn.prepareStatement("DELETE FROM s7753_corgi.ticket_guild_data_staffroles WHERE guild_id = ? AND role_id = ?;");
+            ps = conn.prepareStatement("DELETE FROM s3_corgi.ticket_guild_data_staffroles WHERE guild_id = ? AND role_id = ?;");
             ps.setString(1, guildId);
             ps.setString(2, roleId);
             ps.executeUpdate();

@@ -48,7 +48,7 @@ public class Stats implements CommandBase {
             embed.addField(EmoteList.COMET + " Threads", String.valueOf(Thread.getAllStackTraces().size()), true);
             embed.addField(EmoteList.JAVA + " Java", System.getProperty("java.version"), true);
             embed.setAuthor("Corgi's statistics", null, CorgiBot.getJda().getSelfUser().getAvatarUrl());
-            embed.setColor(Constants.BLACK);
+            embed.setColor(Constants.BLUE);
             channel.sendMessageEmbeds(embed.build()).queue();
         }
 

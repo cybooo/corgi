@@ -82,7 +82,7 @@ public class CorgiBot {
     }
 
     public static Guild getDefaultGuild() {
-        return getJda().getGuildById("860251548231532584");
+        return jda.getGuildById("860251548231532584");
     }
 
     private static void bootIcon() {

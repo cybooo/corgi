@@ -26,7 +26,6 @@ import net.dv8tion.jda.api.interactions.components.Button;
         userPerms = {Permission.MANAGE_CHANNEL}
 
 )
-@Beta
 @SinceCorgi(version = "1.3.6")
 public class CreateTicketEmbed implements CommandBase {
 

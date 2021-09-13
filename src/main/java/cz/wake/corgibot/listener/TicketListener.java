@@ -26,6 +26,5 @@ public class TicketListener extends ListenerAdapter {
             }
             case "deleteticket" -> event.getTextChannel().delete().queue();
         }
-
     }
 }

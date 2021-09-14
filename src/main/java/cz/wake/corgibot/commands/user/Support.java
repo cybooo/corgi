@@ -22,7 +22,7 @@ public class Support implements CommandBase {
 
     @Override
     public void onCommand(MessageChannel channel, Message message, String[] args, Member member, EventWaiter w, GuildWrapper gw) {
-        channel.sendMessageEmbeds(MessageUtils.getEmbed(Constants.WHITE).setTitle("Corgi's support server")
+        channel.sendMessageEmbeds(MessageUtils.getEmbed(Constants.BLUE).setTitle("Corgi's support server")
                 .setDescription("To connect to the support server, [**click here!**]({1})".replace("{1}", "https://discord.gg/pR2tj432NS")).build()).queue();
     }
 

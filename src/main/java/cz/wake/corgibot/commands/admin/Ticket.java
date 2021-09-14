@@ -25,7 +25,6 @@ import net.dv8tion.jda.api.entities.Role;
         userPerms = {Permission.MANAGE_CHANNEL}
 
 )
-@Beta
 @SinceCorgi(version = "1.3.6")
 public class Ticket implements CommandBase {
 
@@ -101,7 +100,7 @@ public class Ticket implements CommandBase {
                 }
             } else if (args[0].equalsIgnoreCase("setopenedcategory")) {
                 try {
-                    Integer.parseInt(args[1]);
+                    Long.parseLong(args[1]);
                     channel.sendMessage("Opened category set to **" + args[1] + "**!").queue();
                     CorgiBot.getInstance().getSql().setTicketOpenedCategory(gw.getGuildId(), args[1]);
                 } catch (NumberFormatException e) {
@@ -109,7 +108,7 @@ public class Ticket implements CommandBase {
                 }
             } else if (args[0].equalsIgnoreCase("setclosedcategory")) {
                 try {
-                    Integer.parseInt(args[1]);
+                    Long.parseLong(args[1]);
                     channel.sendMessage("Closed category set to **" + args[1] + "**!").queue();
                     CorgiBot.getInstance().getSql().setTicketClosedCategory(gw.getGuildId(), args[1]);
                 } catch (NumberFormatException e) {
@@ -117,7 +116,7 @@ public class Ticket implements CommandBase {
                 }
             } else if (args[0].equalsIgnoreCase("settranscriptchannel")) {
                 try {
-                    Integer.parseInt(args[1]);
+                    Long.parseLong(args[1]);
                     channel.sendMessage("Transcript channel set to <#" + args[1] + ">!").queue();
                     CorgiBot.getInstance().getSql().setTicketTranscriptChannel(gw.getGuildId(), args[1]);
                 } catch (NumberFormatException e) {

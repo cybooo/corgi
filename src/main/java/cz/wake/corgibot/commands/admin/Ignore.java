@@ -78,13 +78,13 @@ public class Ignore implements CommandBase {
             if (gw.getIgnoredChannels().contains(ch)) {
                 gw.updateIgnoredChannel(ch);
                 channel.sendMessageEmbeds(MessageUtils.getEmbed(Constants.GREEN).setTitle("Ignoring channel: " + channel.getName())
-                        .setDescription("\uD83D\uDD14 | Corgi is now listening to all commands in this channel!")
+                        .setDescription("🔔 | Corgi is now listening to all commands in this channel!")
                         .setFooter("You can enable ignoring again using `" + prefix + "ignore`", null).build()).queue();
                 return;
             }
             gw.updateIgnoredChannel(ch);
             channel.sendMessageEmbeds(MessageUtils.getEmbed(Constants.ORANGE).setTitle("Ignoring channel: " + channel.getName())
-                    .setDescription("\uD83D\uDD15 | Corgi now ignores all commands in this channel!")
+                    .setDescription("🔕 | Corgi now ignores all commands in this channel!")
                     .setFooter("You can cancel ignoring using `" + prefix + "ignore`", null).build()).queue();
         } catch (Exception e) {
             MessageUtils.sendAutoDeletedMessage("Something went wrong! Try again later!", 35000L, channel);
@@ -119,7 +119,7 @@ public class Ignore implements CommandBase {
             pBuilder.addItems(m.getName());
         }
 
-        Paginator p = pBuilder.setColor(Constants.BLUE).setText("Ignorred channels:").build();
+        Paginator p = pBuilder.setColor(Constants.BLUE).setText("Ignored channels:").build();
         p.paginate(channel, 1);
 
     }

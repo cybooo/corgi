@@ -32,7 +32,7 @@ public class Giveaway2 {
         this.endTime = endTime;
         this.prize = prize;
         this.maxWinners = maxWinners;
-        this.emoji = emoji != null ? emoji : "\uD83C\uDF89";
+        this.emoji = emoji != null ? emoji : "🎉";
         try {
             this.color = color != null ? java.awt.Color.decode(color) : Constants.GIVEAWAY_BLUE;
         } catch (NumberFormatException e) {
@@ -180,6 +180,9 @@ public class Giveaway2 {
                     CorgiLogger.fatalMessage("Corgi can not edit giveaway. Thread stopped and removed.");
                     requestExit();
                     Thread.currentThread().interrupt();
+                }
+                default -> {
+                    CorgiLogger.fatalMessage("Something went wrong! (Giveaway2:exceptionHandler)");
                 }
             }
         }

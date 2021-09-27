@@ -67,31 +67,31 @@ public class PaginationUtil {
         Integer[] pages = new Integer[]{page};
         if (list.getPages() > 1) {
             ButtonGroup buttonGroup = new ButtonGroup(sender.getIdLong(), group);
-            buttonGroup.addButton(new ButtonGroup.Button("\u23EE", (ownerID, user, message) -> {
+            buttonGroup.addButton(new ButtonGroup.Button("⏮", (ownerID, user, message) -> {
                 //Start
                 pages[0] = 0;
                 message.editMessage(list.getPage(pages[0])).queue();
             }));
-            buttonGroup.addButton(new ButtonGroup.Button("\u23EA", (ownerID, user, message) -> {
+            buttonGroup.addButton(new ButtonGroup.Button("⏪", (ownerID, user, message) -> {
                 //Prev
                 if (pages[0] != 0) {
                     pages[0] -= 1;
                     message.editMessage(list.getPage(pages[0])).queue();
                 }
             }));
-            buttonGroup.addButton(new ButtonGroup.Button("\u23E9", (ownerID, user, message) -> {
+            buttonGroup.addButton(new ButtonGroup.Button("⏩", (ownerID, user, message) -> {
                 //Next
                 if (pages[0] + 1 != list.getPages()) {
                     pages[0] += 1;
                     message.editMessage(list.getPage(pages[0])).queue();
                 }
             }));
-            buttonGroup.addButton(new ButtonGroup.Button("\u23ED", (ownerID, user, message) -> {
+            buttonGroup.addButton(new ButtonGroup.Button("⏭", (ownerID, user, message) -> {
                 //Last
                 pages[0] = list.getPages() - 1;
                 message.editMessage(list.getPage(pages[0])).queue();
             }));
-            buttonGroup.addButton(new ButtonGroup.Button("\u274C", (ownerID, user, message) -> {
+            buttonGroup.addButton(new ButtonGroup.Button("❌", (ownerID, user, message) -> {
                 // Delete
                 if (user.getIdLong() == ownerID ||
                         message.getGuild().getMember(user).hasPermission(Permission.MANAGE_PERMISSIONS)) {
@@ -124,31 +124,31 @@ public class PaginationUtil {
         if (!pagedEmbed.isSinglePage()) {
             ButtonGroup buttonGroup = new ButtonGroup(sender.getIdLong(), group);
             Integer[] pages = new Integer[]{page};
-            buttonGroup.addButton(new ButtonGroup.Button("\u23EE", (ownerID, user, message) -> {
+            buttonGroup.addButton(new ButtonGroup.Button("⏮", (ownerID, user, message) -> {
                 //Start
                 pages[0] = 0;
                 message.editMessageEmbeds(pagedEmbed.getEmbed(pages[0])).queue();
             }));
-            buttonGroup.addButton(new ButtonGroup.Button("\u23EA", (ownerID, user, message) -> {
+            buttonGroup.addButton(new ButtonGroup.Button("⏪", (ownerID, user, message) -> {
                 //Prev
                 if (pages[0] != 0) {
                     pages[0] -= 1;
                     message.editMessageEmbeds(pagedEmbed.getEmbed(pages[0])).queue();
                 }
             }));
-            buttonGroup.addButton(new ButtonGroup.Button("\u23E9", (ownerID, user, message) -> {
+            buttonGroup.addButton(new ButtonGroup.Button("⏩", (ownerID, user, message) -> {
                 //Next
                 if (pages[0] + 1 != pagedEmbed.getPageTotal()) {
                     pages[0] += 1;
                     message.editMessageEmbeds(pagedEmbed.getEmbed(pages[0])).queue();
                 }
             }));
-            buttonGroup.addButton(new ButtonGroup.Button("\u23ED", (ownerID, user, message) -> {
+            buttonGroup.addButton(new ButtonGroup.Button("⏭", (ownerID, user, message) -> {
                 //Last
                 pages[0] = pagedEmbed.getPageTotal() - 1;
                 message.editMessageEmbeds(pagedEmbed.getEmbed(pages[0])).queue();
             }));
-            buttonGroup.addButton(new ButtonGroup.Button("\u274C", (ownerID, user, message) -> {
+            buttonGroup.addButton(new ButtonGroup.Button("❌", (ownerID, user, message) -> {
                 // Delete
                 if (user.getIdLong() == ownerID ||
                         message.getGuild().getMember(user).hasPermission(Permission.MANAGE_PERMISSIONS)) {

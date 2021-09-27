@@ -62,10 +62,12 @@ public class Giveaway implements CommandBase {
          * c!giveaway list
          */
 
+        new String("😄");
+
         if (args.length < 1) {
             channel.sendMessageEmbeds(MessageUtils.getEmbed(Constants.GIVEAWAY_BLUE).setTitle("How to create a giveaway!")
                     .setDescription("A brief guide on how to create different Giveaways.")
-                    .addField("Creating", "`{%}giveaway 30m` - Basic giveaway for 30 minutes.\n`{%}giveaway 1h ; FarCry 3` - Giveaway for 1 hour with the FarCry 3 prize.\n`{%}giveaway 2h ; Mafia 2 ; 5` - Giveaway for 2 hours with the Mafia 2 prize for 5 users.\n`{%}giveaway 1d3h ; Overwatch ; 1 ; \uD83D\uDE04` - Giveaway with a custom emoji (Only discord emojis)\n`{%}giveaway 4d ; CS:GO ; 3 ; \uD83D\uDE04 ; #ffffff` - Giveaway with a custom color".replace("{%}", gw.getPrefix()), false)
+                    .addField("Creating", "`{%}giveaway 30m` - Basic giveaway for 30 minutes.\n`{%}giveaway 1h ; FarCry 3` - Giveaway for 1 hour with the FarCry 3 prize.\n`{%}giveaway 2h ; Mafia 2 ; 5` - Giveaway for 2 hours with the Mafia 2 prize for 5 users.\n`{%}giveaway 1d3h ; Overwatch ; 1 ; 😄` - Giveaway with a custom emoji (Only discord emojis)\n`{%}giveaway 4d ; CS:GO ; 3 ; 😄 ; #ffffff` - Giveaway with a custom color".replace("{%}", gw.getPrefix()), false)
                     .addField("List all giveaways", "If multiple Giveaways is running on this server, you can view basic information using the following command: `{%}giveaway list`".replace("{%}", gw.getPrefix()), false)
                     .addField("Deleting a giveaway", "It's simple! Just delete the message that Corgi sent.".replace("{%}", gw.getPrefix()), false).setFooter("Corgi is saving everything! In case of Corgi going down, everything is gonna be saved.", null).build()).queue();
         } else {
@@ -147,7 +149,7 @@ public class Giveaway implements CommandBase {
 
                 int finalWinners = winners;
                 String finalPrize = prize;
-                String finalEmoji = emoji != null ? emoji : "\uD83C\uDF89";
+                String finalEmoji = emoji != null ? emoji : "🎉";
                 String finalColor = color;
                 channel.sendMessageEmbeds(MessageUtils.getEmbed(Constants.GRAY).setDescription("Generating..").build()).queue(m -> {
                     m.addReaction(finalEmoji).queue();

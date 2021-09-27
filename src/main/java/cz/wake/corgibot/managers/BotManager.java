@@ -103,6 +103,9 @@ public class BotManager {
                     CorgiLogger.fatalMessage("Detection wrong permissions (G:" + guildId + " | M:" + messageId + "). Giveaway stopped!");
                     CorgiBot.getInstance().getSql().deleteGiveawayFromSQL(guildId, messageId);
                 }
+                default -> {
+                    CorgiLogger.fatalMessage("Something went wrong! (G:" + guildId + " | M:" + messageId + ")");
+                }
             }
         }
     }

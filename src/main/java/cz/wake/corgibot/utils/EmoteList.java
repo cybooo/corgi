@@ -5,56 +5,56 @@ public class EmoteList {
     /*
         List of standard used Emotes
      */
-    public static final String BACK = "\u25C0";
-    public static final String NEXT = "\u25B6";
+    public static final String BACK = "◀";
+    public static final String NEXT = "▶";
 
-    public static final String ONE = "\u0031\u20E3";
-    public static final String TWO = "\u0032\u20E3";
-    public static final String THREE = "\u0033\u20E3";
-    public static final String FOUR = "\u0034\u20E3";
-    public static final String FIVE = "\u0035\u20E3";
-    public static final String SIX = "\u0036\u20E3";
-    public static final String SEVEN = "\u0037\u20E3";
-    public static final String EIGHT = "\u0038\u20E3";
-    public static final String NINE = "\u0039\u20E3";
-    public static final String TEN = "\uD83D\uDD1F";
+    public static final String ONE = "1⃣";
+    public static final String TWO = "2⃣";
+    public static final String THREE = "3⃣";
+    public static final String FOUR = "4⃣";
+    public static final String FIVE = "5⃣";
+    public static final String SIX = "6⃣";
+    public static final String SEVEN = "7⃣";
+    public static final String EIGHT = "8⃣";
+    public static final String NINE = "9⃣";
+    public static final String TEN = "🔟";
 
-    public static final String MAILBOX = "\uD83D\uDCEC";
-    public static final String CHANGELOG = "\uD83D\uDCC3";
-    public static final String PONG = "\uD83C\uDFD3";
-    public static final String ALARM_CLOCK = "\u23F0";
-    public static final String LOCK = "\uD83D\uDD12";
-    public static final String ENVELOPE_WITH_ARROW = "\uD83D\uDCE9";
+    public static final String MAILBOX = "📬";
+    public static final String CHANGELOG = "📃";
+    public static final String PONG = "🏓";
+    public static final String ALARM_CLOCK = "⏰";
+    public static final String LOCK = "🔒";
+    public static final String ENVELOPE_WITH_ARROW = "📩";
     public static final String NO_ENTRY = "⛔";
 
-    public static final String GREEN_OK = "\u2705";
-    public static final String RED_DENY = "\u26D4";
-    public static final String WARNING = "\u26A0";
-    public static final String HOMES = "\uD83C\uDFD8";
-    public static final String USERS = "\uD83D\uDC65";
-    public static final String LOUDSPEAKER = "\uD83D\uDCE2";
-    public static final String PENCIL = "\uD83D\uDCDD";
-    public static final String MEGAFON = "\uD83D\uDCE3";
+    public static final String GREEN_OK = "✅";
+    public static final String RED_DENY = "⛔";
+    public static final String WARNING = "⚠";
+    public static final String HOMES = "🏘";
+    public static final String USERS = "👥";
+    public static final String LOUDSPEAKER = "📢";
+    public static final String PENCIL = "📝";
+    public static final String MEGAFON = "📣";
     public static final String COMMANDS = "<:commands:860443290816872458>";
     public static final String JDA = "<:jda:860443290821459968>";
-    public static final String COMPRESS = "\uD83D\uDDDC";
-    public static final String FLOPY_DISC = "\uD83D\uDCBE";
-    public static final String COMET = "\u2604";
+    public static final String COMPRESS = "🗜";
+    public static final String FLOPY_DISC = "💾";
+    public static final String COMET = "☄";
     public static final String JAVA = "<:java:860325479524204544>";
-    public static final String INFO = "\u2139";
-    public static final String BUG = "\uD83D\uDC1B";
-    public static final String DOG = "\uD83D\uDC36";
-    public static final String CAT = "\uD83D\uDC31";
-    public static final String MUSIC_NOTE = "\uD83C\uDFB5";
+    public static final String INFO = "ℹ";
+    public static final String BUG = "🐛";
+    public static final String DOG = "🐶";
+    public static final String CAT = "🐱";
+    public static final String MUSIC_NOTE = "🎵";
 
 
     /*
         Emotes for help menu
      */
-    public static final String VIDEO_GAME = "\uD83C\uDFAE";
-    public static final String CLIPBOARD = "\uD83D\uDCCB";
+    public static final String VIDEO_GAME = "🎮";
+    public static final String CLIPBOARD = "📋";
     public static final String MODERATION = "<:moderation:860443290604011522>";
-    public static final String PLAYING_CARD = "\uD83C\uDFB4";
+    public static final String PLAYING_CARD = "🎴";
 
     /*
         Emotes that use Corgi
@@ -78,26 +78,26 @@ public class EmoteList {
     /*
         Flags
      */
-    public static final String CZECH_FLAG = "\uD83C\uDDE8\uD83C\uDDFF";
-    public static final String SLOVAK_FLAG = "\uD83C\uDDF8\uD83C\uDDF0";
-    public static final String ENGLISH_FLAG = "\uD83C\uDDFA\uD83C\uDDF8";
+    public static final String CZECH_FLAG = "🇨🇿";
+    public static final String SLOVAK_FLAG = "🇸🇰";
+    public static final String ENGLISH_FLAG = "🇺🇸";
 
     /*
         Weather
      */
-    public static final String SUNNY = "\u2600";
-    public static final String CLOUD = "\u2601";
-    public static final String PARTLY_CLOUD = "\uD83C\uDF24";
-    public static final String THUNDER_CLOUD = "\u26C8";
-    public static final String CLOUD_RAIN = "\uD83C\uDF27";
-    public static final String CLOUD_SUN_RAIN = "\uD83C\uDF26";
-    public static final String CLOUD_SNOW = "\uD83C\uDF28";
-    public static final String TORNADO = "\uD83C\uDF2A";
-    public static final String WINDY = "\uD83C\uDF2C";
-    public static final String SNOWMAN = "\u2603";
-    public static final String HOT = "\uD83D\uDD25";
-    public static final String EYES = "\uD83D\uDC40";
-    public static final String THERMOMETER = "\uD83C\uDF21";
-    public static final String DROPLET = "\uD83D\uDCA7";
+    public static final String SUNNY = "☀";
+    public static final String CLOUD = "☁";
+    public static final String PARTLY_CLOUD = "🌤";
+    public static final String THUNDER_CLOUD = "⛈";
+    public static final String CLOUD_RAIN = "🌧";
+    public static final String CLOUD_SUN_RAIN = "🌦";
+    public static final String CLOUD_SNOW = "🌨";
+    public static final String TORNADO = "🌪";
+    public static final String WINDY = "🌬";
+    public static final String SNOWMAN = "☃";
+    public static final String HOT = "🔥";
+    public static final String EYES = "👀";
+    public static final String THERMOMETER = "🌡";
+    public static final String DROPLET = "💧";
 
 }

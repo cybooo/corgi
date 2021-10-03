@@ -120,6 +120,16 @@ public class MessageUtils {
         sendAutoDeletedMessage(new MessageBuilder().setEmbeds(embed).build(), delay, channel);
     }
 
+    private static void sendAutoDeletedMessage(Message message, long delay, MessageChannel channel) {
+        Message msg = channel.sendMessage(message).complete();
+        new CorgiTask("AutoDeleteTask") {
+            @Override
+            public void run() {
+                msg.delete().queue();
+            }
+        }.delay(delay);
+    }
+
     public static void editMessage(EmbedBuilder embed, Message message) {
         editMessage(message.getContentRaw(), embed, message);
     }
@@ -131,16 +141,6 @@ public class MessageUtils {
 
     public static EmbedBuilder getEmbedError() {
         return new EmbedBuilder().setFooter("Error while performing action", CorgiBot.getJda().getSelfUser().getAvatarUrl());
-    }
-
-    private static void sendAutoDeletedMessage(Message message, long delay, MessageChannel channel) {
-        Message msg = channel.sendMessage(message).complete();
-        new CorgiTask("AutoDeleteTask") {
-            @Override
-            public void run() {
-                msg.delete().queue();
-            }
-        }.delay(delay);
     }
 
     public static String getMessage(String[] args) {

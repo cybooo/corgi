@@ -27,6 +27,17 @@ public class ButtonUtil {
     }
 
     /**
+     * Sends a string message with a set of buttons.
+     *
+     * @param channel The {@link net.dv8tion.jda.api.entities.TextChannel} to send it to.
+     * @param text    The message to send.
+     * @param buttons The buttons to display.
+     */
+    public static void sendButtonedMessage(MessageChannel channel, String text, ButtonGroup buttons) {
+        channel.sendMessage(text).queue(message -> handleSuccessConsumer(channel, message, buttons));
+    }
+
+    /**
      * Sends an embed button message with a set of buttons, and returns the message.
      *
      * @param channel The {@link net.dv8tion.jda.api.entities.TextChannel} to send it to.
@@ -38,17 +49,6 @@ public class ButtonUtil {
         Message message = channel.sendMessageEmbeds(embed).complete();
         handleSuccessConsumer(channel, message, buttons);
         return message;
-    }
-
-    /**
-     * Sends a string message with a set of buttons.
-     *
-     * @param channel The {@link net.dv8tion.jda.api.entities.TextChannel} to send it to.
-     * @param text    The message to send.
-     * @param buttons The buttons to display.
-     */
-    public static void sendButtonedMessage(MessageChannel channel, String text, ButtonGroup buttons) {
-        channel.sendMessage(text).queue(message -> handleSuccessConsumer(channel, message, buttons));
     }
 
     private static void handleSuccessConsumer(MessageChannel channel, Message message, ButtonGroup buttonGroup) {

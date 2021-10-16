@@ -93,7 +93,7 @@ public class Giveaway2 {
                     if (!message.getReactions().equals(emoji)) {
                         try {
                             message.addReaction(emoji).queue();
-                        } catch (ErrorResponseException e) {
+                        } catch (Exception e) {
                             emoji = "🎉";
                             message.addReaction(emoji).queue();
                             exceptionHandler(e);
@@ -108,11 +108,11 @@ public class Giveaway2 {
                     if (!message.getReactions().equals(emoji)) {
                         try {
                             message.addReaction(emoji).queue();
-                        } catch (ErrorResponseException e) {
+                        } catch (Exception e) {
                             emoji = "🎉";
                             message.addReaction(emoji).queue();
                             exceptionHandler(e);
-                        }                   }
+                        }                 }
                     Thread.sleep(1000);
                 }
                 try {

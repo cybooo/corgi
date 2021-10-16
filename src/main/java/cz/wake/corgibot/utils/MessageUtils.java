@@ -52,10 +52,6 @@ public class MessageUtils {
         }
     }
 
-    public static void editMessage(Message message, String content) {
-        message.editMessage(content).queue();
-    }
-
     /*public static Message sendFile(MessageChannel channel, String s, String fileContent, String filename) {
         ByteArrayInputStream stream = new ByteArrayInputStream(fileContent.getBytes());
         return channel.sendFile(stream, filename, new MessageBuilder().append(s).build()).complete();
@@ -128,6 +124,10 @@ public class MessageUtils {
                 msg.delete().queue();
             }
         }.delay(delay);
+    }
+
+    public static void editMessage(Message message, String content) {
+        message.editMessage(content).queue();
     }
 
     public static void editMessage(EmbedBuilder embed, Message message) {

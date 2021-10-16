@@ -77,16 +77,21 @@ public class UserInfo implements CommandBase {
         List<Member> joins = message.getGuild().getMemberCache().stream().sorted(Comparator.comparing(Member::getTimeJoined)).collect(Collectors.toList());
         int index = joins.indexOf(guildMember);
         index -= 3;
-        if (index < 0)
+        if (index < 0) {
             index = 0;
+        }
         joinOrder.append("\n");
-        if (joins.get(index).equals(guildMember))
+
+        if (joins.get(index).equals(guildMember)) {
             joinOrder.append("[").append(joins.get(index).getEffectiveName()).append("]()");
-        else
+        } else {
             joinOrder.append(joins.get(index).getEffectiveName());
+        }
+
         for (int i = index + 1; i < index + 7; i++) {
-            if (i >= joins.size())
+            if (i >= joins.size()) {
                 break;
+            }
             Member usr = joins.get(i);
             String name = usr.getEffectiveName();
             if (usr.equals(guildMember))
@@ -101,9 +106,9 @@ public class UserInfo implements CommandBase {
                 .addField("Status", gameToString(guildMember.getActivities(), member), true)
                 .addField("Nickname", guildMember.getEffectiveName(), true)
                 .addField("Registered", CorgiBot.getInstance().formatTime(LocalDateTime.from(guildMember.getUser().getTimeCreated())), true)
-                .addField("Joined", (member.getGuild().getMember(guildMember.getUser()) == null ? "Tento uživatel nebyl na tomto serveru!." : CorgiBot.getInstance().formatTime(LocalDateTime.from(member.getGuild().getMember(guildMember.getUser()).getTimeJoined()))), true)
+                .addField("Joined", (member.getGuild().getMember(guildMember.getUser()) == null ? "This user was not found on this server!." : CorgiBot.getInstance().formatTime(LocalDateTime.from(member.getGuild().getMember(guildMember.getUser()).getTimeJoined()))), true)
                 .addField("Status", convertStatus(guildMember.getOnlineStatus()) + " " + guildMember.getOnlineStatus().name().toLowerCase().replaceAll("_", " "), true)
-                .addField("Bot", (guildMember.getUser().isBot() ? "Ano" : "Ne"), true)
+                .addField("Bot", (guildMember.getUser().isBot() ? "Yes" : "No"), true)
                 .addField("Boost", guildMember.getTimeBoosted() != null ? CorgiBot.getInstance().formatTime(LocalDateTime.from(guildMember.getTimeBoosted())) : "No boost", true)
                 .addField("Joined order", joinOrder.toString(), false)
                 .addField("Roles", getRoles(guildMember, member.getGuild()), false).build()).queue();
@@ -131,7 +136,7 @@ public class UserInfo implements CommandBase {
     private String getDiscordRank(User user) {
         if (user.isBot()) {
             return EmoteList.EMOTE_BOT;
-        } else if (user.getId().equals("177516608778928129")) { // Wake (keeping u here)
+        } else if (user.getFlags().contains(User.UserFlag.PARTNER)) {
             return EmoteList.EMOTE_PARTNER;
         } else {
             return "";

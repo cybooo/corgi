@@ -54,22 +54,6 @@ public class I18n {
     }
 
     @Nonnull
-    public static LanguageObject getLocale(@Nonnull Guild guild) {
-        try {
-            GuildWrapper wrapper = BotManager.getCustomGuild(guild.getId());
-
-            if (wrapper != null) {
-                return getLocale(wrapper);
-            }
-            return DEFAULT;
-        } catch (Exception e) {
-            CorgiLogger.dangerMessage("Error when reading entity:\n");
-            e.printStackTrace();
-        }
-        return DEFAULT;
-    }
-
-    @Nonnull
     public static String getLoc(@Nonnull GuildWrapper guid, String route) {
         return getLocale(guid).getConfig().getString(route);
     }
@@ -82,6 +66,22 @@ public class I18n {
                     return locale;
                 }
             }
+        } catch (Exception e) {
+            CorgiLogger.dangerMessage("Error when reading entity:\n");
+            e.printStackTrace();
+        }
+        return DEFAULT;
+    }
+
+    @Nonnull
+    public static LanguageObject getLocale(@Nonnull Guild guild) {
+        try {
+            GuildWrapper wrapper = BotManager.getCustomGuild(guild.getId());
+
+            if (wrapper != null) {
+                return getLocale(wrapper);
+            }
+            return DEFAULT;
         } catch (Exception e) {
             CorgiLogger.dangerMessage("Error when reading entity:\n");
             e.printStackTrace();

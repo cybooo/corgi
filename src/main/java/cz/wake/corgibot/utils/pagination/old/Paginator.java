@@ -29,9 +29,9 @@ import java.util.function.Consumer;
  */
 public class Paginator extends Menu {
 
-    public static final String LEFT = "\u25C0";
-    public static final String STOP = "\u23F9";
-    public static final String RIGHT = "\u25B6";
+    public static final String LEFT = "◀";
+    public static final String STOP = "⏹";
+    public static final String RIGHT = "▶";
     private final BiFunction<Integer, Integer, Color> color;
     private final BiFunction<Integer, Integer, String> text;
     private final int columns;
@@ -154,6 +154,7 @@ public class Paginator extends Menu {
             try {
                 event.getReaction().removeReaction(event.getUser()).queue();
             } catch (PermissionException e) {
+                e.printStackTrace();
             }
             int n = newPageNum;
             message.editMessage(renderPage(newPageNum)).queue(m -> pagination(m, n));

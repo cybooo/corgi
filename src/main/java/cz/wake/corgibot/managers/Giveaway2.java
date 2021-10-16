@@ -22,7 +22,7 @@ public class Giveaway2 {
     private final long endTime;
     private final String prize;
     private final int maxWinners;
-    private final String emoji;
+    private String emoji;
     private final Message message;
     private Color color;
     private long seconds;
@@ -91,7 +91,13 @@ public class Giveaway2 {
                     }, this::exceptionHandler);
                     seconds -= 5;
                     if (!message.getReactions().equals(emoji)) {
-                        message.addReaction(emoji).queue();
+                        try {
+                            message.addReaction(emoji).queue();
+                        } catch (ErrorResponseException e) {
+                            emoji = "🎉";
+                            message.addReaction(emoji).queue();
+                            exceptionHandler(e);
+                        }
                     }
                     Thread.sleep(5000);
                 }
@@ -100,8 +106,13 @@ public class Giveaway2 {
                     }, this::exceptionHandler);
                     seconds--;
                     if (!message.getReactions().equals(emoji)) {
-                        message.addReaction(emoji).queue();
-                    }
+                        try {
+                            message.addReaction(emoji).queue();
+                        } catch (ErrorResponseException e) {
+                            emoji = "🎉";
+                            message.addReaction(emoji).queue();
+                            exceptionHandler(e);
+                        }                   }
                     Thread.sleep(1000);
                 }
                 try {
@@ -180,6 +191,9 @@ public class Giveaway2 {
                     CorgiLogger.fatalMessage("Corgi can not edit giveaway. Thread stopped and removed.");
                     requestExit();
                     Thread.currentThread().interrupt();
+                }
+                case 50035 -> { // 50035 = Invalid Form Body (Wrong snowflake?)
+                    CorgiLogger.fatalMessage("Emoji could not be added, switching to default.");
                 }
                 default -> {
                     CorgiLogger.fatalMessage("Something went wrong! (Giveaway2:exceptionHandler)");

@@ -1,4 +1,4 @@
-FROM openjdk:18-slim
+FROM openjdk:19-slim
 
 # Oooo KWAK!
 LABEL cz.wake.corgibot.image.authors="MrWakeCZ; cybooo"

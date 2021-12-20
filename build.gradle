@@ -31,6 +31,7 @@ repositories {
     mavenCentral()
     maven { url "https://jcenter.bintray.com" }
     maven { url "https://repo.maven.apache.org/maven2" }
+    maven { url "https://m2.chew.pro/releases" }
     maven {
         name 'm2-dv8tion'
         url 'https://m2.dv8tion.net/releases'
@@ -45,7 +46,7 @@ dependencies {
 
     // JDA
     implementation group: 'net.dv8tion', name: 'JDA', version: '4.3.0_310'
-    implementation group: 'com.jagrosh', name: 'jda-utilities', version: '3.0.5'
+    implementation group: 'pw.chew', name: 'jda-chewtils', version: '1.23.0'
     implementation group: 'me.duncte123', name: 'botCommons', version: '2.3.9'
 
     // Others

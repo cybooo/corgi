@@ -11,20 +11,20 @@ public class TicketListener extends ListenerAdapter {
         if (event.getGuild() == null || event.getMember() == null) {
             return;
         }
-        switch (event.getComponentId()) {
-            case "openticket" -> {
-                TicketManager.createTicket(event.getGuild(), event.getMember());
-                event.deferEdit().queue();
-            }
-            case "closeticket" -> {
-                TicketManager.closeTicket(event.getTextChannel(), event.getMember());
-                event.deferEdit().queue();
-            }
-            case "reopenticket" -> {
-                TicketManager.reopenTicket(event.getTextChannel(), event.getMember());
-                event.deferEdit().queue();
-            }
-            case "deleteticket" -> event.getTextChannel().delete().queue();
-        }
+//        switch (event.getComponentId()) {
+//            case "openticket" -> {
+//                TicketManager.createTicket(event.getGuild(), event.getMember());
+//                event.deferEdit().queue();
+//            }
+//            case "closeticket" -> {
+//                TicketManager.closeTicket(event.getTextChannel(), event.getMember());
+//                event.deferEdit().queue();
+//            }
+//            case "reopenticket" -> {
+//                TicketManager.reopenTicket(event.getTextChannel(), event.getMember());
+//                event.deferEdit().queue();
+//            }
+//            case "deleteticket" -> event.getTextChannel().delete().queue();
+//        }
     }
 }

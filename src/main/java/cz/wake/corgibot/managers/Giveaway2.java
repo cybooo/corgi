@@ -99,7 +99,7 @@ public class Giveaway2 {
                             exceptionHandler(e);
                         }
                     }
-                    Thread.sleep(5000);
+                    Thread.sleep(60000);
                 }
                 while (seconds > 0 && !exit) {
                     message.editMessageEmbeds(new EmbedBuilder().setTitle(":confetti_ball:  **GIVEAWAY IS ENDING SOON!**  :confetti_ball:", null).setDescription((prize != null ? "\n**" + prize + "**" : "\n") + "\nReact with " + emoji + " to join!\nRemaining time: " + secondsToTime(seconds)).setColor(Constants.RED).setFooter("Winners: " + maxWinners, null).setTimestamp(Instant.ofEpochMilli(endTime)).build()).queue(m -> {
@@ -113,7 +113,7 @@ public class Giveaway2 {
                             message.addReaction(emoji).queue();
                             exceptionHandler(e);
                         }                 }
-                    Thread.sleep(1000);
+                    Thread.sleep(20000);
                 }
                 try {
                     message.getChannel().retrieveMessageById(message.getId()).complete().getReactions().stream().filter(mr -> mr.getReactionEmote().getName().equals(emoji)).findAny().ifPresent(mr -> {

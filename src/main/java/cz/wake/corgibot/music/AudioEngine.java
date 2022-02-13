@@ -115,7 +115,6 @@ public class AudioEngine {
                 long totalTracks = 0;
                 long failedTracks = 0;
 
-
                 if (playlist.getTracks().size() > 1000) {
                     channel.sendMessageEmbeds(MessageUtils.getEmbed(Constants.BLUE)
                             .setTitle("Error")

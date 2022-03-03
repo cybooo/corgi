@@ -33,10 +33,6 @@ repositories {
     maven { url "https://repo.maven.apache.org/maven2" }
     maven { url "https://m2.chew.pro/releases" }
     maven {
-        name 'm2-dv8tion'
-        url 'https://m2.dv8tion.net/releases'
-    }
-    maven {
         name 'duncte123-jfrog'
         url 'https://duncte123.jfrog.io/artifactory/maven'
     }
@@ -46,7 +42,7 @@ repositories {
 dependencies {
 
     // JDA
-    implementation group: 'net.dv8tion', name: 'JDA', version: '4.3.0_310'
+    implementation group: 'net.dv8tion', name: 'JDA', version: '5.0.0-alpha.9'
     implementation group: 'pw.chew', name: 'jda-chewtils', version: '1.24.1'
     implementation group: 'me.duncte123', name: 'botCommons', version: '2.3.9'
 

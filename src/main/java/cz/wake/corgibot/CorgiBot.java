@@ -139,7 +139,6 @@ public class CorgiBot {
                 .addEventListeners(new LeaveEvent())
                 .addEventListeners(new JoinEvent())
                 .addEventListeners(new ChannelDeleteEvent())
-                .addEventListeners(new TicketListener())
                 .addEventListeners(waiter)
                 .setActivity(Activity.playing("Loading..."))
                 .setStatus(OnlineStatus.IDLE)

@@ -4,7 +4,6 @@ import cz.wake.corgibot.CorgiBot;
 import cz.wake.corgibot.annotations.Beta;
 import cz.wake.corgibot.annotations.CommandInfo;
 import cz.wake.corgibot.annotations.OnlyOwner;
-import cz.wake.corgibot.commands.admin.*;
 import cz.wake.corgibot.utils.CorgiLogger;
 
 import java.util.ArrayList;

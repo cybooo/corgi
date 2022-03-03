@@ -18,7 +18,7 @@ jobs:
       - name: Build bot
         run: ./gradlew shadowJar
       - name: Upload artifacts
-        uses: actions/upload-artifact@v2
+        uses: actions/upload-artifact@v3
         with:
           name: Artifacts
           path: build/libs

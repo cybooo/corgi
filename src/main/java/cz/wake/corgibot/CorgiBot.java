@@ -51,6 +51,7 @@ public class CorgiBot {
     private static CorgiBot instance;
     private static JDA jda;
     private static boolean isBeta = true;
+    private EventWaiter waiter;
 
     static {
         new File("logs/latest.log").renameTo(new File("logs/log-" + getCurrentTimeStamp() + ".log"));
@@ -125,7 +126,7 @@ public class CorgiBot {
         bootIcon();
 
         // JDA Event Waiter
-        EventWaiter waiter = new EventWaiter();
+        waiter = new EventWaiter();
 
         // Startup time
         startUp = System.currentTimeMillis();
@@ -244,5 +245,9 @@ public class CorgiBot {
 
     public ChatListener getChatListener() {
         return chatListener;
+    }
+
+    public EventWaiter getEventWaiter() {
+        return waiter;
     }
 }

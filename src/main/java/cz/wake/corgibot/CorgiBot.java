@@ -1,9 +1,14 @@
 package cz.wake.corgibot;
 
+import com.freya02.botcommands.api.BContext;
+import com.freya02.botcommands.api.CommandsBuilder;
 import com.jagrosh.jdautilities.commons.waiter.EventWaiter;
 import cz.wake.corgibot.commands.CommandManager;
 import cz.wake.corgibot.feeds.TwitterEventListener;
-import cz.wake.corgibot.listener.*;
+import cz.wake.corgibot.listener.ChannelDeleteEvent;
+import cz.wake.corgibot.listener.ChatListener;
+import cz.wake.corgibot.listener.JoinEvent;
+import cz.wake.corgibot.listener.LeaveEvent;
 import cz.wake.corgibot.managers.BotManager;
 import cz.wake.corgibot.runnable.ReminderTask;
 import cz.wake.corgibot.runnable.SpamHandler;
@@ -65,7 +70,7 @@ public class CorgiBot {
     private SQLManager sql;
     private ChatListener chatListener;
 
-    public static void main(String[] args) throws LoginException, InterruptedException {
+    public static void main(String[] args) throws LoginException, InterruptedException, IOException {
         instance = new CorgiBot();
         instance.start();
     }
@@ -118,7 +123,7 @@ public class CorgiBot {
         return jda;
     }
 
-    public void start() throws LoginException, InterruptedException {
+    public void start() throws LoginException, InterruptedException, IOException {
         // Inform
         CorgiLogger.infoMessage("Corgi is waking up!");
 
@@ -147,6 +152,7 @@ public class CorgiBot {
 
         // Instances
         instance.init();
+
 
         // Properties from config
         isBeta = config.getBoolean("beta");
@@ -208,6 +214,13 @@ public class CorgiBot {
             }
         }
 
+        // Commands
+        CommandsBuilder commandsBuilder = CommandsBuilder.newBuilder(485434705903222805L);
+        commandsBuilder.build(
+                jda,
+                "cz.wake.corgibot.commands"
+        );
+
         // Final set status
         if (!isBeta) {
             getJda().getPresence().setActivity(Activity.playing("c!help | corgibot.xyz"));
@@ -220,7 +233,7 @@ public class CorgiBot {
 
     private void init() {
         getLog(this.getClass()).error(String.valueOf(commandManager.getClass().hashCode()));
-        commandManager.register();
+        // commandManager.register();
     }
 
     private void initDatabase() {

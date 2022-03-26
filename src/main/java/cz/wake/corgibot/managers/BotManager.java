@@ -7,12 +7,15 @@ import net.dv8tion.jda.api.entities.Guild;
 import net.dv8tion.jda.api.entities.MessageChannel;
 import net.dv8tion.jda.api.exceptions.ErrorResponseException;
 
+import java.util.ArrayList;
 import java.util.HashSet;
+import java.util.List;
 import java.util.Set;
 
 public class BotManager {
 
     private static final HashSet<GuildWrapper> listGuilds = new HashSet<>();
+    public static final List<String> DISABLED_SLASH_NOTICES = new ArrayList<>();
 
     public static void registerOrLoadGuild(Guild guild) {
         if (CorgiBot.getInstance().getSql().existsGuildData(guild.getId())) {

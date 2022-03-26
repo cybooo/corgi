@@ -115,6 +115,7 @@ public class CommandManager {
         // registerCommand(new Ticket());
         registerCommand(new ToggleBeta());
         registerCommand(new Support());
+        registerCommand(new DisableSlashNotice());
         CorgiLogger.greatMessage("Corgi will respond to (" + commands.size() + ") commands.");
     }
 

@@ -20,6 +20,7 @@ public class SayCommand extends ApplicationCommand {
     public void execute(GuildSlashEvent event,
                         @AppOption(name = "text", description = "Text the bot should say.") String text) {
         if (!PermissionUtil.checkPermission(event.getMember(), Permission.MANAGE_CHANNEL)) {
+            event.reply("You're not allowed to perform this command!").queue();
             return;
         }
         event.getChannel().sendMessage(text).queue();

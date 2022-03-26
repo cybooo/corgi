@@ -22,6 +22,7 @@ public class AllowMusicCommand extends ApplicationCommand {
                         @AppOption(name = "command_type") String commandType,
                         @AppOption(name = "role_id") long roleId) {
         if (!PermissionUtil.checkPermission(event.getMember(), Permission.MANAGE_CHANNEL)) {
+            event.reply("You're not allowed to perform this command!").queue();
             return;
         }
         if (commandType.equals("play") || commandType.equals("nowplaying") || commandType.equals("skip") ||

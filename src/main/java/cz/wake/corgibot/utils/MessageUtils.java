@@ -1,5 +1,6 @@
 package cz.wake.corgibot.utils;
 
+import com.freya02.botcommands.api.application.slash.GuildSlashEvent;
 import com.mashape.unirest.http.Unirest;
 import com.mashape.unirest.http.exceptions.UnirestException;
 import cz.wake.corgibot.CorgiBot;
@@ -85,7 +86,6 @@ public class MessageUtils {
         return user.getDefaultAvatarUrl();
     }
 
-    //TODO: Dodelat try
     public static Message sendErrorMessage(EmbedBuilder builder, MessageChannel channel) {
         return channel.sendMessageEmbeds(builder.setColor(Constants.RED).build()).complete();
     }

@@ -1,6 +1,7 @@
 package cz.wake.corgibot.commands.games;
 
 import com.freya02.botcommands.api.annotations.CommandMarker;
+import com.freya02.botcommands.api.application.ApplicationCommand;
 import com.freya02.botcommands.api.application.slash.GuildSlashEvent;
 import com.freya02.botcommands.api.application.slash.annotations.JDASlashCommand;
 import cz.wake.corgibot.annotations.SinceCorgi;
@@ -14,7 +15,7 @@ import java.util.concurrent.ConcurrentMap;
 
 @CommandMarker
 @SinceCorgi(version = "0.4")
-public class McStatusCommand {
+public class McStatusCommand extends ApplicationCommand {
 
     private final ConcurrentMap<MojangService, Integer> map = MojangChecker.getServiceStatus();
 

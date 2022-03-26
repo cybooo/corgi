@@ -37,6 +37,7 @@ public class IgnoreCommand extends ApplicationCommand {
     )
     public void execute(GuildSlashEvent event) {
         if (!PermissionUtil.checkPermission(event.getMember(), Permission.MANAGE_CHANNEL)) {
+            event.reply("You're not allowed to perform this command!").queue();
             return;
         }
         GuildWrapper gw = BotManager.getGuildWrapper(event.getGuild());

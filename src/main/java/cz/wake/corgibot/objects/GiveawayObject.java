@@ -1,7 +1,7 @@
 package cz.wake.corgibot.objects;
 
 public record GiveawayObject(int giveawayId, String guildId, String textchannelId,
-                             String messageId, long endTime, String prize, int maxWinners,
+                             String messageId, long endTime, String prize, long maxWinners,
                              String emoji, String color) {
 
     public int getGiveawayId() {
@@ -28,7 +28,7 @@ public record GiveawayObject(int giveawayId, String guildId, String textchannelI
         return prize;
     }
 
-    public int getMaxWinners() {
+    public long getMaxWinners() {
         return maxWinners;
     }
 

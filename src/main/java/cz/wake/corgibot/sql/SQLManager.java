@@ -332,7 +332,7 @@ public class SQLManager {
     }
 
     public final void registerGiveawayInSQL(final String guildId, final String textChannelId, final String messageId, final long startTime, final long endTime,
-                                            final String prize, final int maxWinners, final String emojiCode, final String embedColor) {
+                                            final String prize, final long maxWinners, final String emojiCode, final String embedColor) {
         Connection conn = null;
         PreparedStatement ps = null;
         try {
@@ -344,7 +344,7 @@ public class SQLManager {
             ps.setLong(4, startTime);
             ps.setLong(5, endTime);
             ps.setString(6, prize);
-            ps.setInt(7, maxWinners);
+            ps.setLong(7, maxWinners);
             ps.setString(8, emojiCode);
             ps.setString(9, embedColor);
             ps.executeUpdate();
@@ -385,7 +385,7 @@ public class SQLManager {
                         ps.getResultSet().getString("message_id"),
                         ps.getResultSet().getLong("end_time"),
                         ps.getResultSet().getString("prize"),
-                        ps.getResultSet().getInt("max_winners"),
+                        ps.getResultSet().getLong("max_winners"),
                         ps.getResultSet().getString("emoji"),
                         ps.getResultSet().getString("embed_color")));
             }

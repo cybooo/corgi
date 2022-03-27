@@ -1,36 +1,29 @@
 package cz.wake.corgibot.commands.games;
 
-import com.jagrosh.jdautilities.commons.waiter.EventWaiter;
-import cz.wake.corgibot.annotations.CommandInfo;
+import com.freya02.botcommands.api.annotations.CommandMarker;
+import com.freya02.botcommands.api.application.ApplicationCommand;
+import com.freya02.botcommands.api.application.slash.GuildSlashEvent;
+import com.freya02.botcommands.api.application.slash.annotations.JDASlashCommand;
 import cz.wake.corgibot.annotations.SinceCorgi;
-import cz.wake.corgibot.commands.CommandBase;
-import cz.wake.corgibot.commands.CommandCategory;
-import cz.wake.corgibot.objects.GuildWrapper;
 import cz.wake.corgibot.utils.Constants;
 import cz.wake.corgibot.utils.EmoteList;
 import cz.wake.corgibot.utils.statuses.MojangChecker;
 import cz.wake.corgibot.utils.statuses.MojangService;
 import net.dv8tion.jda.api.EmbedBuilder;
-import net.dv8tion.jda.api.entities.Member;
-import net.dv8tion.jda.api.entities.Message;
-import net.dv8tion.jda.api.entities.MessageChannel;
 
 import java.util.concurrent.ConcurrentMap;
 
-@CommandInfo(
-        name = "mcstatus",
-        aliases = {"mcs", "mojang"},
-        help = "%mcstatus - Displays an overview of the Mojang API and its status.",
-        description = "Command to view Mojnag status.",
-        category = CommandCategory.GAMES
-)
+@CommandMarker
 @SinceCorgi(version = "0.4")
-public class McStatus implements CommandBase {
+public class McStatusCommand extends ApplicationCommand {
 
     private final ConcurrentMap<MojangService, Integer> map = MojangChecker.getServiceStatus();
 
-    @Override
-    public void onCommand(MessageChannel channel, Message message, String[] args, Member member, EventWaiter w, GuildWrapper gw) {
+    @JDASlashCommand(
+            name = "mcstatus",
+            description = "Displays an overview of the Mojang API and its status."
+    )
+    public void execute(GuildSlashEvent event) {
         int state = 0;
         EmbedBuilder builder = new EmbedBuilder();
         for (MojangService service : MojangService.values) {
@@ -51,6 +44,7 @@ public class McStatus implements CommandBase {
         }
         builder.setThumbnail("https://boldscandinavia.com/wp-content/uploads/2020/05/moj_hor_1080x1080_compressed.gif");
         builder.setFooter("Some services may be offline because Mojang status marked them as offline.");
-        channel.sendMessageEmbeds(builder.setColor((state == 0 ? Constants.GREEN : state == 1 ? Constants.ORANGE : Constants.RED)).build()).queue();
+        event.replyEmbeds(builder.setColor((state == 0 ? Constants.GREEN : state == 1 ? Constants.ORANGE : Constants.RED)).build()).queue();
     }
+
 }

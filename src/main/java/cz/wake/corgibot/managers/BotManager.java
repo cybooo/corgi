@@ -14,6 +14,26 @@ public class BotManager {
 
     private static final HashSet<GuildWrapper> listGuilds = new HashSet<>();
 
+    public static GuildWrapper getGuildWrapper(Guild guild) {
+        GuildWrapper guildWrapper;
+        if (!CorgiBot.isIsBeta()) {
+            guildWrapper = BotManager.getCustomGuild(guild.getId());
+        } else {
+            guildWrapper = new GuildWrapper(guild.getId());
+        }
+        return guildWrapper;
+    }
+
+    public static GuildWrapper getGuildWrapper(String guildid) {
+        GuildWrapper guildWrapper;
+        if (!CorgiBot.isIsBeta()) {
+            guildWrapper = BotManager.getCustomGuild(guildid);
+        } else {
+            guildWrapper = new GuildWrapper(guildid);
+        }
+        return guildWrapper;
+    }
+
     public static void registerOrLoadGuild(Guild guild) {
         if (CorgiBot.getInstance().getSql().existsGuildData(guild.getId())) {
             if (getCustomGuild(guild.getId()) == null) {

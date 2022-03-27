@@ -21,14 +21,14 @@ public class Giveaway2 {
     private final int giveawayId;
     private final long endTime;
     private final String prize;
-    private final int maxWinners;
+    private final long maxWinners;
     private String emoji;
     private final Message message;
     private Color color;
     private long seconds;
     private volatile boolean exit = false;
 
-    public Giveaway2(Message message, long endTime, String prize, int maxWinners, String emoji, String color) {
+    public Giveaway2(Message message, long endTime, String prize, long maxWinners, String emoji, String color) {
         this.endTime = endTime;
         this.prize = prize;
         this.maxWinners = maxWinners;

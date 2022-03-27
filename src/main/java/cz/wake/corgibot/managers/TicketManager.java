@@ -7,7 +7,7 @@ import cz.wake.corgibot.utils.MessageUtils;
 import net.dv8tion.jda.api.EmbedBuilder;
 import net.dv8tion.jda.api.Permission;
 import net.dv8tion.jda.api.entities.*;
-import net.dv8tion.jda.api.interactions.components.Button;
+import net.dv8tion.jda.api.interactions.components.buttons.Button;
 
 public class TicketManager {
 
@@ -33,13 +33,12 @@ public class TicketManager {
             // TODO: Make customizable (Webpanel?)
 
             textChannel.createPermissionOverride(guild.getPublicRole()).setDeny(
-                    Permission.VIEW_CHANNEL,
-                    Permission.MESSAGE_READ
+                    Permission.VIEW_CHANNEL
             ).queue();
 
             textChannel.createPermissionOverride(guild.getSelfMember()).setAllow(
-                    Permission.MESSAGE_WRITE,
-                    Permission.MESSAGE_READ,
+                    Permission.VIEW_CHANNEL,
+                    Permission.MESSAGE_SEND,
                     Permission.MESSAGE_HISTORY,
                     Permission.MESSAGE_EMBED_LINKS,
                     Permission.MESSAGE_ATTACH_FILES,
@@ -48,8 +47,8 @@ public class TicketManager {
             ).queue();
 
             textChannel.createPermissionOverride(author).setAllow(
-                    Permission.MESSAGE_WRITE,
-                    Permission.MESSAGE_READ,
+                    Permission.VIEW_CHANNEL,
+                    Permission.MESSAGE_SEND,
                     Permission.MESSAGE_HISTORY,
                     Permission.MESSAGE_EMBED_LINKS,
                     Permission.MESSAGE_ATTACH_FILES,
@@ -60,8 +59,8 @@ public class TicketManager {
 
             for (Role role : CorgiBot.getInstance().getSql().getTicketStaffRoles(guild.getId())) {
                 textChannel.createPermissionOverride(role).setAllow(
-                        Permission.MESSAGE_WRITE,
-                        Permission.MESSAGE_READ,
+                        Permission.VIEW_CHANNEL,
+                        Permission.MESSAGE_SEND,
                         Permission.MESSAGE_HISTORY,
                         Permission.MESSAGE_EMBED_LINKS,
                         Permission.MESSAGE_ATTACH_FILES,
@@ -90,11 +89,11 @@ public class TicketManager {
                 .queue();
 
 
-        textChannel.getPermissionOverride(textChannel.getGuild().getPublicRole()).getManager().deny(Permission.MESSAGE_WRITE).queue();
+        textChannel.getPermissionOverride(textChannel.getGuild().getPublicRole()).getManager().deny(Permission.MESSAGE_SEND).queue();
 
         for (Role role : CorgiBot.getInstance().getSql().getTicketStaffRoles(textChannel.getGuild().getId())) {
             textChannel.getPermissionOverride(role).getManager().setAllow(
-                    Permission.MESSAGE_WRITE
+                    Permission.MESSAGE_SEND
             ).queue();
         }
     }
@@ -109,7 +108,7 @@ public class TicketManager {
                 .queue();
 
         for (PermissionOverride permissionOverride : textChannel.getPermissionOverrides()) {
-            permissionOverride.getManager().setAllow(Permission.MESSAGE_WRITE).queue();
+            permissionOverride.getManager().setAllow(Permission.MESSAGE_SEND).queue();
         }
     }
 

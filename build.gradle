@@ -58,7 +58,7 @@ dependencies {
     // JDA
     implementation group: 'com.github.Xirado', name: 'JDA', version: '6adee1ec24'
     implementation group: 'pw.chew', name: 'jda-chewtils', version: '1.24.1'
-    implementation group: 'me.duncte123', name: 'botCommons', version: '2.3.9'
+    implementation group: 'me.duncte123', name: 'botCommons', version: '2.3.11'
 
     // Others
     implementation group: 'com.mashape.unirest', name: 'unirest-java', version: '1.4.9'

@@ -142,19 +142,19 @@ public class ChatListener extends ListenerAdapter {
 
                 // Run command
                 try {
-                    if (!BotManager.DISABLED_SLASH_NOTICES.contains(e.getGuild().getId())) {
-                        e.getChannel().sendMessageEmbeds(new EmbedBuilder()
-                                .setTitle("⚠️ Important notice")
-                                .setDescription(String.format("""
-                                        Regular commands are gonna be replaced by slash commands!
-                                        Slash commands are gonna start working during April. (no confirmed date)
-                                        From <t:1650488400:F> regular commands will **no longer work.**
-                                        You need to reinvite Corgi using the invite link below, otherwise slash commands are not gonna work for you.
-                                        https://discord.com/oauth2/authorize?client_id=860244075138383922&scope=applications.commands+bot&guild_id=%s
-                                        An administrator can disable this warning by typing %sdisableslashnotice""", e.getGuild().getId(), guildWrapper.getPrefix())
-                                )
-                                .build()).queue();
-                    }
+//                    if (!BotManager.DISABLED_SLASH_NOTICES.contains(e.getGuild().getId())) {
+//                        e.getChannel().sendMessageEmbeds(new EmbedBuilder()
+//                                .setTitle("⚠️ Important notice")
+//                                .setDescription(String.format("""
+//                                        Regular commands are gonna be replaced by slash commands!
+//                                        Slash commands are gonna start working during April. (no confirmed date)
+//                                        From <t:1650488400:F> regular commands will **no longer work.**
+//                                        You need to reinvite Corgi using the invite link below, otherwise slash commands are not gonna work for you.
+//                                        https://discord.com/oauth2/authorize?client_id=860244075138383922&scope=applications.commands+bot&guild_id=%s
+//                                        An administrator can disable this warning by typing %sdisableslashnotice""", e.getGuild().getId(), guildWrapper.getPrefix())
+//                                )
+//                                .build()).queue();
+//                    }
                     cmd.getCommand().onCommand(e.getChannel(), e.getMessage(), Arrays.copyOfRange(split, 1, split.length), e.getMember(), w, guildWrapper);
                 } catch (Exception ex) {
                     MessageUtils.sendAutoDeletedMessage("Something went wrong when executing this command!", 10000, e.getChannel());

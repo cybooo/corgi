@@ -6,8 +6,10 @@ import cz.wake.corgibot.annotations.SinceCorgi;
 import cz.wake.corgibot.commands.CommandBase;
 import cz.wake.corgibot.commands.CommandCategory;
 import cz.wake.corgibot.objects.GuildWrapper;
+import cz.wake.corgibot.utils.Constants;
 import cz.wake.corgibot.utils.EmoteList;
 import cz.wake.corgibot.utils.MessageUtils;
+import me.duncte123.botcommons.messaging.EmbedUtils;
 import net.dv8tion.jda.api.entities.Member;
 import net.dv8tion.jda.api.entities.Message;
 import net.dv8tion.jda.api.entities.MessageChannel;
@@ -39,7 +41,7 @@ public class Choose implements CommandBase {
                 MessageUtils.sendErrorMessage("The first option was entered incorrectly. Please try again..", channel);
                 return;
             }
-            channel.sendMessage(getRandomThinkingEmote() + " | **" + member.getUser().getName() + "**, " + "i chose" + " **" + arguments[(int) (Math.random() * arguments.length)] + "**!").queue();
+            MessageUtils.getEmbed(Constants.BLUE).setDescription(getRandomThinkingEmote() + " | **" + member.getUser().getName() + "**, " + "i chose" + " **" + arguments[(int) (Math.random() * arguments.length)] + "**!");
         }
     }
 

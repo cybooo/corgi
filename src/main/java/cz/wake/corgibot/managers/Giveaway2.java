@@ -89,7 +89,7 @@ public class Giveaway2 {
                 while (seconds > 10 && !exit) {
                     message.editMessageEmbeds(new EmbedBuilder().setTitle(":confetti_ball:  **GIVEAWAY!**  :confetti_ball:", null).setDescription((prize != null ? "\n**" + prize + "**" : "\n") + "\nReact with" + emoji + " to join!\nRemaining time: " + secondsToTime(seconds)).setColor(color).setFooter("Winners: " + maxWinners, null).setTimestamp(Instant.ofEpochMilli(endTime)).build()).queue(m -> {
                     }, this::exceptionHandler);
-                    seconds -= 5;
+                    seconds -= 60;
                     if (!message.getReactions().equals(emoji)) {
                         try {
                             message.addReaction(emoji).queue();
@@ -104,7 +104,7 @@ public class Giveaway2 {
                 while (seconds > 0 && !exit) {
                     message.editMessageEmbeds(new EmbedBuilder().setTitle(":confetti_ball:  **GIVEAWAY IS ENDING SOON!**  :confetti_ball:", null).setDescription((prize != null ? "\n**" + prize + "**" : "\n") + "\nReact with " + emoji + " to join!\nRemaining time: " + secondsToTime(seconds)).setColor(Constants.RED).setFooter("Winners: " + maxWinners, null).setTimestamp(Instant.ofEpochMilli(endTime)).build()).queue(m -> {
                     }, this::exceptionHandler);
-                    seconds--;
+                    seconds -= 20;
                     if (!message.getReactions().equals(emoji)) {
                         try {
                             message.addReaction(emoji).queue();
@@ -112,7 +112,8 @@ public class Giveaway2 {
                             emoji = "🎉";
                             message.addReaction(emoji).queue();
                             exceptionHandler(e);
-                        }                 }
+                        }
+                    }
                     Thread.sleep(20000);
                 }
                 try {

@@ -41,7 +41,7 @@ public class Choose implements CommandBase {
                 MessageUtils.sendErrorMessage("The first option was entered incorrectly. Please try again..", channel);
                 return;
             }
-            MessageUtils.getEmbed(Constants.BLUE).setDescription(getRandomThinkingEmote() + " | **" + member.getUser().getName() + "**, " + "i chose" + " **" + arguments[(int) (Math.random() * arguments.length)] + "**!");
+            channel.sendMessageEmbeds(MessageUtils.getEmbed(Constants.BLUE).setDescription(getRandomThinkingEmote() + " | **" + member.getUser().getName() + "**, " + "i chose" + " **" + arguments[(int) (Math.random() * arguments.length)] + "**!").build()).queue();
         }
     }
 

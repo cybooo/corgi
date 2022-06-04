@@ -60,16 +60,10 @@ public class ChatListener extends ListenerAdapter {
         if (BotManager.getGuildWrappers() == null) return;
 
         if (BotManager.getUserWrappers().get(e.getAuthor().getId()) == null) {
-            System.out.println("UserWrapper is null");
             if (!BotManager.loadUser(e.getAuthor().getId())) {
-                System.out.println("User " + e.getAuthor().getId() + " wasnt loaded.");
                 CorgiBot.getInstance().getSql().registerUser(e.getAuthor().getId(), e.getGuild().getId());
                 BotManager.loadUser(e.getAuthor().getId());
-            } else {
-                System.out.println("User " + e.getAuthor().getId() + " was loaded.");
             }
-        } else {
-            System.out.println("UserWrapper is not null");
         }
 
         if (BotManager.getUserWrappers().get(e.getAuthor().getId()).getGuildData().get(e.getGuild().getId()) == null) {
@@ -80,10 +74,6 @@ public class ChatListener extends ListenerAdapter {
             BotManager.getUserWrappers().get(e.getAuthor().getId()).getGuildData().get(e.getGuild().getId())
                     .addMessages(1L)
                     .addXp(1L);
-        }
-
-        for (UserGuildData userGuildData : BotManager.getUserWrappers().get(e.getAuthor().getId()).getGuildData().values()) {
-            System.out.println("UserGuildData: " + userGuildData.toString());
         }
 
         String prefix = "c!";

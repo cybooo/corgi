@@ -68,6 +68,7 @@ public class ChatListener extends ListenerAdapter {
 
         if (BotManager.getUserWrappers().get(e.getAuthor().getId()).getGuildData().get(e.getGuild().getId()) == null) {
             BotManager.getUserWrappers().get(e.getAuthor().getId()).getGuildData().put(e.getGuild().getId(), new UserGuildData(e.getAuthor().getId(), e.getGuild().getId()));
+            CorgiBot.getInstance().getSql().registerUser(e.getAuthor().getId(), e.getGuild().getId());
         }
 
         if (!e.getMessage().getContentRaw().startsWith("c!")) {

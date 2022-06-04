@@ -89,7 +89,7 @@ public class Giveaway2 {
                 while (seconds > 10 && !exit) {
                     message.editMessageEmbeds(new EmbedBuilder().setTitle(":confetti_ball:  **GIVEAWAY!**  :confetti_ball:", null).setDescription((prize != null ? "\n**" + prize + "**" : "\n") + "\nReact with" + emoji + " to join!\nRemaining time: " + secondsToTime(seconds)).setColor(color).setFooter("Winners: " + maxWinners, null).setTimestamp(Instant.ofEpochMilli(endTime)).build()).queue(m -> {
                     }, this::exceptionHandler);
-                    seconds -= 60;
+                    seconds -= 30;
                     if (!message.getReactions().equals(emoji)) {
                         try {
                             message.addReaction(emoji).queue();
@@ -99,12 +99,12 @@ public class Giveaway2 {
                             exceptionHandler(e);
                         }
                     }
-                    Thread.sleep(60000);
+                    Thread.sleep(30000);
                 }
                 while (seconds > 0 && !exit) {
                     message.editMessageEmbeds(new EmbedBuilder().setTitle(":confetti_ball:  **GIVEAWAY IS ENDING SOON!**  :confetti_ball:", null).setDescription((prize != null ? "\n**" + prize + "**" : "\n") + "\nReact with " + emoji + " to join!\nRemaining time: " + secondsToTime(seconds)).setColor(Constants.RED).setFooter("Winners: " + maxWinners, null).setTimestamp(Instant.ofEpochMilli(endTime)).build()).queue(m -> {
                     }, this::exceptionHandler);
-                    seconds -= 20;
+                    seconds--;
                     if (!message.getReactions().equals(emoji)) {
                         try {
                             message.addReaction(emoji).queue();
@@ -114,7 +114,7 @@ public class Giveaway2 {
                             exceptionHandler(e);
                         }
                     }
-                    Thread.sleep(20000);
+                    Thread.sleep(1000);
                 }
                 try {
                     message.getChannel().retrieveMessageById(message.getId()).complete().getReactions().stream().filter(mr -> mr.getReactionEmote().getName().equals(emoji)).findAny().ifPresent(mr -> {

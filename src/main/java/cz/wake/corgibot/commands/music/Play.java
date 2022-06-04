@@ -16,7 +16,6 @@ import net.dv8tion.jda.api.entities.MessageChannel;
 import net.dv8tion.jda.api.entities.Role;
 import net.dv8tion.jda.internal.utils.PermissionUtil;
 
-import java.awt.desktop.ScreenSleepEvent;
 import java.util.ArrayList;
 import java.util.Objects;
 

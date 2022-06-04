@@ -29,10 +29,11 @@ import java.util.List;
         description = "Forgetting everything! Set a reminder!\n" +
                 "With only one command, you can set when Corgi should remind you!" +
                 "Alerts are accurate within 30 seconds!",
-        help = "%reminder - Show help\n" +
-                "%reminder [time] ; [text] - Set a reminder\n" +
-                "%reminder list - Show all your reminders\n" +
-                "%reminder delete [ID] - Deletes a reminder",
+        help = """
+                %reminder - Show help
+                %reminder [time] ; [text] - Set a reminder
+                %reminder list - Show all your reminders
+                %reminder delete [ID] - Deletes a reminder""",
         category = CommandCategory.GENERAL
 )
 @SinceCorgi(version = "1.3.0")

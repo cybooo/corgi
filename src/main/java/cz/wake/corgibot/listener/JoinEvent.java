@@ -2,14 +2,17 @@ package cz.wake.corgibot.listener;
 
 import cz.wake.corgibot.CorgiBot;
 import cz.wake.corgibot.managers.BotManager;
+import cz.wake.corgibot.objects.user.UserGuildData;
 import cz.wake.corgibot.utils.ColorSelector;
 import cz.wake.corgibot.utils.Constants;
 import cz.wake.corgibot.utils.CorgiLogger;
 import cz.wake.corgibot.utils.MessageUtils;
 import net.dv8tion.jda.api.JDA;
 import net.dv8tion.jda.api.events.guild.GuildJoinEvent;
+import net.dv8tion.jda.api.events.guild.member.GuildMemberJoinEvent;
 import net.dv8tion.jda.api.exceptions.InsufficientPermissionException;
 import net.dv8tion.jda.api.hooks.ListenerAdapter;
+import org.jetbrains.annotations.NotNull;
 
 public class JoinEvent extends ListenerAdapter {
 
@@ -43,6 +46,18 @@ public class JoinEvent extends ListenerAdapter {
                     .setDescription("Guild name: `" + event.getGuild().getName() + "` :smile: :heart:\n" +
                             "Owner: " + event.getGuild().getOwner().getUser().getName() + "\nMembers: " +
                             event.getGuild().getMembers().size()).build()).queue();
+        }
+    }
+
+    @Override
+    public void onGuildMemberJoin(@NotNull GuildMemberJoinEvent event) {
+        if (BotManager.getUserWrappers().get(event.getUser().getId()) == null) {
+            BotManager.loadUser(event.getUser().getId());
+        }
+
+        if (!CorgiBot.getInstance().getSql().hasData(event.getUser().getId(), event.getGuild().getId())) {
+            CorgiBot.getInstance().getSql().registerUser(event.getUser().getId(), event.getGuild().getId());
+            BotManager.getUserWrappers().get(event.getUser().getId()).getGuildData().put(event.getGuild().getId(), new UserGuildData(event.getUser().getId(), event.getGuild().getId()));
         }
     }
 }

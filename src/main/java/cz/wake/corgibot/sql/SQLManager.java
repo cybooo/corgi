@@ -6,12 +6,15 @@ import cz.wake.corgibot.objects.ChangeLog;
 import cz.wake.corgibot.objects.GiveawayObject;
 import cz.wake.corgibot.objects.GuildWrapper;
 import cz.wake.corgibot.objects.TemporaryReminder;
+import cz.wake.corgibot.objects.user.UserGuildData;
+import cz.wake.corgibot.objects.user.UserWrapper;
 import net.dv8tion.jda.api.entities.MessageChannel;
 import net.dv8tion.jda.api.entities.Role;
 import net.dv8tion.jda.api.entities.User;
 
 import java.sql.Connection;
 import java.sql.PreparedStatement;
+import java.sql.ResultSet;
 import java.util.ArrayList;
 import java.util.HashSet;
 import java.util.Random;
@@ -174,13 +177,18 @@ public class SQLManager {
         }
     }
 
-    public final void registerUser(final User user) {
+    public final void registerUser(String userId, String guildId) {
         Connection conn = null;
         PreparedStatement ps = null;
         try {
             conn = pool.getConnection();
-            ps = conn.prepareStatement("INSERT INTO s3_corgi.user_data (discord_id) VALUES (?);");
-            ps.setString(1, user.getId());
+            ps = conn.prepareStatement("INSERT INTO s3_corgi.user_data (user_id, guild_id, level, xp, voice_time, messages) VALUES (?, ?, ?, ?, ?, ?);");
+            ps.setString(1, userId);
+            ps.setString(2, guildId);
+            ps.setInt(3, 1);
+            ps.setInt(4, 0);
+            ps.setInt(5, 0);
+            ps.setInt(6, 0);
             ps.executeUpdate();
         } catch (Exception e) {
             e.printStackTrace();
@@ -189,12 +197,12 @@ public class SQLManager {
         }
     }
 
-    public final boolean hasData(final User u) {
+    public final boolean hasData(String userId, String guildId) {
         Connection conn = null;
         PreparedStatement ps = null;
         try {
             conn = pool.getConnection();
-            ps = conn.prepareStatement("SELECT * FROM s3_corgi.user_data WHERE discord_id = '" + u.getId() + "';");
+            ps = conn.prepareStatement("SELECT * FROM s3_corgi.user_data WHERE user_id = '" + userId + "' AND guild_id = '" + guildId + "';");
             ps.executeQuery();
             return ps.getResultSet().next();
         } catch (Exception e) {
@@ -291,7 +299,7 @@ public class SQLManager {
         return list;
     }
 
-    public GuildWrapper createGuildWrappers(String id) {
+    public GuildWrapper createGuildWrapper(String id) {
         Connection conn = null;
         PreparedStatement ps = null;
         try {
@@ -306,6 +314,32 @@ public class SQLManager {
             e.printStackTrace();
         } finally {
             pool.close(conn, ps, null);
+        }
+        return null;
+    }
+
+    public UserWrapper createUserWrapper(String id) {
+        Connection conn = null;
+        PreparedStatement ps = null;
+        ResultSet rs = null;
+        UserWrapper userWrapper = null;
+        try {
+            conn = pool.getConnection();
+            ps = conn.prepareStatement("SELECT * FROM s3_corgi.user_data WHERE user_id = ?;");
+            ps.setString(1, id);
+            ps.executeQuery();
+            rs = ps.getResultSet();
+            while (rs.next()) {
+                if (userWrapper == null) {
+                    userWrapper = new UserWrapper(id);
+                }
+                userWrapper.getGuildData().put(rs.getString("guild_id"), new UserGuildData(id, rs.getString("guild_id")));
+            }
+            return userWrapper;
+        } catch (Exception e) {
+            e.printStackTrace();
+        } finally {
+            pool.close(conn, ps, rs);
         }
         return null;
     }
@@ -822,5 +856,152 @@ public class SQLManager {
         }
     }
 
+    public long getLevel(String userId, String guildId) {
+        Connection conn = null;
+        PreparedStatement ps = null;
+        try {
+            conn = pool.getConnection();
+            ps = conn.prepareStatement("SELECT level FROM s3_corgi.user_data WHERE user_id = ? AND guild_id = ?;");
+            ps.setString(1, userId);
+            ps.setString(2, guildId);
+            ps.executeQuery();
+            if (ps.getResultSet().next()) {
+                return ps.getResultSet().getLong("level");
+            }
+        } catch (Exception e) {
+            e.printStackTrace();
+        } finally {
+            pool.close(conn, ps, null);
+        }
+        return 0;
+    }
+
+    public void setLevel(String userId, String guildId, long level) {
+        Connection conn = null;
+        PreparedStatement ps = null;
+        try {
+            conn = pool.getConnection();
+            ps = conn.prepareStatement("UPDATE s3_corgi.user_data SET level = ? WHERE user_id = ? AND guild_id = ?;");
+            ps.setLong(1, level);
+            ps.setString(2, userId);
+            ps.setString(3, guildId);
+            ps.executeUpdate();
+        } catch (Exception e) {
+            e.printStackTrace();
+        } finally {
+            pool.close(conn, ps, null);
+        }
+    }
+
+    public long getXp(String userId, String guildId) {
+        Connection conn = null;
+        PreparedStatement ps = null;
+        try {
+            conn = pool.getConnection();
+            ps = conn.prepareStatement("SELECT xp FROM s3_corgi.user_data WHERE user_id = ? AND guild_id = ?;");
+            ps.setString(1, userId);
+            ps.setString(2, guildId);
+            ps.executeQuery();
+            if (ps.getResultSet().next()) {
+                return ps.getResultSet().getLong("xp");
+            }
+        } catch (Exception e) {
+            e.printStackTrace();
+        } finally {
+            pool.close(conn, ps, null);
+        }
+        return 0;
+    }
+
+    public void setXp(String userId, String guildId, long xp) {
+        Connection conn = null;
+        PreparedStatement ps = null;
+        try {
+            conn = pool.getConnection();
+            ps = conn.prepareStatement("UPDATE s3_corgi.user_data SET xp = ? WHERE user_id = ? AND guild_id = ?;");
+            ps.setLong(1, xp);
+            ps.setString(2, userId);
+            ps.setString(3, guildId);
+            ps.executeUpdate();
+        } catch (Exception e) {
+            e.printStackTrace();
+        } finally {
+            pool.close(conn, ps, null);
+        }
+    }
+
+    public long getVoiceTime(String userId, String guildId) {
+        Connection conn = null;
+        PreparedStatement ps = null;
+        try {
+            conn = pool.getConnection();
+            ps = conn.prepareStatement("SELECT voice_time FROM s3_corgi.user_data WHERE user_id = ? AND guild_id = ?;");
+            ps.setString(1, userId);
+            ps.setString(2, guildId);
+            ps.executeQuery();
+            if (ps.getResultSet().next()) {
+                return ps.getResultSet().getLong("voice_time");
+            }
+        } catch (Exception e) {
+            e.printStackTrace();
+        } finally {
+            pool.close(conn, ps, null);
+        }
+        return 0;
+    }
+
+    public void setVoiceTime(String userId, String guildId, long voiceTime) {
+        Connection conn = null;
+        PreparedStatement ps = null;
+        try {
+            conn = pool.getConnection();
+            ps = conn.prepareStatement("UPDATE s3_corgi.user_data SET voice_time = ? WHERE user_id = ? AND guild_id = ?;");
+            ps.setLong(1, voiceTime);
+            ps.setString(2, userId);
+            ps.setString(3, guildId);
+            ps.executeUpdate();
+        } catch (Exception e) {
+            e.printStackTrace();
+        } finally {
+            pool.close(conn, ps, null);
+        }
+    }
+
+    public long getMessages(String userId, String guildId) {
+        Connection conn = null;
+        PreparedStatement ps = null;
+        try {
+            conn = pool.getConnection();
+            ps = conn.prepareStatement("SELECT messages FROM s3_corgi.user_data WHERE user_id = ? AND guild_id = ?;");
+            ps.setString(1, userId);
+            ps.setString(2, guildId);
+            ps.executeQuery();
+            if (ps.getResultSet().next()) {
+                return ps.getResultSet().getLong("messages");
+            }
+        } catch (Exception e) {
+            e.printStackTrace();
+        } finally {
+            pool.close(conn, ps, null);
+        }
+        return 0;
+    }
+
+    public void setMessages(String userId, String guildId, long messages) {
+        Connection conn = null;
+        PreparedStatement ps = null;
+        try {
+            conn = pool.getConnection();
+            ps = conn.prepareStatement("UPDATE s3_corgi.user_data SET messages = ? WHERE user_id = ? AND guild_id = ?;");
+            ps.setLong(1, messages);
+            ps.setString(2, userId);
+            ps.setString(3, guildId);
+            ps.executeUpdate();
+        } catch (Exception e) {
+            e.printStackTrace();
+        } finally {
+            pool.close(conn, ps, null);
+        }
+    }
 
 }

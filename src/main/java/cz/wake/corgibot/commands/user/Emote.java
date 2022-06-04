@@ -49,14 +49,13 @@ public class Emote implements CommandBase {
                                     "**Guild:** Unknown\n" +
                                     "**URL:** [Click me](https://cdn.discordapp.com/emojis/" + id + ".png)")
                             .setThumbnail("https://cdn.discordapp.com/emojis/" + id + ".png").build()).queue();
-                    return;
                 } else {
                     channel.sendMessageEmbeds(MessageUtils.getEmbed(member.getUser(), Constants.GREEN).setTitle("**Emote info** (" + emote.getName() + ")")
                             .setDescription("**ID:** " + emote.getId() + "\n" +
                                     "**Guild:** " + (emote.getGuild() == null ? "Unknown" : "" + emote.getGuild().getName() + "\n") +
                                     "**URL:** " + "[Click me](" + emote.getImageUrl() + ")").setThumbnail(emote.getImageUrl()).build()).queue();
-                    return;
                 }
+                return;
             }
             if (str.codePoints().count() > 11) {
                 MessageUtils.sendAutoDeletedMessage("Invalid emote or ID is too long!", 15000, channel);

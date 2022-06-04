@@ -5,11 +5,11 @@ import cz.wake.corgibot.CorgiBot;
 import cz.wake.corgibot.commands.FinalCommand;
 import cz.wake.corgibot.managers.BotManager;
 import cz.wake.corgibot.objects.GuildWrapper;
+import cz.wake.corgibot.objects.user.UserGuildData;
 import cz.wake.corgibot.utils.Constants;
 import cz.wake.corgibot.utils.CorgiLogger;
 import cz.wake.corgibot.utils.EmoteList;
 import cz.wake.corgibot.utils.MessageUtils;
-import net.dv8tion.jda.api.EmbedBuilder;
 import net.dv8tion.jda.api.Permission;
 import net.dv8tion.jda.api.entities.Guild;
 import net.dv8tion.jda.api.entities.Member;
@@ -57,7 +57,30 @@ public class ChatListener extends ListenerAdapter {
             return;
         }
 
-        if (BotManager.getListGuilds() == null) return;
+        if (BotManager.getGuildWrappers() == null) return;
+
+        if (BotManager.getUserWrappers().get(e.getAuthor().getId()) == null) {
+            System.out.println("UserWrapper is null");
+            if (!BotManager.loadUser(e.getAuthor().getId())) {
+                System.out.println("User " + e.getAuthor().getId() + " wasnt loaded.");
+                CorgiBot.getInstance().getSql().registerUser(e.getAuthor().getId(), e.getGuild().getId());
+                BotManager.loadUser(e.getAuthor().getId());
+            } else {
+                System.out.println("User " + e.getAuthor().getId() + " was loaded.");
+            }
+        } else {
+            System.out.println("UserWrapper is not null");
+        }
+
+        if (BotManager.getUserWrappers().get(e.getAuthor().getId()).getGuildData().get(e.getGuild().getId()) == null) {
+            BotManager.getUserWrappers().get(e.getAuthor().getId()).getGuildData().put(e.getGuild().getId(), new UserGuildData(e.getAuthor().getId(), e.getGuild().getId()));
+        }
+
+        BotManager.getUserWrappers().get(e.getAuthor().getId()).getGuildData().get(e.getGuild().getId()).addMessages(1L).addXp(1L);
+
+        for (UserGuildData userGuildData : BotManager.getUserWrappers().get(e.getAuthor().getId()).getGuildData().values()) {
+            System.out.println("UserGuildData: " + userGuildData.toString());
+        }
 
         String prefix = "c!";
         GuildWrapper guildWrapper;

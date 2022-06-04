@@ -37,8 +37,11 @@ public class Twitter implements CommandBase {
     public void onCommand(MessageChannel channel, Message message, String[] args, Member member, EventWaiter w, GuildWrapper gw) {
         if (args.length < 1) {
             channel.sendMessageEmbeds(MessageUtils.getEmbed(Color.CYAN).setTitle("Twitter feeds")
-                    .setDescription("Twitter Feeds allow you to receive news from the Twitter account via Corgi. \n" +
-                            "So if Corgi follows someone and he writes a tweet, Corgi will send the Tweet to a Discord channel.\n\n")
+                    .setDescription("""
+                            Twitter Feeds allow you to receive news from the Twitter account via Corgi.\s
+                            So if Corgi follows someone and he writes a tweet, Corgi will send the Tweet to a Discord channel.
+
+                            """)
                     .addField("Commands", "**%twitter sub [ID]** - Follows tweets in a channel\n**%twitter list** - Shows the list of followed twitter accounts\n**%twitter unsub [ID]** - Stops following a twitter account".replace("%", gw.getPrefix()), false)
                     .addField("Where to get a Account ID?", "http://gettwitterid.com/", false).build()).queue();
         } else {

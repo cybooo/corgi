@@ -74,7 +74,7 @@ public class CommandManager {
         registerCommand(new Purge());
         registerCommand(new TextToBlock());
         registerCommand(new Giveaway());
-        registerCommand(new Stats());
+        registerCommand(new BotStats());
         registerCommand(new About());
         registerCommand(new Invite());
         registerCommand(new Changelog());
@@ -115,7 +115,8 @@ public class CommandManager {
         // registerCommand(new Ticket());
         registerCommand(new ToggleBeta());
         registerCommand(new Support());
-        registerCommand(new DisableSlashNotice());
+        // registerCommand(new DisableSlashNotice());
+        registerCommand(new Stats());
         CorgiLogger.greatMessage("Corgi will respond to (" + commands.size() + ") commands.");
     }
 

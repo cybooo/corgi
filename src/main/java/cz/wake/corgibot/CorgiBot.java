@@ -62,7 +62,6 @@ public class CorgiBot {
     private final CommandManager commandManager = new CommandManager();
     private final DateTimeFormatter timeFormat = DateTimeFormatter.ofPattern("MMMM yyyy HH:mm:ss");
     private SQLManager sql;
-    private ChatListener chatListener;
 
     public static void main(String[] args) throws LoginException, InterruptedException {
         instance = new CorgiBot();
@@ -159,7 +158,7 @@ public class CorgiBot {
                 instance.initDatabase();
                 CorgiLogger.greatMessage("Corgi has successfully connected to MySQL!");
 
-                // Load configuration for guilds
+                // Load guilds
                 BotManager.loadGuilds();
 
                 // Setup
@@ -172,7 +171,7 @@ public class CorgiBot {
             }
         } else {
             CorgiLogger.warnMessage("Database is off, Corgi will not load and save anything!");
-            CorgiLogger.infoMessage("Basic prefix is: " + Constants.PREFIX);
+            CorgiLogger.infoMessage("Default prefix is: " + Constants.PREFIX);
         }
 
         ScheduledExecutorService scheduledExecutorService = Executors.newSingleThreadScheduledExecutor();
@@ -243,7 +242,4 @@ public class CorgiBot {
         return sql;
     }
 
-    public ChatListener getChatListener() {
-        return chatListener;
-    }
 }

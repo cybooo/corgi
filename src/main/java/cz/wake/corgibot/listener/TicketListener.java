@@ -1,6 +1,5 @@
 package cz.wake.corgibot.listener;
 
-import cz.wake.corgibot.managers.TicketManager;
 import net.dv8tion.jda.api.events.interaction.ButtonClickEvent;
 import net.dv8tion.jda.api.hooks.ListenerAdapter;
 

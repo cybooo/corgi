@@ -5,6 +5,7 @@ import cz.wake.corgibot.commands.CommandManager;
 import cz.wake.corgibot.feeds.TwitterEventListener;
 import cz.wake.corgibot.listener.*;
 import cz.wake.corgibot.managers.BotManager;
+import cz.wake.corgibot.runnable.PresenceTask;
 import cz.wake.corgibot.runnable.ReminderTask;
 import cz.wake.corgibot.runnable.SpamHandler;
 import cz.wake.corgibot.sql.SQLManager;
@@ -179,6 +180,7 @@ public class CorgiBot {
         // Startup timer
         scheduledExecutorService.scheduleAtFixedRate(new SpamHandler(), 10, 1500, TimeUnit.MILLISECONDS); // 1.5s clear, higher = disaster
 
+
         // Languages
         CorgiLogger.infoMessage("Loading language files...");
         I18n.start();
@@ -209,7 +211,7 @@ public class CorgiBot {
 
         // Final set status
         if (!isBeta) {
-            getJda().getPresence().setActivity(Activity.playing("c!help | corgibot.xyz"));
+            scheduledExecutorService.scheduleAtFixedRate(new PresenceTask(), 0, 15, TimeUnit.MINUTES);
             getJda().getPresence().setStatus(OnlineStatus.ONLINE);
         } else {
             getJda().getPresence().setActivity(Activity.playing("with bugs"));

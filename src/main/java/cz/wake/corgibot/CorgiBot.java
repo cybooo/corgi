@@ -211,7 +211,8 @@ public class CorgiBot {
 
         // Final set status
         if (!isBeta) {
-            scheduledExecutorService.scheduleAtFixedRate(new PresenceTask(), 0, 15, TimeUnit.MINUTES);
+            getJda().getPresence().setActivity(Activity.watching(CorgiBot.getJda().getGuilds().size() + " servers | corgibot.xyz"));
+            scheduledExecutorService.scheduleAtFixedRate(new PresenceTask(), 15, 15, TimeUnit.MINUTES);
             getJda().getPresence().setStatus(OnlineStatus.ONLINE);
         } else {
             getJda().getPresence().setActivity(Activity.playing("with bugs"));

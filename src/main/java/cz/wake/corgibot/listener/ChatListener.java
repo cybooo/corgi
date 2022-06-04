@@ -76,7 +76,11 @@ public class ChatListener extends ListenerAdapter {
             BotManager.getUserWrappers().get(e.getAuthor().getId()).getGuildData().put(e.getGuild().getId(), new UserGuildData(e.getAuthor().getId(), e.getGuild().getId()));
         }
 
-        BotManager.getUserWrappers().get(e.getAuthor().getId()).getGuildData().get(e.getGuild().getId()).addMessages(1L).addXp(1L);
+        if (!e.getMessage().getContentRaw().startsWith("c!")) {
+            BotManager.getUserWrappers().get(e.getAuthor().getId()).getGuildData().get(e.getGuild().getId())
+                    .addMessages(1L)
+                    .addXp(1L);
+        }
 
         for (UserGuildData userGuildData : BotManager.getUserWrappers().get(e.getAuthor().getId()).getGuildData().values()) {
             System.out.println("UserGuildData: " + userGuildData.toString());

@@ -57,7 +57,7 @@ public class JoinEvent extends ListenerAdapter {
 
         if (!CorgiBot.getInstance().getSql().hasData(event.getUser().getId(), event.getGuild().getId())) {
             CorgiBot.getInstance().getSql().registerUser(event.getUser().getId(), event.getGuild().getId());
-            BotManager.getUserWrappers().get(event.getUser().getId()).getGuildData().put(event.getGuild().getId(), new UserGuildData(event.getUser().getId(), event.getGuild().getId()));
+            BotManager.loadUser(event.getUser().getId());
         }
     }
 }

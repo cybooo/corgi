@@ -73,8 +73,8 @@ public class ChatListener extends ListenerAdapter {
 
         if (!e.getMessage().getContentRaw().startsWith("c!")) {
             BotManager.getUserWrappers().get(e.getAuthor().getId()).getGuildData().get(e.getGuild().getId())
-                    .addMessages(1L)
-                    .addXp(1L);
+                    .addMessages(1L, true)
+                    .addXp(1L, true);
         }
 
         String prefix = "c!";

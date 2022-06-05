@@ -38,7 +38,9 @@ public class BotManager {
     }
 
     public static void loadGuilds() {
-        CorgiBot.getJda().getGuilds().forEach(guild -> {
+        List<Guild> guilds = CorgiBot.getJda().getGuilds();
+        for (int i = 0, guildsSize = guilds.size(); i < guildsSize; i++) {
+            Guild guild = guilds.get(i);
             try {
                 // Setup ignored channels
                 Set<MessageChannel> ignoredChannels = CorgiBot.getInstance().getSql().getIgnoredChannels(guild.getId());
@@ -59,7 +61,7 @@ public class BotManager {
                 ex.printStackTrace();
                 System.exit(-1);
             }
-        });
+        }
         CorgiLogger.greatMessage("Connected on " + GUILD_WRAPPERS.size() + " servers!");
         CorgiLogger.infoMessage("Loading Giveaways on guilds.");
         CorgiBot.getInstance().getSql().getAllGiveaways().forEach(go -> {
@@ -76,10 +78,10 @@ public class BotManager {
             UserWrapper userWrapper = CorgiBot.getInstance().getSql().createUserWrapper(userId);
             if (userWrapper != null) {
                 for (String guildId : userWrapper.getGuildData().keySet()) {
-                    userWrapper.getGuildData().get(guildId).setLevel(CorgiBot.getInstance().getSql().getLevel(userId, guildId));
-                    userWrapper.getGuildData().get(guildId).setMessages(CorgiBot.getInstance().getSql().getMessages(userId, guildId));
-                    userWrapper.getGuildData().get(guildId).setXp(CorgiBot.getInstance().getSql().getXp(userId, guildId));
-                    userWrapper.getGuildData().get(guildId).setVoiceTime(CorgiBot.getInstance().getSql().getVoiceTime(userId, guildId));
+                    userWrapper.getGuildData().get(guildId).setLevel(CorgiBot.getInstance().getSql().getLevel(userId, guildId), false);
+                    userWrapper.getGuildData().get(guildId).setMessages(CorgiBot.getInstance().getSql().getMessages(userId, guildId), false);
+                    userWrapper.getGuildData().get(guildId).setXp(CorgiBot.getInstance().getSql().getXp(userId, guildId), false);
+                    userWrapper.getGuildData().get(guildId).setVoiceTime(CorgiBot.getInstance().getSql().getVoiceTime(userId, guildId), false);
                 }
                 USER_WRAPPERS.put(userId, userWrapper);
                 return true;

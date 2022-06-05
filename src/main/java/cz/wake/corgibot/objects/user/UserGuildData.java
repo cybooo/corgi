@@ -24,14 +24,18 @@ public class UserGuildData {
         return level;
     }
 
-    public UserGuildData setLevel(long level) {
-        CorgiBot.getInstance().getSql().setLevel(userId, guildId, level);
+    public UserGuildData setLevel(long level, boolean updateSql) {
+        if (updateSql) {
+            CorgiBot.getInstance().getSql().setLevel(userId, guildId, level);
+        }
         this.level = level;
         return this;
     }
 
-    public UserGuildData addLevel(long level) {
-        CorgiBot.getInstance().getSql().setLevel(userId, guildId, getLevel() + level);
+    public UserGuildData addLevel(long level, boolean updateSql) {
+        if (updateSql) {
+            CorgiBot.getInstance().getSql().setLevel(userId, guildId, getLevel() + level);
+        }
         this.level += level;
         return this;
     }
@@ -40,14 +44,18 @@ public class UserGuildData {
         return xp;
     }
 
-    public UserGuildData setXp(long xp) {
-        CorgiBot.getInstance().getSql().setXp(userId, guildId, xp);
+    public UserGuildData setXp(long xp, boolean updateSql) {
+        if (updateSql) {
+            CorgiBot.getInstance().getSql().setXp(userId, guildId, xp);
+        }
         this.xp = xp;
         return this;
     }
 
-    public UserGuildData addXp(long xp) {
-        CorgiBot.getInstance().getSql().setXp(userId, guildId, getXp() + xp);
+    public UserGuildData addXp(long xp, boolean updateSql) {
+        if (updateSql) {
+            CorgiBot.getInstance().getSql().setXp(userId, guildId, getXp() + xp);
+        }
         this.xp += xp;
         return this;
     }
@@ -56,14 +64,18 @@ public class UserGuildData {
         return voiceTime;
     }
 
-    public UserGuildData setVoiceTime(long voiceTime) {
-        CorgiBot.getInstance().getSql().setVoiceTime(userId, guildId, voiceTime);
+    public UserGuildData setVoiceTime(long voiceTime, boolean updateSql) {
+        if (updateSql) {
+            CorgiBot.getInstance().getSql().setVoiceTime(userId, guildId, voiceTime);
+        }
         this.voiceTime = voiceTime;
         return this;
     }
 
-    public UserGuildData addVoiceTime(long voiceTime) {
-        CorgiBot.getInstance().getSql().setVoiceTime(userId, guildId, getVoiceTime() + voiceTime);
+    public UserGuildData addVoiceTime(long voiceTime, boolean updateSql) {
+        if (updateSql) {
+            CorgiBot.getInstance().getSql().setVoiceTime(userId, guildId, getVoiceTime() + voiceTime);
+        }
         this.voiceTime += voiceTime;
         return this;
 
@@ -73,14 +85,18 @@ public class UserGuildData {
         return messages;
     }
 
-    public UserGuildData setMessages(long messages) {
-        CorgiBot.getInstance().getSql().setMessages(userId, guildId, messages);
+    public UserGuildData setMessages(long messages, boolean updateSql) {
+        if (updateSql) {
+            CorgiBot.getInstance().getSql().setMessages(userId, guildId, messages);
+        }
         this.messages = messages;
         return this;
     }
 
-    public UserGuildData addMessages(long messages) {
-        CorgiBot.getInstance().getSql().setMessages(userId, guildId, getMessages() + messages);
+    public UserGuildData addMessages(long messages, boolean updateSql) {
+        if (updateSql) {
+            CorgiBot.getInstance().getSql().setMessages(userId, guildId, getMessages() + messages);
+        }
         this.messages += messages;
         return this;
     }

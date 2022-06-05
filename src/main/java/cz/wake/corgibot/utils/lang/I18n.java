@@ -20,7 +20,9 @@ public class I18n {
     public static void start() {
 
         LANGS.add(DEFAULT);
-        for (Language language : Language.values()) {
+        Language[] values = Language.values();
+        for (int i = 0, valuesLength = values.length; i < valuesLength; i++) {
+            Language language = values[i];
             if (DEFAULT.getLanguage().equals(language)) {
                 continue;
             }

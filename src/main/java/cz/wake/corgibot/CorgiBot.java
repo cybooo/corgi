@@ -180,7 +180,6 @@ public class CorgiBot {
         // Startup timer
         scheduledExecutorService.scheduleAtFixedRate(new SpamHandler(), 10, 1500, TimeUnit.MILLISECONDS); // 1.5s clear, higher = disaster
 
-
         // Languages
         CorgiLogger.infoMessage("Loading language files...");
         I18n.start();
@@ -218,6 +217,7 @@ public class CorgiBot {
             getJda().getPresence().setActivity(Activity.playing("with bugs"));
             getJda().getPresence().setStatus(OnlineStatus.DO_NOT_DISTURB);
         }
+        CorgiLogger.infoMessage("Started up in " + (System.currentTimeMillis() - startUp) + "ms!");
     }
 
     private void init() {

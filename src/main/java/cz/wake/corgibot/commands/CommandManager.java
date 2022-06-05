@@ -23,7 +23,8 @@ public class CommandManager {
 
     private final List<FinalCommand> commands = new ArrayList<>();
 
-    public void registerCommand(CommandBase... commandsToRegister) {
+    public void registerCommands(CommandBase... commandsToRegister) {
+        long time = System.currentTimeMillis();
         CompletableFuture.runAsync(() -> {
             for (int i = 0, commandsToRegisterLength = commandsToRegister.length; i < commandsToRegisterLength; i++) {
                 CommandBase command = commandsToRegister[i];
@@ -43,8 +44,8 @@ public class CommandManager {
                     finalCommand.setBeta(true);
                 commands.add(finalCommand);
             }
+            CorgiLogger.greatMessage("Registered " + commands.size() + " commands in " + (System.currentTimeMillis() - time) + "ms");
         });
-
     }
 
     public void unregisterCommand(String name) {
@@ -66,65 +67,66 @@ public class CommandManager {
 
     public void register() {
         CorgiLogger.infoMessage("Loading all commands.");
-        registerCommand(new EightBall());
-        registerCommand(new Help());
-        registerCommand(new Ping());
-        registerCommand(new Roles());
-        registerCommand(new UserInfo());
-        registerCommand(new StopCorgi());
-        registerCommand(new Say());
-        registerCommand(new Fact());
-        registerCommand(new Uptime());
-        registerCommand(new Emote());
-        registerCommand(new McStatus());
-        registerCommand(new Archive());
-        registerCommand(new Purge());
-        registerCommand(new TextToBlock());
-        registerCommand(new Giveaway());
-        registerCommand(new BotStats());
-        registerCommand(new About());
-        registerCommand(new Invite());
-        registerCommand(new Changelog());
-        registerCommand(new GuildList());
-        registerCommand(new Log());
-        registerCommand(new Kick());
-        registerCommand(new Ban());
-        registerCommand(new SetPrefix());
-        registerCommand(new RoleInfo());
-        registerCommand(new Avatar());
-        registerCommand(new LeaveGuild());
-        registerCommand(new Ignore());
-        registerCommand(new Cat());
-        registerCommand(new Dog());
-        registerCommand(new GuildInfo());
-        registerCommand(new Eval());
-        registerCommand(new Choose());
-        //registerCommand(new Support());
-        registerCommand(new Reminder());
-        registerCommand(new Color());
-        registerCommand(new Twitter());
-        registerCommand(new Love());
-        //registerCommand(new Lang());
-        registerCommand(new Pin());
-        registerCommand(new Bigmoji());
-        registerCommand(new Hug());
-        registerCommand(new Dice());
-        registerCommand(new Covid());
-        registerCommand(new AllowMusic());
-        registerCommand(new DisallowMusic());
-        registerCommand(new NowPlaying());
-        registerCommand(new Play());
-        registerCommand(new Skip());
-        registerCommand(new Stop());
-        registerCommand(new Volume());
-        registerCommand(new SendChangelog());
+        registerCommands(
+                new EightBall(),
+                new Help(),
+                new Ping(),
+                new Roles(),
+                new UserInfo(),
+                new StopCorgi(),
+                new Say(),
+                new Fact(),
+                new Uptime(),
+                new Emote(),
+                new McStatus(),
+                new Archive(),
+                new Purge(),
+                new TextToBlock(),
+                new Giveaway(),
+                new BotStats(),
+                new About(),
+                new Invite(),
+                new Changelog(),
+                new GuildList(),
+                new Log(),
+                new Kick(),
+                new Ban(),
+                new SetPrefix(),
+                new RoleInfo(),
+                new Avatar(),
+                new LeaveGuild(),
+                new Ignore(),
+                new Cat(),
+                new Dog(),
+                new GuildInfo(),
+                new Eval(),
+                new Choose(),
+                new Reminder(),
+                new Color(),
+                new Twitter(),
+                new Love(),
+                new Pin(),
+                new Bigmoji(),
+                new Hug(),
+                new Dice(),
+                new Covid(),
+                new AllowMusic(),
+                new DisallowMusic(),
+                new NowPlaying(),
+                new Play(),
+                new Skip(),
+                new Stop(),
+                new Volume(),
+                new SendChangelog(),
+                new ToggleBeta(),
+                new Support(),
+                new Stats());
+
         // registerCommand(new CreateTicketEmbed());
         // registerCommand(new Ticket());
-        registerCommand(new ToggleBeta());
-        registerCommand(new Support());
         // registerCommand(new DisableSlashNotice());
-        registerCommand(new Stats());
-        CorgiLogger.greatMessage("Corgi will respond to (" + commands.size() + ") commands.");
+        // registerCommand(new Support());
+        // registerCommand(new Lang());
     }
 
     public List<FinalCommand> getCommands() {

@@ -16,7 +16,6 @@ import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.List;
 import java.util.Optional;
-import java.util.concurrent.CompletableFuture;
 import java.util.stream.Collectors;
 
 public class CommandManager {
@@ -25,27 +24,25 @@ public class CommandManager {
 
     public void registerCommands(CommandBase... commandsToRegister) {
         long time = System.currentTimeMillis();
-        CompletableFuture.runAsync(() -> {
-            for (int i = 0, commandsToRegisterLength = commandsToRegister.length; i < commandsToRegisterLength; i++) {
-                CommandBase command = commandsToRegister[i];
-                if (Arrays.stream(command.getClass().getAnnotations()).noneMatch(a -> a instanceof CommandInfo)) {
-                    CorgiBot.getLog(command.getClass()).error("Require CommandInfo annotation!");
-                    return;
-                }
-
-                CommandInfo info = command.getClass().getAnnotation(CommandInfo.class);
-                FinalCommand finalCommand = new FinalCommand(command, info.name(), info.help(), info.description(), info.category());
-                if (info.aliases().length > 0) finalCommand.setAliases(info.aliases());
-                if (info.userPerms().length > 0) finalCommand.setReqUserPermissions(info.userPerms());
-                if (info.botPerms().length > 0) finalCommand.setReqBotPermissions(info.botPerms());
-                if (Arrays.stream(command.getClass().getAnnotations()).anyMatch(a -> a instanceof OnlyOwner))
-                    finalCommand.setOnlyOwner(true);
-                if (Arrays.stream(command.getClass().getAnnotations()).anyMatch(a -> a instanceof Beta))
-                    finalCommand.setBeta(true);
-                commands.add(finalCommand);
+        for (int i = 0, commandsToRegisterLength = commandsToRegister.length; i < commandsToRegisterLength; i++) {
+            CommandBase command = commandsToRegister[i];
+            if (Arrays.stream(command.getClass().getAnnotations()).noneMatch(a -> a instanceof CommandInfo)) {
+                CorgiBot.getLog(command.getClass()).error("Require CommandInfo annotation!");
+                return;
             }
-            CorgiLogger.greatMessage("Registered " + commands.size() + " commands in " + (System.currentTimeMillis() - time) + "ms");
-        });
+
+            CommandInfo info = command.getClass().getAnnotation(CommandInfo.class);
+            FinalCommand finalCommand = new FinalCommand(command, info.name(), info.help(), info.description(), info.category());
+            if (info.aliases().length > 0) finalCommand.setAliases(info.aliases());
+            if (info.userPerms().length > 0) finalCommand.setReqUserPermissions(info.userPerms());
+            if (info.botPerms().length > 0) finalCommand.setReqBotPermissions(info.botPerms());
+            if (Arrays.stream(command.getClass().getAnnotations()).anyMatch(a -> a instanceof OnlyOwner))
+                finalCommand.setOnlyOwner(true);
+            if (Arrays.stream(command.getClass().getAnnotations()).anyMatch(a -> a instanceof Beta))
+                finalCommand.setBeta(true);
+            commands.add(finalCommand);
+        }
+        CorgiLogger.greatMessage("Registered " + commands.size() + " commands in " + (System.currentTimeMillis() - time) + "ms");
     }
 
     public void unregisterCommand(String name) {

@@ -133,7 +133,7 @@ public class CorgiBot {
         // JDA Build
         CorgiLogger.infoMessage("Connecting to Discord API.");
         jda = JDABuilder.createDefault(config.getString("discord.token"))
-                .enableIntents(GatewayIntent.GUILD_MESSAGES, GatewayIntent.GUILD_MESSAGE_REACTIONS, GatewayIntent.GUILD_PRESENCES, GatewayIntent.GUILD_MEMBERS)
+                .enableIntents(GatewayIntent.GUILD_MESSAGES, GatewayIntent.GUILD_MESSAGE_REACTIONS, GatewayIntent.GUILD_MEMBERS)
                 .setMemberCachePolicy(MemberCachePolicy.ALL)
                 .addEventListeners(new ChatListener(waiter))
                 .addEventListeners(new LeaveEvent())

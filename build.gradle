@@ -46,7 +46,7 @@ repositories {
 dependencies {
 
     // JDA
-    implementation group: 'net.dv8tion', name: 'JDA', version: '4.3.0_310'
+    implementation group: 'net.dv8tion', name: 'JDA', version: '4.4.0_352'
     implementation group: 'pw.chew', name: 'jda-chewtils', version: '1.24.1'
     implementation group: 'me.duncte123', name: 'botCommons', version: '2.3.9'
 

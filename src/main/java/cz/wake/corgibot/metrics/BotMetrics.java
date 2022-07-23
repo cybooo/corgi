@@ -10,11 +10,10 @@ public class BotMetrics {
     private long voiceChannelCount;
 
     public boolean count() {
-        this.guildCount = CorgiBot.getJda().getGuildCache().size();
-        this.userCount = CorgiBot.getJda().getUserCache().size();
-        this.textChannelCount = CorgiBot.getJda().getTextChannelCache().size();
-        this.voiceChannelCount = CorgiBot.getJda().getVoiceChannelCache().size();
-
+        this.guildCount = CorgiBot.getShardManager().getGuildCache().size();
+        this.userCount = CorgiBot.getShardManager().getUserCache().size();
+        this.textChannelCount = CorgiBot.getShardManager().getTextChannelCache().size();
+        this.voiceChannelCount = CorgiBot.getShardManager().getVoiceChannelCache().size();
         return true;
     }
 

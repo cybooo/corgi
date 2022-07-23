@@ -4,9 +4,10 @@ import com.jagrosh.jdautilities.commons.waiter.EventWaiter;
 import cz.wake.corgibot.annotations.CommandInfo;
 import cz.wake.corgibot.commands.CommandBase;
 import cz.wake.corgibot.commands.CommandCategory;
-import cz.wake.corgibot.objects.GuildWrapper;
+import cz.wake.corgibot.objects.guild.GuildWrapper;
 import cz.wake.corgibot.utils.Constants;
 import cz.wake.corgibot.utils.MessageUtils;
+import cz.wake.corgibot.utils.lang.I18n;
 import net.dv8tion.jda.api.EmbedBuilder;
 import net.dv8tion.jda.api.Permission;
 import net.dv8tion.jda.api.entities.Member;
@@ -15,8 +16,8 @@ import net.dv8tion.jda.api.entities.MessageChannel;
 
 @CommandInfo(
         name = "pin",
-        description = "Command to pin a message, or a generate message to pin",
-        help = "%pin <ID|message>` - Pins a message by ID, or generates a new one to pin",
+        description = "commands.pin.description",
+        help = "commands.pin.help",
         category = CommandCategory.MODERATION,
         userPerms = {Permission.MANAGE_CHANNEL, Permission.MESSAGE_MANAGE},
         botPerms = {Permission.MANAGE_CHANNEL, Permission.MESSAGE_MANAGE}
@@ -29,7 +30,7 @@ public class Pin implements CommandBase {
 
             Message msg = channel.retrieveMessageById(args[0].trim()).complete();
             if (msg == null) {
-                MessageUtils.sendErrorMessage("Message not found!", channel);
+                MessageUtils.sendErrorMessage(I18n.getLoc(gw, "commands.pin.message-not-found"), channel);
                 return;
             }
             msg.pin().complete();
@@ -41,7 +42,7 @@ public class Pin implements CommandBase {
             msg.pin().complete();
             channel.getHistory().retrievePast(1).complete().get(0).delete().queue();
         } else {
-            channel.sendMessageEmbeds(MessageUtils.getEmbed(Constants.GRAY).setTitle("Help for command %ping".replace("%", gw.getPrefix()))
+            channel.sendMessageEmbeds(MessageUtils.getEmbed(Constants.GRAY).setTitle(I18n.getLoc(gw, "commands.pin.embed-title").replace("%", gw.getPrefix()))
                     .setDescription(getDescription()).build()).queue();
         }
     }

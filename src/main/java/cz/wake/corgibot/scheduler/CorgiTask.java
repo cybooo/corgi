@@ -1,4 +1,4 @@
-package cz.wake.corgibot.scheluder;
+package cz.wake.corgibot.scheduler;
 
 public abstract class CorgiTask implements Runnable {
 

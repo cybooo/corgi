@@ -1,7 +1,7 @@
 package cz.wake.corgibot.utils.lang;
 
 import cz.wake.corgibot.managers.BotManager;
-import cz.wake.corgibot.objects.GuildWrapper;
+import cz.wake.corgibot.objects.guild.GuildWrapper;
 import cz.wake.corgibot.utils.CorgiLogger;
 import cz.wake.corgibot.utils.config.Config;
 import net.dv8tion.jda.api.entities.Guild;
@@ -14,7 +14,7 @@ import java.util.Set;
 
 public class I18n {
 
-    public static final LanguageObject DEFAULT = new LanguageObject(Language.CZ_CS); //TODO: Change to EN
+    public static final LanguageObject DEFAULT = new LanguageObject(Language.EN_US);
     public static final Set<LanguageObject> LANGS = new HashSet<>();
 
     public static void start() {
@@ -56,8 +56,8 @@ public class I18n {
     }
 
     @Nonnull
-    public static String getLoc(@Nonnull GuildWrapper guid, String route) {
-        return getLocale(guid).getConfig().getString(route);
+    public static String getLoc(@Nonnull GuildWrapper guild, String route) {
+        return getLocale(guild).getConfig().getString(route);
     }
 
     @Nonnull

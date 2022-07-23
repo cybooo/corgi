@@ -2,7 +2,7 @@ package cz.wake.corgibot.commands;
 
 import com.jagrosh.jdautilities.commons.waiter.EventWaiter;
 import cz.wake.corgibot.annotations.CommandInfo;
-import cz.wake.corgibot.objects.GuildWrapper;
+import cz.wake.corgibot.objects.guild.GuildWrapper;
 import net.dv8tion.jda.api.entities.Member;
 import net.dv8tion.jda.api.entities.Message;
 import net.dv8tion.jda.api.entities.MessageChannel;

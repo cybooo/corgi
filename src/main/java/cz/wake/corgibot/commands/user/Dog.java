@@ -5,10 +5,11 @@ import cz.wake.corgibot.annotations.CommandInfo;
 import cz.wake.corgibot.annotations.SinceCorgi;
 import cz.wake.corgibot.commands.CommandBase;
 import cz.wake.corgibot.commands.CommandCategory;
-import cz.wake.corgibot.objects.GuildWrapper;
+import cz.wake.corgibot.objects.guild.GuildWrapper;
 import cz.wake.corgibot.utils.Constants;
 import cz.wake.corgibot.utils.EmoteList;
 import cz.wake.corgibot.utils.MessageUtils;
+import cz.wake.corgibot.utils.lang.I18n;
 import net.dv8tion.jda.api.entities.Member;
 import net.dv8tion.jda.api.entities.Message;
 import net.dv8tion.jda.api.entities.MessageChannel;
@@ -20,8 +21,8 @@ import org.json.JSONObject;
 @CommandInfo(
         name = "dog",
         aliases = {"rdog"},
-        description = "Random dog images",
-        help = "%dog - Generates random dog image",
+        description = "commands.dog.description",
+        help = "commands.dog.help",
         category = CommandCategory.FUN
 )
 @SinceCorgi(version = "1.2.1")
@@ -32,16 +33,13 @@ public class Dog implements CommandBase {
         String url = "";
         OkHttpClient caller = new OkHttpClient();
         Request request = new Request.Builder().url("https://dog.ceo/api/breeds/image/random").build();
-        try {
-            Response response = caller.newCall(request).execute();
+        try (Response response = caller.newCall(request).execute()) {
             JSONObject json = new JSONObject(response.body().string());
-            //JSONArray jsonArray = json.getJSONArray("data");
-            //JSONObject jsonObject = jsonArray.getJSONObject(0);
             url = json.getString("message");
         } catch (Exception e) {
-            MessageUtils.sendErrorMessage("Something went wrong! Try again later..", channel);
+            MessageUtils.sendErrorMessage(I18n.getLoc(gw, "internal.error.api-failed"), channel);
         }
-        channel.sendMessageEmbeds(MessageUtils.getEmbed(Constants.BLUE).setTitle(EmoteList.DOG + " | " + "Random dog image:").setImage(url).build()).queue();
+        channel.sendMessageEmbeds(MessageUtils.getEmbed(Constants.BLUE).setTitle(EmoteList.DOG + " | " + I18n.getLoc(gw, "commands.dog.title")).setImage(url).build()).queue();
     }
 
 }

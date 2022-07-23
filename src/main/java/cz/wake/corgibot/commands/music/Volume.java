@@ -7,8 +7,9 @@ import cz.wake.corgibot.annotations.SinceCorgi;
 import cz.wake.corgibot.commands.CommandBase;
 import cz.wake.corgibot.commands.CommandCategory;
 import cz.wake.corgibot.music.AudioEngine;
-import cz.wake.corgibot.objects.GuildWrapper;
+import cz.wake.corgibot.objects.guild.GuildWrapper;
 import cz.wake.corgibot.utils.MessageUtils;
+import cz.wake.corgibot.utils.lang.I18n;
 import net.dv8tion.jda.api.Permission;
 import net.dv8tion.jda.api.entities.Member;
 import net.dv8tion.jda.api.entities.Message;
@@ -22,8 +23,8 @@ import java.util.Objects;
 @CommandInfo(
         name = "volume",
         aliases = {"vol", "changevolume", "changevol"},
-        description = "Change the volume.",
-        help = "%nowplaying - Changes the volume.",
+        description = "commands.music-volume.description",
+        help = "commands.music-volume.help",
         category = CommandCategory.MUSIC
 )
 @SinceCorgi(version = "1.3.5")
@@ -47,28 +48,28 @@ public class Volume implements CommandBase {
             }
         }
         if (!canUse) {
-            MessageUtils.sendErrorMessage("You can't use this command!", channel);
+            MessageUtils.sendErrorMessage(I18n.getLoc(gw, "internal.general.cant-use-this-command"), channel);
             return;
         }
 
         if (args.length == 0) {
-            MessageUtils.sendErrorMessage("You need to specify the volume!\nExample: **" + gw.getPrefix() + "volume 32**", channel);
+            MessageUtils.sendErrorMessage(String.format(I18n.getLoc(gw, "commands.music-volume.specify-volume"), gw.getPrefix()), channel);
         } else {
             if (member.getVoiceState().getChannel() == null) {
-                MessageUtils.sendErrorMessage("You need to be connected in a voice channel!", channel);
+                MessageUtils.sendErrorMessage(I18n.getLoc(gw, "commands.music.need-to-be-in-voice"), channel);
                 return;
             }
 
-            if (message.getGuild().getSelfMember().getVoiceState().inVoiceChannel()) {
+            if (message.getGuild().getSelfMember().getVoiceState().getChannel() != null) {
                 if (!Objects.equals(member.getVoiceState().getChannel(), message.getGuild().getSelfMember().getVoiceState().getChannel())) {
-                    MessageUtils.sendErrorMessage("You need to be connected in the same voice channel as me!", channel);
+                    MessageUtils.sendErrorMessage(I18n.getLoc(gw, "commands.music.need-to-be-in-same-voice"), channel);
                     return;
                 }
             }
             try {
                 AudioEngine.changeVolume(message.getTextChannel(), Integer.parseInt(args[0]));
             } catch (NumberFormatException e) {
-                MessageUtils.sendErrorMessage("Volume needs to be a number!", channel);
+                MessageUtils.sendErrorMessage(I18n.getLoc(gw, "commands.music-volume.volume-number"), channel);
             }
         }
     }

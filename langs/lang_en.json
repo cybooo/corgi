@@ -1,62 +1,502 @@
 {
+  "giveaway": {
+    "embed-title": ":confetti_ball:  **GIVEAWAY!**  :confetti_ball:",
+    "embed-title-ending-soon": ":confetti_ball:  **GIVEAWAY ENDS SOON!**  :confetti_ball:",
+    "embed-title-ended": ":confetti_ball:  **GIVEAWAY ENDED!**  :confetti_ball:",
+    "embed-title-error": ":fire:  **GIVEAWAY FAILED!**  :fire:",
+    "embed-description": "React with %s to participate!\nRemaining time: %s",
+    "embed-footer": "Winners: %s",
+    "embed-footer-ended": "Ended ",
+    "winner-noone": "Nobody",
+    "winner": "Winner ",
+    "you-won": "Congratulations %s! You won **%s**!",
+    "no-winner-found": "No winner was found, no one participated in the giveaway!"
+  },
+  "chat-listener": {
+    "permission-error-title": "Missing permissions",
+    "permission-error-description": "The action cannot be performed, I do not have the right permissions!\nI need: `%s`",
+    "cant-dm": "%s sorry, but I can't send you a message, you have probably blocked direct messages!",
+    "spam": "**SPAM detected!** Ignoring commands on this server for 1 minute!"
+  },
   "commands": {
-    "language": {
-      "title": "Language settings",
-      "description": "List of all languages that Corgi knows.",
-      "selected": "Selected",
-      "footer": "For change language click on reaction."
+    "categories": {
+      "general": "General",
+      "moderation": "Moderation",
+      "games": "Games",
+      "fun": "Fun",
+      "music": "Music",
+      "administrator": "Administration"
     },
-    "prefix": {
-      "corgi-is-beta-prefix": "Corgi is running in BETA! You cannot edit prefix now!",
-      "reset-back": "Prefix has been reset to `c!`",
-      "prefix-sets-to": "Prefix has been set on `%s`",
-      "actual-prefix-is": "Prefix for this server is `%s`",
-      "cannot-three-chars": "You can not set prefix that has more then three characters!",
-      "help": "Bot prefix for this guild."
+    "say": {
+      "description": "You can write as bot with this command.",
+      "help": "%say <text>"
+    },
+    "ping": {
+      "description": "Shows average ping of the bot.",
+      "help": "%ping",
+      "calculating": "Calculating ping..",
+      "average-ping": " | **Average ping is:** %dms",
+      "already-running": "It is currently not possible to detect the ping, as a scan is already in progress. Try again soon!"
+    },
+    "love": {
+      "p45": "I'm afraid that won't work..",
+      "p75": "It might work, depends on you..",
+      "p100": "This looks like something more interesting..",
+      "p999": "I'm amazed, go for it!",
+      "mention-yourself": "I'll tell you a secret, I'm not that dumb! Don't mention yourself, only you know how much you like yourself.",
+      "match": " Match: **%s%** between %s and %s",
+      "detector": "Love detector :heart:",
+      "error": "You have to mention at least one person! Ex. `%love @nick`"
+    },
+    "invite": {
+      "description": "Invite Corgi to your server!",
+      "help": "%invite - Generates an invite link to invite Corgi to your server.",
+      "title": "Invite me to your server!",
+      "click": "[**Click here] if you want to invite me!"
+    },
+    "help": {
+      "description": "General help for Corgi.",
+      "help": "%help - Sends a list of commands to your DMs\n%help [command] - Displays information about a command.",
+      "check-your-messages": "Check your DMs!",
+      "sent-help": "I sent the help menu to your DMs!",
+      "commands": "Corgi's commands",
+      "find-all": "You can find all commands on https://corgibot.xyz/commands",
+      "help-for-command": "Help for command - %s :question:",
+      "aliases": "Aliases: ",
+      "prefix-for-guild": "Command prefix on %s is %s\nYou can find more info with %shelp <command>",
+      "prefix-invalid-guild": "Command prefix is c!\nYou can find more info with c!help <command>"
+    },
+    "guild-info": {
+      "description": "Displays information about guild the command is executed in.",
+      "help": "%guildinfo - Displays information about guild",
+      "info": "Information about guild",
+      "info-about": "Information about %s",
+      "users": "Users (Online/Unique)",
+      "date-created": "Creation date",
+      "voice-text": "Voice/Text channels",
+      "owner": "Owner",
+      "region": "Region",
+      "roles": "Roles",
+      "server-id": "Server ID: ",
+      "unknown": "Unknown."
+    },
+    "emote": {
+      "description": "This command shows a special ID of the selected emote,\nor all emotes in the guild.",
+      "help": "%emote <regex|emote> - Info about emote\n%emote list - List of all emotes in this guild.",
+      "embed-title": "Help - emote :question:",
+      "no-emotes": "This server has no emotes!",
+      "emotes": "Emotes Overview",
+      "unknown-emote": "**Unknown emote**",
+      "id": "**ID:** ",
+      "guild": "**Guild:** ",
+      "url": "**URL:** ",
+      "unknown": "Unknown",
+      "click-me": "Click!",
+      "invalid-or-long": "Invalid emote or the ID is too long!",
+      "emote-info": "**Info about Emote**"
+    },
+    "eight-ball": {
+      "description": "Ask if it's a true or not!",
+      "help": "%8ball <question>",
+      "outcomes": "Yes.;No.;Most likely YES!;Maybe.;Wait, I'll think.. YES!;Probably not;Unlikely..;If you think about it, it's possible!;It's a sure thing.;It's definitely it;Definitely yes;Something tells me, no",
+      "ask-something": "You have to ask a question %s! I can't read minds!",
+      "is-asking": "%s asks: ",
+      "responds": "Corgi answers:"
+    },
+    "dice": {
+      "description": "Roll dice!",
+      "help": "%dice - Rolls a dice",
+      "rolled": "%s, you rolled **%s**!"
+    },
+    "color": {
+      "description": "Gets color from a HEX code",
+      "help": "%color [HEX code] - Gets a color",
+      "hex": "HEX",
+      "rgb:": "RGB",
+      "dec": "DEC",
+      "cmyk": "CMYK",
+      "incorrectly-entered": "Wrong command! Ex. `%color #B0171F`"
+    },
+    "about": {
+      "description": "Introduction of Corgi and information about him",
+      "help": "%about - Shows basic information and links for Corgi.",
+      "embed-title": "Introduction of Corgi",
+      "embed-description": "Hi I'm Corgi, a Discord bot.\\nI'm designed for a wide range of functionality from administration, getting stats from games to classic Discord commands!\nI used to be maintained by Wake#0001, but now I'm maintained by cybo#0001!\n\n**Website**: [https://corgibot.xyz](https://corgibot.xyz)\n**Invite**: [Click me](https://discord.com/api/oauth2/authorize?client_id=860244075138383922&permissions=3220700791&scope=bot)\n**Owner**: %s\n**Support**: [Click!](https://discord.gg/pR2tj432NS)"
     },
     "stats": {
-      "awake": "Actually I am awake up for",
+      "description": "Shows your stats",
+      "help": "%stats",
+      "embed-title": "Your stats",
+      "xp": "XP",
+      "level": "Level",
+      "messages": "Messages",
+      "voice-minutes": "Minutes in voice"
+    },
+    "text-to-block": {
+      "description": "Text written in blocks",
+      "help": "%ttb <text>",
+      "provide-text": "You have to provide some text!"
+    },
+    "uptime": {
+      "description": "Shows for how long is Corgi online.",
+      "help": "%uptime - Shows Corgi's uptime",
+      "embed-title": "Uptime",
+      "embed-description": "%d days, %02d hours, %02d minutes"
+    },
+    "userinfo": {
+      "description": "Shows basic info about a user.",
+      "help": "%userinfo - Info about yourself\n%userinfo @nick - Info about another user",
+      "mention": "You have to mention someone!",
+      "cant-view": "Mentioned user couldn't be found, can't show info about them.",
+      "real-name": "Real name",
+      "id": "ID",
+      "nickname": "Nickname",
+      "registered": "Registered",
+      "joined": "Joined",
+      "bot": "Bot",
+      "boost": "Boost",
+      "joined-order": "Join order",
+      "roles": "Role",
+      "no-boost": "No boosts",
+      "no-roles": "No roles",
+      "user-not-found": "Can't find that user on this server!"
+    },
+    "music": {
+      "need-to-be-in-voice": "You have to be in a voice channel!",
+      "need-to-be-in-same-voice": "You have to be in the same voice channel as me!",
+      "embed-title": "Music player",
+      "nothing-playing": "Nothing is playing!",
+      "now-playing": "Now playing: **%s**",
+      "max-length": "Max length of a song is **%s minutes**!",
+      "added-track": "Added song: **%s**",
+      "added-playlist": "Added playlist: **%s**",
+      "playlist-limit": "Playlist can't have more than **%s songs**!",
+      "track-amount": "**%s** songs",
+      "tracks-not-loaded-limit": "%s of songs have not been loaded because they exceed the %s minute limit!",
+      "no-track-found": "Nothing was found!",
+      "track-failed": "Something went wrong when playing the song!\nError: **%s**",
+      "nothing-to-skip": "Nothing to skip!",
+      "skipped": "Song skipped!",
+      "stopped": "Queue was cleared and the player was stopped!"
+    },
+    "music-volume": {
+      "description": "Changes the volume.",
+      "help": "%volume <volume> - Changes the volume.",
+      "specify-volume": "You have to provide the volume!\nExample: **%svolume 32**",
+      "volume-number": "The volume has to be a number!",
+      "embed-title": "Volume",
+      "changed": "Volume was changed to: **%s**"
+    },
+    "music-playing": {
+      "description": "Shows currently playing song",
+      "help": "%nowplaying"
+    },
+    "music-play": {
+      "description": "Plays a song",
+      "help": "%play <URL> - Plays a song.",
+      "specify-url": "You have to provide URL!\nExample: **%splay https://www.youtube.com/watch?v=dQw4w9WgXcQ**"
+    },
+    "music-skip": {
+      "description": "Skips current song.",
+      "help": "%skip - Skips current song"
+    },
+    "music-stop": {
+      "description": "Completely stops the player and clears the queue.",
+      "help": "%stop - Stops the player"
+    },
+    "twitter": {
+      "description": "Twitter Feed for chosen channels from Twitter.",
+      "help": "**%twitter sub [ID]** - Subscribes to a Twitter account in this channel\\n**%twitter list** - Shows a list of subscribed Twitter accounts\\n**%twitter unsub [ID]** - Unsubscribes from the selected Twitter account\\n\\n You can get the account IDs here: https://tweeterid.com/",
+      "embed-title": "Help with Twitter Feed",
+      "embed-description": "Twitter Feeds allow you to receive news from your Twitter feed via Corgi. So if Corgi follows someone and they tweet a request, Corgi will send the tweet to Discord as well.\n\n",
+      "embed-field-1-name": "Commands",
+      "embed-field-1-description": "**%twitter sub [ID]** - Subscribes to a Twitter in this channel\n**%twitter list** - Shows a list of subscribed Twitter accounts\n**%twitter unsub [ID]** - Unsubscribes from the selected Twitter account",
+      "embed-field-2-name": "Where can I find account ID?",
+      "embed-field-2-description": "https://tweeterid.com/",
+      "id-not-matching": "The ID does not match the Twitter format or is not a user ID!",
+      "find-id-on": "You can find the user ID on https://tweeterid.com/",
+      "account-already-followed": "Twitter account **%s** is already followed in this channel!",
+      "succesfully-followed": "Successfully started following **%s**. New tweets will show in this channel.",
+      "account-not-found": "Twitter account %s couldn't be found!",
+      "no-accounts-followed": "No accounts are followed!",
+      "channel": "Channel",
+      "twitter-account": "Twitter account",
+      "unfollowed": "**%s** isn't followed anymore!",
+      "not-followed-or-not-found": "Twitter account isn't followed or couldn't be found!"
+    },
+    "roles": {
+      "description": "Shows all roles on this server",
+      "help": "%roles",
+      "server-roles": "Server roles"
+    },
+    "role-info": {
+      "description": "Shows info about a specific role",
+      "help": "%roleinfo name/ID",
+      "no-roles-found": "No role was found.",
+      "id": "ID:",
+      "position": "Position",
+      "separated": "Separated",
+      "managed": "Managed",
+      "mentionable": "Mentionable",
+      "date-created": "Date of creation"
+    },
+    "purge": {
+      "description": "Deletes messages from bots, users or everyone.",
+      "help": "%purge <number> - Deletes entered number of messages from everyone.\n%purge <amount> [@user|regex] - Deletes entered number of messages from the selected user or by text.",
+      "rows-not-specified": "You must specify the number of lines!",
+      "rows-lower-than-0": "The number of lines must not be less than 1!",
+      "rows-higher-than-100": "The number of lines must not exceed 100!",
+      "deleting-messages": "Deleting messages..",
+      "deleted-messages": "%s messages deleted!",
+      "no-messages-found": "No messages found to delete!",
+      "no-messages-mentions": "You cannot delete selection and the selected text at the same time!",
+      "deleted-messages-from": "Successfully deleted %s messages from `%s`!",
+      "not-found-from-users": "No messages were found from the specified users!",
+      "cant-delete-14-days": "Can't delete messages older than 14 days!",
+      "invalid-format": "Error! Wrong number format!"
+    },
+    "pin": {
+      "description": "Pins a message or generates a new one to pin.",
+      "help": "%pin <ID|message> - Pins a message by its ID or generates a new one to pin",
+      "message-not-found": "Message not found!",
+      "embed-title": "Help for the %pin command"
+    },
+    "giveaway": {
+      "description": "Creates a giveaway",
+      "help": "%giveaway 1h30m ; Discord Nitro ; 2 ; :smile: ; #ffffff\n\nFor more detailed help, use `%giveaway`",
+      "days": "d",
+      "hours": "h",
+      "minutes": "m",
+      "seconds": "s",
+      "invalid-time-format": "You entered an invalid time format! Try it like this: `1d` -> for 1 day.",
+      "embed-title": "How to create a giveaway",
+      "embed-description": "A brief guide on how to create your own giveaways.",
+      "field-1-name": "Creating",
+      "field-1-description": "`{%}giveaway 30m` - Basic giveaway for 30 minutes.\n`{%}giveaway 1h ; FarCry 3` - Giveaway for 1h with FarCry as the prize 3\n`{%}giveaway 2h ; Mafia 2 ; 5` - Giveaway for 2h, with Mafia 2 as the prize for 5 users.\n`{%}giveaway 1d3h ; Overwatch ; 1 ; \uD83D\uDE04` - Giveaway with custom emoji (only the default ones work)\n`{%}giveaway 4d ; CS:GO ; 3 ; \uD83D\uDE04 ; #ffffff` - Giveaway with a custom color",
+      "field-2-name": "List of giveaways",
+      "field-2-description": "If there are multiple giveaways running on the server, you can view basic information using the following command: `{%}giveaway list`",
+      "field-3-name": "Deleting",
+      "field-3-description": "Deleting a giveaway is really simple, you just have to delete the message sent by Corgi!",
+      "id": "ID",
+      "prize": "Prize",
+      "amount-of-winners": "Number of winners",
+      "ends-in": "Ends in",
+      "invalid-amount-of-winners": "Incorrectly entered number of winners! Try again..",
+      "giveaway-3-minutes": "Giveaway can't be shorter than 3 minutes!",
+      "generating": "Generating..",
+      "message-delete-reason": "Giveaway start"
+    },
+    "ban": {
+      "description": "Bans up to 20 users from this server.",
+      "help": "%ban @users",
+      "cant-ban-members": "I don't have the permissions to ban users! Give me the permission to `BAN_MEMBERS` or `ADMINISTRATOR`",
+      "need-to-mention": "You have to mention someone first! Ex. `%sban @User",
+      "only-20-members": "The maximum number of users that can be banned at once is 20!",
+      "cant-be-banned": "%s cannot be banned as they couldn't be found on this server!",
+      "not-enough-permissions-to-ban": "You don't have the permissions to ban %s",
+      "successfully-banned": "%s successfully banned!",
+      "could-not-ban": "Couldn't ban %s"
+    },
+    "kick": {
+      "description": "Kicks up to 20 users from this server.",
+      "help": "%kick @users",
+      "cant-kick-members": "I don't have the permissions to ban users! Give me the permission to `KICK_MEMBERS` or `ADMINISTRATOR`",
+      "need-to-mention": "You have to mention someone first! Ex. `%skick @User",
+      "only-20-members": "The maximum number of users that can be kicked at once is 20!",
+      "cant-be-kicked": "%s cannot be kicked as they couldn't be found on this server!",
+      "not-enough-permissions-to-kick": "You don't have the permissions to kick %s",
+      "successfully-kicked": "%s successfully kicked!",
+      "could-not-kick": "Couldn't kick %s"
+    },
+    "mc-status": {
+      "description": "Command to show Mojang status.",
+      "help": "%mcstatus - Shows an overview of Mojang API and its status.",
+      "connection-issues": "Connection outages",
+      "marked-offline": "Some services might be offline since Mojang status says they're offline."
+    },
+    "archive": {
+      "description": "Archives the messages and uploads them to hastebin.",
+      "help": "%archive <number of messages>",
+      "archive-only-see": "You can only archive channels you can see!",
+      "no-permissions": "I don't have the permissions to read messages! Permission: `MESSAGE_HISTORY`",
+      "only-100-messages": "Can't generate a log with more than 100 messages because of Discord API limits",
+      "generating-log": "Generating log, please wait..",
+      "channel-archive": "-- Channel archive: [%s] --\n\n",
+      "generated-log": "Generated log file",
+      "sending-log": "Sending the generated log file with %s messages.\n**Link**: %s",
+      "provide-amount-lines": "You have to enter number of lines! Ex. `%sarchive 10`"
+    },
+    "leave": {
+      "description": "A command that will make Corgi leave this server, if approved. (Administrators only).",
+      "help": "%leaveguild",
+      "embed-title": "⚠ Server leave confirmation ⚠",
+      "embed-description": "**WARNING**: By confirming the following action, Corgi will leave this server!\nDo you really want to perform the following action?",
+      "footer": "You have 60 to confirm.",
+      "confirmed-title": "Action confirmed!",
+      "confirmed-description": "Corgi will now leave this server! :sob:",
+      "cancelled-title": "Action canceled!",
+      "cancelled-description": "Yoo-hoo! Corgi will stay here! :hugging:"
+    },
+    "ignore": {
+      "description": "Command to set to ignore all commands in a channel.",
+      "help": "%ignore - Ingore settings",
+      "embed-title": "Ignoring channel: %s",
+      "embed-description": "Disables the use of Corgi commands in this channel.\nIf you want to cancel ignoring, just type `%signore` again and cancel ignoring.\n\n:one: | %s ignoring this channel!\n:two: | To see a list of all ignored channels",
+      "enables": "Enabled",
+      "disables": "Disables",
+      "footer": "If you want to cancel the action, don't react. It will cancel itself in 30 seconds!",
+      "times-up": "Time ran out!",
+      "listening": "\uD83D\uDD14 | Corgi will now listen to all commands in this channel!",
+      "ignoring": "\uD83D\uDD15 | Corgi will now ignore all commands in this channel!",
+      "enable-ignoring": "You can enable ignoring again using `%signore`",
+      "disable-ignoring": "You can disable ignoring using `%signore`",
+      "no-channels-ignored": "No ignored channels!",
+      "ignored-channels:": "Ignored channels:"
+    },
+    "allow-music": {
+      "description": "Allows the specified role to use a specific music command.",
+      "help": "%allowmusic <Command> <RoleId>",
+      "usage": "Incorrect usage!\nUsage: %sallowmusic <play/nowplaying/skip/stop/volume> <roleId>",
+      "command-allowed": "Command **%s** enabled!",
+      "command-not-specified": "You have to enter a command: **play** / **nowplaying** / **skip** / **stop** / **volume**!",
+      "role-id-number": "Role ID must be a number!"
+    },
+    "disallow-music": {
+      "description": "Disallows the specified role to use a specific music command",
+      "help": "%disallowmusic <Command> <RoleId>",
+      "usage": "Incorrect usage!\nUsage: %sdisallowmusic <play/nowplaying/skip/stop/volume> <roleId>",
+      "command-disallowed": "If the command **%s** was enabled before, it's now disabled.\n**Note:** This command will only disable an already enabled command!\nIf you want to disable a command for a specific role, you must enable the command for every role that has it enable.",
+      "command-not-specified": "You have to enter a command: **play** / **nowplaying** / **skip** / **stop** / **volume**!",
+      "role-id-number": "Role ID must be a number!"
+    },
+    "language": {
+      "title": "Language setings",
+      "description": "List of all languages Corgi knows.",
+      "selected": "Selected",
+      "footer": "Click a reaction to change the language."
+    },
+    "prefix": {
+      "description": "Custom prefix settings for this server.",
+      "help": "%prefix reset/[prefix]",
+      "corgi-is-beta-prefix": "Corgi is currently in BETA! You can't change the prefix!",
+      "reset-back": "Prefix was changed back to `c!`",
+      "prefix-set-to": "Prefix was set to `%s`",
+      "cunrrent-prefix-is": "The current prefix for this server is `%s`",
+      "cannot-three-chars": "Can't set a prefix more than 3 characters long!"
+    },
+    "botstats": {
+      "description": "Shows Corgi's stats.",
+      "help": "%botstats - Shows Corgi's stats",
+      "awake": "I'm currently awake for",
       "guilds": "Guilds",
-      "users": "Users",
-      "text-channels": "Text Channels",
-      "voice-channels": "Voice Channels",
-      "commands-run": "Ran commands",
+      "users": "Number of users",
+      "text-channels": "Text channels",
+      "voice-channels": "Voice channels",
+      "commands-run": "Commands executed",
       "jda-version": "JDA version",
-      "load-cpu": "CPU",
+      "load-cpu": "Load",
       "memory": "Memory",
       "threads": "Threads",
       "java": "Java",
-      "title": "Corgi's Statistics"
+      "title": "Corgi's stats"
     },
     "support": {
-      "title": "Link on Corgi's support guild.",
-      "description": "To join Corgi's support guild use [**THIS**]({1}) link."
+      "description": "Allows you to join a support server for Corgi.",
+      "help": "%support - Shows the support server URL",
+      "embed-title": "Link to support server for Corgi!",
+      "embed-description": "Use this [**LINK**]({1}) command to join Corgi's support server"
     },
     "cat": {
-      "title": "Random image of a cat:"
+      "description": "Random cat image",
+      "help": "%cat - Generates a random cat image",
+      "title": "Random cat image:"
     },
     "dog": {
-      "title": "Random image of a dog:"
+      "description": "Random dog image",
+      "help": "%dog - Generates a random dog image",
+      "title": "Random dog image:"
+    },
+    "hug": {
+      "description": "Random hug image",
+      "help": "%hug - Generates a random hug image",
+      "title": "Random hug image:"
     },
     "changelog": {
+      "description": "Shows latest changes and news",
+      "help": "%changelog - Shows changelog",
+      "update": "Updates",
       "news": "News",
-      "fixes": "Fixes & Changes",
-      "announce": "Warning",
-      "footer": "Do you want see old changes? Look at our changelog channel on support guild! "
+      "fixes": "Fixes and changes",
+      "announce": "Announcements",
+      "footer": "To see older changes, check out the announcements channel in {1}"
+    },
+    "avatar": {
+      "description": "Gets the profile picture of a user.",
+      "help": "%avatar [@nick/user id] - Gets the profile picture of specified user or by their ID",
+      "title": "User's avatar"
     },
     "bigmoji": {
-      "only-server-emoji": "You can use emoji only available in this guild.",
-      "invalid-emoji-format": "Invalid emoji format. Try again."
+      "description": "Generates bigmoji from server.",
+      "help": "%bigmoji <regex|text> - Sends bigmoji to this channel.",
+      "only-server-emoji": "You can only use emojis on this server!",
+      "invalid-emoji-format": "Invalid emoji format! Try it again!"
+    },
+    "reminder": {
+      "description": "Do you always forget everything? Set a reminder!\nWith a single command you can set Corgi to remind you!\nAlerts are accurate within 30 seconds!",
+      "help": "%reminder - Shows help\n%reminder [time] ; [text] - Reminder settings\n%reminder list - Shows all your future reminders\n%reminder delete [ID] - Deletes a reminder",
+      "no-reminder": "You have no reminder set!",
+      "table-id": "ID",
+      "table-time": "Remaining time",
+      "table-text": "Alert text",
+      "no-id": "You didn't enter an ID. Try it again!",
+      "deleted-reminder": "Reminder with ID **{1}** was deleted!",
+      "non-existing-id": "Entered ID doesn't exist or this is an internal error!",
+      "id-is-not-number": "Entered ID isn't a number!",
+      "incorrect-command": "You missed something! Example: %reminder 2h ; Turn off Corgi!",
+      "too-long-time": "Sorry, but notifications longer than 1000 characters cannot be processed! Your requested alert has a length of - {1}",
+      "minimal-time": "Minimum reminder time is 1 minute!",
+      "final-message": "Sure! I'll alert you in **{1}**",
+      "invalid-time-format": "You entered an invalid time format! Try it like this: `1d` -> for 1 day."
+    },
+    "choose": {
+      "description": "Don't know what to choose? Corgi will choose for you!",
+      "help": "%choose question_1 ; question_2 ; question_3",
+      "must-select": "You have to choose something!",
+      "no-arguments": "You must enter more than one option!",
+      "choose-in-choose": "The first option was incorrectly entered. Try it again...",
+      "corgi-select": "I chose"
     }
   },
   "internal": {
+    "general": {
+      "feauture-unavailable": "This feature is temporarily unavailable!",
+      "usage": "Usage",
+      "help-command": "Commands help",
+      "cant-use-this-command": "You can't use that command!",
+      "years": "Years",
+      "months": "Months",
+      "weeks": "Weeks",
+      "days:": "Days",
+      "hours": "Hours",
+      "minutes": "Minutes",
+      "seconds": "Seconds",
+      "online": "Online",
+      "offline": "Offline",
+      "yes": "Yes",
+      "no": "No"
+    },
     "error": {
-      "no-context": "Cannot send empty message!",
-      "command-failed": "Error has occurred during executing of command! Try it again...",
-      "api-failed": "Error in API! Please wait...",
-      "user-not-found": "User can not be found!"
+      "no-context": "Can't send a message without text!",
+      "command-failed": "An error was encountered while performing the command. Try it again later!",
+      "api-failed": "Wrong API request! Try it again later...",
+      "user-not-found": "Couldn't find the user!",
+      "unknown-error": "Unknown error!",
+      "cant-add-buttons": "Can't add buttons because I don't have the `MESSAGE_HISTORY` permission!"
     },
     "warning": {
+    },
+    "required": {
+      "mention": "You have to mention with @!"
     }
   }
 }

@@ -8,6 +8,7 @@ import net.dv8tion.jda.api.entities.Message;
 import net.dv8tion.jda.api.entities.MessageChannel;
 import net.dv8tion.jda.api.entities.Role;
 import net.dv8tion.jda.api.entities.User;
+import net.dv8tion.jda.api.entities.emoji.Emoji;
 import net.dv8tion.jda.api.events.message.react.MessageReactionAddEvent;
 import net.dv8tion.jda.api.exceptions.PermissionException;
 import net.dv8tion.jda.api.requests.RestAction;
@@ -118,11 +119,11 @@ public class Paginator extends Menu {
     private void initialize(RestAction<Message> action, int pageNum) {
         action.queue(m -> {
             if (pages > 1) {
-                m.addReaction(LEFT).queue();
-                m.addReaction(STOP).queue();
-                m.addReaction(RIGHT).queue(v -> pagination(m, pageNum), t -> pagination(m, pageNum));
+                m.addReaction(Emoji.fromUnicode(LEFT)).queue();
+                m.addReaction(Emoji.fromUnicode(STOP)).queue();
+                m.addReaction(Emoji.fromUnicode(RIGHT)).queue(v -> pagination(m, pageNum), t -> pagination(m, pageNum));
             } else if (waitOnSinglePage) {
-                m.addReaction(STOP).queue(v -> pagination(m, pageNum), t -> pagination(m, pageNum));
+                m.addReaction(Emoji.fromUnicode(STOP)).queue(v -> pagination(m, pageNum), t -> pagination(m, pageNum));
             } else {
                 finalAction.accept(m);
             }
@@ -133,14 +134,14 @@ public class Paginator extends Menu {
         waiter.waitForEvent(MessageReactionAddEvent.class, (MessageReactionAddEvent event) -> {
             if (!event.getMessageId().equals(message.getId()))
                 return false;
-            if (!(LEFT.equals(event.getReactionEmote().getName())
-                    || STOP.equals(event.getReactionEmote().getName())
-                    || RIGHT.equals(event.getReactionEmote().getName())))
+            if (!(LEFT.equals(event.getEmoji().getName())
+                    || STOP.equals(event.getEmoji().getName())
+                    || RIGHT.equals(event.getEmoji().getName())))
                 return false;
             return isValidUser(event.getUser(), event.getGuild());
         }, event -> {
             int newPageNum = pageNum;
-            switch (event.getReactionEmote().getName()) {
+            switch (event.getEmoji().getName()) {
                 case LEFT:
                     if (newPageNum > 1) newPageNum--;
                     break;

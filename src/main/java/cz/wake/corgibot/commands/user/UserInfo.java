@@ -6,54 +6,25 @@ import cz.wake.corgibot.annotations.CommandInfo;
 import cz.wake.corgibot.annotations.SinceCorgi;
 import cz.wake.corgibot.commands.CommandBase;
 import cz.wake.corgibot.commands.CommandCategory;
-import cz.wake.corgibot.objects.GuildWrapper;
+import cz.wake.corgibot.objects.guild.GuildWrapper;
 import cz.wake.corgibot.utils.EmoteList;
 import cz.wake.corgibot.utils.MessageUtils;
-import net.dv8tion.jda.api.OnlineStatus;
+import cz.wake.corgibot.utils.lang.I18n;
 import net.dv8tion.jda.api.entities.*;
 
 import java.time.LocalDateTime;
 import java.util.Comparator;
 import java.util.List;
-import java.util.stream.Collectors;
 
 @CommandInfo(
         name = "userinfo",
         aliases = {"ui"},
-        description = "Get basic info about a user",
-        help = "%userinfo - Information about yourself\n" +
-                "%userinfo @nick - Information about someone else",
+        description = "commands.userinfo.description",
+        help = "commands.userinfo.help",
         category = CommandCategory.GENERAL
 )
 @SinceCorgi(version = "1.2.3.2")
 public class UserInfo implements CommandBase {
-
-    private static String convertStatus(OnlineStatus status) {
-        return switch (status) {
-            case ONLINE -> "<:online:860297938911887370>";
-            case IDLE -> "<:away:86029793893639785>";
-            case DO_NOT_DISTURB -> "<:dnd:860297938897731604>";
-            default -> "<:offline:860297938873614378>";
-        };
-    }
-
-    private static String gameToString(List<Activity> activities, Member member) {
-        if (activities.size() == 0) {
-            return "no game";
-        }
-        Activity g = member.getActivities().get(0);
-        if (g == null) return "no game";
-
-        String gameType = switch (g.getType().getKey()) {
-            case 1 -> "Streaming";
-            case 2 -> "Listening to";
-            case 3 -> "Watching";
-            default -> "Playing";
-        };
-
-        String gameName = g.getName();
-        return gameType + " " + gameName;
-    }
 
     @Override
     public void onCommand(MessageChannel channel, Message message, String[] args, Member member, EventWaiter w, GuildWrapper gw) {
@@ -64,17 +35,17 @@ public class UserInfo implements CommandBase {
             id = args[0].replaceAll("[^0-9]", "");
         }
         if (id.isEmpty()) {
-            MessageUtils.sendAutoDeletedMessage("You need to mention someone!", 10000, channel);
+            MessageUtils.sendAutoDeletedMessage(I18n.getLoc(gw, "commands.userinfo.mention"), 10000, channel);
             return;
         }
         Member guildMember = member.getGuild().getMemberById(id);
         if (guildMember == null) {
-            MessageUtils.sendAutoDeletedMessage("Unable to view information for users other than yourself.", 10000, channel);
+            MessageUtils.sendAutoDeletedMessage(I18n.getLoc(gw, "commands.userinfo.cant-view"), 10000, channel);
             return;
         }
 
         StringBuilder joinOrder = new StringBuilder();
-        List<Member> joins = message.getGuild().getMemberCache().stream().sorted(Comparator.comparing(Member::getTimeJoined)).collect(Collectors.toList());
+        List<Member> joins = message.getGuild().getMemberCache().stream().sorted(Comparator.comparing(Member::getTimeJoined)).toList();
         int index = joins.indexOf(guildMember);
         index -= 3;
         if (index < 0) {
@@ -101,23 +72,21 @@ public class UserInfo implements CommandBase {
 
         channel.sendMessageEmbeds(MessageUtils.getEmbed(member.getUser(), member.getGuild().getMember(guildMember.getUser()).getColor())
                 .setThumbnail(guildMember.getUser().getEffectiveAvatarUrl())
-                .addField("Real name", guildMember.getUser().getName() + "#" + guildMember.getUser().getDiscriminator() + " " + getDiscordRank(guildMember.getUser()), true)
-                .addField("ID", guildMember.getUser().getId(), true)
-                //.addField("Status", gameToString(guildMember.getActivities(), member), true)
-                .addField("Nickname", guildMember.getEffectiveName(), true)
-                .addField("Registered", CorgiBot.getInstance().formatTime(LocalDateTime.from(guildMember.getUser().getTimeCreated())), true)
-                .addField("Joined", (member.getGuild().getMember(guildMember.getUser()) == null ? "This user was not found on this server!." : CorgiBot.getInstance().formatTime(LocalDateTime.from(member.getGuild().getMember(guildMember.getUser()).getTimeJoined()))), true)
-                //.addField("Status", convertStatus(guildMember.getOnlineStatus()) + " " + guildMember.getOnlineStatus().name().toLowerCase().replaceAll("_", " "), true)
-                .addField("Bot", (guildMember.getUser().isBot() ? "Yes" : "No"), true)
-                .addField("Boost", guildMember.getTimeBoosted() != null ? CorgiBot.getInstance().formatTime(LocalDateTime.from(guildMember.getTimeBoosted())) : "No boost", true)
-                .addField("Joined order", joinOrder.toString(), false)
-                .addField("Roles", getRoles(guildMember, member.getGuild()), false).build()).queue();
+                .addField(I18n.getLoc(gw, "commands.userinfo.real-name"), guildMember.getUser().getName() + "#" + guildMember.getUser().getDiscriminator() + " " + getDiscordRank(guildMember.getUser()), true)
+                .addField(I18n.getLoc(gw, "commands.userinfo.id"), guildMember.getUser().getId(), true)
+                .addField(I18n.getLoc(gw, "commands.userinfo.nickname"), guildMember.getEffectiveName(), true)
+                .addField(I18n.getLoc(gw, "commands.userinfo.registered"), CorgiBot.getInstance().formatTime(LocalDateTime.from(guildMember.getUser().getTimeCreated())), true)
+                .addField(I18n.getLoc(gw, "commands.userinfo.joined"), (member.getGuild().getMember(guildMember.getUser()) == null ? I18n.getLoc(gw, "commands.userinfo.user-not-found") : CorgiBot.getInstance().formatTime(LocalDateTime.from(member.getGuild().getMember(guildMember.getUser()).getTimeJoined()))), true)
+                .addField(I18n.getLoc(gw, "commands.userinfo.bot"), (guildMember.getUser().isBot() ? I18n.getLoc(gw, "internal.general.yes") : I18n.getLoc(gw, "internal.general.no")), true)
+                .addField(I18n.getLoc(gw, "commands.userinfo.boost"), guildMember.getTimeBoosted() != null ? CorgiBot.getInstance().formatTime(LocalDateTime.from(guildMember.getTimeBoosted())) : I18n.getLoc(gw, "commands.userinfo.no-boost"), true)
+                .addField(I18n.getLoc(gw, "commands.userinfo.joined-order"), joinOrder.toString(), false)
+                .addField(I18n.getLoc(gw, "commands.userinfo.roles"), getRoles(guildMember, member.getGuild(), gw), false).build()).queue();
 
     }
 
-    private String getRoles(Member user, Guild guid) {
+    private String getRoles(Member user, Guild guild, GuildWrapper gw) {
         StringBuilder roles = new StringBuilder();
-        for (Role r : guid.getRoles()) {
+        for (Role r : guild.getRoles()) {
             if (user.getRoles().contains(r)) {
                 String role = r.getName();
                 if (!role.equalsIgnoreCase("@everyone")) {
@@ -126,7 +95,7 @@ public class UserInfo implements CommandBase {
             }
         }
         if (roles.toString().equals("")) {
-            roles = new StringBuilder("No roles");
+            roles = new StringBuilder(I18n.getLoc(gw, "commands.userinfo.no-roles"));
         } else {
             roles = new StringBuilder(roles.substring(2));
         }

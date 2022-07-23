@@ -6,8 +6,9 @@ import cz.wake.corgibot.annotations.CommandInfo;
 import cz.wake.corgibot.annotations.SinceCorgi;
 import cz.wake.corgibot.commands.CommandBase;
 import cz.wake.corgibot.commands.CommandCategory;
-import cz.wake.corgibot.objects.GuildWrapper;
+import cz.wake.corgibot.objects.guild.GuildWrapper;
 import cz.wake.corgibot.utils.MessageUtils;
+import cz.wake.corgibot.utils.lang.I18n;
 import net.dv8tion.jda.api.EmbedBuilder;
 import net.dv8tion.jda.api.Permission;
 import net.dv8tion.jda.api.entities.Member;
@@ -18,8 +19,8 @@ import net.dv8tion.jda.api.entities.Role;
 @CommandInfo(
         name = "roleinfo",
         aliases = {"rinfo"},
-        description = "Displays info about a specified role",
-        help = "%roleinfo name/ID",
+        description = "commands.role-info.description",
+        help = "commands.role-info.help",
         category = CommandCategory.MODERATION,
         userPerms = {Permission.MANAGE_SERVER}
 )
@@ -37,26 +38,26 @@ public class RoleInfo implements CommandBase {
         }
         if (id != 0)
             role = message.getGuild().getRoleById(String.valueOf(id));
-        else if (id == 0) {
+        else {
             for (Role role1 : message.getGuild().getRoles()) {
                 if (role1.getName().equalsIgnoreCase(args[0]))
                     role = role1;
             }
         }
         if (role == null) {
-            MessageUtils.sendErrorMessage("No roles found", channel);
+            MessageUtils.sendErrorMessage(I18n.getLoc(gw, "commands.role-info.no-role-found"), channel);
             return;
         }
 
         EmbedBuilder embed = new EmbedBuilder();
 
         embed.setColor(role.getColor());
-        embed.addField(role.getName(), "ID: " + role.getId(), true);
-        embed.addField("Position", String.valueOf(role.getPosition()), true);
-        embed.addField("Separated", String.valueOf(role.isHoisted()), true);
-        embed.addField("Managed", String.valueOf(role.isManaged()), true);
-        embed.addField("Mentionable", String.valueOf(role.isMentionable()), true);
-        embed.addField("Date created", CorgiBot.getInstance().formatTime(role.getTimeCreated().toLocalDateTime()), true);
+        embed.addField(role.getName(), I18n.getLoc(gw, "commands.role-info.id") + " " + role.getId(), true);
+        embed.addField(I18n.getLoc(gw, "commands.role-info.position"), String.valueOf(role.getPosition()), true);
+        embed.addField(I18n.getLoc(gw, "commands.role-info.separated"), String.valueOf(role.isHoisted()), true);
+        embed.addField(I18n.getLoc(gw, "commands.role-info.managed"), String.valueOf(role.isManaged()), true);
+        embed.addField(I18n.getLoc(gw, "commands.role-info.mentionable"), String.valueOf(role.isMentionable()), true);
+        embed.addField(I18n.getLoc(gw, "commands.role-info.date-created"), CorgiBot.getInstance().formatTime(role.getTimeCreated().toLocalDateTime()), true);
 
         channel.sendMessageEmbeds(embed.build()).queue();
     }

@@ -5,10 +5,11 @@ import cz.wake.corgibot.annotations.CommandInfo;
 import cz.wake.corgibot.annotations.SinceCorgi;
 import cz.wake.corgibot.commands.CommandBase;
 import cz.wake.corgibot.commands.CommandCategory;
-import cz.wake.corgibot.objects.GuildWrapper;
+import cz.wake.corgibot.objects.guild.GuildWrapper;
 import cz.wake.corgibot.utils.Constants;
 import cz.wake.corgibot.utils.EmoteList;
 import cz.wake.corgibot.utils.MessageUtils;
+import cz.wake.corgibot.utils.lang.I18n;
 import cz.wake.corgibot.utils.pagination.old.Paginator;
 import cz.wake.corgibot.utils.pagination.old.PaginatorBuilder;
 import net.dv8tion.jda.api.Permission;
@@ -16,6 +17,7 @@ import net.dv8tion.jda.api.entities.Member;
 import net.dv8tion.jda.api.entities.Message;
 import net.dv8tion.jda.api.entities.MessageChannel;
 import net.dv8tion.jda.api.entities.TextChannel;
+import net.dv8tion.jda.api.entities.emoji.Emoji;
 import net.dv8tion.jda.api.events.message.react.MessageReactionAddEvent;
 import net.dv8tion.jda.api.exceptions.PermissionException;
 
@@ -36,21 +38,20 @@ public class Ignore implements CommandBase {
     @Override
     public void onCommand(MessageChannel channel, Message message, String[] args, Member member, EventWaiter w, GuildWrapper gw) {
         if (args.length < 1) {
-            channel.sendMessageEmbeds(MessageUtils.getEmbed(Constants.GREEN).setTitle("Ignoring channel: " + channel.getName())
-                    .setDescription("Disables the use of Corgi's commands in this channel.\nIf you want Corgi to stop ignoring, use `" + gw.getPrefix() + "ignore` again, and cancel it.\n\n" +
-                            ":one: | " + formatTruth(channel, gw) + " ignoring for this channel\n:two: | List all currently ignored channels").setFooter("If you want to cancel the action, do not react to it, it's gonna be be canceled within 30 seconds!", null).build()).queue((Message m) -> {
-                m.addReaction(EmoteList.ONE).queue();
-                m.addReaction(EmoteList.TWO).queue();
+            channel.sendMessageEmbeds(MessageUtils.getEmbed(Constants.GREEN).setTitle(String.format(I18n.getLoc(gw, "commands.ignore.embed-title"), channel.getName()))
+                    .setDescription(String.format(I18n.getLoc(gw, "commands.ignore.embed-description"), gw.getPrefix(), formatTruth(channel, gw))).setFooter(I18n.getLoc(gw, "commands.ignore.footer"), null).build()).queue((Message m) -> {
+                m.addReaction(Emoji.fromUnicode(EmoteList.ONE)).queue();
+                m.addReaction(Emoji.fromUnicode(EmoteList.TWO)).queue();
 
                 w.waitForEvent(MessageReactionAddEvent.class, (MessageReactionAddEvent e) -> { // 1
-                    return Objects.equals(e.getUser(), member.getUser()) && e.getMessageId().equals(m.getId()) && (e.getReaction().getReactionEmote().getName().equals(EmoteList.ONE));
+                    return Objects.equals(e.getUser(), member.getUser()) && e.getMessageId().equals(m.getId()) && (e.getReaction().getEmoji().getName().equals(EmoteList.ONE));
                 }, (MessageReactionAddEvent ev) -> {
                     m.delete().queue();
                     ignoreChannel(channel, member, gw.getPrefix(), gw);
-                }, 60, TimeUnit.SECONDS, () -> m.editMessageEmbeds(MessageUtils.getEmbed(Constants.RED).setDescription("Time's up!").build()).queue());
+                }, 60, TimeUnit.SECONDS, () -> m.editMessageEmbeds(MessageUtils.getEmbed(Constants.RED).setDescription(I18n.getLoc(gw, "commands.ignore.times-up")).build()).queue());
 
                 w.waitForEvent(MessageReactionAddEvent.class, (MessageReactionAddEvent e) -> { // 2
-                    return Objects.equals(e.getUser(), member.getUser()) && e.getMessageId().equals(m.getId()) && (e.getReaction().getReactionEmote().getName().equals(EmoteList.TWO));
+                    return Objects.equals(e.getUser(), member.getUser()) && e.getMessageId().equals(m.getId()) && (e.getReaction().getEmoji().getName().equals(EmoteList.TWO));
                 }, (MessageReactionAddEvent ev) -> {
                     m.delete().queue();
                     shopIgnoredChannels(channel, member, w, gw);
@@ -67,9 +68,9 @@ public class Ignore implements CommandBase {
     private String formatTruth(MessageChannel channel, GuildWrapper gw) {
         boolean truth = getTruth(channel, gw);
         if (truth) {
-            return "Disable";
+            return I18n.getLoc(gw, "commands.ignore.disables");
         }
-        return "Enable";
+        return I18n.getLoc(gw, "commands.ignore.enables");
     }
 
     private void ignoreChannel(MessageChannel channel, Member member, String prefix, GuildWrapper gw) {
@@ -77,17 +78,17 @@ public class Ignore implements CommandBase {
             TextChannel ch = member.getGuild().getTextChannelById(channel.getId());
             if (gw.getIgnoredChannels().contains(ch)) {
                 gw.updateIgnoredChannel(ch);
-                channel.sendMessageEmbeds(MessageUtils.getEmbed(Constants.GREEN).setTitle("Ignoring channel: " + channel.getName())
-                        .setDescription("🔔 | Corgi is now listening to all commands in this channel!")
-                        .setFooter("You can enable ignoring again using `" + prefix + "ignore`", null).build()).queue();
+                channel.sendMessageEmbeds(MessageUtils.getEmbed(Constants.GREEN).setTitle(String.format(I18n.getLoc(gw, "commands.ignore.title"), channel.getName()))
+                        .setDescription(I18n.getLoc(gw, "commands.ignore.listening"))
+                        .setFooter(String.format(I18n.getLoc(gw, "commands.ignore.enable-ignoring"), gw.getPrefix()), null).build()).queue();
                 return;
             }
             gw.updateIgnoredChannel(ch);
-            channel.sendMessageEmbeds(MessageUtils.getEmbed(Constants.ORANGE).setTitle("Ignoring channel: " + channel.getName())
-                    .setDescription("🔕 | Corgi now ignores all commands in this channel!")
-                    .setFooter("You can cancel ignoring using `" + prefix + "ignore`", null).build()).queue();
+            channel.sendMessageEmbeds(MessageUtils.getEmbed(Constants.ORANGE).setTitle(String.format(I18n.getLoc(gw, "commands.ignore.title"), channel.getName()))
+                    .setDescription(I18n.getLoc(gw, "commands.ignore.ignoring"))
+                    .setFooter(String.format(I18n.getLoc(gw, "commands.ignore.disable-ignoring"), gw.getPrefix()), null).build()).queue();
         } catch (Exception e) {
-            MessageUtils.sendAutoDeletedMessage("Something went wrong! Try again later!", 35000L, channel);
+            MessageUtils.sendAutoDeletedMessage(I18n.getLoc(gw, "internal.error.command-failed"), 35000L, channel);
         }
 
     }
@@ -96,7 +97,7 @@ public class Ignore implements CommandBase {
         List<MessageChannel> channels = gw.getIgnoredChannelsByMember(member);
 
         if (channels.isEmpty()) {
-            MessageUtils.sendErrorMessage("No channels ignored!", channel);
+            MessageUtils.sendErrorMessage(I18n.getLoc(gw, "commands.ignore.no-channels-ignored"), channel);
             return;
         }
 
@@ -119,7 +120,7 @@ public class Ignore implements CommandBase {
             pBuilder.addItems(m.getName());
         }
 
-        Paginator p = pBuilder.setColor(Constants.BLUE).setText("Ignored channels:").build();
+        Paginator p = pBuilder.setColor(Constants.BLUE).setText(I18n.getLoc(gw, "commands.ignore.ignored-channels")).build();
         p.paginate(channel, 1);
 
     }

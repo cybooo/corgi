@@ -5,7 +5,7 @@ import java.util.HashMap;
 public class UserWrapper {
 
     private final String userId;
-    private HashMap<String, UserGuildData> guildData;
+    private final HashMap<String, UserGuildData> guildData;
 
     public UserWrapper(String userId) {
         this.userId = userId;

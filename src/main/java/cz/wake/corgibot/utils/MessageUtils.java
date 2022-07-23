@@ -3,7 +3,7 @@ package cz.wake.corgibot.utils;
 import com.mashape.unirest.http.Unirest;
 import com.mashape.unirest.http.exceptions.UnirestException;
 import cz.wake.corgibot.CorgiBot;
-import cz.wake.corgibot.scheluder.CorgiTask;
+import cz.wake.corgibot.scheduler.CorgiTask;
 import net.dv8tion.jda.api.EmbedBuilder;
 import net.dv8tion.jda.api.MessageBuilder;
 import net.dv8tion.jda.api.entities.Message;
@@ -85,7 +85,6 @@ public class MessageUtils {
         return user.getDefaultAvatarUrl();
     }
 
-    //TODO: Dodelat try
     public static Message sendErrorMessage(EmbedBuilder builder, MessageChannel channel) {
         return channel.sendMessageEmbeds(builder.setColor(Constants.RED).build()).complete();
     }
@@ -140,7 +139,7 @@ public class MessageUtils {
     }
 
     public static EmbedBuilder getEmbedError() {
-        return new EmbedBuilder().setFooter("Error while performing action", CorgiBot.getJda().getSelfUser().getAvatarUrl());
+        return new EmbedBuilder().setFooter("Error while performing action", CorgiBot.getShardManager().getShards().get(0).getSelfUser().getAvatarUrl());
     }
 
     public static String getMessage(String[] args) {

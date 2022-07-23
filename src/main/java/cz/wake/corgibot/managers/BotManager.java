@@ -1,10 +1,8 @@
 package cz.wake.corgibot.managers;
 
 import cz.wake.corgibot.CorgiBot;
-import cz.wake.corgibot.objects.GuildWrapper;
-import cz.wake.corgibot.objects.user.UserGuildData;
+import cz.wake.corgibot.objects.guild.GuildWrapper;
 import cz.wake.corgibot.objects.user.UserWrapper;
-import cz.wake.corgibot.sql.SQLManager;
 import cz.wake.corgibot.utils.CorgiLogger;
 import net.dv8tion.jda.api.entities.Guild;
 import net.dv8tion.jda.api.entities.MessageChannel;
@@ -37,40 +35,34 @@ public class BotManager {
         }
     }
 
-    public static void loadGuilds() {
-        List<Guild> guilds = CorgiBot.getJda().getGuilds();
-        for (int i = 0, guildsSize = guilds.size(); i < guildsSize; i++) {
-            Guild guild = guilds.get(i);
+    public static void loadGuilds(int shardId) {
+        List<Guild> guildList = CorgiBot.getShardManager().getShardById(shardId).getGuilds();
+        for (Guild guild : guildList) {
             try {
                 // Setup ignored channels
                 Set<MessageChannel> ignoredChannels = CorgiBot.getInstance().getSql().getIgnoredChannels(guild.getId());
 
                 // Setup guild wrapper with ignored channels
                 GuildWrapper gw = CorgiBot.getInstance().getSql().createGuildWrapper(guild.getId());
+
                 if (gw != null) {
                     gw.setIgnoredChannels(ignoredChannels);
-                }
-
-                if (gw != null) {
-                    gw.setLanguage("cz", false); //TODO: SQL
+                    gw.setLanguage(CorgiBot.getInstance().getSql().getLanguage(guild.getId()), false);
                     GUILD_WRAPPERS.add(gw);
                 }
-
+                CorgiBot.getInstance().getSql().getGiveawaysByGuild(guild.getId()).forEach(giveaway -> {
+                    try {
+                        new Giveaway2(getCustomGuild(giveaway.getGuildId()), CorgiBot.getShardManager().getGuildById(giveaway.getGuildId()).getTextChannelById(giveaway.getTextchannelId()).retrieveMessageById(giveaway.getMessageId()).complete(true), giveaway.getEndTime(), giveaway.getPrize(), giveaway.getMaxWinners(), giveaway.getEmoji(), giveaway.getColor()).start();
+                    } catch (Exception e) {
+                        exceptionHandler(e, giveaway.getGuildId(), giveaway.getMessageId());
+                    }
+                });
             } catch (Exception ex) {
-                CorgiLogger.dangerMessage("Error when registering guild (ID: " + guild.getId() + "). Error:\n");
+                CorgiLogger.dangerMessage("Error while registering guild (ID: " + guild.getId() + "). Error:\n");
                 ex.printStackTrace();
                 System.exit(-1);
             }
         }
-        CorgiLogger.greatMessage("Connected on " + GUILD_WRAPPERS.size() + " servers!");
-        CorgiLogger.infoMessage("Loading Giveaways on guilds.");
-        CorgiBot.getInstance().getSql().getAllGiveaways().forEach(go -> {
-            try {
-                new Giveaway2(CorgiBot.getJda().getGuildById(go.getGuildId()).getTextChannelById(go.getTextchannelId()).retrieveMessageById(go.getMessageId()).complete(true), go.getEndTime(), go.getPrize(), go.getMaxWinners(), go.getEmoji(), go.getColor()).start();
-            } catch (Exception e) {
-                exceptionHandler(e, go.getGuildId(), go.getMessageId());
-            }
-        });
     }
 
     public static boolean loadUser(String userId) {

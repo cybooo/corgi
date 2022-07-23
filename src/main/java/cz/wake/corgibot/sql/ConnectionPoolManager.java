@@ -64,17 +64,17 @@ public class ConnectionPoolManager {
         }
     }
 
-    public void close(Connection conn, PreparedStatement ps, ResultSet res) {
-        if (conn != null) try {
-            conn.close();
+    public void close(Connection connection, PreparedStatement preparedStatement, ResultSet resultSet) {
+        if (connection != null) try {
+            connection.close();
         } catch (SQLException ignored) {
         }
-        if (ps != null) try {
-            ps.close();
+        if (preparedStatement != null) try {
+            preparedStatement.close();
         } catch (SQLException ignored) {
         }
-        if (res != null) try {
-            res.close();
+        if (resultSet != null) try {
+            resultSet.close();
         } catch (SQLException ignored) {
         }
     }

@@ -73,7 +73,7 @@ public class TwitterFeedObserver implements Serializable {
     }
 
     public TextChannel getDiscoChannel() {
-        return CorgiBot.getJda().getTextChannelById(discoChannel);
+        return CorgiBot.getShardManager().getTextChannelById(discoChannel);
     }
 
     public String getTwitterHandle() {

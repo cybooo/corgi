@@ -7,8 +7,9 @@ import cz.wake.corgibot.annotations.SinceCorgi;
 import cz.wake.corgibot.commands.CommandBase;
 import cz.wake.corgibot.commands.CommandCategory;
 import cz.wake.corgibot.music.AudioEngine;
-import cz.wake.corgibot.objects.GuildWrapper;
+import cz.wake.corgibot.objects.guild.GuildWrapper;
 import cz.wake.corgibot.utils.MessageUtils;
+import cz.wake.corgibot.utils.lang.I18n;
 import net.dv8tion.jda.api.Permission;
 import net.dv8tion.jda.api.entities.Member;
 import net.dv8tion.jda.api.entities.Message;
@@ -22,8 +23,8 @@ import java.util.Objects;
 @CommandInfo(
         name = "play",
         aliases = {"playsong"},
-        description = "Plays a specified song.",
-        help = "%play <URL> - Play a song.",
+        description = "commands.music-play.description",
+        help = "commands.music-play.help",
         category = CommandCategory.MUSIC
 )
 @SinceCorgi(version = "1.3.5")
@@ -48,21 +49,21 @@ public class Play implements CommandBase {
             }
         }
         if (!canUse) {
-            MessageUtils.sendErrorMessage("You can't use this command!", channel);
+            MessageUtils.sendErrorMessage(I18n.getLoc(gw, "internal.general.cant-use-this-command"), channel);
             return;
         }
 
         if (args.length == 0) {
-            MessageUtils.sendErrorMessage("You need to specify the URL!\nExample: **" + gw.getPrefix() + "play https://www.youtube.com/watch?v=dQw4w9WgXcQ**", channel);
+            MessageUtils.sendErrorMessage(String.format(I18n.getLoc(gw, "commands.music-play.specify-url"), gw.getPrefix()), channel);
         } else {
             if (member.getVoiceState().getChannel() == null) {
-                MessageUtils.sendErrorMessage("You need to be connected in a voice channel!", channel);
+                MessageUtils.sendErrorMessage(I18n.getLoc(gw, "commands.music.need-to-be-in-voice"), channel);
                 return;
             }
 
-            if (message.getGuild().getSelfMember().getVoiceState().inVoiceChannel()) {
+            if (message.getGuild().getSelfMember().getVoiceState().getChannel() != null) {
                 if (!Objects.equals(member.getVoiceState().getChannel(), message.getGuild().getSelfMember().getVoiceState().getChannel())) {
-                    MessageUtils.sendErrorMessage("You need to be connected in the same voice channel as me!", channel);
+                    MessageUtils.sendErrorMessage(I18n.getLoc(gw, "commands.music.need-to-be-in-same-voice"), channel);
                     return;
                 }
             }

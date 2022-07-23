@@ -4,8 +4,6 @@ import com.jagrosh.jdautilities.commons.waiter.EventWaiter;
 import cz.wake.corgibot.commands.CommandManager;
 import cz.wake.corgibot.feeds.TwitterEventListener;
 import cz.wake.corgibot.listener.*;
-import cz.wake.corgibot.managers.BotManager;
-import cz.wake.corgibot.runnable.PresenceTask;
 import cz.wake.corgibot.runnable.ReminderTask;
 import cz.wake.corgibot.runnable.SpamHandler;
 import cz.wake.corgibot.sql.SQLManager;
@@ -15,14 +13,14 @@ import cz.wake.corgibot.utils.config.Config;
 import cz.wake.corgibot.utils.config.ConfigUtils;
 import cz.wake.corgibot.utils.lang.I18n;
 import cz.wake.corgibot.utils.statuses.MojangChecker;
-import net.dv8tion.jda.api.JDA;
-import net.dv8tion.jda.api.JDABuilder;
 import net.dv8tion.jda.api.OnlineStatus;
 import net.dv8tion.jda.api.entities.Activity;
 import net.dv8tion.jda.api.entities.Guild;
 import net.dv8tion.jda.api.entities.Icon;
 import net.dv8tion.jda.api.entities.TextChannel;
 import net.dv8tion.jda.api.requests.GatewayIntent;
+import net.dv8tion.jda.api.sharding.DefaultShardManagerBuilder;
+import net.dv8tion.jda.api.sharding.ShardManager;
 import net.dv8tion.jda.api.utils.MemberCachePolicy;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
@@ -50,7 +48,7 @@ public class CorgiBot {
     public static long startUp;
     public static int commands = 0;
     private static CorgiBot instance;
-    private static JDA jda;
+    private static ShardManager shardManager;
     private static boolean isBeta = true;
 
     static {
@@ -66,7 +64,7 @@ public class CorgiBot {
 
     public static void main(String[] args) throws LoginException, InterruptedException {
         instance = new CorgiBot();
-        instance.start();
+        instance.start(args);
     }
 
     public static CorgiBot getInstance() {
@@ -82,7 +80,7 @@ public class CorgiBot {
     }
 
     public static Guild getDefaultGuild() {
-        return jda.getGuildById("860251548231532584");
+        return shardManager.getGuildById("860251548231532584");
     }
 
     private static void bootIcon() {
@@ -109,15 +107,15 @@ public class CorgiBot {
     /**
      * @return Whether Corgi is in beta.
      */
-    public static boolean isIsBeta() {
+    public static boolean isBeta() {
         return isBeta;
     }
 
-    public static JDA getJda() {
-        return jda;
+    public static ShardManager getShardManager() {
+        return shardManager;
     }
 
-    public void start() throws LoginException, InterruptedException {
+    public void start(String[] args) throws LoginException, InterruptedException {
         // Inform
         CorgiLogger.infoMessage("Corgi is waking up!");
 
@@ -132,18 +130,18 @@ public class CorgiBot {
 
         // JDA Build
         CorgiLogger.infoMessage("Connecting to Discord API.");
-        jda = JDABuilder.createDefault(config.getString("discord.token"))
-                .enableIntents(GatewayIntent.GUILD_MESSAGES, GatewayIntent.GUILD_MESSAGE_REACTIONS, GatewayIntent.GUILD_MEMBERS)
+        shardManager = DefaultShardManagerBuilder.create(config.getString("discord.token"), GatewayIntent.GUILD_MESSAGES, GatewayIntent.GUILD_MESSAGE_REACTIONS, GatewayIntent.GUILD_MEMBERS)
                 .setMemberCachePolicy(MemberCachePolicy.ALL)
+                .setShardsTotal(-1)
+                .addEventListeners(new ReadyListener())
                 .addEventListeners(new ChatListener(waiter))
                 .addEventListeners(new LeaveEvent())
                 .addEventListeners(new JoinEvent())
-                .addEventListeners(new ChannelDeleteEvent())
-                .addEventListeners(new TicketListener())
+                .addEventListeners(new ChannelDeleteListener())
                 .addEventListeners(waiter)
-                .setActivity(Activity.playing("Loading..."))
                 .setStatus(OnlineStatus.IDLE)
-                .build().awaitReady();
+                .setActivity(Activity.playing("Loading.."))
+                .build();
 
         // Instances
         instance.init();
@@ -158,9 +156,6 @@ public class CorgiBot {
                 // MySQL Instance
                 instance.initDatabase();
                 CorgiLogger.greatMessage("Corgi has successfully connected to MySQL!");
-
-                // Load guilds
-                BotManager.loadGuilds();
 
                 // Setup
                 isBeta = false;
@@ -189,7 +184,6 @@ public class CorgiBot {
             CorgiLogger.infoMessage("Corgi will run as PRODUCTION bot.");
             scheduledExecutorService.scheduleAtFixedRate(new MojangChecker(), 10, 60000, TimeUnit.MILLISECONDS);
             scheduledExecutorService.scheduleAtFixedRate(new ReminderTask(instance), 10, 20000, TimeUnit.MILLISECONDS);
-            scheduledExecutorService.scheduleAtFixedRate(new ReminderTask(instance), 10, 20000, TimeUnit.MILLISECONDS);
             TwitterEventListener.initTwitter();
         } else {
             CorgiLogger.warnMessage("Corgi is running as BETA bot! Some functions will not work!");
@@ -199,7 +193,7 @@ public class CorgiBot {
         if (config.getBoolean("advanced.profile-picture.enabled")) {
             try {
                 String url = config.getString("advanced.profile-picture.url");
-                jda.getSelfUser().getManager().setAvatar(Icon.from(
+                shardManager.getShards().get(0).getSelfUser().getManager().setAvatar(Icon.from(
                         new URL(url).openStream())).complete();
                 CorgiLogger.greatMessage("New profile image has been set from: " + url);
             } catch (IOException e) {
@@ -209,14 +203,11 @@ public class CorgiBot {
         }
 
         // Final set status
-        if (!isBeta) {
-            getJda().getPresence().setActivity(Activity.watching(CorgiBot.getJda().getGuilds().size() + " servers | corgibot.xyz"));
-            scheduledExecutorService.scheduleAtFixedRate(new PresenceTask(), 15, 15, TimeUnit.MINUTES);
-            getJda().getPresence().setStatus(OnlineStatus.ONLINE);
-        } else {
-            getJda().getPresence().setActivity(Activity.playing("with bugs"));
-            getJda().getPresence().setStatus(OnlineStatus.DO_NOT_DISTURB);
+        if (isBeta) {
+            getShardManager().setActivity(Activity.playing("with bugs"));
+            getShardManager().setStatus(OnlineStatus.DO_NOT_DISTURB);
         }
+
         CorgiLogger.infoMessage("Started up in " + (System.currentTimeMillis() - startUp) + "ms!");
     }
 
@@ -234,7 +225,7 @@ public class CorgiBot {
     }
 
     public TextChannel getGuildLogChannel() {
-        return Objects.requireNonNull(getJda().getGuildById("860251548231532584"), "Guild is null").getTextChannelById("860299812582981643");
+        return Objects.requireNonNull(getShardManager().getGuildById("860251548231532584"), "Guild is null").getTextChannelById("860299812582981643");
     }
 
     public CommandManager getCommandManager() {

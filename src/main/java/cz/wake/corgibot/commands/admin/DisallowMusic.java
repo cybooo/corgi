@@ -6,8 +6,9 @@ import cz.wake.corgibot.annotations.CommandInfo;
 import cz.wake.corgibot.annotations.SinceCorgi;
 import cz.wake.corgibot.commands.CommandBase;
 import cz.wake.corgibot.commands.CommandCategory;
-import cz.wake.corgibot.objects.GuildWrapper;
+import cz.wake.corgibot.objects.guild.GuildWrapper;
 import cz.wake.corgibot.utils.MessageUtils;
+import cz.wake.corgibot.utils.lang.I18n;
 import net.dv8tion.jda.api.Permission;
 import net.dv8tion.jda.api.entities.Member;
 import net.dv8tion.jda.api.entities.Message;
@@ -15,11 +16,10 @@ import net.dv8tion.jda.api.entities.MessageChannel;
 
 @CommandInfo(
         name = "disallowmusic",
-        description = "Disallows a music command for a specified role, if it was allowed.",
-        help = "%disallowmusic <Command> <RoleId>",
+        description = "commands.disallow-music.description",
+        help = "commands.disallow-music.help",
         category = CommandCategory.ADMINISTRATOR,
         userPerms = {Permission.MANAGE_CHANNEL}
-
 )
 @SinceCorgi(version = "1.3.5")
 public class DisallowMusic implements CommandBase {
@@ -27,24 +27,20 @@ public class DisallowMusic implements CommandBase {
     @Override
     public void onCommand(MessageChannel channel, Message message, String[] args, Member member, EventWaiter w, GuildWrapper gw) {
         if (args.length == 0 || args.length == 1) {
-            MessageUtils.sendErrorMessage("Wrong usage!\nUsage: " + gw.getPrefix() + "disallowmusic <play/nowplaying/skip/stop/volume> <roleId>", channel);
+            MessageUtils.sendErrorMessage(String.format(I18n.getLoc(gw, "commands.disallow-music.usage"), gw.getPrefix()), channel);
         } else {
             try {
                 if (args[0].equals("play") || args[0].equals("nowplaying") || args[0].equals("skip") || args[0].equals("stop") || args[0].equals("volume")) {
                     Long.parseLong(args[1]);
-                    channel.sendMessage(
-                            "If the **" + args[0] + "** command was allowed, it's now disallowed!\n" +
-                                    "**Note:** This command only removes an already allowed command!\n" +
-                                    "If you want to disallow a command for some role, you need to directly allow the commands for each role you want."
-                    ).queue();
+                    channel.sendMessage(String.format(I18n.getLoc(gw, "commands.disallow-music.command-disallowed"), args[0])).queue();
                     CorgiBot.getInstance().getSql().deleteRoleMusicCommand(message.getGuild().getId(), args[1], args[0]);
                 } else {
-                    channel.sendMessage("You need to specify a music command: **play** / **nowplaying** / **skip** / **stop** / **volume**!").queue();
+                    channel.sendMessage(I18n.getLoc(gw, "commands.disallow-music.command-not-specified")).queue();
                 }
             } catch (NumberFormatException e1) {
-                MessageUtils.sendErrorMessage("Role ID needs to be a number!", channel);
+                MessageUtils.sendErrorMessage(I18n.getLoc(gw, "commands.disallow-music.role-id-number"), channel);
             } catch (Exception e2) {
-                MessageUtils.sendErrorMessage("Oops.. Something wrong! (" + e2.getMessage() + ")", channel);
+                MessageUtils.sendErrorMessage(I18n.getLoc(gw, "internal.error.command-failed"), channel);
                 e2.printStackTrace();
             }
         }

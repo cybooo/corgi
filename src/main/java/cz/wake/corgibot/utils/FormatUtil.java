@@ -60,7 +60,7 @@ public class FormatUtil {
             return "```" + language + "\n" + in.substring(0, in.length() - language.length() - 8) + "```";
     }
 
-    public static String colourFormat(Color color) {
+    public static String colorFormat(Color color) {
         return String.format("#%02X%02X%02X", color.getRed(), color.getGreen(), color.getBlue());
     }
 

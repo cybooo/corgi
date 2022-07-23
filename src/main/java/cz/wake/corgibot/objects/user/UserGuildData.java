@@ -4,8 +4,8 @@ import cz.wake.corgibot.CorgiBot;
 
 public class UserGuildData {
 
-    private String userId;
-    private String guildId;
+    private final String userId;
+    private final String guildId;
     private long level;
     private long xp;
     private long voiceTime;

@@ -1,5 +1,374 @@
 {
+  "giveaway": {
+    "embed-title": ":confetti_ball:  **GIVEAWAY!**  :confetti_ball:",
+    "embed-title-ending-soon": ":confetti_ball:  **GIVEAWAY BRZO KONČÍ!**  :confetti_ball:",
+    "embed-title-ended": ":confetti_ball:  **GIVEAWAY SKONČILA!**  :confetti_ball:",
+    "embed-title-error": ":fire:  **GIVEAWAY SELHALA!**  :fire:",
+    "embed-description": "Reaguj pomocí %s pro zapojení!\nZbývající čas: %s",
+    "embed-footer": "Výherců: %s",
+    "embed-footer-ended": "Skončila ",
+    "winner-noone": "Nikdo",
+    "winner": "Výherce ",
+    "you-won": "Gratulace %s! Vyhrál jsi **%s**!",
+    "no-winner-found": "Nebyl nalezen žádný výherce, nikdo se nepřipojil do giveaway!"
+  },
+  "chat-listener": {
+    "permission-error-title": "Chyba práv",
+    "permission-error-description": "Akci nelze provést, jelikož nemám dostatečná práva!\nChybí mi: `%s`",
+    "cant-dm": "%s promiň, ale nemohu ti poslat zprávu, máš zřejmě zablokované soukromé zprávy!",
+    "spam": "**Detekuji SPAM!** Od teď ignoruji na tomto serveru příkazy po dobu 1 minuty!"
+  },
   "commands": {
+    "categories": {
+      "general": "Základní",
+      "moderation": "Moderace",
+      "games": "Hry",
+      "fun": "Zábava",
+      "music": "Hudba",
+      "administrator": "Administrace"
+    },
+    "say": {
+      "description": "Tímto příkazem lze psát jako bot.",
+      "help": "%say <text>"
+    },
+    "ping": {
+      "description": "Zobrazí průměrný ping bota.",
+      "help": "%ping",
+      "calculating": "Vypočítávám ping..",
+      "average-ping": " | **Průměrný ping je:** %dms",
+      "already-running": "Aktuálně nelze zjistit ping, jelikož již probíhá sken. Zkus to zachvilku!"
+    },
+    "love": {
+      "p45": "To bohůžel nepůjde..",
+      "p75": "Možná to půjde, záleží na vás..",
+      "p100": "Tady to vypadá na něco zajímavějšího..",
+      "p999": "Tak to žasnu, jděte do toho!",
+      "mention-yourself": "Povím ti tajemství, tak blbý nejsem! Neoznačuj sám sebe, pouze ty víš jak moc se máš rád/a.",
+      "match": " Shoda: **%s%** mezi %s a %s",
+      "detector": "Detektor lásky :heart:",
+      "error": "Musíš označit aspoň jednu osobu! Př. `%love @nick`"
+    },
+    "invite": {
+      "description": "Pozvi Corgiho na svůj server!",
+      "help": "%invite - Vygeneruje pozvánku pro pozvání Corgiho na tvůj server.",
+      "title": "Pozvi mě na svůj server!",
+      "click": "Jestli mě chceš pozvat, [**klikni sem!]"
+    },
+    "help": {
+      "description": "Základní nápověda pro Corgiho.",
+      "help": "%help - Odešle ti do zpráv list příkazů\n%help [příkaz] - Odešle informance o příkazu.",
+      "check-your-messages": "Zkontroluj své zprávy!",
+      "sent-help": "Poslal jsem nápovědu do tvých zpráv!",
+      "commands": "Corgiho příkazy",
+      "find-all": "Všechny příkazy můžeš najít na https://corgibot.xyz/commands",
+      "help-for-command": "Nápověda k příkazu - %s :question:",
+      "aliases": "Aliasy: ",
+      "prefix-for-guild": "Prefix pro příkazy na %s je %s\nDodatečné info zobrazíš pomocí %shelp <příkaz>",
+      "prefix-invalid-guild": "Prefix pro příkazy je c!\nDodatečné info zobrazíš pomocí c!help <příkaz>"
+    },
+    "guild-info": {
+      "description": "Zobrazí informace o guildě ve které je příkaz vykonán.",
+      "help": "%guildinfo - Zobrazí info o guildě",
+      "info": "Informace o guild",
+      "info-about": "Informace o %s",
+      "users": "Uživatelé (Online/Unikátní)",
+      "date-created": "Datum vytvoření",
+      "voice-text": "Hlasové/Textové kanály",
+      "owner": "Vlastník",
+      "region": "Region",
+      "roles": "Role",
+      "server-id": "ID Serveru: ",
+      "unknown": "Neznámý."
+    },
+    "emote": {
+      "description": "Tento příkaz zobrazí speciální ID vybraného Emote,\nnebo všech Emotes v guild.",
+      "help": "%emote <regex|emote> - Informace o emote\n%emote list - List všech emotes v této guild.",
+      "embed-title": "Nápověda - emote :question:",
+      "no-emotes": "Tento server nemá žádné emotes!",
+      "emotes": "Přehled Emotes",
+      "unknown-emote": "**Neznámý emote**",
+      "id": "**ID:** ",
+      "guild": "**Guild:** ",
+      "url": "**URL:** ",
+      "unknown": "Neznámý",
+      "click-me": "Klikni!",
+      "invalid-or-long": "Neplatný emote nebo je ID moc dlouhé!",
+      "emote-info": "**Info o Emote**"
+    },
+    "eight-ball": {
+      "description": "Zeptej se zda to je pravda nebo ne!",
+      "help": "%8ball <otázka>",
+      "outcomes": "Ano.;Ne.;S největší pravděpodobností ANO!;Možná.;Počkej, zamyslím se.. ANO!;Pravděpodobně ne!;Nepravděpodobně..;Když se nad tím zamyšlíš, je to možné!;Je to jistý.;Je to rozhodně tak;Definitivně ano;Něco mi říká, že ne",
+      "ask-something": "Musíš položit otázku %s! neumím číst myšlenky!",
+      "is-asking": "%s se ptá: ",
+      "responds": "Corgi odpovídá:"
+    },
+    "dice": {
+      "description": "Hoď kostkou!",
+      "help": "%dice - Hodí kostkou",
+      "rolled": "%s, hodil jsi **%s**!"
+    },
+    "color": {
+      "description": "Získá barvu podle hex kódu",
+      "help": "%color [HEX-KÓD] - Získá barvu",
+      "hex": "HEX",
+      "rgb:": "RGB",
+      "dec": "DEC",
+      "cmyk": "CMYK",
+      "incorrectly-entered": "Špatně zadaný příkaz! Př. `%color #B0171F`"
+    },
+    "about": {
+      "description": "Představení Corgiho a informace o něm",
+      "help": "%about - Zobrazí základní informace a odkazy pro Corgiho.",
+      "embed-title": "Představení Corgiho",
+      "embed-description": "Ahoj já jsem Corgi, jsem bot pro Discord servery.\\nJsem určený pro široké spektrum funkčnosti od administrace, získávání statistik z her až ke klasickým příkazům pro Discord!\nDříve se o mě staral Wake#0001, ale nyní se o mě stará cybo#0001!\n\n**Web**: [https://corgibot.xyz](https://corgibot.xyz)\n**Pozvánka**: [Click me](https://discord.com/api/oauth2/authorize?client_id=860244075138383922&permissions=3220700791&scope=bot)\n**Vlastník**: %s\n**Podpora**: [Klikni!](https://discord.gg/pR2tj432NS)"
+    },
+    "stats": {
+      "description": "Zobrazí tvé statistiky",
+      "help": "%stats",
+      "embed-title": "Tvé statistiky",
+      "xp": "XP",
+      "level": "Level",
+      "messages": "Zprávy",
+      "voice-minutes": "Minut ve voice"
+    },
+    "text-to-block": {
+      "description": "Text psaný v blocích",
+      "help": "%ttb <text>",
+      "provide-text": "Musíš poskytnout text!"
+    },
+    "uptime": {
+      "description": "Zobrazí, jak dlouho je Corgi online.",
+      "help": "%uptime - Zobrazí Corgiho uptime",
+      "embed-title": "Uptime",
+      "embed-description": "%d dní, %02d hodin, %02d minut"
+    },
+    "userinfo": {
+      "description": "Získání základních informací o uživateli.",
+      "help": "%userinfo - Informace o sobě\n%userinfo @nick - Informace o jiném uživateli",
+      "mention": "Musíš někoho zmínit!",
+      "cant-view": "Zmíněný uživatel nebyl nalezen, není možné o něm zobrazit informace.",
+      "real-name": "Právé jméno",
+      "id": "ID",
+      "nickname": "Nick",
+      "registered": "Registrován",
+      "joined": "Připojen",
+      "bot": "Bot",
+      "boost": "Boost",
+      "joined-order": "Pořadí připojení",
+      "roles": "Role",
+      "no-boost": "Žádný boost",
+      "no-roles": "Žádné role",
+      "user-not-found": "Tento uživatel nebyl na tomto serveru nalezen!"
+    },
+    "music": {
+      "need-to-be-in-voice": "Musíš být v hlasovém kanále!",
+      "need-to-be-in-same-voice": "Musíš být v stejném hlasovém kanále jako já!",
+      "embed-title": "Hudební přehrávač",
+      "nothing-playing": "Nic aktuálně nehraje!",
+      "now-playing": "Nyní hraje: **%s**",
+      "max-length": "Maximální délka skladby je **%s minut**!",
+      "added-track": "Přidána skladba: **%s**",
+      "added-playlist": "Přidán playlist: **%s**",
+      "playlist-limit": "Playlist nemůže mít více než **%s skladeb**!",
+      "track-amount": "**%s** skladeb",
+      "tracks-not-loaded-limit": "%s skladeb nebylo načteno, jelikož překračují hranici %s minut!",
+      "no-track-found": "Nenalezena žádná skladba!",
+      "track-failed": "Něco se pokazilo při přehrávání skladby!\nChybová hláška: **%s**",
+      "nothing-to-skip": "Není co přeskočit!",
+      "skipped": "Skladba přeskočena!",
+      "stopped": "Fronta byla smazána a přehrávač byl zastaven!"
+    },
+    "music-volume": {
+      "description": "Změní hlasitost.",
+      "help": "%volume <hlasitost> - Změní hlasitost.",
+      "specify-volume": "Musíš uvést hlasitost!\nPříklad: **%svolume 32**",
+      "volume-number": "Hlasitost musí být číslo!",
+      "embed-title": "Hlasitost",
+      "changed": "Hlasitost změněna na: **%s**"
+    },
+    "music-playing": {
+      "description": "Zobrazí aktuálně přehrávanou skladbu",
+      "help": "%nowplaying"
+    },
+    "music-play": {
+      "description": "Přehraje skladbu",
+      "help": "%play <URL> - Přehraje skladbu.",
+      "specify-url": "Musíš uvést URL!\nPříklad: **%splay https://www.youtube.com/watch?v=dQw4w9WgXcQ**"
+    },
+    "music-skip": {
+      "description": "Přeskočí aktuální skladbu.",
+      "help": "%skip - Přeskočí aktuální skladbu"
+    },
+    "music-stop": {
+      "description": "Kompletně zastaví přehrávač a smaže frontu.",
+      "help": "%stop - Zastaví přehrávač"
+    },
+    "twitter": {
+      "description": "Twitter Feed pro vybrané kanály z Twitteru.",
+      "help": "**%twitter sub [ID]** - Zahájení odběru Twitter kanálu\\n**%twitter list** - Zobrazí seznam odebíraných Twitter účtů\\n**%twitter unsub [ID]** - Zruší odběr zvolenému Twitter účtu\\n\\n ID k účtům lze získat: https://tweeterid.com/",
+      "embed-title": "Nápověda k Twitter Feederu",
+      "embed-description": "Twitter Feeds umožňují dostávat novinky z Twitter channelu přes Corgiho. Pokuď tedy Corgi na žádost někoho sleduje a ten napíše tweet, Corgi zašle Tweet i na Discord.\n\n",
+      "embed-field-1-name": "Příkazy",
+      "embed-field-1-description": "**%twitter sub [ID]** - Zahájí odběr tweetů v channelu\n**%twitter list** - Zobrazí seznam odebíraných Twitter účtů\n**%twitter unsub [ID]** - Zruší odběr zvolenému Twitter účtu",
+      "embed-field-2-name": "Kde najdu ID účtu?",
+      "embed-field-2-description": "https://tweeterid.com/",
+      "id-not-matching": "ID neodpovídá Twitter formátu nebo se nejedná o ID uživatele!",
+      "find-id-on": "ID uživatele můžeš najít na https://tweeterid.com/",
+      "account-already-followed": "Twitter účet **%s** je již v tomto kanále sledován!",
+      "succesfully-followed": "Účet **%s** úspěšně sledován. Nové tweety se objeví v tomto kanále.",
+      "account-not-found": "Twitter účet %s nenalezen!",
+      "no-accounts-followed": "Nejsou sledovány žádné účty!",
+      "channel": "Kanál",
+      "twitter-account": "Twitter účet",
+      "unfollowed": "**%s** již není sledován!",
+      "not-followed-or-not-found": "Twitter účet není sledován nebo nebyl nalezen!"
+    },
+    "roles": {
+      "description": "Zobrazí role na tomto serveru",
+      "help": "%roles",
+      "server-roles": "Serverové Role"
+    },
+    "role-info": {
+      "description": "Zobrazí info o specifické roli",
+      "help": "%roleinfo jméno/ID",
+      "no-roles-found": "Nebyla nalezena žádná role.",
+      "id": "ID:",
+      "position": "Pozice",
+      "separated": "Oddělená",
+      "managed": "Spravovaná",
+      "mentionable": "Označitelná",
+      "date-created": "Datum vytvoření"
+    },
+    "purge": {
+      "description": "Smaže zprávy od botů, uživatelů nebo od všech.",
+      "help": "%purge <počet> - Smaže určitý počet zpráv od všech.\n%purge <amount> [@uživatel|regex] - Smaže určitý počet zpráv od vybraného uživatele nebo podle textu.",
+      "rows-not-specified": "Musíš uvést počet řádků!",
+      "rows-lower-than-0": "Počet řádků nesmí být nižší než 1!",
+      "rows-higher-than-100": "Počet řádků nesmí být vyšší než 100!",
+      "deleting-messages": "Mažu zprávy..",
+      "deleted-messages": "Smazáno %s zpráv!",
+      "no-messages-found": "Nenalezeny žádné zprávy k smazání!",
+      "no-messages-mentions": "Nelze mazat označení a zvolený text zároveň!",
+      "deleted-messages-from": "Úspěšně smazáno %s zpráv od `%s`!",
+      "not-found-from-users": "Nenalezeny žádné zprávy od specifikovaných uživatelů!",
+      "cant-delete-14-days": "Nemůžeš smazat zprávy starší než 14 dní!",
+      "invalid-format": "Chyba! Špatně zadaný formát čísla!"
+    },
+    "pin": {
+      "description": "Připne zprávu nebo vygeneruje novou k připnutí.",
+      "help": "%pin <ID|zpráva> - Připne zprávu podle ID, nebo vygeneruje novou k připnutí",
+      "message-not-found": "Zpráva nenalazena!",
+      "embed-title": "Nápověda k příkazu %pin"
+    },
+    "giveaway": {
+      "description": "Vytvoří giveaway",
+      "help": "%giveaway 1h30m ; Discord Nitro ; 2 ; :smile: ; #ffffff\n\nPro podrobnější nápovědu využij `%giveaway`",
+      "days": "d",
+      "hours": "h",
+      "minutes": "m",
+      "seconds": "s",
+      "invalid-time-format": "Byl zadán neplatný formát času! Zkus to třeba takto `1d` -> pro 1 den.",
+      "embed-title": "Jak vytvořit giveaway",
+      "embed-description": "Stručný návod jak vytvářet různé Giveawaye podle sebe.",
+      "field-1-name": "Vytvoření",
+      "field-1-description": "`{%}giveaway 30m` - Základní Giveaway na 30 minut.\n`{%}giveaway 1h ; FarCry 3` - Giveaway na 1h s výhrou FarCry 3\n`{%}giveaway 2h ; Mafia 2 ; 5` - Giveaway na 2h, s výhrou Mafia 2 pro 5 uživatelů.\n`{%}giveaway 1d3h ; Overwatch ; 1 ; \uD83D\uDE04` - Giveaway s vlastním emoji (zatím fungují pouze základní)\n`{%}giveaway 4d ; CS:GO ; 3 ; \uD83D\uDE04 ; #ffffff` - Giveaway s vlastní barvou",
+      "field-2-name": "Seznam giveawayů",
+      "field-2-description": "Pokuď na serveru běží více Giveawayů, lze zobrazit základní informace pomocí následujícího příkazu: `{%}giveaway list`",
+      "field-3-name": "Smazání",
+      "field-3-description": "Giveaway se smaže zcela jednoduše, stačí smazat zprávu, kterou Corgi vytvořil!",
+      "id": "ID",
+      "prize": "Výhra",
+      "amount-of-winners": "Počet výherců",
+      "ends-in": "Končí za",
+      "invalid-amount-of-winners": "Špatně zadaný počet výherců! Zkus to znovu..",
+      "giveaway-3-minutes": "Giveaway nemůže být kratší než 3 minuty!",
+      "generating": "Generuji..",
+      "message-delete-reason": "Start giveawaye"
+    },
+    "ban": {
+      "description": "Zabanuje až 20 uživatelů z tohoto serveru.",
+      "help": "%ban @uživatelé",
+      "cant-ban-members": "Nemám dostatečná práva na banování uživatelů! Přidej mi právo na `BAN_MEMBERS` nebo `ADMINISTRATOR`",
+      "need-to-mention": "Musíš nejdříve někoho označit! Př. `%sban @User",
+      "only-20-members": "Maximální počet uživatelů, kterých lze najednou zabanovat je 20!",
+      "cant-be-banned": "%s nemůže být zabanován, jelikož není evidován na serveru!",
+      "not-enough-permissions-to-ban": "Nemáš dostatečná práva na zabanování %s",
+      "successfully-banned": "%s Úspěšně zabanován!",
+      "could-not-ban": "Nebylo možné zabanovat %s"
+    },
+    "kick": {
+      "description": "Vyhodí až 20 uživatelů z tohoto serveru.",
+      "help": "%kick @uživatelé",
+      "cant-kick-members": "Nemám dostatečná práva na vyhazování uživatelů! Přidej mi právo na `KICK_MEMBERS` nebo `ADMINISTRATOR`",
+      "need-to-mention": "Musíš nejdříve někoho označit! Př. `%skick @User",
+      "only-20-members": "Maximální počet uživatelů, kterých lze najednou vyhodit je 20!",
+      "cant-be-kicked": "%s nemůže být vyhozen, jelikož není evidován na serveru!",
+      "not-enough-permissions-to-kick": "Nemáš dostatečná práva na vyhození %s",
+      "successfully-kicked": "%s Úspěšně vyhozen!",
+      "could-not-kick": "Nebylo možné vyhodit %s"
+    },
+    "mc-status": {
+      "description": "Příkaz pro zobrazení Mojang statusu.",
+      "help": "%mcstatus - Zobrazí přehled Mojang API a jeho stavu.",
+      "connection-issues": "Výpadky spojení",
+      "marked-offline": "Některé služby mohou být offline z důvodu, že je Mojang status označil jako offline."
+    },
+    "archive": {
+      "description": "Archivuje zprávy a nahraje je na hastebin.",
+      "help": "%archive <počet-zpráv>",
+      "archive-only-see": "Můžeš archivovat pouze kanály do kterých vidíš!",
+      "no-permissions": "Nemám dostatečná práva k přečtení zpráv! Právo: `MESSAGE_HISTORY`",
+      "only-100-messages": "Nelze vygenerovat log s víc jak 100 zprávy, kvůli limitu Discord API",
+      "generating-log": "Generuji log, vyčkej prosím..",
+      "channel-archive": "-- Archiv kanálu: [%s] --\n\n",
+      "generated-log": "Vygenerovaný log soubor",
+      "sending-log": "Zasílám vygenerovaný log soubor s %s zprávami.\n**Odkaz**: %s",
+      "provide-amount-lines": "Musíš zadat počet řádků! Př. `%sarchive 10`"
+    },
+    "leave": {
+      "description": "Příkaz, kterým Corgi opustí server, pokud bude schválen. (Pouze Administrátoři)",
+      "help": "%leaveguild",
+      "embed-title": "⚠ Potvrzení opuštění serveru ⚠",
+      "embed-description": "**VAROVÁNÍ**: Potvrzením následující akce Corgi opustí tento server!\nOpravdu chceš provést následující akci?",
+      "footer": "Na potvrzení máš 60 sekund.",
+      "confirmed-title": "Akce potvrzena!",
+      "confirmed-description": "Corgi nyní opustí tento server! :sob:",
+      "cancelled-title": "Akce zrušena!",
+      "cancelled-description": "Juchůůů! Corgi zde zůstane! :hugging:"
+    },
+    "ignore": {
+      "description": "Příkaz k nastavení ignorování veškerých příkazů v požadovaném channelu.",
+      "help": "%ignore - Nastavení ignorování",
+      "embed-title": "Ignorování kanálu: %s",
+      "embed-description": "Zakáže používání Corgiho příkazů v tomto channelu.\nPokuď budeš chtít ignorování zrušit, stačí napsat opět příkaz `%signore` a ignorování zrušit.\n\n:one: | %s ignorování tohoto channelu!\n:two: | Pro zobrazení seznamu všech ignorovaných channelů",
+      "enables": "Zapne",
+      "disables": "Vypne",
+      "footer": "Pokud chceš akci odvolat, nereaguj na ní. Do 30 vteřin se zruší!",
+      "times-up": "Čas vypršel!",
+      "listening": "\uD83D\uDD14 | Corgi nyní naslouchá všem příkazům v tomto kanále!",
+      "ignoring": "\uD83D\uDD15 | Corgi nyní ignoruje všechny příkazy v tomto kanále!",
+      "enable-ignoring": "You can enable ignoring again using `%signore`",
+      "disable-ignoring": "You can cancel ignoring using `%signore`",
+      "no-channels-ignored": "Žádné ignorované kanály!",
+      "ignored-channels:": "Ignorované kanály:"
+    },
+    "allow-music": {
+      "description": "Povolí uvedené roli využit specifický hudební příkaz.",
+      "help": "%allowmusic <Příkaz> <RoleId>",
+      "usage": "Špatné použití!\nPoužití: %sallowmusic <play/nowplaying/skip/stop/volume> <roleId>",
+      "command-allowed": "Příkaz **%s** povolen!",
+      "command-not-specified": "Musíš uvést příkaz: **play** / **nowplaying** / **skip** / **stop** / **volume**!",
+      "role-id-number": "Role ID musí být číslo!"
+    },
+    "disallow-music": {
+      "description": "Zakáže uvedené roli využít specifický hudební příkaz",
+      "help": "%disallowmusic <Příkaz> <RoleId>",
+      "usage": "Špatné použití!\nPoužití: %sdisallowmusic <play/nowplaying/skip/stop/volume> <roleId>",
+      "command-disallowed": "Pokud byl příkaz **%s** povolen, je nyní zakázán.\n**Poznámka:** Tento příkaz pouze zakáže již povolený příkaz!\nPokud chcete zakázat příkaz pro určitou roli, musíte povolit příkaz pro každou roli která ho má mít povolený.",
+      "command-not-specified": "Musíš uvést příkaz: **play** / **nowplaying** / **skip** / **stop** / **volume**!",
+      "role-id-number": "Role ID musí být číslo!"
+    },
     "language": {
       "title": "Nastavení jazyka",
       "description": "Seznam všech jazyků, které Corgi umí a ovládá je.",
@@ -7,14 +376,17 @@
       "footer": "Pro změnu jazyka klikni na reakci."
     },
     "prefix": {
+      "description": "Nastavení vlastního prefixu pro server.",
+      "help": "%prefix reset/[prefix]",
       "corgi-is-beta-prefix": "Corgi je spuštěn v režimu BETA! Nelze upravovat prefix!",
       "reset-back": "Prefix byl vyresetován zpět na `c!`",
-      "prefix-sets-to": "Prefix byl nastaven na `%s`",
-      "actual-prefix-is": "Aktuální prefix pro server je `%s`",
-      "cannot-three-chars": "Nelze nastavit prefix, který má víc než tři znaky!",
-      "help": "Nastavení vlastního prefixu pro server."
+      "prefix-set-to": "Prefix byl nastaven na `%s`",
+      "cunrrent-prefix-is": "Aktuální prefix pro server je `%s`",
+      "cannot-three-chars": "Nelze nastavit prefix, který má víc než tři znaky!"
     },
-    "stats": {
+    "botstats": {
+      "description": "Zobrazí Corgiho statistiky.",
+      "help": "%botstats - Zobrazí Corgiho statistiky",
       "awake": "Aktuálně jsem vzhůru již",
       "guilds": "Guilds",
       "users": "Počet uživatelů",
@@ -29,32 +401,49 @@
       "title": "Corgiho statistiky"
     },
     "support": {
-      "title": "Odkaz na server podpory pro Corgiho!",
-      "description": "K připojení na Discord podpory pro Corgiho použij následující [**ODKAZ**]({1})"
+      "description": "Umožní ti připojit se na server podpory pro Corgiho.",
+      "help": "%support - Získání URL na server podpory",
+      "embed-title": "Odkaz na server podpory pro Corgiho!",
+      "embed-description": "K připojení na Discord podpory pro Corgiho použij následující [**ODKAZ**]({1})"
     },
     "cat": {
+      "description": "Náhodný obrázek kočky",
+      "help": "%cat - Vygeneruje náhodný obrázek kočky",
       "title": "Náhodný obrázek kočky:"
     },
     "dog": {
+      "description": "Náhodný obrázek psa",
+      "help": "%dog - Vygeneruje náhodný obrázek psa",
       "title": "Náhodný obrázek psa:"
     },
     "hug": {
+      "description": "Náhodný obrázek obejmutí",
+      "help": "%hug - Vygeneruje náhodný obrázek obejmutí",
       "title": "Náhodný obrázek obejmutí:"
     },
     "changelog": {
+      "description": "Zobrazí poslední změny a novinky",
+      "help": "%changelog - Zobrazí changelog",
+      "update": "Aktualizace",
       "news": "Novinky",
       "fixes": "Opravy & změny",
       "announce": "Upozornění",
       "footer": "Pro zobrazení starších změn nakoukni do našeho kanálu oznámení v {1}"
     },
     "avatar": {
+      "description": "Získá profilový obrázek uživatele.",
+      "help": "%avatar [@nick/id_uživatele] - Získá profilový obrázek vybraného uživatele nebo podle ID",
       "title": "Avatar uživatele"
     },
     "bigmoji": {
+      "description": "Vygeneruje velký emoji z serveru.",
+      "help": "%bigmoji <regex|text> - Odešle velký emoji do kanálu.",
       "only-server-emoji": "Lze používat pouze emoji na tomto serveru!",
       "invalid-emoji-format": "Neplatný formát emoji! Zkus to znova!"
     },
     "reminder": {
+      "description": "Zapomínáš na všechno? Tak si nastav oznámení!\nPomocí jednoho příkazu si nastavíš, kdy tě má Corgi upozornit!\nUpozornění jsou přesné v rozmezí 30 vteřin!",
+      "help": "%reminder - Zobrazí nápovědu\n%reminder [čas] ; [text] - Nastavení upozornění\n%reminder list - Zobrazení všech tvých budoucích upozorenění\n%reminder delete [ID] - Smaže upozornění",
       "no-reminder": "Nemáš nastavené žádné upozornění!",
       "table-id": "ID",
       "table-time": "Zbývající čas",
@@ -66,9 +455,12 @@
       "incorrect-command": "Něco ti tam zřejmě chybí! Příklad: %reminder 2h ; Vypnout Corgiho!",
       "too-long-time": "Promiň, ale upozornění delší jak 1000 znaků nelze zpracovat! Tvoje žádané upozornění má délku - {1}",
       "minimal-time": "Minimální čas na upozornění je 1 minuta!",
-      "final-message": "Jistě! Upozorním tě za **{1}**"
+      "final-message": "Jistě! Upozorním tě za **{1}**",
+      "invalid-time-format": "Byl zadán neplatný formát času! Zkus to třeba takto `1d` -> pro 1 den."
     },
     "choose": {
+      "description": "Nevíš co si vybrat? Corgi za tebe něco vybere!",
+      "help": "%choose otázka_1 ; otázka_2 ; otázka_3",
       "must-select": "Musíš si něco vybrat!",
       "no-arguments": "Musíš zadat víc než 1 volbu!",
       "choose-in-choose": "První možnost byla zadána špatně. Zkus to znova...",
@@ -77,13 +469,29 @@
   },
   "internal": {
     "general": {
-      "help-command": "Nápověda k příkazu"
+      "feauture-unavailable": "Tato funkce je dočasně nedostupná!",
+      "usage": "Použití",
+      "help-command": "Nápověda k příkazu",
+      "cant-use-this-command": "Tento příkaz nemůžeš využít!",
+      "years": "Let",
+      "months": "Měsíců",
+      "weeks": "Týdnů",
+      "days:": "Dní",
+      "hours": "Hodin",
+      "minutes": "Minut",
+      "seconds": "Sekund",
+      "online": "Online",
+      "offline": "Offline",
+      "yes": "Ano",
+      "no": "Ne"
     },
     "error": {
       "no-context": "Nelze poslat zprávu, která nemá text!",
       "command-failed": "Nastala chyba při provádění příkazu. Zkus to znova zachvilku!",
       "api-failed": "Chyba v requestu API! Zkus to zachvilku...",
-      "user-not-found": "Nepodařilo se najít uživatele!"
+      "user-not-found": "Nepodařilo se najít uživatele!",
+      "unknown-error": "Neznámá chyba!",
+      "cant-add-buttons": "Nemůžu přidávat tlačítka jelikož nemám pravomoci `MESSAGE_HISTORY`!"
     },
     "warning": {
     },

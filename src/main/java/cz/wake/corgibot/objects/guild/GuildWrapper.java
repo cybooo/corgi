@@ -1,4 +1,4 @@
-package cz.wake.corgibot.objects;
+package cz.wake.corgibot.objects.guild;
 
 import cz.wake.corgibot.CorgiBot;
 import cz.wake.corgibot.utils.Constants;

@@ -1,11 +1,14 @@
 package cz.wake.corgibot.objects;
 
 import cz.wake.corgibot.CorgiBot;
+import cz.wake.corgibot.managers.BotManager;
 import cz.wake.corgibot.utils.buttons.ButtonRunnable;
+import cz.wake.corgibot.utils.lang.I18n;
 import net.dv8tion.jda.api.Permission;
 import net.dv8tion.jda.api.entities.ChannelType;
 import net.dv8tion.jda.api.entities.Message;
 import net.dv8tion.jda.api.entities.User;
+import net.dv8tion.jda.api.entities.emoji.Emoji;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -72,16 +75,16 @@ public class ButtonGroup {
         public void addReaction(Message message) {
             if (!(message.getChannel().getType() == ChannelType.TEXT && message.getGuild().getSelfMember()
                     .hasPermission(message.getTextChannel(), Permission.MESSAGE_HISTORY))) {
-                message.getChannel().sendMessage("I can't add buttons due to not having the `Message History` permission!").queue();
+                message.getChannel().sendMessage(I18n.getLoc(BotManager.getCustomGuild(message.getGuild().getId()), "internal.error.cant-add-buttons")).queue();
                 return;
             }
 
             this.message = message;
             if (unicode != null)
-                message.addReaction(unicode).queue();
+                message.addReaction(Emoji.fromUnicode(unicode)).queue();
             else {
                 try {
-                    message.addReaction(CorgiBot.getJda().getEmoteById(emoteId)).queue();
+                    message.addReaction(CorgiBot.getShardManager().getEmojiById(emoteId)).queue();
                 } catch (IllegalArgumentException ignored) {
                 }
             }

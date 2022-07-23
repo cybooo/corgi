@@ -7,9 +7,12 @@ import com.sedmelluq.discord.lavaplayer.source.AudioSourceManagers;
 import com.sedmelluq.discord.lavaplayer.tools.FriendlyException;
 import com.sedmelluq.discord.lavaplayer.track.AudioPlaylist;
 import com.sedmelluq.discord.lavaplayer.track.AudioTrack;
+import cz.wake.corgibot.managers.BotManager;
+import cz.wake.corgibot.objects.guild.GuildWrapper;
 import cz.wake.corgibot.utils.Constants;
 import cz.wake.corgibot.utils.MessageUtils;
 import cz.wake.corgibot.utils.TimeUtils;
+import cz.wake.corgibot.utils.lang.I18n;
 import net.dv8tion.jda.api.Permission;
 import net.dv8tion.jda.api.entities.*;
 import net.dv8tion.jda.api.managers.AudioManager;
@@ -46,10 +49,11 @@ public class AudioEngine {
     public static void getSong(TextChannel channel) {
 
         AudioTrack track = getGuildAudioPlayer(channel.getGuild()).player.getPlayingTrack();
+        GuildWrapper gw = BotManager.getCustomGuild(channel.getGuild().getId());
 
         if (track == null) {
             channel.sendMessageEmbeds(MessageUtils.getEmbed(Constants.BLUE)
-                    .setTitle("Music Queue")
+                    .setTitle(I18n.getLoc(gw, "commands.music.embed-title"))
                     .setDescription("Nothing is currently playing!")
                     .build()).queue();
             return;
@@ -58,13 +62,15 @@ public class AudioEngine {
         long duration = track.getDuration() / 1000;
 
         channel.sendMessageEmbeds(MessageUtils.getEmbed(Constants.BLUE)
-                .setTitle("Music Queue")
-                .setDescription("Now playing: **" + track.getInfo().title + "**\n:hourglass_flowing_sand: " + TimeUtils.secondsToTime(duration))
+                .setTitle(I18n.getLoc(gw, "commands.music.embed-title"))
+                .setDescription(String.format(I18n.getLoc(gw, "commands.music.now-playing"), track.getInfo().title) + "\n:hourglass_flowing_sand: " + TimeUtils.secondsToTime(duration, gw))
                 .build()).queue();
 
     }
 
     public static void changeVolume(TextChannel channel, int volume) {
+
+        GuildWrapper gw = BotManager.getCustomGuild(channel.getGuild().getId());
 
         if (volume > 100)
             volume = 100;
@@ -74,15 +80,16 @@ public class AudioEngine {
         getGuildAudioPlayer(channel.getGuild()).player.setVolume(volume);
 
         channel.sendMessageEmbeds(MessageUtils.getEmbed(Constants.BLUE)
-                .setTitle("Volume")
-                .setDescription("Volume changed to: **" + volume + "**")
+                .setTitle(I18n.getLoc(gw, "commands.music-volume.embed-title"))
+                .setDescription(String.format(I18n.getLoc(gw, "commands.music-volume.changed"), volume))
                 .build()).queue();
 
     }
 
-    public static void loadAndPlay(Member member, MessageChannel channel, VoiceChannel voice, String trackUrl) {
+    public static void loadAndPlay(Member member, MessageChannel channel, AudioChannel voice, String trackUrl) {
 
         GuildMusicManager musicManager = getGuildAudioPlayer(voice.getGuild());
+        GuildWrapper gw = BotManager.getCustomGuild(voice.getGuild().getId());
 
         playerManager.loadItemOrdered(musicManager, trackUrl, new AudioLoadResultHandler() {
 
@@ -93,15 +100,15 @@ public class AudioEngine {
 
                 if (duration > 600 && !PermissionUtil.checkPermission(member, Permission.MANAGE_CHANNEL)) {
                     channel.sendMessageEmbeds(MessageUtils.getEmbed(Constants.BLUE)
-                            .setTitle("Music Queue")
-                            .setDescription("Maximum length of a track is **10 minutes**!")
+                            .setTitle(I18n.getLoc(gw, "commands.music-volume.embed-title"))
+                            .setDescription(String.format(I18n.getLoc(gw, "commands.music.max-length"), "10"))
                             .build()).queue();
                     return;
 
                 } else {
                     channel.sendMessageEmbeds(MessageUtils.getEmbed(Constants.BLUE)
-                            .setTitle("Music Queue")
-                            .setDescription("Added track: **" + track.getInfo().title + "**\n:hourglass_flowing_sand: " + TimeUtils.secondsToTime(duration))
+                            .setTitle(I18n.getLoc(gw, "commands.music-volume.embed-title"))
+                            .setDescription(String.format(I18n.getLoc(gw, "commands.music.added-track"), track.getInfo().title) + "**\n:hourglass_flowing_sand: " + TimeUtils.secondsToTime(duration, gw))
                             .build()).queue();
                 }
 
@@ -117,8 +124,8 @@ public class AudioEngine {
 
                 if (playlist.getTracks().size() > 1000) {
                     channel.sendMessageEmbeds(MessageUtils.getEmbed(Constants.BLUE)
-                            .setTitle("Error")
-                            .setDescription("Playlists can't have more than **1000 Tracks**!")
+                            .setTitle(I18n.getLoc(gw, "commands.music-volume.embed-title"))
+                            .setDescription(String.format(I18n.getLoc(gw, "commands.music.playlist-limit"), "1000"))
                             .build()).queue();
                     playlist.getTracks().clear();
                     return;
@@ -140,15 +147,15 @@ public class AudioEngine {
                 totalDuration = totalDuration / 1000;
 
                 channel.sendMessageEmbeds(MessageUtils.getEmbed(Constants.BLUE)
-                        .setTitle("Music Queue")
-                        .setDescription("Added playlist: **" + playlist.getName() + "**\n:hourglass_flowing_sand: " + TimeUtils.secondsToTime(totalDuration) + "\n" +
-                                ":headphones: **" + totalTracks + "** tracks")
+                        .setTitle(I18n.getLoc(gw, "commands.music-volume.embed-title"))
+                        .setDescription(String.format(I18n.getLoc(gw, "commands.music.added-playlist"), playlist.getName()) +  "**\n:hourglass_flowing_sand: " + TimeUtils.secondsToTime(totalDuration, gw) + "\n" +
+                                ":headphones: " + String.format(I18n.getLoc(gw, "commands.music.track-amount"), totalTracks))
                         .build()).queue();
 
                 if (failedTracks > 0) {
                     channel.sendMessageEmbeds(MessageUtils.getEmbed(Constants.BLUE)
-                            .setTitle("Music Queue")
-                            .setDescription(failedTracks + " track(s) was not added to the queue because they exceeded the 10 minute limit!")
+                            .setTitle(I18n.getLoc(gw, "commands.music-volume.embed-title"))
+                            .setDescription(String.format(I18n.getLoc(gw, "commands.music.tracks-not-loaded-limit"), failedTracks, "10"))
                             .build()).queue();
                 }
             }
@@ -156,23 +163,23 @@ public class AudioEngine {
             @Override
             public void noMatches() {
                 channel.sendMessageEmbeds(MessageUtils.getEmbed(Constants.BLUE)
-                        .setTitle("Error")
-                        .setDescription("No track found!")
+                        .setTitle(I18n.getLoc(gw, "commands.music-volume.embed-title"))
+                        .setDescription(I18n.getLoc(gw, "commands.music.no-track-found"))
                         .build()).queue();
             }
 
             @Override
             public void loadFailed(FriendlyException ex) {
                 channel.sendMessageEmbeds(MessageUtils.getEmbed(Constants.BLUE)
-                        .setTitle("Error")
-                        .setDescription("Something went wrong while loading this track!\nError message: **" + ex.getMessage() + "**")
+                        .setTitle(I18n.getLoc(gw, "commands.music-volume.embed-title"))
+                        .setDescription(String.format(I18n.getLoc(gw, "commands.music.track-failed"), ex.getMessage()))
                         .build()).queue();
             }
         });
     }
 
 
-    public static void play(Guild guild, VoiceChannel voice, GuildMusicManager musicManager, AudioTrack track) {
+    public static void play(Guild guild, AudioChannel voice, GuildMusicManager musicManager, AudioTrack track) {
 
         connectVoice(guild.getAudioManager(), voice);
         musicManager.scheduler.queue(track);
@@ -181,34 +188,36 @@ public class AudioEngine {
     public static void skipTrack(TextChannel channel) {
 
         GuildMusicManager musicManager = getGuildAudioPlayer(channel.getGuild());
+        GuildWrapper gw = BotManager.getCustomGuild(channel.getGuild().getId());
 
         if (musicManager.player.getPlayingTrack() == null) {
             channel.sendMessageEmbeds(MessageUtils.getEmbed(Constants.BLUE)
-                    .setTitle("Error")
-                    .setDescription("Nothing left to skip!")
+                    .setTitle(I18n.getLoc(gw, "commands.music-volume.embed-title"))
+                    .setDescription(I18n.getLoc(gw, "commands.music.nothing-to-skip"))
                     .build()).queue();
             return;
         }
 
         channel.sendMessageEmbeds(MessageUtils.getEmbed(Constants.BLUE)
-                .setTitle("Music Queue")
-                .setDescription("Track skipped!")
+                .setTitle(I18n.getLoc(gw, "commands.music-volume.embed-title"))
+                .setDescription(I18n.getLoc(gw, "commands.music.skipped"))
                 .build()).queue();
         musicManager.scheduler.nextTrack();
     }
 
     public static void stop(TextChannel channel) {
         GuildMusicManager musicManager = getGuildAudioPlayer(channel.getGuild());
+        GuildWrapper gw = BotManager.getCustomGuild(channel.getGuild().getId());
+
         musicManager.scheduler.getQueue().clear();
         musicManager.player.destroy();
-//        channel.getGuild().getAudioManager().closeAudioConnection();
         channel.sendMessageEmbeds(MessageUtils.getEmbed(Constants.BLUE)
-                .setTitle("Music Queue")
-                .setDescription("Queue cleared, and player stopped!")
+                .setTitle(I18n.getLoc(gw, "commands.music-volume.embed-title"))
+                .setDescription(I18n.getLoc(gw, "commands.music.stopped"))
                 .build()).queue();
     }
 
-    public static void connectVoice(AudioManager audioManager, VoiceChannel voice) {
+    public static void connectVoice(AudioManager audioManager, AudioChannel voice) {
 
         if (audioManager.isConnected()) {
             if (!Objects.equals(audioManager.getConnectedChannel(), voice)) {

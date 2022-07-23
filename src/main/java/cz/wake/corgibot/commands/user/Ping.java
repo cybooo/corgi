@@ -6,18 +6,19 @@ import cz.wake.corgibot.annotations.CommandInfo;
 import cz.wake.corgibot.annotations.SinceCorgi;
 import cz.wake.corgibot.commands.CommandBase;
 import cz.wake.corgibot.commands.CommandCategory;
-import cz.wake.corgibot.objects.GuildWrapper;
+import cz.wake.corgibot.objects.guild.GuildWrapper;
 import cz.wake.corgibot.utils.Constants;
 import cz.wake.corgibot.utils.EmoteList;
 import cz.wake.corgibot.utils.MessageUtils;
+import cz.wake.corgibot.utils.lang.I18n;
 import net.dv8tion.jda.api.entities.Member;
 import net.dv8tion.jda.api.entities.Message;
 import net.dv8tion.jda.api.entities.MessageChannel;
 
 @CommandInfo(
         name = "ping",
-        description = "Get the bot ping.",
-        help = "%ping",
+        description = "commands.ping.description",
+        help = "commands.ping.help",
         category = CommandCategory.GENERAL
 )
 @SinceCorgi(version = "0.1")
@@ -36,7 +37,7 @@ public class Ping implements CommandBase {
 
         if (!running) {
             running = true;
-            channel.sendMessageEmbeds(MessageUtils.getEmbed(Constants.GRAY).setDescription("Calculating ping ...").build()).queue(m -> {
+            channel.sendMessageEmbeds(MessageUtils.getEmbed(Constants.GRAY).setDescription(I18n.getLoc(gw, "commands.ping.calculating")).build()).queue(m -> {
                 int pings = 5;
                 int lastResult;
                 int sum = 0, min = 999, max = 0;
@@ -54,11 +55,11 @@ public class Ping implements CommandBase {
                     }
                     start = System.currentTimeMillis();
                 }
-                m.editMessageEmbeds(MessageUtils.getEmbed(Constants.GREEN).setDescription(String.format(EmoteList.LOUDSPEAKER + " | **Average ping is:** %dms", CorgiBot.getJda().getGatewayPing())).build()).queue();
+                m.editMessageEmbeds(MessageUtils.getEmbed(Constants.GREEN).setDescription(String.format(EmoteList.LOUDSPEAKER + I18n.getLoc(gw, "commands.ping.average-ping"), CorgiBot.getShardManager().getAverageGatewayPing())).build()).queue();
                 running = false;
             });
         } else {
-            MessageUtils.sendErrorMessage("Unable to detect ping at this time because a scan is already in progress. Try it for a moment!", channel);
+            MessageUtils.sendErrorMessage(I18n.getLoc(gw, "commands.ping.already-running"), channel);
         }
     }
 

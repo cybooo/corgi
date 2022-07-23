@@ -6,7 +6,7 @@ import cz.wake.corgibot.annotations.OnlyOwner;
 import cz.wake.corgibot.annotations.SinceCorgi;
 import cz.wake.corgibot.commands.CommandBase;
 import cz.wake.corgibot.commands.CommandCategory;
-import cz.wake.corgibot.objects.GuildWrapper;
+import cz.wake.corgibot.objects.guild.GuildWrapper;
 import cz.wake.corgibot.utils.MessageUtils;
 import cz.wake.corgibot.utils.pagination.old.Paginator;
 import cz.wake.corgibot.utils.pagination.old.PaginatorBuilder;

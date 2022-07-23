@@ -72,7 +72,7 @@ public class CommandManager {
                 new UserInfo(),
                 new StopCorgi(),
                 new Say(),
-                new Fact(),
+                //new Fact(),
                 new Uptime(),
                 new Emote(),
                 new McStatus(),
@@ -106,7 +106,6 @@ public class CommandManager {
                 new Bigmoji(),
                 new Hug(),
                 new Dice(),
-                new Covid(),
                 new AllowMusic(),
                 new DisallowMusic(),
                 new NowPlaying(),
@@ -117,11 +116,11 @@ public class CommandManager {
                 new SendChangelog(),
                 new ToggleBeta(),
                 new Support(),
+                new Lang(),
                 new Stats());
 
         // registerCommand(new CreateTicketEmbed());
         // registerCommand(new Ticket());
-        // registerCommand(new DisableSlashNotice());
         // registerCommand(new Support());
         // registerCommand(new Lang());
     }

@@ -1,16 +1,14 @@
 package cz.wake.corgibot.sql;
 
-import com.zaxxer.hikari.HikariDataSource;
 import cz.wake.corgibot.CorgiBot;
 import cz.wake.corgibot.objects.ChangeLog;
 import cz.wake.corgibot.objects.GiveawayObject;
-import cz.wake.corgibot.objects.GuildWrapper;
+import cz.wake.corgibot.objects.guild.GuildWrapper;
 import cz.wake.corgibot.objects.TemporaryReminder;
 import cz.wake.corgibot.objects.user.UserGuildData;
 import cz.wake.corgibot.objects.user.UserWrapper;
 import net.dv8tion.jda.api.entities.MessageChannel;
 import net.dv8tion.jda.api.entities.Role;
-import net.dv8tion.jda.api.entities.User;
 
 import java.sql.Connection;
 import java.sql.PreparedStatement;
@@ -23,7 +21,6 @@ public class SQLManager {
 
     private final CorgiBot plugin;
     private final ConnectionPoolManager pool;
-    private HikariDataSource dataSource;
 
     public SQLManager(CorgiBot plugin) {
         this.plugin = plugin;
@@ -111,7 +108,7 @@ public class SQLManager {
             ps.executeQuery();
             while (ps.getResultSet().next()) {
                 try {
-                    MessageChannel tx = CorgiBot.getJda().getGuildById(guildId).getTextChannelById(ps.getResultSet().getString("channel_id"));
+                    MessageChannel tx = CorgiBot.getShardManager().getGuildById(guildId).getTextChannelById(ps.getResultSet().getString("channel_id"));
                     if (tx != null) {
                         list.add(tx);
                     }
@@ -234,24 +231,9 @@ public class SQLManager {
         PreparedStatement ps = null;
         try {
             conn = pool.getConnection();
-            ps = conn.prepareStatement("INSERT INTO s3_corgi.guild_data (guild_id, prefix) VALUES (?,?);");
+            ps = conn.prepareStatement("INSERT INTO s3_corgi.guild_data (guild_id, prefix) VALUES (?, ?);");
             ps.setString(1, guildId);
             ps.setString(2, prefix);
-            ps.executeUpdate();
-        } catch (Exception e) {
-            e.printStackTrace();
-        } finally {
-            pool.close(conn, ps, null);
-        }
-    }
-
-    public final void deleteOldData(final String guildId) {
-        Connection conn = null;
-        PreparedStatement ps = null;
-        try {
-            conn = pool.getConnection();
-            ps = conn.prepareStatement("DELETE FROM s3_corgi.prefixes WHERE guild_id = ?");
-            ps.setString(1, guildId);
             ps.executeUpdate();
         } catch (Exception e) {
             e.printStackTrace();
@@ -431,6 +413,34 @@ public class SQLManager {
         return list;
     }
 
+    public HashSet<GiveawayObject> getGiveawaysByGuild(String guildId) {
+        HashSet<GiveawayObject> list = new HashSet<>();
+        Connection conn = null;
+        PreparedStatement ps = null;
+        try {
+            conn = pool.getConnection();
+            ps = conn.prepareStatement("SELECT * FROM s3_corgi.giveaways WHERE guild_id = ?;");
+            ps.setString(1, guildId);
+            ps.executeQuery();
+            while (ps.getResultSet().next()) {
+                list.add(new GiveawayObject(ps.getResultSet().getInt("id"),
+                        ps.getResultSet().getString("guild_id"),
+                        ps.getResultSet().getString("textchannel_id"),
+                        ps.getResultSet().getString("message_id"),
+                        ps.getResultSet().getLong("end_time"),
+                        ps.getResultSet().getString("prize"),
+                        ps.getResultSet().getInt("max_winners"),
+                        ps.getResultSet().getString("emoji"),
+                        ps.getResultSet().getString("embed_color")));
+            }
+        } catch (Exception e) {
+            e.printStackTrace();
+        } finally {
+            pool.close(conn, ps, null);
+        }
+        return list;
+    }
+
     public String getRandomFact() {
         Connection conn = null;
         PreparedStatement ps = null;
@@ -447,6 +457,25 @@ public class SQLManager {
             pool.close(conn, ps, null);
         }
         return null;
+    }
+
+    public String getLanguage(String guildId) {
+        Connection conn = null;
+        PreparedStatement ps = null;
+        try {
+            conn = pool.getConnection();
+            ps = conn.prepareStatement("SELECT language FROM s3_corgi.guild_data WHERE guild_id = ?;");
+            ps.setString(1, guildId);
+            ps.executeQuery();
+            if (ps.getResultSet().next()) {
+                return ps.getResultSet().getString("language");
+            }
+        } catch (Exception e) {
+            e.printStackTrace();
+        } finally {
+            pool.close(conn, ps, null);
+        }
+        return "en";
     }
 
     public final void updateLanguage(final String guildId, final String language) {
@@ -808,7 +837,7 @@ public class SQLManager {
             ps.executeQuery();
             while (ps.getResultSet().next()) {
                 try {
-                    Role role = CorgiBot.getJda().getGuildById(guildId).getRoleById(ps.getResultSet().getString("roleid"));
+                    Role role = CorgiBot.getShardManager().getGuildById(guildId).getRoleById(ps.getResultSet().getString("roleid"));
                     if (role != null) {
                         list.add(role);
                     }

@@ -7,17 +7,19 @@ import cz.wake.corgibot.annotations.SinceCorgi;
 import cz.wake.corgibot.commands.CommandBase;
 import cz.wake.corgibot.commands.CommandCategory;
 import cz.wake.corgibot.managers.Giveaway2;
-import cz.wake.corgibot.objects.GuildWrapper;
+import cz.wake.corgibot.objects.guild.GuildWrapper;
 import cz.wake.corgibot.utils.Constants;
 import cz.wake.corgibot.utils.FormatUtil;
 import cz.wake.corgibot.utils.MessageUtils;
 import cz.wake.corgibot.utils.TimeUtils;
+import cz.wake.corgibot.utils.lang.I18n;
 import cz.wake.corgibot.utils.pagination.PagedTableBuilder;
 import cz.wake.corgibot.utils.pagination.PaginationUtil;
 import net.dv8tion.jda.api.Permission;
 import net.dv8tion.jda.api.entities.Member;
 import net.dv8tion.jda.api.entities.Message;
 import net.dv8tion.jda.api.entities.MessageChannel;
+import net.dv8tion.jda.api.entities.emoji.Emoji;
 import org.joda.time.DateTime;
 import org.joda.time.Period;
 import org.joda.time.format.PeriodFormatter;
@@ -29,8 +31,8 @@ import java.util.List;
 @CommandInfo(
         name = "giveaway",
         aliases = {"gw"},
-        help = "%giveaway 1h30m ; Discord Nitro ; 2 ; :smile: ; #ffffff\n\nFor a more detailed guide, use `%giveaway`",
-        description = "Creates a giveaway.",
+        help = "commands.giveaway.help",
+        description = "commands.giveaway.description",
         category = CommandCategory.MODERATION,
         userPerms = {Permission.MANAGE_CHANNEL}
 )
@@ -44,11 +46,16 @@ public class Giveaway implements CommandBase {
             .appendSeconds().appendSuffix("s")
             .toFormatter();
 
-    private static Period getTimeFromInput(String input, MessageChannel channel) {
+    private static Period getTimeFromInput(String input, MessageChannel channel, GuildWrapper gw) {
         try {
-            return periodParser.parsePeriod(input);
+            String inputFinal = input
+                    .replace(I18n.getLoc(gw, "commands.giveaways.days"), "d")
+                    .replace(I18n.getLoc(gw, "commands.giveaways.hours"), "h")
+                    .replace(I18n.getLoc(gw, "commands.giveaways.minutes"), "m")
+                    .replace(I18n.getLoc(gw, "commands.giveaways.seconds"), "s");
+            return periodParser.parsePeriod(inputFinal);
         } catch (IllegalArgumentException e) {
-            MessageUtils.sendErrorMessage("Invalid time format! Try this: `1d` -> for one day.",
+            MessageUtils.sendErrorMessage(I18n.getLoc(gw, "commands.giveaway.invalid-time-format"),
                     channel);
             return null;
         }
@@ -62,22 +69,23 @@ public class Giveaway implements CommandBase {
          * c!giveaway list
          */
 
-        new String("😄");
+        // new String("😄");
 
         if (args.length < 1) {
-            channel.sendMessageEmbeds(MessageUtils.getEmbed(Constants.GIVEAWAY_BLUE).setTitle("How to create a giveaway!")
-                    .setDescription("A brief guide on how to create different Giveaways.")
-                    .addField("Creating", "`{%}giveaway 30m` - Basic giveaway for 30 minutes.\n`{%}giveaway 1h ; FarCry 3` - Giveaway for 1 hour with the FarCry 3 prize.\n`{%}giveaway 2h ; Mafia 2 ; 5` - Giveaway for 2 hours with the Mafia 2 prize for 5 users.\n`{%}giveaway 1d3h ; Overwatch ; 1 ; 😄` - Giveaway with a custom emoji (Only discord emojis)\n`{%}giveaway 4d ; CS:GO ; 3 ; 😄 ; #ffffff` - Giveaway with a custom color".replace("{%}", gw.getPrefix()), false)
-                    .addField("List all giveaways", "If multiple Giveaways is running on this server, you can view basic information using the following command: `{%}giveaway list`".replace("{%}", gw.getPrefix()), false)
-                    .addField("Deleting a giveaway", "It's simple! Just delete the message that Corgi sent.".replace("{%}", gw.getPrefix()), false).setFooter("Corgi is saving everything! In case of Corgi going down, everything is gonna be saved.", null).build()).queue();
+            channel.sendMessageEmbeds(MessageUtils.getEmbed(Constants.GIVEAWAY_BLUE)
+                    .setTitle(I18n.getLoc(gw, "commands.giveaway.embed-title"))
+                    .setDescription(I18n.getLoc(gw, "commands.giveaway.embed-description"))
+                    .addField(I18n.getLoc(gw, "commands.giveaway.field-1-name"), I18n.getLoc(gw, "commands.giveaway.field-1-description").replace("{%}", gw.getPrefix()), false)
+                    .addField(I18n.getLoc(gw, "commands.giveaway.field-2-name"), I18n.getLoc(gw, "commands.giveaway.field-2-description").replace("{%}", gw.getPrefix()), false)
+                    .addField(I18n.getLoc(gw, "commands.giveaway.field-3-name"), I18n.getLoc(gw, "commands.giveaway.field-3-description"), false).build()).queue();
         } else {
             if (args[0].equalsIgnoreCase("list")) {
 
                 PagedTableBuilder pb = new PagedTableBuilder();
-                pb.addColumn("ID");
-                pb.addColumn("Prize");
-                pb.addColumn("Winners");
-                pb.addColumn("Ends in");
+                pb.addColumn(I18n.getLoc(gw, "commands.giveaway.id"));
+                pb.addColumn(I18n.getLoc(gw, "commands.giveaway.prize"));
+                pb.addColumn(I18n.getLoc(gw, "commands.giveaway.amount-of-winners"));
+                pb.addColumn(I18n.getLoc(gw, "commands.giveaway.ends-in"));
 
                 CorgiBot.getInstance().getSql().getAllGiveaways().forEach(g -> {
                     if (g.getGuildId().equals(message.getGuild().getId())) {
@@ -113,7 +121,7 @@ public class Giveaway implements CommandBase {
                     if (FormatUtil.isStringInt(maxWinners)) {
                         winners = Integer.parseInt(maxWinners);
                     } else {
-                        MessageUtils.sendErrorMessage("Invalid amount of winners! Try again..", channel);
+                        MessageUtils.sendErrorMessage(I18n.getLoc(gw, "commands.giveaway.invalid-amount-of-winners"), channel);
                         return;
                     }
                 }
@@ -128,21 +136,15 @@ public class Giveaway implements CommandBase {
                 String color = null;
                 if (arguments.length >= 5) {
                     color = arguments[4].replaceAll("\\s+", "");
-                    /*if (Pattern.compile("#?([A-Fa-f\\d]){6}").matcher(color).find()) {
-                        color = color.startsWith("#") ? color : "#" + color;
-                    } else {
-                        MessageUtils.sendErrorMessage("Špatně zadaný formát barvy! Správný formát: #00000", channel);
-                        return;
-                    }*/
                 }
 
-                Period p = getTimeFromInput(time, channel);
+                Period p = getTimeFromInput(time, channel, gw);
                 DateTime start = new DateTime();  //NOW
                 DateTime end = start.plus(p);
                 long kekTime = end.getMillis() - start.getMillis();
 
                 if (kekTime < 150000) {
-                    MessageUtils.sendErrorMessage("Giveaways can't be shorter than 3 minutes!", channel);
+                    MessageUtils.sendErrorMessage(I18n.getLoc(gw, "commands.giveaway.giveaway-3-minutes"), channel);
                     message.delete().queue();
                     return;
                 }
@@ -151,12 +153,12 @@ public class Giveaway implements CommandBase {
                 String finalPrize = prize;
                 String finalEmoji = emoji != null ? emoji : "🎉";
                 String finalColor = color;
-                channel.sendMessageEmbeds(MessageUtils.getEmbed(Constants.GRAY).setDescription("Generating..").build()).queue(m -> {
-                    m.addReaction(finalEmoji).queue();
-                    new Giveaway2(m, end.getMillis(), finalPrize, finalWinners, finalEmoji, finalColor).start();
+                channel.sendMessageEmbeds(MessageUtils.getEmbed(Constants.GRAY).setDescription(I18n.getLoc(gw, "commands.giveaway.generating")).build()).queue(m -> {
+                    m.addReaction(Emoji.fromUnicode(finalEmoji)).queue();
+                    new Giveaway2(gw, m, end.getMillis(), finalPrize, finalWinners, finalEmoji, finalColor).start();
                     CorgiBot.getInstance().getSql().registerGiveawayInSQL(member.getGuild().getId(), channel.getId(), m.getId(), start.getMillis(), end.getMillis(), finalPrize, finalWinners, finalEmoji, finalColor);
                 });
-                message.delete().reason("Starting giveaway").queue();
+                message.delete().reason(I18n.getLoc(gw, "commands.giveaway.message-delete-reason")).queue();
             }
         }
     }

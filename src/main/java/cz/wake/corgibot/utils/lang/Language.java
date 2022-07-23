@@ -8,8 +8,7 @@ import java.util.Collection;
 public enum Language {
 
     EN_US("en", "US", "English", "English", EmoteList.ENGLISH_FLAG),
-    CZ_CS("cz", "CZ", "Čeština", "Czech", EmoteList.CZECH_FLAG),
-    SK_SK("sk", "SK", "Slovenština", "Slovak", EmoteList.SLOVAK_FLAG);
+    CZ_CS("cz", "CZ", "Čeština", "Czech", EmoteList.CZECH_FLAG);
 
     private final String code;
     private final String nativeName;

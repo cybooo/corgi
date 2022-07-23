@@ -6,26 +6,23 @@ import com.jagrosh.jdautilities.commons.waiter.EventWaiter;
 import cz.wake.corgibot.CorgiBot;
 import cz.wake.corgibot.commands.FinalCommand;
 import cz.wake.corgibot.managers.BotManager;
-import cz.wake.corgibot.objects.GuildWrapper;
+import cz.wake.corgibot.objects.guild.GuildWrapper;
 import cz.wake.corgibot.objects.user.UserGuildData;
 import cz.wake.corgibot.utils.Constants;
 import cz.wake.corgibot.utils.CorgiLogger;
 import cz.wake.corgibot.utils.EmoteList;
 import cz.wake.corgibot.utils.MessageUtils;
+import cz.wake.corgibot.utils.lang.I18n;
 import net.dv8tion.jda.api.Permission;
-import net.dv8tion.jda.api.entities.Guild;
-import net.dv8tion.jda.api.entities.Member;
-import net.dv8tion.jda.api.entities.Message;
-import net.dv8tion.jda.api.entities.TextChannel;
+import net.dv8tion.jda.api.entities.*;
 import net.dv8tion.jda.api.events.DisconnectEvent;
 import net.dv8tion.jda.api.events.ShutdownEvent;
-import net.dv8tion.jda.api.events.message.guild.GuildMessageReceivedEvent;
+import net.dv8tion.jda.api.events.message.MessageReceivedEvent;
 import net.dv8tion.jda.api.exceptions.ErrorResponseException;
 import net.dv8tion.jda.api.hooks.ListenerAdapter;
 
 import java.time.Duration;
 import java.util.Arrays;
-import java.util.HashMap;
 import java.util.Map;
 import java.util.Objects;
 import java.util.concurrent.ConcurrentHashMap;
@@ -36,10 +33,10 @@ public class ChatListener extends ListenerAdapter {
 
     private static final Map<String, Integer> spamMap = new ConcurrentHashMap<>();
     private final Cache<String, String> cache = CacheBuilder.newBuilder().expireAfterWrite(Duration.ofMinutes(1)).build();
-    private EventWaiter w;
+    private EventWaiter eventWaiter;
 
-    public ChatListener(EventWaiter w) {
-        this.w = w;
+    public ChatListener(EventWaiter eventWaiter) {
+        this.eventWaiter = eventWaiter;
     }
 
     public ChatListener() {
@@ -56,7 +53,11 @@ public class ChatListener extends ListenerAdapter {
     }
 
     @Override
-    public void onGuildMessageReceived(GuildMessageReceivedEvent event) {
+    public void onMessageReceived(MessageReceivedEvent event) {
+
+        if (event.getChannelType() != ChannelType.TEXT) {
+            return;
+        }
 
         if (event.getAuthor().isBot()) {
             return;
@@ -76,34 +77,19 @@ public class ChatListener extends ListenerAdapter {
             CorgiBot.getInstance().getSql().registerUser(event.getAuthor().getId(), event.getGuild().getId());
         }
 
-        if (!event.getMessage().getContentRaw().startsWith("c!")) {
-
-            if (event.getMessage().getContentRaw().length() > 1) {
-                String lastMessage = cache.getIfPresent(event.getAuthor().getId());
-                if (lastMessage == null || !lastMessage.equals(event.getMessage().getContentRaw())) {
-                    cache.put(event.getAuthor().getId(), event.getMessage().getContentRaw());
-                    BotManager.getUserWrappers().get(event.getAuthor().getId()).getGuildData().get(event.getGuild().getId())
-                            .addMessages(1L, true)
-                            .addXp(2L, true);
-                }
-            }
-
-        }
-
-        String prefix = "c!";
         GuildWrapper guildWrapper;
 
-        if (!CorgiBot.isIsBeta()) {
+        if (!CorgiBot.isBeta()) {
             // Custom Guild prefix from SQL
             guildWrapper = BotManager.getCustomGuild(event.getMember().getGuild().getId());
 
-            if (guildWrapper.getPrefix() != null) {
-                prefix = guildWrapper.getPrefix();
+            if (guildWrapper == null) {
+                CorgiLogger.warnMessage("Guild " + event.getGuild().getId() + " is still not loaded!");
+                return;
             }
         } else {
             // Fake guild
-            prefix = Constants.PREFIX;
-            guildWrapper = new GuildWrapper(event.getGuild().getId()).setPrefix(prefix, false);
+            guildWrapper = new GuildWrapper(event.getGuild().getId()).setPrefix(Constants.PREFIX, false);
         }
 
         String raw = event.getMessage().getContentRaw();
@@ -138,7 +124,7 @@ public class ChatListener extends ListenerAdapter {
                 }
 
                 // Spam detection
-                handleSpamDetection(event, guildWrapper, event.getChannel());
+                handleSpamDetection(event, guildWrapper, (TextChannel) event.getChannel());
 
                 // Blocking guild
                 if (guildWrapper.isBlocked()) {
@@ -161,7 +147,7 @@ public class ChatListener extends ListenerAdapter {
                 if (!event.getGuild().getSelfMember().hasPermission(cmd.getReqBotPermissions())) {
                     StringBuilder sb = new StringBuilder();
                     Arrays.stream(cmd.getReqBotPermissions()).forEach(c -> sb.append(c.name()).append(", "));
-                    MessageUtils.sendErrorMessage("Permissions error", "Action failed, I'm missing some permissions!\nI'm missing: `" + sb.substring(0, sb.length() - 2) + "`", event.getChannel());
+                    MessageUtils.sendErrorMessage(I18n.getLoc(guildWrapper, "chat-listener.permission-error-title"), String.format(I18n.getLoc(guildWrapper, "commands.chat-listener.permission-error-description"), sb.substring(0, sb.length() - 2)), event.getChannel());
                     return;
                 }
 
@@ -173,22 +159,9 @@ public class ChatListener extends ListenerAdapter {
 
                 // Run command
                 try {
-//                    if (!BotManager.DISABLED_SLASH_NOTICES.contains(event.getGuild().getId())) {
-//                        event.getChannel().sendMessageEmbeds(new EmbedBuilder()
-//                                .setTitle("⚠️ Important notice")
-//                                .setDescription(String.format("""
-//                                        Regular commands are gonna be replaced by slash commands!
-//                                        Slash commands are gonna start working during April. (no confirmed date)
-//                                        From <t:1650488400:F> regular commands will **no longer work.**
-//                                        You need to reinvite Corgi using the invite link below, otherwise slash commands are not gonna work for you.
-//                                        https://discord.com/oauth2/authorize?client_id=860244075138383922&scope=applications.commands+bot&guild_id=%s
-//                                        An administrator can disable this warning by typing %sdisableslashnotice""", event.getGuild().getId(), guildWrapper.getPrefix())
-//                                )
-//                                .build()).queue();
-//                    }
-                    cmd.getCommand().onCommand(event.getChannel(), event.getMessage(), Arrays.copyOfRange(split, 1, split.length), event.getMember(), w, guildWrapper);
+                    cmd.getCommand().onCommand(event.getChannel(), event.getMessage(), Arrays.copyOfRange(split, 1, split.length), event.getMember(), eventWaiter, guildWrapper);
                 } catch (Exception ex) {
-                    MessageUtils.sendAutoDeletedMessage("Something went wrong when executing this command!", 10000, event.getChannel());
+                    MessageUtils.sendAutoDeletedMessage(I18n.getLoc(guildWrapper, "internal.general.command-failed"), 10000, event.getChannel());
                     ex.printStackTrace();
                 }
 
@@ -199,12 +172,22 @@ public class ChatListener extends ListenerAdapter {
 
                 // Statistics
                 CorgiBot.commands++;
+            } else {
+                if (event.getMessage().getContentRaw().length() > 1) {
+                    String lastMessage = cache.getIfPresent(event.getAuthor().getId());
+                    if (lastMessage == null || !lastMessage.equals(event.getMessage().getContentRaw())) {
+                        cache.put(event.getAuthor().getId(), event.getMessage().getContentRaw());
+                        BotManager.getUserWrappers().get(event.getAuthor().getId()).getGuildData().get(event.getGuild().getId())
+                                .addMessages(1L, true)
+                                .addXp(2L, true);
+                    }
+                }
             }
         } catch (StringIndexOutOfBoundsException ex) {
             // ¯\_(ツ)_/¯
         } catch (ErrorResponseException ex2) {
             if (ex2.getErrorCode() == 50007) {
-                event.getChannel().sendMessage(EmoteList.WARNING + " | " + event.getAuthor().getAsMention() + " sorry, but I can't message you, your messages are disabled!").queue();
+                event.getChannel().sendMessage(EmoteList.WARNING + " | " + String.format(I18n.getLoc(guildWrapper, "chat-listener.dant-dm"), event.getAuthor().getAsMention())).queue();
             } else {
                 ex2.printStackTrace();
             }
@@ -244,7 +227,7 @@ public class ChatListener extends ListenerAdapter {
         }
     }
 
-    private void handleSpamDetection(GuildMessageReceivedEvent event, GuildWrapper guild, TextChannel ch) {
+    private void handleSpamDetection(MessageReceivedEvent event, GuildWrapper guild, TextChannel ch) {
         if (spamMap.containsKey(event.getGuild().getId())) {
 
             int messages = spamMap.get(event.getGuild().getId());
@@ -258,7 +241,7 @@ public class ChatListener extends ListenerAdapter {
 
             if (messages > allowed) {
                 if (!guild.isBlocked()) {
-                    MessageUtils.sendErrorMessage("**SPAM DETECTED** Commands in this server will be ignored for one minute.", ch);
+                    MessageUtils.sendErrorMessage(I18n.getLoc(guild, "chat-listener.spam"), ch);
                     guild.setBlocked(true).setBlockReason("Command spam").setUnBlockTime(System.currentTimeMillis() + TimeUnit.MINUTES.toMillis(1));
                 }
             } else {
@@ -274,6 +257,6 @@ public class ChatListener extends ListenerAdapter {
     }
 
     private Permission[] getBasicPerms() {
-        return new Permission[]{Permission.MESSAGE_EMBED_LINKS, Permission.MESSAGE_WRITE};
+        return new Permission[]{Permission.MESSAGE_EMBED_LINKS, Permission.MESSAGE_SEND};
     }
 }

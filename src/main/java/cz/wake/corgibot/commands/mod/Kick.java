@@ -5,10 +5,11 @@ import cz.wake.corgibot.annotations.CommandInfo;
 import cz.wake.corgibot.annotations.SinceCorgi;
 import cz.wake.corgibot.commands.CommandBase;
 import cz.wake.corgibot.commands.CommandCategory;
-import cz.wake.corgibot.objects.GuildWrapper;
+import cz.wake.corgibot.objects.guild.GuildWrapper;
 import cz.wake.corgibot.utils.EmoteList;
 import cz.wake.corgibot.utils.FormatUtil;
 import cz.wake.corgibot.utils.MessageUtils;
+import cz.wake.corgibot.utils.lang.I18n;
 import net.dv8tion.jda.api.Permission;
 import net.dv8tion.jda.api.entities.Member;
 import net.dv8tion.jda.api.entities.Message;
@@ -19,8 +20,8 @@ import java.util.LinkedList;
 
 @CommandInfo(
         name = "kick",
-        help = "%kick @user [@user]",
-        description = "Kick user(s) from this server",
+        help = "commands.kick.help",
+        description = "commands.kick.description",
         category = CommandCategory.MODERATION,
         userPerms = {Permission.KICK_MEMBERS}
 )
@@ -30,38 +31,38 @@ public class Kick implements CommandBase {
     @Override
     public void onCommand(MessageChannel channel, Message message, String[] args, Member member, EventWaiter w, GuildWrapper gw) {
         if (!PermissionUtil.checkPermission(message.getGuild().getSelfMember(), Permission.KICK_MEMBERS)) {
-            MessageUtils.sendErrorMessage("Nemám dostatečná práva na vyhazování uživatelů! Přidej mi právo na `KICK_MEMBERS` nebo `ADMINISTRATOR`", channel);
+            MessageUtils.sendErrorMessage(I18n.getLoc(gw, "commands.kick.cant-kick-members"), channel);
             return;
         }
-        if (message.getMentionedUsers().isEmpty()) {
-            MessageUtils.sendErrorMessage("Musíš nejdříve někoho označit! Př. `" + gw.getPrefix() + "kick @User`", channel);
+        if (message.getMentions().getMentions().isEmpty()) {
+            MessageUtils.sendErrorMessage(String.format(I18n.getLoc(gw, "commands.kick.need-to-mention"), gw.getPrefix()), channel);
             return;
         }
-        if (message.getMentionedUsers().size() > 20) {
-            MessageUtils.sendErrorMessage("Maximální počet uživatelů, kterých lze najednou vyhodit je 20!", channel);
+        if (message.getMentions().getMentions().size() > 20) {
+            MessageUtils.sendErrorMessage(I18n.getLoc(gw, "commands.kick.only-20-members"), channel);
             return;
         }
 
         StringBuilder builder = new StringBuilder();
         LinkedList<Member> members = new LinkedList<>();
-        message.getMentionedUsers().stream().forEach((u) -> {
+        message.getMentions().getUsers().forEach((u) -> {
             Member m = message.getGuild().getMember(u);
             if (m == null) {
                 builder.append("\n")
                         .append(EmoteList.WARNING)
                         .append(" | ")
                         .append(u.getAsMention())
-                        .append(" can't be kicked, because he was not found in this server!");
+                        .append(String.format(I18n.getLoc(gw, "commands.kick.cant-be-kicked"), u.getAsMention()));
             } else if (!PermissionUtil.canInteract(message.getMember(), m)) {
                 builder.append("\n")
                         .append(EmoteList.RED_DENY)
-                        .append(" | You don't have enough permissions to kick ")
-                        .append(FormatUtil.formatUser(u));
+                        .append(" | ")
+                        .append(String.format(I18n.getLoc(gw, "commands.kick.not-enough-permissions-to-kick"), FormatUtil.formatUser(u)));
             } else if (!PermissionUtil.canInteract(message.getGuild().getSelfMember(), m)) {
                 builder.append("\n")
                         .append(EmoteList.RED_DENY)
-                        .append(" | You don't have enough permissions to kick ")
-                        .append(FormatUtil.formatUser(u));
+                        .append(" | ")
+                        .append(String.format(I18n.getLoc(gw, "commands.kick.not-enough-permissions-to-kick"), FormatUtil.formatUser(u)));
             } else
                 members.add(m);
         });
@@ -74,15 +75,15 @@ public class Kick implements CommandBase {
                 message.getGuild().kick(m).queue((v) -> {
                     builder.append("\n")
                             .append(EmoteList.GREEN_OK)
-                            .append(" | Succesfully kicked ")
-                            .append(m.getAsMention());
+                            .append(" | ")
+                            .append(String.format(I18n.getLoc(gw, "command.kick.successfully-kicked"), m.getAsMention()));
                     if (last)
                         MessageUtils.sendErrorMessage(builder.toString(), channel);
                 }, (t) -> {
                     builder.append("\n")
                             .append(EmoteList.RED_DENY)
-                            .append(" | Could not kick ")
-                            .append(FormatUtil.formatUser(m.getUser()));
+                            .append(" | ")
+                            .append(String.format(I18n.getLoc(gw, "commands.kick.could-not-kick"), FormatUtil.formatUser(m.getUser())));
                     if (last)
                         MessageUtils.sendErrorMessage(builder.toString(), channel);
                 });

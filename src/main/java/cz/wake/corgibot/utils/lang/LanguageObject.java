@@ -16,7 +16,7 @@ public class LanguageObject {
         try {
             config = ConfigLoader.getConfig(new File("langs/lang_" + language.getCode() + ".json"));
         } catch (Exception e) {
-            CorgiLogger.fatalMessage("Error with loading language: " + language.getEnglishName());
+            CorgiLogger.fatalMessage("Error while loading language: " + language.getEnglishName());
             e.printStackTrace();
         }
     }

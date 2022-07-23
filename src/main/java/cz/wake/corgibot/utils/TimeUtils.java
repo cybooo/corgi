@@ -1,5 +1,8 @@
 package cz.wake.corgibot.utils;
 
+import cz.wake.corgibot.objects.guild.GuildWrapper;
+import cz.wake.corgibot.utils.lang.I18n;
+
 public class TimeUtils {
 
     private TimeUtils() {
@@ -111,46 +114,46 @@ public class TimeUtils {
         return timeBuf.toString();
     }
 
-    public static String secondsToTime(long seconds) {
+    public static String secondsToTime(long seconds, GuildWrapper gw) {
 
         StringBuilder builder = new StringBuilder();
 
         int years = (int) (seconds / (60 * 60 * 24 * 365));
 
         if (years > 0) {
-            builder.append("**").append(years).append("** years, ");
+            builder.append("**").append(years).append("** " + I18n.getLoc(gw, "internal.general.years") + ", ");
             seconds = seconds % (60 * 60 * 24 * 365);
         }
 
         int weeks = (int) (seconds / (60 * 60 * 24 * 365));
 
         if (weeks > 0) {
-            builder.append("**").append(weeks).append("** weeks, ");
+            builder.append("**").append(weeks).append("** "+ I18n.getLoc(gw, "internal.general.weeks") + ", ");
             seconds = seconds % (60 * 60 * 24 * 7);
         }
 
         int days = (int) (seconds / (60 * 60 * 24));
 
         if (days > 0) {
-            builder.append("**").append(days).append("** days, ");
+            builder.append("**").append(days).append("** "+ I18n.getLoc(gw, "internal.general.days") + ", ");
             seconds = seconds % (60 * 60 * 24);
         }
 
         int hours = (int) (seconds / (60 * 60));
 
         if (hours > 0) {
-            builder.append("**").append(hours).append("** hours, ");
+            builder.append("**").append(hours).append("** "+ I18n.getLoc(gw, "internal.general.hours") + ", ");
             seconds = seconds % (60 * 60);
         }
 
         int minutes = (int) (seconds / (60));
 
         if (minutes > 0) {
-            builder.append("**").append(minutes).append("** minutes, ");
+            builder.append("**").append(minutes).append("** "+ I18n.getLoc(gw, "internal.general.minutes") + ", ");
             seconds = seconds % (60);
         }
         if (seconds > 0) {
-            builder.append("**").append(seconds).append("** seconds");
+            builder.append("**").append(seconds).append("** " + I18n.getLoc(gw, "internal.general.seconds"));
         }
 
         String str = builder.toString();
@@ -159,7 +162,7 @@ public class TimeUtils {
             str = str.substring(0, str.length() - 2);
         }
         if (str.equals("")) {
-            str = "**Error**";
+            str = "**" + I18n.getLoc(gw, "internal.error.unknown-error") + "**";
         }
 
         return str;

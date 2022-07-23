@@ -5,19 +5,21 @@ import cz.wake.corgibot.annotations.CommandInfo;
 import cz.wake.corgibot.annotations.SinceCorgi;
 import cz.wake.corgibot.commands.CommandBase;
 import cz.wake.corgibot.commands.CommandCategory;
-import cz.wake.corgibot.objects.GuildWrapper;
+import cz.wake.corgibot.objects.guild.GuildWrapper;
 import cz.wake.corgibot.utils.Constants;
 import cz.wake.corgibot.utils.MessageUtils;
+import cz.wake.corgibot.utils.lang.I18n;
 import net.dv8tion.jda.api.entities.Member;
 import net.dv8tion.jda.api.entities.Message;
 import net.dv8tion.jda.api.entities.MessageChannel;
+import net.dv8tion.jda.api.entities.emoji.CustomEmoji;
+import net.dv8tion.jda.api.entities.emoji.Emoji;
 
 @CommandInfo(
         name = "emote",
         aliases = {"emoji"},
-        description = "This command displays the special ID of the selected Emote,\nor all Emote where Corgi is.",
-        help = "%emote <regex|emote> - Emote info\n" +
-                "%emote list - List all available Emotes for Corgi",
+        description = "commands.emote.description",
+        help = "commands.emote.help",
         category = CommandCategory.GENERAL
 )
 @SinceCorgi(version = "0.8.1")
@@ -26,15 +28,15 @@ public class Emote implements CommandBase {
     @Override
     public void onCommand(MessageChannel channel, Message message, String[] args, Member member, EventWaiter w, GuildWrapper gw) {
         if (args.length < 1) {
-            channel.sendMessageEmbeds(MessageUtils.getEmbed().setTitle("Help - emote :question:")
-                    .setDescription(getDescription() + "\n\n**Usage**\n" + getHelp().replace("%", gw.getPrefix())).build()).queue();
+            channel.sendMessageEmbeds(MessageUtils.getEmbed().setTitle(I18n.getLoc(gw, "commands.emote.embed-title"))
+                    .setDescription(getDescription() + "\n\n**" + I18n.getLoc(gw, "internal.general.usage") + "**\n" + getHelp().replace("%", gw.getPrefix())).build()).queue();
         } else if (args[0].equalsIgnoreCase("list")) {
-            if (member.getGuild().getEmotes().isEmpty()) {
-                MessageUtils.sendAutoDeletedMessage("This server does not have any emotes!", 15000, channel);
+            if (member.getGuild().getEmojis().isEmpty()) {
+                MessageUtils.sendAutoDeletedMessage(I18n.getLoc(gw, "commands.emote.no-emote"), 15000, channel);
             }
-            StringBuilder builder = new StringBuilder("**Emotes:**\n");
-            for (net.dv8tion.jda.api.entities.Emote e : member.getGuild().getEmotes()) {
-                builder.append(" ").append(e.getAsMention());
+            StringBuilder builder = new StringBuilder("**" + I18n.getLoc(gw, "commands.emote.emotes") + ":**\n");
+            for (Emoji e : member.getGuild().getEmojis()) {
+                builder.append(" ").append(e.getFormatted());
             }
             channel.sendMessage(builder.toString()).queue();
         } else {
@@ -42,23 +44,23 @@ public class Emote implements CommandBase {
             if (str.matches("<.*:.*:\\d+>")) { //Server Emotes
                 String id = str.replaceAll("<.*:.*:(\\d+)>", "$1");
                 long longId = Long.parseLong(id);
-                net.dv8tion.jda.api.entities.Emote emote = channel.getJDA().getEmoteById(longId);
+                CustomEmoji emote = channel.getJDA().getEmojiById(longId);
                 if (emote == null) {
-                    channel.sendMessageEmbeds(MessageUtils.getEmbed(member.getUser(), Constants.RED).setTitle("**Unknown emote**")
-                            .setDescription("**ID:** " + id + "\n" +
-                                    "**Guild:** Unknown\n" +
-                                    "**URL:** [Click me](https://cdn.discordapp.com/emojis/" + id + ".png)")
+                    channel.sendMessageEmbeds(MessageUtils.getEmbed(member.getUser(), Constants.RED).setTitle(I18n.getLoc(gw, "commands.emote.unknown-emote"))
+                            .setDescription(I18n.getLoc(gw, "commands.emote.id") + id + "\n" +
+                                    I18n.getLoc(gw, "commands.emote.guild") + I18n.getLoc(gw, "commands.emote.unknown") + "\n" +
+                                    I18n.getLoc(gw, "commands.emote.url") + "[" + I18n.getLoc(gw, "commands.emote.click-me") + "](https://cdn.discordapp.com/emojis/" + id + ".png)")
                             .setThumbnail("https://cdn.discordapp.com/emojis/" + id + ".png").build()).queue();
                 } else {
                     channel.sendMessageEmbeds(MessageUtils.getEmbed(member.getUser(), Constants.GREEN).setTitle("**Emote info** (" + emote.getName() + ")")
-                            .setDescription("**ID:** " + emote.getId() + "\n" +
-                                    "**Guild:** " + (emote.getGuild() == null ? "Unknown" : "" + emote.getGuild().getName() + "\n") +
-                                    "**URL:** " + "[Click me](" + emote.getImageUrl() + ")").setThumbnail(emote.getImageUrl()).build()).queue();
+                            .setDescription(I18n.getLoc(gw, "commands.emote.id") + emote.getId() + "\n" +
+                                    I18n.getLoc(gw, "commands.emote.guild") + (message.getGuild() == null ? I18n.getLoc(gw, "commands.emote.unknown") : "" + message.getGuild().getName() + "\n") +
+                                    I18n.getLoc(gw, "commands.emote.url") + "[" + I18n.getLoc(gw, "commands.emote.click-me") + "](" + emote.getImageUrl() + ")").setThumbnail(emote.getImageUrl()).build()).queue();
                 }
                 return;
             }
             if (str.codePoints().count() > 11) {
-                MessageUtils.sendAutoDeletedMessage("Invalid emote or ID is too long!", 15000, channel);
+                MessageUtils.sendAutoDeletedMessage(I18n.getLoc(gw, "commands.emote.invalid-or-long"), 15000, channel);
                 return;
             }
             StringBuilder builder = new StringBuilder(); //Normal emotes
@@ -79,7 +81,7 @@ public class Emote implements CommandBase {
                 }
                 builder.append(String.valueOf(chars)).append("   _").append(Character.getName(code)).append("_");
             });
-            channel.sendMessageEmbeds(MessageUtils.getEmbed(member.getUser(), Constants.GREEN).setTitle("**Emote info**")
+            channel.sendMessageEmbeds(MessageUtils.getEmbed(member.getUser(), Constants.GREEN).setTitle(I18n.getLoc(gw, "commands.emote.emote-info"))
                     .setDescription(builder.toString()).build()).queue();
         }
     }

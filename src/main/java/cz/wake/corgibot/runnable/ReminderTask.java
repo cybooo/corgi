@@ -17,12 +17,17 @@ public record ReminderTask(CorgiBot plugin) implements Runnable {
         try {
             reminders.forEach(reminder -> {
                 if (reminder.getDate() < now) {
-                    MessageUtils.sendPrivateMessage(CorgiBot.getJda().getUserById(reminder.getUserId()), reminder.getMessage());
-                    CorgiBot.getInstance().getSql().deleteReminder(reminder.getUserId(), reminder.getDate());
+                    var user = CorgiBot.getShardManager().getUserById(reminder.getUserId());
+                    if (user == null) {
+                        CorgiLogger.warnMessage("Could not retrieve user " + reminder.getUserId() + ", reminder not deleted!");
+                    } else {
+                        MessageUtils.sendPrivateMessage(user, reminder.getMessage());
+                        CorgiBot.getInstance().getSql().deleteReminder(reminder.getUserId(), reminder.getDate());
+                    }
                 }
             });
         } catch (Exception e) {
-            CorgiLogger.fatalMessage("Error when Corgi checked reminders:\n");
+            CorgiLogger.fatalMessage("Error while checking Reminders:\n");
             e.printStackTrace();
         }
     }

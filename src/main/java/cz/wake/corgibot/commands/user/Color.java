@@ -4,9 +4,10 @@ import com.jagrosh.jdautilities.commons.waiter.EventWaiter;
 import cz.wake.corgibot.annotations.CommandInfo;
 import cz.wake.corgibot.commands.CommandBase;
 import cz.wake.corgibot.commands.CommandCategory;
-import cz.wake.corgibot.objects.GuildWrapper;
+import cz.wake.corgibot.objects.guild.GuildWrapper;
 import cz.wake.corgibot.utils.Constants;
 import cz.wake.corgibot.utils.MessageUtils;
+import cz.wake.corgibot.utils.lang.I18n;
 import net.dv8tion.jda.api.EmbedBuilder;
 import net.dv8tion.jda.api.MessageBuilder;
 import net.dv8tion.jda.api.entities.Member;
@@ -24,8 +25,8 @@ import java.util.regex.Pattern;
 
 @CommandInfo(
         name = "color",
-        description = "Get color by code",
-        help = "%color [HEX-CODE] - Get color",
+        description = "commands.color.description",
+        help = "commands.color.help",
         category = CommandCategory.FUN
 )
 public class Color implements CommandBase {
@@ -90,14 +91,14 @@ public class Color implements CommandBase {
                     int DEC = Integer.parseInt(HEX.replace("#", ""), 16);
                     String CMYK = rgbToCmyk(java.awt.Color.decode(HEX).getRed(), java.awt.Color.decode(HEX).getGreen(), java.awt.Color.decode(HEX).getBlue());
                     builder.setColor(java.awt.Color.decode(HEX));
-                    builder.setDescription("**HEX**: " + HEX.toLowerCase() + "\n**RGB**: " + RGB + "\n**DEC**: " + DEC + "\n**CMYK**: " + CMYK);
+                    builder.setDescription("**" + I18n.getLoc(gw, "commands.color.hex") + "**: " + HEX.toLowerCase() + "\n**" + I18n.getLoc(gw, "commands.color.rgb") + "**: " + RGB + "\n**" + I18n.getLoc(gw, "commands.color.dec") + "**: " + DEC + "\n**" + I18n.getLoc(gw, "commands.color.cmyk") + "**: " + CMYK);
                     builder.setAuthor(HEX + ":");
                     colorCommand(java.awt.Color.decode(HEX), channel, builder);
                 } else {
-                    MessageUtils.sendErrorMessage("Incorrectly entered command! Example: `%color #B0171F`".replace("%", gw.getPrefix()), channel);
+                    MessageUtils.sendErrorMessage(I18n.getLoc(gw, "commands.color.incorrectly-entered").replace("%", gw.getPrefix()), channel);
                 }
             } catch (NumberFormatException e) {
-                MessageUtils.sendErrorMessage("Incorrectly entered command! Example: %color #B0171F`".replace("%", gw.getPrefix()), channel);
+                MessageUtils.sendErrorMessage(I18n.getLoc(gw, "commands.color.incorrectly-entered").replace("%", gw.getPrefix()), channel);
             }
         }
     }

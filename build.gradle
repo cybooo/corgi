@@ -48,7 +48,7 @@ dependencies {
     implementation group: 'net.dv8tion', name: 'JDA', version: '5.0.0-alpha.13'
     implementation group: 'pw.chew', name: 'jda-chewtils', version: '1.24.1'
     implementation group: 'me.duncte123', name: 'botCommons', version: '2.3.9'
-    implementation 'com.github.walkyst:lavaplayer-fork:1.3.97'
+    implementation 'com.github.walkyst:lavaplayer-fork:1.3.98.1'
 
     // Others
     implementation group: 'mysql', name: 'mysql-connector-java', version: '8.0.28'

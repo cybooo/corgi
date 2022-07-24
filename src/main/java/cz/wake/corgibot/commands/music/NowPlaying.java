@@ -52,6 +52,6 @@ public class NowPlaying implements CommandBase {
             return;
         }
 
-        AudioEngine.getSong(message.getTextChannel());
+        AudioEngine.getSong(message.getChannel().asTextChannel());
     }
 }

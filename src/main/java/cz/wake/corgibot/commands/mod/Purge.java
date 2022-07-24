@@ -50,16 +50,16 @@ public class Purge implements CommandBase {
             } else if (purge > 100) {
                 MessageUtils.sendErrorMessage(I18n.getLoc(gw, "commands.purge.rows-higher-than-100"), channel);
             } else {
-                message.delete().queue(useless -> message.getTextChannel().getHistory().retrievePast(purge).queue(msgsRaw -> {
+                message.delete().queue(useless -> message.getChannel().asTextChannel().getHistory().retrievePast(purge).queue(msgsRaw -> {
                     List<Message> msgs = msgsRaw.stream().filter(mess -> !mess.getTimeCreated().plusWeeks(2).isBefore(OffsetDateTime.now())).collect(Collectors.toList());
-                    message.getTextChannel().sendMessageEmbeds(MessageUtils.getEmbed(Constants.GRAY).setDescription(I18n.getLoc(gw, "commands.purge.deleting-messages")).build()).queue(msg -> {
+                    message.getChannel().asTextChannel().sendMessageEmbeds(MessageUtils.getEmbed(Constants.GRAY).setDescription(I18n.getLoc(gw, "commands.purge.deleting-messages")).build()).queue(msg -> {
                         if (msgs.size() > 0) {
                             if (args.length >= 2) {
                                 String keyphrase = combineArgs(1, args);
                                 if (message.getMentions().getMentions().size() == 0) {
                                     List<Message> keywordPurge = msgs.stream().filter(mes -> mes.getContentRaw().toLowerCase().contains(keyphrase.toLowerCase())).collect(Collectors.toList());
                                     if (keywordPurge.size() > 1)
-                                        message.getTextChannel().deleteMessages(keywordPurge).queue();
+                                        message.getChannel().asTextChannel().deleteMessages(keywordPurge).queue();
                                     else if (keywordPurge.size() == 1)
                                         keywordPurge.get(0).delete().queue();
                                     if (keywordPurge.size() >= 1)
@@ -76,7 +76,7 @@ public class Purge implements CommandBase {
                                     } else {
                                         List<Message> mentionPurge = msgs.stream().filter(mes -> message.getMentions().getUsers().stream().anyMatch(mes.getAuthor()::equals)).collect(Collectors.toList());
                                         if (mentionPurge.size() > 1)
-                                            message.getTextChannel().deleteMessages(mentionPurge).queue();
+                                            message.getChannel().asTextChannel().deleteMessages(mentionPurge).queue();
                                         else if (mentionPurge.size() == 1)
                                             mentionPurge.get(0).delete().queue();
                                         if (mentionPurge.size() >= 1)
@@ -89,7 +89,7 @@ public class Purge implements CommandBase {
                                 if (msgs.size() == 1)
                                     msgs.get(0).delete().queue(delet -> msg.editMessageEmbeds(MessageUtils.getEmbed(Constants.GREEN).setDescription(EmoteList.GREEN_OK + " | " + String.format(I18n.getLoc(gw, "commands.purge.deleted-messages"), msgs.size())).build()).queue());
                                 else
-                                    message.getTextChannel().deleteMessages(msgs).queue(delet -> msg.editMessageEmbeds(MessageUtils.getEmbed(Constants.GREEN).setDescription(EmoteList.GREEN_OK + " | " + String.format(I18n.getLoc(gw, "commands.purge.deleted-messages"), msgs.size())).build()).queue());
+                                    message.getChannel().asTextChannel().deleteMessages(msgs).queue(delet -> msg.editMessageEmbeds(MessageUtils.getEmbed(Constants.GREEN).setDescription(EmoteList.GREEN_OK + " | " + String.format(I18n.getLoc(gw, "commands.purge.deleted-messages"), msgs.size())).build()).queue());
                             }
                         } else
                             msg.editMessageEmbeds(MessageUtils.getEmbed(Constants.RED).setDescription(EmoteList.RED_DENY + " | " + I18n.getLoc(gw, "commands.purge.cant-delete-14-days")).build()).queue();

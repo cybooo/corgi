@@ -67,7 +67,7 @@ public class Volume implements CommandBase {
                 }
             }
             try {
-                AudioEngine.changeVolume(message.getTextChannel(), Integer.parseInt(args[0]));
+                AudioEngine.changeVolume(message.getChannel().asTextChannel(), Integer.parseInt(args[0]));
             } catch (NumberFormatException e) {
                 MessageUtils.sendErrorMessage(I18n.getLoc(gw, "commands.music-volume.volume-number"), channel);
             }

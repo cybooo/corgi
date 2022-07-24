@@ -51,6 +51,6 @@ public class Stop implements CommandBase {
             return;
         }
 
-        AudioEngine.stop(message.getTextChannel());
+        AudioEngine.stop(message.getChannel().asTextChannel());
     }
 }

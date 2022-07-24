@@ -32,7 +32,7 @@ public class JoinEvent extends ListenerAdapter {
             MessageUtils.sendAutoDeletedMessage(MessageUtils.getEmbed(ColorSelector.getRandomColor()).setTitle("Corgi joined! :heart_eyes: ")
                     .setDescription("Corgi has joined your server! Change your prefix using `c!prefix [prefix]`. Example: `c!prefix .`\n" +
                             "View all commands using `c!help` or on my [**website**](https://corgibot.xyz)")
-                    .setThumbnail(CorgiBot.getShardManager().getShards().get(0).getSelfUser().getAvatarUrl()).setFooter("This message is gonna be deleted in 30 seconds!", null).build(), 40000L, event.getGuild().getDefaultChannel());
+                    .setThumbnail(CorgiBot.getShardManager().getShards().get(0).getSelfUser().getAvatarUrl()).setFooter("This message is gonna be deleted in 30 seconds!", null).build(), 40000L, event.getGuild().getDefaultChannel().asTextChannel());
         } catch (InsufficientPermissionException ignored) {
         }
 

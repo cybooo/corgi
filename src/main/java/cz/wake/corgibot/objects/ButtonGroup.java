@@ -74,7 +74,7 @@ public class ButtonGroup {
 
         public void addReaction(Message message) {
             if (!(message.getChannel().getType() == ChannelType.TEXT && message.getGuild().getSelfMember()
-                    .hasPermission(message.getTextChannel(), Permission.MESSAGE_HISTORY))) {
+                    .hasPermission(message.getChannel().asTextChannel(), Permission.MESSAGE_HISTORY))) {
                 message.getChannel().sendMessage(I18n.getLoc(BotManager.getCustomGuild(message.getGuild().getId()), "internal.error.cant-add-buttons")).queue();
                 return;
             }

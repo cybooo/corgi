@@ -63,6 +63,6 @@ public class Skip implements CommandBase {
                 return;
             }
         }
-        AudioEngine.skipTrack(message.getTextChannel());
+        AudioEngine.skipTrack(message.getChannel().asTextChannel());
     }
 }

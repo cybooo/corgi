@@ -221,8 +221,8 @@ public class ChatListener extends ListenerAdapter {
     }
 
     private void delete(Message message) {
-        if (message.getTextChannel().getGuild().getSelfMember()
-                .getPermissions(message.getTextChannel()).contains(Permission.MESSAGE_MANAGE)) {
+        if (message.getChannel().asTextChannel().getGuild().getSelfMember()
+                .getPermissions(message.getChannel().asTextChannel()).contains(Permission.MESSAGE_MANAGE)) {
             message.delete().queue();
         }
     }

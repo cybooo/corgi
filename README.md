@@ -5,7 +5,6 @@
     <img src="https://forthebadge.com/images/badges/made-with-java.svg" height="30">&nbsp;
     <img src="https://forthebadge.com/images/badges/built-with-love.svg" height="30">&nbsp;
     <a href="https://discord.gg/pR2tj432NS"><img src="https://img.shields.io/discord/860251548231532584.svg?style=for-the-badge" height="30"></a>&nbsp;<br>
-<a href="https://www.codefactor.io/repository/github/cybooo/corgi"><img src="https://www.codefactor.io/repository/github/cybooo/corgi/badge" alt="CodeFactor" /></a>
 </div>
 
 ---
@@ -13,7 +12,7 @@
 **Corgi** is an open-source Discord bot written in Java, using library JDA. Corgi provides various features like fun
 commands, moderation commands and some stats about games like Minecraft, Fortnite etc.
 
-Corgi was originally created by [MrWakeCZ](https://github.com/MrWakeCZ), but as of now, it's maintained
+Corgi was originally created and maintained by [MrWakeCZ](https://github.com/MrWakeCZ), but as of now, it's maintained
 by [cybooo](https://github.com/cybooo).
 
 ## Self-hosting CorgiBot
@@ -26,4 +25,4 @@ by [cybooo](https://github.com/cybooo).
 ## Main Contributors
 
 * [cybo#0001](https://github.com/cybooo)
-* [Wake#0001](https://github.com/MrWakeCZ)
+* [Wake#0001](https://github.com/mrwaked)

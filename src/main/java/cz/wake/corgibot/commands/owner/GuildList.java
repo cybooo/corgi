@@ -55,7 +55,7 @@ public class GuildList implements CommandBase {
             try {
                 page = Integer.parseInt(args[0]);
             } catch (NumberFormatException e) {
-                channel.sendMessage(MessageUtils.sendErrorMessage("`" + args[0] + "` is not a number!", channel)).queue();
+                MessageUtils.sendErrorMessage("`" + args[0] + "` is not a number!", channel);
                 return;
             }
         }

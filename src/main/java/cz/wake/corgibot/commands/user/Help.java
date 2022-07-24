@@ -44,7 +44,7 @@ public class Help implements CommandBase {
             cm.getCommands().stream().filter(c -> c.getName().equalsIgnoreCase(commandName)).forEach(c -> {
                 String description = c.getDescription().startsWith("commands") ? I18n.getLoc(gw, c.getDescription()) : c.getDescription();
                 String help = c.getHelp().startsWith("commands") ? I18n.getLoc(gw, c.getHelp()) : c.getHelp();
-                channel.sendMessageEmbeds(MessageUtils.getEmbed().setTitle(String.format(I18n.getLoc(gw, "commands.help.help-command"), commandName))
+                channel.sendMessageEmbeds(MessageUtils.getEmbed().setTitle(String.format(I18n.getLoc(gw, "commands.help.help-for-command"), commandName))
                         .setDescription(description + "\n\n**" + I18n.getLoc(gw, "internal.general.usage") + "**\n" + help.replace("%", gw.getPrefix()))
                         .setColor(Constants.BLUE).setFooter(I18n.getLoc(gw, "commands.help.aliases") + String.join(", ", c.getAliases()), null).build()).queue();
             });

@@ -62,17 +62,17 @@ public class Giveaway2 {
         }
         int days = (int) (timeseconds / (60 * 60 * 24));
         if (days > 0) {
-            builder.append("**").append(days).append("** "+ I18n.getLoc(guildWrapper, "internal.general.days") +", ");
+            builder.append("**").append(days).append("** " + I18n.getLoc(guildWrapper, "internal.general.days") + ", ");
             timeseconds = timeseconds % (60 * 60 * 24);
         }
         int hours = (int) (timeseconds / (60 * 60));
         if (hours > 0) {
-            builder.append("**").append(hours).append("** "+ I18n.getLoc(guildWrapper, "internal.general.hours") +", ");
+            builder.append("**").append(hours).append("** " + I18n.getLoc(guildWrapper, "internal.general.hours") + ", ");
             timeseconds = timeseconds % (60 * 60);
         }
         int minutes = (int) (timeseconds / (60));
         if (minutes > 0) {
-            builder.append("**").append(minutes).append("** "+ I18n.getLoc(guildWrapper, "internal.general.minutes") +", ");
+            builder.append("**").append(minutes).append("** " + I18n.getLoc(guildWrapper, "internal.general.minutes") + ", ");
             timeseconds = timeseconds % (60);
         }
         if (timeseconds > 0)
@@ -92,32 +92,30 @@ public class Giveaway2 {
                     return;
                 }
                 while (seconds > 10 && !exit) {
-                    message.editMessageEmbeds(new EmbedBuilder().setTitle(I18n.getLoc(guildWrapper, "giveaway.embed-title"), null).setDescription((prize != null ? "\n**" + prize + "**" : "\n") + String.format(I18n.getLoc(guildWrapper, "giveaway.embed-description"), emoji, secondsToTime(seconds))).setColor(color).setFooter(String.format(I18n.getLoc(guildWrapper, "giveaway.embed-footer"), maxWinners), null).setTimestamp(Instant.ofEpochMilli(endTime)).build()).queue(m -> {
+                    message.editMessageEmbeds(new EmbedBuilder().setTitle(I18n.getLoc(guildWrapper, "giveaway.embed-title"), null).setDescription((prize != null ? "\n**" + prize + "**\n" : "\n") + String.format(I18n.getLoc(guildWrapper, "giveaway.embed-description"), emoji, secondsToTime(seconds))).setColor(color).setFooter(String.format(I18n.getLoc(guildWrapper, "giveaway.embed-footer"), maxWinners), null).setTimestamp(Instant.ofEpochMilli(endTime)).build()).queue(m -> {
                     }, this::exceptionHandler);
                     seconds -= 30;
-                    if (!message.getReactions().equals(emoji)) {
-                        try {
-                            message.addReaction(Emoji.fromUnicode(emoji)).queue();
-                        } catch (Exception e) {
-                            emoji = "🎉";
-                            message.addReaction(Emoji.fromUnicode(emoji)).queue();
-                            exceptionHandler(e);
-                        }
+                    try {
+                        // Value "1000727596788633610>" is not snowflake.
+                        // Still did not figure out why the > stays there, so i'll just replace it myself. Fell free to PR my stupidity.
+                        message.addReaction(Emoji.fromUnicode(emoji.replace(">", ""))).queue();
+                    } catch (Exception e) {
+                        emoji = "🎉";
+                        message.addReaction(Emoji.fromUnicode(emoji)).queue();
+                        exceptionHandler(e);
                     }
                     Thread.sleep(30000);
                 }
                 while (seconds > 0 && !exit) {
-                    message.editMessageEmbeds(new EmbedBuilder().setTitle(I18n.getLoc(guildWrapper, "giveaway.embed-title-ending-soon"), null).setDescription((prize != null ? "\n**" + prize + "**" : "\n") + String.format(I18n.getLoc(guildWrapper, "giveaway.embed-description"), emoji, secondsToTime(seconds))).setColor(Color.RED).setFooter(String.format(I18n.getLoc(guildWrapper, "giveaway.embed-footer"), maxWinners), null).setTimestamp(Instant.ofEpochMilli(endTime)).build()).queue(m -> {
+                    message.editMessageEmbeds(new EmbedBuilder().setTitle(I18n.getLoc(guildWrapper, "giveaway.embed-title-ending-soon"), null).setDescription((prize != null ? "\n**" + prize + "**\n" : "\n") + String.format(I18n.getLoc(guildWrapper, "giveaway.embed-description"), emoji, secondsToTime(seconds))).setColor(Color.RED).setFooter(String.format(I18n.getLoc(guildWrapper, "giveaway.embed-footer"), maxWinners), null).setTimestamp(Instant.ofEpochMilli(endTime)).build()).queue(m -> {
                     }, this::exceptionHandler);
                     seconds--;
-                    if (!message.getReactions().equals(emoji)) {
-                        try {
-                            message.addReaction(Emoji.fromUnicode(emoji)).queue();
-                        } catch (Exception e) {
-                            emoji = "🎉";
-                            message.addReaction(Emoji.fromUnicode(emoji)).queue();
-                            exceptionHandler(e);
-                        }
+                    try {
+                        message.addReaction(Emoji.fromUnicode(emoji)).queue();
+                    } catch (Exception e) {
+                        emoji = "🎉";
+                        message.addReaction(Emoji.fromUnicode(emoji)).queue();
+                        exceptionHandler(e);
                     }
                     Thread.sleep(1000);
                 }
@@ -148,7 +146,7 @@ public class Giveaway2 {
                                 finalWinners.append(winners.size() > 1 ? c + ". " : I18n.getLoc(guildWrapper, "giveaway.winner")).append(message.getJDA().getUserById(w).getAsMention()).append("\n");
                             }
                         });
-                        message.editMessageEmbeds(new EmbedBuilder().setTitle(I18n.getLoc(guildWrapper, "giveaway.embed-title-ended"), null).setDescription((prize != null ? "\n**" + prize + "**" : "\n") + "\n" + finalWinners).setColor(Constants.GREEN).setFooter(I18n.getLoc(guildWrapper, "embed-footer-ended"), null).setTimestamp(Instant.ofEpochMilli(System.currentTimeMillis())).build()).queue(m -> {
+                        message.editMessageEmbeds(new EmbedBuilder().setTitle(I18n.getLoc(guildWrapper, "giveaway.embed-title-ended"), null).setDescription((prize != null ? "\n**" + prize + "**\n" : "\n") + "\n" + finalWinners).setColor(Constants.GREEN).setFooter(I18n.getLoc(guildWrapper, "embed-footer-ended"), null).setTimestamp(Instant.ofEpochMilli(System.currentTimeMillis())).build()).queue(m -> {
                         }, this::exceptionHandler);
 
                         if (winners.size() > 1) {

@@ -49,10 +49,10 @@ public class Giveaway implements CommandBase {
     private static Period getTimeFromInput(String input, MessageChannel channel, GuildWrapper gw) {
         try {
             String inputFinal = input
-                    .replace(I18n.getLoc(gw, "commands.giveaways.days"), "d")
-                    .replace(I18n.getLoc(gw, "commands.giveaways.hours"), "h")
-                    .replace(I18n.getLoc(gw, "commands.giveaways.minutes"), "m")
-                    .replace(I18n.getLoc(gw, "commands.giveaways.seconds"), "s");
+                    .replace(I18n.getLoc(gw, "commands.giveaway.days"), "d")
+                    .replace(I18n.getLoc(gw, "commands.giveaway.hours"), "h")
+                    .replace(I18n.getLoc(gw, "commands.giveaway.minutes"), "m")
+                    .replace(I18n.getLoc(gw, "commands.giveaway.seconds"), "s");
             return periodParser.parsePeriod(inputFinal);
         } catch (IllegalArgumentException e) {
             MessageUtils.sendErrorMessage(I18n.getLoc(gw, "commands.giveaway.invalid-time-format"),
@@ -154,7 +154,9 @@ public class Giveaway implements CommandBase {
                 String finalEmoji = emoji != null ? emoji : "🎉";
                 String finalColor = color;
                 channel.sendMessageEmbeds(MessageUtils.getEmbed(Constants.GRAY).setDescription(I18n.getLoc(gw, "commands.giveaway.generating")).build()).queue(m -> {
-                    m.addReaction(Emoji.fromUnicode(finalEmoji)).queue();
+                    // Value "1000727596788633610>" is not snowflake.
+                    // Still did not figure out why the > stays there, so i'll just replace it myself. Fell free to PR my stupidity.
+                    m.addReaction(Emoji.fromUnicode(finalEmoji.replace(">", ""))).queue();
                     new Giveaway2(gw, m, end.getMillis(), finalPrize, finalWinners, finalEmoji, finalColor).start();
                     CorgiBot.getInstance().getSql().registerGiveawayInSQL(member.getGuild().getId(), channel.getId(), m.getId(), start.getMillis(), end.getMillis(), finalPrize, finalWinners, finalEmoji, finalColor);
                 });

@@ -130,7 +130,12 @@ public class CorgiBot {
 
         // JDA Build
         CorgiLogger.infoMessage("Connecting to Discord API.");
-        shardManager = DefaultShardManagerBuilder.create(config.getString("discord.token"), GatewayIntent.GUILD_MESSAGES, GatewayIntent.GUILD_MESSAGE_REACTIONS, GatewayIntent.GUILD_MEMBERS)
+        shardManager = DefaultShardManagerBuilder.create(config.getString("discord.token"),
+                        GatewayIntent.MESSAGE_CONTENT,
+                        GatewayIntent.GUILD_MESSAGES,
+                        GatewayIntent.GUILD_MESSAGE_REACTIONS,
+                        GatewayIntent.GUILD_MEMBERS
+                )
                 .setMemberCachePolicy(MemberCachePolicy.ALL)
                 .setShardsTotal(-1)
                 .addEventListeners(new ReadyListener())

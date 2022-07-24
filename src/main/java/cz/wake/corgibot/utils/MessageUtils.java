@@ -21,22 +21,6 @@ import java.util.stream.Collectors;
 
 public class MessageUtils {
 
-    /**
-     * Sends Exception to selected {@link MessageChannel}
-     *
-     * @param s       Initial message
-     * @param e       Throwable message {@link Throwable}
-     * @param channel Selected {@link MessageChannel} where Corgi will send Exception message
-     */
-    public static Message sendException(String s, Throwable e, MessageChannel channel) {
-        StringWriter sw = new StringWriter();
-        PrintWriter pw = new PrintWriter(sw);
-        e.printStackTrace(pw);
-        String trace = sw.toString();
-        pw.close();
-        return sendErrorMessage(getEmbed().setDescription(s + "\n**Stack trace**: " + hastebin(trace)), channel);
-    }
-
     public static String hastebin(String trace) {
         try {
             return "https://paste.waked.cz/" + Unirest.post("https://paste.waked.cz/documents")
@@ -85,18 +69,18 @@ public class MessageUtils {
         return user.getDefaultAvatarUrl();
     }
 
-    public static Message sendErrorMessage(EmbedBuilder builder, MessageChannel channel) {
-        return channel.sendMessageEmbeds(builder.setColor(Constants.RED).build()).complete();
+    public static void sendErrorMessage(EmbedBuilder builder, MessageChannel channel) {
+        channel.sendMessageEmbeds(builder.setColor(Constants.RED).build()).queue();
     }
 
-    public static Message sendErrorMessage(String message, MessageChannel channel) {
-        return channel.sendMessageEmbeds(MessageUtils.getEmbed().setColor(Constants.RED).setDescription(message).build())
-                .complete();
+    public static void sendErrorMessage(String message, MessageChannel channel) {
+        channel.sendMessageEmbeds(MessageUtils.getEmbed().setColor(Constants.RED).setDescription(message).build())
+                .queue();
     }
 
-    public static Message sendErrorMessage(String title, String message, MessageChannel channel) {
-        return channel.sendMessageEmbeds(MessageUtils.getEmbed().setColor(Constants.RED).setTitle(title).setDescription(message).build())
-                .complete();
+    public static void sendErrorMessage(String title, String message, MessageChannel channel) {
+        channel.sendMessageEmbeds(MessageUtils.getEmbed().setColor(Constants.RED).setTitle(title).setDescription(message).build())
+                .queue();
     }
 
     public static void sendAutoDeletedMessage(String message, long delay, MessageChannel channel) {
@@ -116,13 +100,12 @@ public class MessageUtils {
     }
 
     private static void sendAutoDeletedMessage(Message message, long delay, MessageChannel channel) {
-        Message msg = channel.sendMessage(message).complete();
-        new CorgiTask("AutoDeleteTask") {
+        channel.sendMessage(message).queue(msg -> new CorgiTask("AutoDeleteTask") {
             @Override
             public void run() {
                 msg.delete().queue();
             }
-        }.delay(delay);
+        }.delay(delay));
     }
 
     public static void editMessage(Message message, String content) {

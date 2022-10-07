@@ -16,7 +16,9 @@
     "timeout": 10000
   },
   "apis": {
-    "imgflip": "super-secret-key"
+    "imgflip": "super-secret-key",
+    "spotify-client": "",
+    "spotify-secret": ""
   },
   "advanced": {
     "profile-picture": {

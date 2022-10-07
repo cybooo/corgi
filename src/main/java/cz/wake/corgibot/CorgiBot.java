@@ -4,6 +4,7 @@ import com.jagrosh.jdautilities.commons.waiter.EventWaiter;
 import cz.wake.corgibot.commands.CommandManager;
 import cz.wake.corgibot.feeds.TwitterEventListener;
 import cz.wake.corgibot.listener.*;
+import cz.wake.corgibot.music.AudioEngine;
 import cz.wake.corgibot.runnable.ReminderTask;
 import cz.wake.corgibot.runnable.SpamHandler;
 import cz.wake.corgibot.sql.SQLManager;
@@ -132,6 +133,7 @@ public class CorgiBot {
         CorgiLogger.infoMessage("Connecting to Discord API.");
         shardManager = DefaultShardManagerBuilder.create(config.getString("discord.token"),
                         GatewayIntent.MESSAGE_CONTENT,
+                        GatewayIntent.GUILD_VOICE_STATES,
                         GatewayIntent.GUILD_MESSAGES,
                         GatewayIntent.GUILD_MESSAGE_REACTIONS,
                         GatewayIntent.GUILD_MEMBERS
@@ -150,6 +152,9 @@ public class CorgiBot {
 
         // Instances
         instance.init();
+
+        // AudioEngine
+        AudioEngine.init();
 
         // Properties from config
         isBeta = config.getBoolean("beta");
@@ -212,6 +217,8 @@ public class CorgiBot {
             getShardManager().setActivity(Activity.playing("with bugs"));
             getShardManager().setStatus(OnlineStatus.DO_NOT_DISTURB);
         }
+
+
 
         CorgiLogger.infoMessage("Started up in " + (System.currentTimeMillis() - startUp) + "ms!");
     }

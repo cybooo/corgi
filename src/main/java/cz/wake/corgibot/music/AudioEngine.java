@@ -1,12 +1,17 @@
 package cz.wake.corgibot.music;
 
+import com.github.topislavalinkplugins.topissourcemanagers.applemusic.AppleMusicSourceManager;
+import com.github.topislavalinkplugins.topissourcemanagers.spotify.SpotifyConfig;
+import com.github.topislavalinkplugins.topissourcemanagers.spotify.SpotifySourceManager;
 import com.sedmelluq.discord.lavaplayer.player.AudioLoadResultHandler;
 import com.sedmelluq.discord.lavaplayer.player.AudioPlayerManager;
 import com.sedmelluq.discord.lavaplayer.player.DefaultAudioPlayerManager;
 import com.sedmelluq.discord.lavaplayer.source.AudioSourceManagers;
+import com.sedmelluq.discord.lavaplayer.source.youtube.YoutubeAudioSourceManager;
 import com.sedmelluq.discord.lavaplayer.tools.FriendlyException;
 import com.sedmelluq.discord.lavaplayer.track.AudioPlaylist;
 import com.sedmelluq.discord.lavaplayer.track.AudioTrack;
+import cz.wake.corgibot.CorgiBot;
 import cz.wake.corgibot.managers.BotManager;
 import cz.wake.corgibot.objects.guild.GuildWrapper;
 import cz.wake.corgibot.utils.Constants;
@@ -27,7 +32,16 @@ public class AudioEngine {
     private static final AudioPlayerManager playerManager = new DefaultAudioPlayerManager();
     private static final Map<Long, GuildMusicManager> musicManagers = new HashMap<>();
 
-    static {
+    public static void init() {
+        SpotifyConfig spotifyConfig = new SpotifyConfig();
+        spotifyConfig.setClientId(CorgiBot.getConfig().getString("apis.spotify-client"));
+        spotifyConfig.setClientSecret(CorgiBot.getConfig().getString("apis.spotify-secret"));
+        spotifyConfig.setCountryCode("US");
+
+        playerManager.registerSourceManager(new SpotifySourceManager(null, spotifyConfig, playerManager));
+        playerManager.registerSourceManager(new AppleMusicSourceManager(null, "us", playerManager));
+        playerManager.registerSourceManager(new YoutubeAudioSourceManager());
+
         AudioSourceManagers.registerRemoteSources(playerManager);
         AudioSourceManagers.registerLocalSource(playerManager);
     }
@@ -87,6 +101,11 @@ public class AudioEngine {
     }
 
     public static void loadAndPlay(Member member, MessageChannel channel, AudioChannel voice, String trackUrl) {
+
+        if (trackUrl.toLowerCase().contains("youtube") || trackUrl.toLowerCase().contains("youtu.be")) {
+            MessageUtils.sendErrorMessage("YouTube is not supported. Use Spotify or AppleMusic!", channel);
+            return;
+        }
 
         GuildMusicManager musicManager = getGuildAudioPlayer(voice.getGuild());
         GuildWrapper gw = BotManager.getCustomGuild(voice.getGuild().getId());

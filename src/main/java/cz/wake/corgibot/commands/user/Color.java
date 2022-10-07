@@ -91,7 +91,11 @@ public class Color implements CommandBase {
                     int DEC = Integer.parseInt(HEX.replace("#", ""), 16);
                     String CMYK = rgbToCmyk(java.awt.Color.decode(HEX).getRed(), java.awt.Color.decode(HEX).getGreen(), java.awt.Color.decode(HEX).getBlue());
                     builder.setColor(java.awt.Color.decode(HEX));
-                    builder.setDescription("**" + I18n.getLoc(gw, "commands.color.hex") + "**: " + HEX.toLowerCase() + "\n**" + I18n.getLoc(gw, "commands.color.rgb") + "**: " + RGB + "\n**" + I18n.getLoc(gw, "commands.color.dec") + "**: " + DEC + "\n**" + I18n.getLoc(gw, "commands.color.cmyk") + "**: " + CMYK);
+                    builder.setDescription("**" +
+                            I18n.getLoc(gw, "commands.color.hex") + "**: " + HEX.toLowerCase() + "\n**" +
+                            I18n.getLoc(gw, "commands.color.rgb") + "**: " + RGB + "\n**" +
+                            I18n.getLoc(gw, "commands.color.dec") + "**: " + DEC + "\n**" +
+                            I18n.getLoc(gw, "commands.color.cmyk") + "**: " + CMYK);
                     builder.setAuthor(HEX + ":");
                     colorCommand(java.awt.Color.decode(HEX), channel, builder);
                 } else {

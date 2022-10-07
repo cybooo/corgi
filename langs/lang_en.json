@@ -112,7 +112,7 @@
       "description": "Gets color from a HEX code",
       "help": "%color [HEX code] - Gets a color",
       "hex": "HEX",
-      "rgb:": "RGB",
+      "rgb": "RGB",
       "dec": "DEC",
       "cmyk": "CMYK",
       "incorrectly-entered": "Wrong command! Ex. `%color #B0171F`"

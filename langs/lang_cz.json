@@ -112,7 +112,7 @@
       "description": "Získá barvu podle hex kódu",
       "help": "%color [HEX-KÓD] - Získá barvu",
       "hex": "HEX",
-      "rgb:": "RGB",
+      "rgb": "RGB",
       "dec": "DEC",
       "cmyk": "CMYK",
       "incorrectly-entered": "Špatně zadaný příkaz! Př. `%color #B0171F`"

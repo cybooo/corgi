@@ -32,48 +32,45 @@ public class Volume implements CommandBase {
 
     @Override
     public void onCommand(MessageChannel channel, Message message, String[] args, Member member, EventWaiter w, GuildWrapper gw) {
-        MessageUtils.sendErrorMessage(
-                "Music related features have been removed for the time being.\n" +
-                        "Using the YouTube API is against Discord's Developer ToS. In the future, Corgi is gonna support other music platforms.",
-                channel);
-//        boolean canUse = false;
-//        ArrayList<String> roles = CorgiBot.getInstance().getSql().getRoleMusicRoles(message.getGuild().getId(), getCommand());
-//        if (member.getRoles().isEmpty()) {
-//            if (roles.isEmpty() || PermissionUtil.checkPermission(member, Permission.MANAGE_CHANNEL)) {
-//                canUse = true;
-//            }
-//        } else {
-//            for (Role role : member.getRoles()) {
-//                if (roles.isEmpty() || roles.contains(role.getId()) || PermissionUtil.checkPermission(member, Permission.MANAGE_CHANNEL)) {
-//                    canUse = true;
-//                    break;
-//                }
-//            }
-//        }
-//        if (!canUse) {
-//            MessageUtils.sendErrorMessage(I18n.getLoc(gw, "internal.general.cant-use-this-command"), channel);
-//            return;
-//        }
-//
-//        if (args.length == 0) {
-//            MessageUtils.sendErrorMessage(String.format(I18n.getLoc(gw, "commands.music-volume.specify-volume"), gw.getPrefix()), channel);
-//        } else {
-//            if (member.getVoiceState().getChannel() == null) {
-//                MessageUtils.sendErrorMessage(I18n.getLoc(gw, "commands.music.need-to-be-in-voice"), channel);
-//                return;
-//            }
-//
-//            if (message.getGuild().getSelfMember().getVoiceState().getChannel() != null) {
-//                if (!Objects.equals(member.getVoiceState().getChannel(), message.getGuild().getSelfMember().getVoiceState().getChannel())) {
-//                    MessageUtils.sendErrorMessage(I18n.getLoc(gw, "commands.music.need-to-be-in-same-voice"), channel);
-//                    return;
-//                }
-//            }
-//            try {
-//                AudioEngine.changeVolume(message.getChannel().asTextChannel(), Integer.parseInt(args[0]));
-//            } catch (NumberFormatException e) {
-//                MessageUtils.sendErrorMessage(I18n.getLoc(gw, "commands.music-volume.volume-number"), channel);
-//            }
-//        }
+
+        boolean canUse = false;
+        ArrayList<String> roles = CorgiBot.getInstance().getSql().getRoleMusicRoles(message.getGuild().getId(), getCommand());
+        if (member.getRoles().isEmpty()) {
+            if (roles.isEmpty() || PermissionUtil.checkPermission(member, Permission.MANAGE_CHANNEL)) {
+                canUse = true;
+            }
+        } else {
+            for (Role role : member.getRoles()) {
+                if (roles.isEmpty() || roles.contains(role.getId()) || PermissionUtil.checkPermission(member, Permission.MANAGE_CHANNEL)) {
+                    canUse = true;
+                    break;
+                }
+            }
+        }
+        if (!canUse) {
+            MessageUtils.sendErrorMessage(I18n.getLoc(gw, "internal.general.cant-use-this-command"), channel);
+            return;
+        }
+
+        if (args.length == 0) {
+            MessageUtils.sendErrorMessage(String.format(I18n.getLoc(gw, "commands.music-volume.specify-volume"), gw.getPrefix()), channel);
+        } else {
+            if (member.getVoiceState().getChannel() == null) {
+                MessageUtils.sendErrorMessage(I18n.getLoc(gw, "commands.music.need-to-be-in-voice"), channel);
+                return;
+            }
+
+            if (message.getGuild().getSelfMember().getVoiceState().getChannel() != null) {
+                if (!Objects.equals(member.getVoiceState().getChannel(), message.getGuild().getSelfMember().getVoiceState().getChannel())) {
+                    MessageUtils.sendErrorMessage(I18n.getLoc(gw, "commands.music.need-to-be-in-same-voice"), channel);
+                    return;
+                }
+            }
+            try {
+                AudioEngine.changeVolume(message.getChannel().asTextChannel(), Integer.parseInt(args[0]));
+            } catch (NumberFormatException e) {
+                MessageUtils.sendErrorMessage(I18n.getLoc(gw, "commands.music-volume.volume-number"), channel);
+            }
+        }
     }
 }

@@ -31,26 +31,29 @@ public class Stop implements CommandBase {
 
     @Override
     public void onCommand(MessageChannel channel, Message message, String[] args, Member member, EventWaiter w, GuildWrapper gw) {
-
-        boolean canUse = false;
-        ArrayList<String> roles = CorgiBot.getInstance().getSql().getRoleMusicRoles(message.getGuild().getId(), getCommand());
-        if (member.getRoles().isEmpty()) {
-            if (PermissionUtil.checkPermission(member, Permission.MANAGE_CHANNEL)) {
-                canUse = true;
-            }
-        } else {
-            for (Role role : member.getRoles()) {
-                if (roles.contains(role.getId()) || PermissionUtil.checkPermission(member, Permission.MANAGE_CHANNEL)) {
-                    canUse = true;
-                    break;
-                }
-            }
-        }
-        if (!canUse) {
-            MessageUtils.sendErrorMessage(I18n.getLoc(gw, "internal.general.cant-use-this-command"), channel);
-            return;
-        }
-
-        AudioEngine.stop(message.getChannel().asTextChannel());
+        MessageUtils.sendErrorMessage(
+                "Music related features have been removed for the time being.\n" +
+                        "Using the YouTube API is against Discord's Developer ToS. In the future, Corgi is gonna support other music platforms.",
+                channel);
+//        boolean canUse = false;
+//        ArrayList<String> roles = CorgiBot.getInstance().getSql().getRoleMusicRoles(message.getGuild().getId(), getCommand());
+//        if (member.getRoles().isEmpty()) {
+//            if (PermissionUtil.checkPermission(member, Permission.MANAGE_CHANNEL)) {
+//                canUse = true;
+//            }
+//        } else {
+//            for (Role role : member.getRoles()) {
+//                if (roles.contains(role.getId()) || PermissionUtil.checkPermission(member, Permission.MANAGE_CHANNEL)) {
+//                    canUse = true;
+//                    break;
+//                }
+//            }
+//        }
+//        if (!canUse) {
+//            MessageUtils.sendErrorMessage(I18n.getLoc(gw, "internal.general.cant-use-this-command"), channel);
+//            return;
+//        }
+//
+//        AudioEngine.stop(message.getChannel().asTextChannel());
     }
 }

@@ -32,37 +32,40 @@ public class Skip implements CommandBase {
 
     @Override
     public void onCommand(MessageChannel channel, Message message, String[] args, Member member, EventWaiter w, GuildWrapper gw) {
-
-        boolean canUse = false;
-        ArrayList<String> roles = CorgiBot.getInstance().getSql().getRoleMusicRoles(message.getGuild().getId(), getCommand());
-        if (member.getRoles().isEmpty()) {
-            if (PermissionUtil.checkPermission(member, Permission.MANAGE_CHANNEL)) {
-                canUse = true;
-            }
-        } else {
-            for (Role role : member.getRoles()) {
-                if (roles.contains(role.getId()) || PermissionUtil.checkPermission(member, Permission.MANAGE_CHANNEL)) {
-                    canUse = true;
-                    break;
-                }
-            }
-        }
-        if (!canUse) {
-            MessageUtils.sendErrorMessage(I18n.getLoc(gw, "internal.general.cant-use-this-command"), channel);
-            return;
-        }
-
-        if (member.getVoiceState().getChannel() == null) {
-            MessageUtils.sendErrorMessage(I18n.getLoc(gw, "commands.music.need-to-be-in-voice"), channel);
-            return;
-        }
-
-        if (message.getGuild().getSelfMember().getVoiceState().getChannel() != null) {
-            if (!Objects.equals(member.getVoiceState().getChannel(), message.getGuild().getSelfMember().getVoiceState().getChannel())) {
-                MessageUtils.sendErrorMessage(I18n.getLoc(gw, "commands.music.need-to-be-in-same-voice"), channel);
-                return;
-            }
-        }
-        AudioEngine.skipTrack(message.getChannel().asTextChannel());
+        MessageUtils.sendErrorMessage(
+                "Music related features have been removed for the time being.\n" +
+                        "Using the YouTube API is against Discord's Developer ToS. In the future, Corgi is gonna support other music platforms.",
+                channel);
+//        boolean canUse = false;
+//        ArrayList<String> roles = CorgiBot.getInstance().getSql().getRoleMusicRoles(message.getGuild().getId(), getCommand());
+//        if (member.getRoles().isEmpty()) {
+//            if (PermissionUtil.checkPermission(member, Permission.MANAGE_CHANNEL)) {
+//                canUse = true;
+//            }
+//        } else {
+//            for (Role role : member.getRoles()) {
+//                if (roles.contains(role.getId()) || PermissionUtil.checkPermission(member, Permission.MANAGE_CHANNEL)) {
+//                    canUse = true;
+//                    break;
+//                }
+//            }
+//        }
+//        if (!canUse) {
+//            MessageUtils.sendErrorMessage(I18n.getLoc(gw, "internal.general.cant-use-this-command"), channel);
+//            return;
+//        }
+//
+//        if (member.getVoiceState().getChannel() == null) {
+//            MessageUtils.sendErrorMessage(I18n.getLoc(gw, "commands.music.need-to-be-in-voice"), channel);
+//            return;
+//        }
+//
+//        if (message.getGuild().getSelfMember().getVoiceState().getChannel() != null) {
+//            if (!Objects.equals(member.getVoiceState().getChannel(), message.getGuild().getSelfMember().getVoiceState().getChannel())) {
+//                MessageUtils.sendErrorMessage(I18n.getLoc(gw, "commands.music.need-to-be-in-same-voice"), channel);
+//                return;
+//            }
+//        }
+//        AudioEngine.skipTrack(message.getChannel().asTextChannel());
     }
 }

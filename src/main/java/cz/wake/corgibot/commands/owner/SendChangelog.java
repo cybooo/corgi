@@ -68,6 +68,7 @@ public class SendChangelog implements CommandBase {
             changelog.append("\n\n");
         }
 
-        CorgiBot.getDefaultGuild().getTextChannelById("860521900039602186").sendMessage(changelog.toString()).queue();
+        channel.sendMessage(changelog.toString()).queue();
+        message.delete();
     }
 }

@@ -29,7 +29,7 @@ public class Stats implements CommandBase {
         UserGuildData userGuildData = BotManager.getUserWrappers().get(member.getId()).getGuildData().get(gw.getGuildId());
         message.replyEmbeds(MessageUtils.getEmbed(Constants.BLUE)
                 .setTitle(I18n.getLoc(gw, "commands.stats.embed-title"))
-                        .addField(I18n.getLoc(gw, "commands.stats.embed-xp"), String.valueOf(userGuildData.getXp()), true)
+                        .addField(I18n.getLoc(gw, "commands.stats.xp"), String.valueOf(userGuildData.getXp()), true)
                         //.addField(I18n.getLoc(gw, "commands.stats.level"), String.valueOf(userGuildData.getLevel()), true)
                         .addField(I18n.getLoc(gw, "commands.stats.messages"), String.valueOf(userGuildData.getMessages()), true)
                         //.addField(I18n.getLoc(gw, "commands.stats.voice-minutes"), String.valueOf(userGuildData.getVoiceTime()), true)

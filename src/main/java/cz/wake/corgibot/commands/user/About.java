@@ -25,7 +25,7 @@ public class About implements CommandBase {
 
     @Override
     public void onCommand(MessageChannel channel, Message message, String[] args, Member member, EventWaiter w, GuildWrapper gw) {
-        channel.sendMessageEmbeds(MessageUtils.getEmbed(Constants.BLUE).setTitle(I18n.getLoc(gw, "commands.about.embed-description"))
+        channel.sendMessageEmbeds(MessageUtils.getEmbed(Constants.BLUE).setTitle(I18n.getLoc(gw, "commands.about.embed-title"))
                 .setDescription(
                         I18n.getLoc(gw, "commands.about.embed-description").formatted(channel.getJDA().getUserById("485434705903222805").getAsMention()))
                 .setThumbnail(channel.getJDA().getSelfUser().getAvatarUrl())

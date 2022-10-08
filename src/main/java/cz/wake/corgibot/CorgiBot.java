@@ -218,8 +218,6 @@ public class CorgiBot {
             getShardManager().setStatus(OnlineStatus.DO_NOT_DISTURB);
         }
 
-
-
         CorgiLogger.infoMessage("Started up in " + (System.currentTimeMillis() - startUp) + "ms!");
     }
 

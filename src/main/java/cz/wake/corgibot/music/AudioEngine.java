@@ -1,8 +1,7 @@
 package cz.wake.corgibot.music;
 
-import com.github.topislavalinkplugins.topissourcemanagers.applemusic.AppleMusicSourceManager;
-import com.github.topislavalinkplugins.topissourcemanagers.spotify.SpotifyConfig;
-import com.github.topislavalinkplugins.topissourcemanagers.spotify.SpotifySourceManager;
+import com.github.topisenpai.lavasrc.applemusic.AppleMusicSourceManager;
+import com.github.topisenpai.lavasrc.spotify.SpotifySourceManager;
 import com.sedmelluq.discord.lavaplayer.player.AudioLoadResultHandler;
 import com.sedmelluq.discord.lavaplayer.player.AudioPlayerManager;
 import com.sedmelluq.discord.lavaplayer.player.DefaultAudioPlayerManager;
@@ -33,12 +32,10 @@ public class AudioEngine {
     private static final Map<Long, GuildMusicManager> musicManagers = new HashMap<>();
 
     public static void init() {
-        SpotifyConfig spotifyConfig = new SpotifyConfig();
-        spotifyConfig.setClientId(CorgiBot.getConfig().getString("apis.spotify-client"));
-        spotifyConfig.setClientSecret(CorgiBot.getConfig().getString("apis.spotify-secret"));
-        spotifyConfig.setCountryCode("US");
 
-        playerManager.registerSourceManager(new SpotifySourceManager(null, spotifyConfig, playerManager));
+        playerManager.registerSourceManager(new SpotifySourceManager(null,
+                CorgiBot.getConfig().getString("apis.spotify-client"),
+                CorgiBot.getConfig().getString("apis.spotify-secret"), playerManager));
         playerManager.registerSourceManager(new AppleMusicSourceManager(null, "us", playerManager));
         playerManager.registerSourceManager(new YoutubeAudioSourceManager());
 
@@ -68,7 +65,7 @@ public class AudioEngine {
         if (track == null) {
             channel.sendMessageEmbeds(MessageUtils.getEmbed(Constants.BLUE)
                     .setTitle(I18n.getLoc(gw, "commands.music.embed-title"))
-                    .setDescription("Nothing is currently playing!")
+                    .setDescription("commands.music.nothing-playing")
                     .build()).queue();
             return;
         }
@@ -102,14 +99,14 @@ public class AudioEngine {
 
     public static void loadAndPlay(Member member, MessageChannel channel, AudioChannel voice, String trackUrl) {
 
+        GuildWrapper gw = BotManager.getCustomGuild(voice.getGuild().getId());
+
         if (trackUrl.toLowerCase().contains("youtube") || trackUrl.toLowerCase().contains("youtu.be")) {
-            MessageUtils.sendErrorMessage("YouTube is not supported. Use Spotify or AppleMusic!", channel);
+            MessageUtils.sendErrorMessage(I18n.getLoc(gw, "commands.music.youtube-unsupported"), channel);
             return;
         }
 
         GuildMusicManager musicManager = getGuildAudioPlayer(voice.getGuild());
-        GuildWrapper gw = BotManager.getCustomGuild(voice.getGuild().getId());
-
         playerManager.loadItemOrdered(musicManager, trackUrl, new AudioLoadResultHandler() {
 
             @Override
@@ -119,15 +116,15 @@ public class AudioEngine {
 
                 if (duration > 600 && !PermissionUtil.checkPermission(member, Permission.MANAGE_CHANNEL)) {
                     channel.sendMessageEmbeds(MessageUtils.getEmbed(Constants.BLUE)
-                            .setTitle(I18n.getLoc(gw, "commands.music-volume.embed-title"))
+                            .setTitle(I18n.getLoc(gw, "commands.music.embed-title"))
                             .setDescription(String.format(I18n.getLoc(gw, "commands.music.max-length"), "10"))
                             .build()).queue();
                     return;
 
                 } else {
                     channel.sendMessageEmbeds(MessageUtils.getEmbed(Constants.BLUE)
-                            .setTitle(I18n.getLoc(gw, "commands.music-volume.embed-title"))
-                            .setDescription(String.format(I18n.getLoc(gw, "commands.music.added-track"), track.getInfo().title) + "**\n:hourglass_flowing_sand: " + TimeUtils.secondsToTime(duration, gw))
+                            .setTitle(I18n.getLoc(gw, "commands.music.embed-title"))
+                            .setDescription(String.format(I18n.getLoc(gw, "commands.music.added-track"), track.getInfo().title) + "\n:hourglass_flowing_sand: " + TimeUtils.secondsToTime(duration, gw))
                             .build()).queue();
                 }
 
@@ -143,7 +140,7 @@ public class AudioEngine {
 
                 if (playlist.getTracks().size() > 1000) {
                     channel.sendMessageEmbeds(MessageUtils.getEmbed(Constants.BLUE)
-                            .setTitle(I18n.getLoc(gw, "commands.music-volume.embed-title"))
+                            .setTitle(I18n.getLoc(gw, "commands.music.embed-title"))
                             .setDescription(String.format(I18n.getLoc(gw, "commands.music.playlist-limit"), "1000"))
                             .build()).queue();
                     playlist.getTracks().clear();
@@ -166,14 +163,14 @@ public class AudioEngine {
                 totalDuration = totalDuration / 1000;
 
                 channel.sendMessageEmbeds(MessageUtils.getEmbed(Constants.BLUE)
-                        .setTitle(I18n.getLoc(gw, "commands.music-volume.embed-title"))
-                        .setDescription(String.format(I18n.getLoc(gw, "commands.music.added-playlist"), playlist.getName()) +  "**\n:hourglass_flowing_sand: " + TimeUtils.secondsToTime(totalDuration, gw) + "\n" +
+                        .setTitle(I18n.getLoc(gw, "commands.music.embed-title"))
+                        .setDescription(String.format(I18n.getLoc(gw, "commands.music.added-playlist"), playlist.getName()) +  "\n:hourglass_flowing_sand: " + TimeUtils.secondsToTime(totalDuration, gw) + "\n" +
                                 ":headphones: " + String.format(I18n.getLoc(gw, "commands.music.track-amount"), totalTracks))
                         .build()).queue();
 
                 if (failedTracks > 0) {
                     channel.sendMessageEmbeds(MessageUtils.getEmbed(Constants.BLUE)
-                            .setTitle(I18n.getLoc(gw, "commands.music-volume.embed-title"))
+                            .setTitle(I18n.getLoc(gw, "commands.music.embed-title"))
                             .setDescription(String.format(I18n.getLoc(gw, "commands.music.tracks-not-loaded-limit"), failedTracks, "10"))
                             .build()).queue();
                 }
@@ -182,7 +179,7 @@ public class AudioEngine {
             @Override
             public void noMatches() {
                 channel.sendMessageEmbeds(MessageUtils.getEmbed(Constants.BLUE)
-                        .setTitle(I18n.getLoc(gw, "commands.music-volume.embed-title"))
+                        .setTitle(I18n.getLoc(gw, "commands.music.embed-title"))
                         .setDescription(I18n.getLoc(gw, "commands.music.no-track-found"))
                         .build()).queue();
             }
@@ -190,7 +187,7 @@ public class AudioEngine {
             @Override
             public void loadFailed(FriendlyException ex) {
                 channel.sendMessageEmbeds(MessageUtils.getEmbed(Constants.BLUE)
-                        .setTitle(I18n.getLoc(gw, "commands.music-volume.embed-title"))
+                        .setTitle(I18n.getLoc(gw, "commands.music.embed-title"))
                         .setDescription(String.format(I18n.getLoc(gw, "commands.music.track-failed"), ex.getMessage()))
                         .build()).queue();
             }

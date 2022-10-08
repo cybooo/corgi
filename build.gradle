@@ -67,6 +67,6 @@ dependencies {
     implementation group: 'javax.xml.bind', name: 'jaxb-api', version: '2.3.1'
     implementation name: 'ason-1.4.16'
     testImplementation group: 'org.slf4j', name: 'slf4j-jdk14', version: '1.7.36'
-    implementation 'com.github.Topis-Lavalink-Plugins:Topis-Source-Managers:2.0.7'
+    implementation 'com.github.Topis-Lavalink-Plugins:Topis-Source-Managers:3.0.1'
 
 }

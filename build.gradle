@@ -52,7 +52,7 @@ dependencies {
     implementation "com.github.TopiSenpai.LavaSrc:lavasrc:3.0.1"
 
     // Others
-    implementation group: 'mysql', name: 'mysql-connector-java', version: '8.0.28'
+    implementation group: 'mysql', name: 'mysql-connector-java', version: '8.0.30'
     implementation group: 'com.mashape.unirest', name: 'unirest-java', version: '1.4.9'
     implementation group: 'com.zaxxer', name: 'HikariCP', version: '5.0.1'
     implementation group: 'org.slf4j', name: 'slf4j-api', version: '1.7.36'

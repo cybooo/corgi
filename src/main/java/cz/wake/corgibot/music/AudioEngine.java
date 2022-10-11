@@ -1,12 +1,14 @@
 package cz.wake.corgibot.music;
 
 import com.github.topisenpai.lavasrc.applemusic.AppleMusicSourceManager;
+import com.github.topisenpai.lavasrc.deezer.DeezerAudioSourceManager;
 import com.github.topisenpai.lavasrc.spotify.SpotifySourceManager;
+import com.sedmelluq.discord.lavaplayer.container.MediaContainerRegistry;
 import com.sedmelluq.discord.lavaplayer.player.AudioLoadResultHandler;
 import com.sedmelluq.discord.lavaplayer.player.AudioPlayerManager;
 import com.sedmelluq.discord.lavaplayer.player.DefaultAudioPlayerManager;
 import com.sedmelluq.discord.lavaplayer.source.AudioSourceManagers;
-import com.sedmelluq.discord.lavaplayer.source.youtube.YoutubeAudioSourceManager;
+import com.sedmelluq.discord.lavaplayer.source.http.HttpAudioSourceManager;
 import com.sedmelluq.discord.lavaplayer.tools.FriendlyException;
 import com.sedmelluq.discord.lavaplayer.track.AudioPlaylist;
 import com.sedmelluq.discord.lavaplayer.track.AudioTrack;
@@ -30,14 +32,17 @@ public class AudioEngine {
 
     private static final AudioPlayerManager playerManager = new DefaultAudioPlayerManager();
     private static final Map<Long, GuildMusicManager> musicManagers = new HashMap<>();
-
+    private static final String[] providers = new String[] {
+            "dzisrc:%ISRC%", "dzsearch:%QUERY%", "amsearch:%QUERY%", "spsearch:%QUERY%"};
     public static void init() {
 
-        playerManager.registerSourceManager(new SpotifySourceManager(null,
+        playerManager.registerSourceManager(new SpotifySourceManager(providers,
                 CorgiBot.getConfig().getString("apis.spotify-client"),
-                CorgiBot.getConfig().getString("apis.spotify-secret"), playerManager));
-        playerManager.registerSourceManager(new AppleMusicSourceManager(null, "us", playerManager));
-        playerManager.registerSourceManager(new YoutubeAudioSourceManager());
+                CorgiBot.getConfig().getString("apis.spotify-secret"), "us", playerManager));
+        playerManager.registerSourceManager(new AppleMusicSourceManager(providers, "us", playerManager));
+        playerManager.registerSourceManager(new HttpAudioSourceManager(MediaContainerRegistry.DEFAULT_REGISTRY));
+        playerManager.registerSourceManager(new DeezerAudioSourceManager(
+                CorgiBot.getConfig().getString("apis.deezer-encryption")));
 
         AudioSourceManagers.registerRemoteSources(playerManager);
         AudioSourceManagers.registerLocalSource(playerManager);

@@ -18,7 +18,8 @@
   "apis": {
     "imgflip": "super-secret-key",
     "spotify-client": "",
-    "spotify-secret": ""
+    "spotify-secret": "",
+    "deezer-encryption": ""
   },
   "advanced": {
     "profile-picture": {

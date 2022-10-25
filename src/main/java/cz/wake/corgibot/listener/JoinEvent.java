@@ -46,7 +46,7 @@ public class JoinEvent extends ListenerAdapter {
                         .setDescription(
                                 "Guild name: `" + event.getGuild().getName() + "` :smile: :heart:\n" +
                                         "Owner: " + (owner == null ? "Does not exist, or unable to find!" : owner.getUser().getName()) + "\n" +
-                                        "Members: " + event.getGuild().getMembers().size())
+                                        "Members: " + event.getGuild().getMemberCount())
                         .build()).queue();
             });
         }

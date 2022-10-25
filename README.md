@@ -9,8 +9,8 @@
 
 ---
 
-**Corgi** is an open-source Discord bot written in Java, using library JDA. Corgi provides various features like fun
-commands, moderation commands and some stats about games like Minecraft, Fortnite etc.
+**Corgi** is an open-source Discord bot written in Java. Corgi provides various features like fun
+commands, moderation commands, music commands, multi-language support and more.
 
 Corgi was originally created and maintained by [MrWakeCZ](https://github.com/MrWakeCZ), but as of now, it's maintained
 by [cybooo](https://github.com/cybooo).

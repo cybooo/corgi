@@ -14,16 +14,18 @@ public class LeaveEvent extends ListenerAdapter {
 
     @Override
     public void onGuildLeave(GuildLeaveEvent event) {
-        CorgiBot.getInstance().getGuildLogChannel().sendMessageEmbeds(MessageUtils.getEmbed(Constants.RED)
-                .setThumbnail(event.getGuild().getIconUrl())
-                .setFooter(event.getGuild().getId(), event.getGuild().getIconUrl())
-                .setTimestamp(OffsetDateTime.now())
-                .setTitle("Corgi has left a guild!")
-                .setAuthor(event.getGuild().getName(), null, event.getGuild().getIconUrl())
-                .setDescription("Guild name: `" + event.getGuild().getName() + "` :broken_heart:\n" +
-                        "Owner: " + (event.getGuild().getOwner() != null ?
-                        event.getGuild().getOwner().getUser().getName()
-                        : "Does not exist, or unable to find!")).build()).queue();
+        event.getGuild().retrieveOwner().queue(owner -> {
+            CorgiBot.getInstance().getGuildLogChannel().sendMessageEmbeds(MessageUtils.getEmbed(Constants.RED)
+                    .setThumbnail(event.getGuild().getIconUrl())
+                    .setFooter(event.getGuild().getId(), event.getGuild().getIconUrl())
+                    .setTimestamp(OffsetDateTime.now())
+                    .setTitle("Corgi has left a guild!")
+                    .setAuthor(event.getGuild().getName(), null, event.getGuild().getIconUrl())
+                    .setDescription("Guild name: `" + event.getGuild().getName() + "` :broken_heart:\n" +
+                            "Owner: " + (owner != null ?
+                            owner.getUser().getName()
+                            : "Does not exist, or unable to find!")).build()).queue();
+        });
 
         // Logger
         CorgiLogger.infoMessage("GuildLeaveEvent - " + event.getGuild().getName() + "(" + event.getGuild().getId() + ")");

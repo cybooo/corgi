@@ -259,7 +259,7 @@
     "love": {
       "detector": "Detektor lásky :heart:",
       "error": "Musíš označit aspoň jednu osobu! Př. `%love @nick`",
-      "match": " Shoda: **%s%** mezi %s a %s",
+      "match": " Shoda: **%s** mezi %s a %s",
       "mention-yourself": "Povím ti tajemství, tak blbý nejsem! Neoznačuj sám sebe, pouze ty víš jak moc se máš rád/a.",
       "p100": "Tady to vypadá na něco zajímavějšího..",
       "p45": "To bohůžel nepůjde..",
@@ -332,7 +332,7 @@
     "prefix": {
       "cannot-three-chars": "Nelze nastavit prefix, který má víc než tři znaky!",
       "corgi-is-beta-prefix": "Corgi je spuštěn v režimu BETA! Nelze upravovat prefix!",
-      "cunrrent-prefix-is": "Aktuální prefix pro server je `%s`",
+      "current-prefix-is": "Aktuální prefix pro server je `%s`",
       "description": "Nastavení vlastního prefixu pro server.",
       "help": "%prefix reset/[prefix]",
       "prefix-set-to": "Prefix byl nastaven na `%s`",

@@ -223,7 +223,7 @@
       "times-up": "Time ran out!"
     },
     "invite": {
-      "click": "[**Click here] if you want to invite me!",
+      "click": "If you want to invite me, [**click here!**]",
       "description": "Invite Corgi to your server!",
       "help": "%invite - Generates an invite link to invite Corgi to your server.",
       "title": "Invite me to your server!"

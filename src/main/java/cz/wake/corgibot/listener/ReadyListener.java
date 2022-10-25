@@ -18,7 +18,7 @@ public class ReadyListener extends ListenerAdapter {
 
         BotManager.loadGuilds(shardInfo.getShardId());
 
-        shard.getPresence().setPresence(OnlineStatus.ONLINE, Activity.watching("c!help | Shard " + shardInfo.getShardId()));
+        shard.getPresence().setPresence(OnlineStatus.ONLINE, Activity.watching("c!help | " + event.getJDA().getGuilds().size() + " guilds"));
 
         CorgiLogger.infoMessage("Loaded shard " + (shardInfo.getShardId() + 1) + "/" + shardInfo.getShardTotal() +
                 " with " + shard.getGuilds().size() + " guilds.");

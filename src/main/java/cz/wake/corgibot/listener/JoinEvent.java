@@ -15,7 +15,7 @@ import net.dv8tion.jda.api.hooks.ListenerAdapter;
 import org.jetbrains.annotations.NotNull;
 
 public class JoinEvent extends ListenerAdapter {
-    
+
     @Override
     public void onGuildJoin(GuildJoinEvent event) {
 
@@ -45,6 +45,7 @@ public class JoinEvent extends ListenerAdapter {
                     .setAuthor(event.getGuild().getName(), null, event.getGuild().getIconUrl()).setTimestamp(event.getGuild().getSelfMember().getTimeJoined())
                     .setDescription(
                             "Guild name: `" + event.getGuild().getName() + "` :smile: :heart:\n" +
+                            "Owner: " + (event.getGuild().getOwner() == null ? "Does not exist, or unable to find!" : event.getGuild().getOwner().getUser().getName()) +
                             "Members: " + event.getGuild().getMembers().size())
                     .build()).queue();
         }

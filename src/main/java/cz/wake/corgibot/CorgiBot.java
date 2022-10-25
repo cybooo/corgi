@@ -22,6 +22,7 @@ import net.dv8tion.jda.api.entities.TextChannel;
 import net.dv8tion.jda.api.requests.GatewayIntent;
 import net.dv8tion.jda.api.sharding.DefaultShardManagerBuilder;
 import net.dv8tion.jda.api.sharding.ShardManager;
+import net.dv8tion.jda.api.utils.ChunkingFilter;
 import net.dv8tion.jda.api.utils.MemberCachePolicy;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
@@ -138,7 +139,7 @@ public class CorgiBot {
                         GatewayIntent.GUILD_MESSAGE_REACTIONS,
                         GatewayIntent.GUILD_MEMBERS
                 )
-                .setMemberCachePolicy(MemberCachePolicy.ALL)
+                .setChunkingFilter(ChunkingFilter.NONE)
                 .setShardsTotal(-1)
                 .addEventListeners(new ReadyListener())
                 .addEventListeners(new ChatListener(waiter))
@@ -146,9 +147,9 @@ public class CorgiBot {
                 .addEventListeners(new JoinEvent())
                 .addEventListeners(new ChannelDeleteListener())
                 .addEventListeners(waiter)
+                .setActivity(Activity.watching("Loading.."))
                 .setStatus(OnlineStatus.IDLE)
                 .build();
-        shardManager.setActivity(Activity.watching("c!help |  " + shardManager.getGuilds().size() + " servers"));
 
         // Instances
         instance.init();

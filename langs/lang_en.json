@@ -332,7 +332,7 @@
     "prefix": {
       "cannot-three-chars": "Can't set a prefix more than 3 characters long!",
       "corgi-is-beta-prefix": "Corgi is currently in BETA! You can't change the prefix!",
-      "cunrrent-prefix-is": "The current prefix for this server is `%s`",
+      "current-prefix-is": "The current prefix for this server is `%s`",
       "description": "Custom prefix settings for this server.",
       "help": "%prefix reset/[prefix]",
       "prefix-set-to": "Prefix was set to `%s`",

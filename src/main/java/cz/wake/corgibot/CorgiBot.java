@@ -147,8 +147,9 @@ public class CorgiBot {
                 .addEventListeners(new ChannelDeleteListener())
                 .addEventListeners(waiter)
                 .setStatus(OnlineStatus.IDLE)
-                .setActivity(Activity.playing("Loading.."))
+                .setActivity(Activity.playing(""))
                 .build();
+        shardManager.setActivity(Activity.watching("c!help |  " + shardManager.getGuilds().size() + " servers"));
 
         // Instances
         instance.init();

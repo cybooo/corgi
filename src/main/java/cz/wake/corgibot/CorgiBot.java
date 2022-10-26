@@ -5,6 +5,7 @@ import cz.wake.corgibot.commands.CommandManager;
 import cz.wake.corgibot.feeds.TwitterEventListener;
 import cz.wake.corgibot.listener.*;
 import cz.wake.corgibot.music.AudioEngine;
+import cz.wake.corgibot.runnable.PresenceTask;
 import cz.wake.corgibot.runnable.ReminderTask;
 import cz.wake.corgibot.runnable.SpamHandler;
 import cz.wake.corgibot.sql.SQLManager;
@@ -185,6 +186,7 @@ public class CorgiBot {
 
         // Startup timer
         scheduledExecutorService.scheduleAtFixedRate(new SpamHandler(), 10, 1500, TimeUnit.MILLISECONDS); // 1.5s clear, higher = disaster
+        scheduledExecutorService.scheduleAtFixedRate(new PresenceTask(), 10, 10, TimeUnit.MINUTES);
 
         // Languages
         CorgiLogger.infoMessage("Loading language files...");

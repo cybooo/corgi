@@ -11,7 +11,6 @@ import cz.wake.corgibot.commands.FinalCommand;
 import cz.wake.corgibot.managers.BotManager;
 import cz.wake.corgibot.objects.guild.GuildWrapper;
 import cz.wake.corgibot.utils.Constants;
-import cz.wake.corgibot.utils.EmoteList;
 import cz.wake.corgibot.utils.MessageUtils;
 import cz.wake.corgibot.utils.lang.I18n;
 import net.dv8tion.jda.api.entities.*;
@@ -30,13 +29,11 @@ public class Help implements CommandBase {
     public void onCommand(MessageChannel channel, Message message, String[] args, Member member, EventWaiter w, GuildWrapper gw) {
         if (args.length < 1) {
             if (channel.getType() == ChannelType.TEXT) {
-                channel.sendMessageEmbeds(MessageUtils.getEmbed(Constants.BLUE).setTitle(I18n.getLoc(gw, "commands.help.check-your-messages"))
-                        .setDescription(EmoteList.MAILBOX + " | " + I18n.getLoc(gw, "commands.help.sent-help")).build()).queue();
+                channel.sendMessageEmbeds(MessageUtils.getEmbed(Constants.BLUE)
+                        .setAuthor(I18n.getLoc(gw, "commands.help.commands"), null, channel.getJDA().getSelfUser().getAvatarUrl())
+                        .setDescription(getContext(member, message.getGuild())).setFooter(I18n.getLoc(gw, "commands.help.find-all"), null)
+                        .build()).queue();
             }
-            member.getUser().openPrivateChannel().queue(msg -> msg.sendMessageEmbeds(MessageUtils.getEmbed(Constants.BLUE)
-                    .setAuthor(I18n.getLoc(gw, "commands.help.commands"), null, channel.getJDA().getSelfUser().getAvatarUrl())
-                    .setDescription(getContext(member, message.getGuild())).setFooter(I18n.getLoc(gw, "commands.help.find-all"), null)
-                    .build()).queue());
         } else {
             String commandName = args[0];
             CommandManager cm = CorgiBot.getInstance().getCommandManager();

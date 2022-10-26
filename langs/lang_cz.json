@@ -223,7 +223,7 @@
       "times-up": "Čas vypršel!"
     },
     "invite": {
-      "click": "Jestli mě chceš pozvat, [**klikni sem!]",
+      "click": "Jestli mě chceš pozvat, [**klikni sem!**]",
       "description": "Pozvi Corgiho na svůj server!",
       "help": "%invite - Vygeneruje pozvánku pro pozvání Corgiho na tvůj server.",
       "title": "Pozvi mě na svůj server!"

@@ -84,7 +84,9 @@ public class ChatListener extends ListenerAdapter {
             guildWrapper = BotManager.getCustomGuild(event.getMember().getGuild().getId());
 
             if (guildWrapper == null) {
+                BotManager.registerOrLoadGuild(event.getGuild());
                 CorgiLogger.warnMessage("Guild " + event.getGuild().getId() + " is still not loaded!");
+                MessageUtils.sendAutoDeletedMessage("This guild is still not loaded, wait a few seconds!", 10, event.getChannel());
                 return;
             }
         } else {

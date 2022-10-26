@@ -7,13 +7,13 @@ import cz.wake.corgibot.utils.MessageUtils;
 
 import java.util.HashSet;
 
-public record ReminderTask(CorgiBot plugin) implements Runnable {
+public record ReminderTask(CorgiBot corgiBot) implements Runnable {
 
     @Override
     public void run() {
 
         long now = System.currentTimeMillis();
-        HashSet<TemporaryReminder> reminders = plugin.getSql().getAllReminders();
+        HashSet<TemporaryReminder> reminders = corgiBot.getSql().getAllReminders();
         try {
             reminders.forEach(reminder -> {
                 if (reminder.getDate() < now) {

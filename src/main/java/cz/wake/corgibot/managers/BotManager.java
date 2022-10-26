@@ -17,6 +17,12 @@ public class BotManager {
     public static final List<String> DISABLED_SLASH_NOTICES = new ArrayList<>();
 
     public static void registerOrLoadGuild(Guild guild) {
+
+        if (guild == null) {
+            CorgiLogger.warnMessage("Guild is null!");
+            return;
+        }
+
         if (CorgiBot.getInstance().getSql().existsGuildData(guild.getId())) {
             if (getCustomGuild(guild.getId()) == null) {
                 // Load dat from SQL + load into BotManager
@@ -38,6 +44,10 @@ public class BotManager {
     public static void loadGuilds(int shardId) {
         List<Guild> guildList = CorgiBot.getShardManager().getShardById(shardId).getGuilds();
         for (Guild guild : guildList) {
+            if (getCustomGuild(guild.getId()) != null) {
+                CorgiLogger.infoMessage("Guild " + guild.getId() + " is already loaded!");
+                continue;
+            }
             try {
                 // Setup ignored channels
                 Set<MessageChannel> ignoredChannels = CorgiBot.getInstance().getSql().getIgnoredChannels(guild.getId());

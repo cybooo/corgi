@@ -479,7 +479,7 @@
     },
     "general": {
       "cant-use-this-command": "You can't use that command!",
-      "days:": "Days",
+      "days": "Days",
       "feauture-unavailable": "This feature is temporarily unavailable!",
       "help-command": "Commands help",
       "hours": "Hours",

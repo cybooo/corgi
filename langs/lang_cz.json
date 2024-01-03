@@ -223,7 +223,7 @@
       "times-up": "Čas vypršel!"
     },
     "invite": {
-      "click": "Jestli mě chceš pozvat, [**klikni sem!]",
+      "click": "Jestli mě chceš pozvat, [**klikni sem!**]",
       "description": "Pozvi Corgiho na svůj server!",
       "help": "%invite - Vygeneruje pozvánku pro pozvání Corgiho na tvůj server.",
       "title": "Pozvi mě na svůj server!"
@@ -332,7 +332,7 @@
     "prefix": {
       "cannot-three-chars": "Nelze nastavit prefix, který má víc než tři znaky!",
       "corgi-is-beta-prefix": "Corgi je spuštěn v režimu BETA! Nelze upravovat prefix!",
-      "cunrrent-prefix-is": "Aktuální prefix pro server je `%s`",
+      "current-prefix-is": "Aktuální prefix pro server je `%s`",
       "description": "Nastavení vlastního prefixu pro server.",
       "help": "%prefix reset/[prefix]",
       "prefix-set-to": "Prefix byl nastaven na `%s`",

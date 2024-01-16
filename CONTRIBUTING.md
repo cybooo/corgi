@@ -4,9 +4,7 @@ This is a guide on what to do and not to do if you want to contribute to this pr
 
 ### What to do and what to avoid
 
-- Don't create PR with only one line changed.
 - Always (if possible) test out if everything works.
-- Don't change code that works, if not needed.
 - Check if the PR does not contain any extra files, eg Eclipse files.
 
 ### Formatting

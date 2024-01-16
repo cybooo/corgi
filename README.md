@@ -1,5 +1,5 @@
 <div align="center">
-    <a href="https://www.cyborggg.eu/images/corgi_logo.jpg"><img src="https://www.cyborggg.eu/images/corgi_logo.jpg" height="200" width="200"></a>
+    <a href="https://cybo.dev/assets/img/corgibot.jpg"><img src="https://cybo.dev/assets/img/corgibot.jpg" height="200" width="200"></a>
     <h1>CorgiBot</h1>
     <strong>Powerful Discord bot for everyone!</strong><br><br>
     <img src="https://forthebadge.com/images/badges/made-with-java.svg" height="30">&nbsp;

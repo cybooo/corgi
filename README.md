@@ -12,7 +12,7 @@
 **Corgi** is an open-source Discord bot written in Java. Corgi provides various features like fun
 commands, moderation commands, music commands, multi-language support and more.
 
-Corgi was originally created and maintained by [MrWakeCZ](https://github.com/MrWakeCZ), but as of now, it's maintained
+Corgi was originally created and maintained by [MrWakeCZ](https://github.com/mrwaked), but as of now, it's maintained
 by [cybooo](https://github.com/cybooo).
 
 ## Self-hosting CorgiBot
